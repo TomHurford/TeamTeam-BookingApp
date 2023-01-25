@@ -1,0 +1,44 @@
+# Create a docker compose for a postgres database
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:12.2
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./database/postgres:/var/lib/postgresql/data
+  react:
+    image: node:18.13.0
+    container_name: react
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - ./ui/src:/usr/src/app/src
+      - ./ui/public:/usr/src/app/public
+      - ./ui/node_modules:/usr/src/app/node_modules
+      - ./ui/package.json:/usr/src/app/package.json
+      - ./ui/package-lock.json:/usr/src/app/package-lock.json
+    working_dir: /usr/src/app
+    command: bash -c "npm install && npm start"
+  express:
+    image: node:18.13.0
+    container_name: express
+    restart: always
+    ports:
+      - 5000:5000
+    volumes:
+      - ./api/bin:/usr/src/app/bin
+      - ./api/src:/usr/src/app/src
+      - ./api/node_modules:/usr/src/app/node_modules
+      - ./api/package.json:/usr/src/app/package.json
+      - ./api/package-lock.json:/usr/src/app/package-lock.json
+    working_dir: /usr/src/app
+    command: bash -c "npm install && npm start"

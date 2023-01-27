@@ -14,6 +14,7 @@ services:
       - 5432:5432
     volumes:
       - ./database/postgres:/var/lib/postgresql/data
+
   react:
     image: node:18.13.0
     container_name: react
@@ -28,6 +29,7 @@ services:
       - ./ui/package-lock.json:/usr/src/app/package-lock.json
     working_dir: /usr/src/app
     command: bash -c "npm install && npm start"
+    
   express:
     image: node:18.13.0
     container_name: express

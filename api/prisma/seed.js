@@ -2,18 +2,22 @@ const {PrismaClient} = require('@prisma/client')
 const prisma = new PrismaClient()
 
 async function main() {
-    // Add userTypes
+    await seedUserTypes()
+}
+
+async function seedUserTypes() {
     const userType1 = await prisma.userType.create({
         data: {
-            type: 'admin',
+            type: 'ADMIN',
         },
     })
     const userType2 = await prisma.userType.create({
         data: {
-            type: 'student',
+            type: 'STUDENT',
         },
     })
 }
+
 
 main()
     .then(async() => {

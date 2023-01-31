@@ -23,9 +23,9 @@ I would recommend running the postgres container in docker and running the react
 
 - `docker-compose up postgres` to start the postgres container
 - `cd api && npm run dev` to start the express app
-- `cd ui && npm start` to start the react app
+- `cd client && npm start` to start the react app
 
 (If you haven't already, you will need to create a `.env` file in the `api` directory. See the `api/README.md` for more details.)
-(Additionally, if you haven't installed the dependencies for the react and express apps, you will need to run `npm install` in the `api` and `ui` directories.)
+(Additionally, if you haven't installed the dependencies for the react and express apps, you will need to run `npm install` in the `api` and `client` directories.)
 
 

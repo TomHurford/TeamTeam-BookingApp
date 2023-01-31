@@ -3,6 +3,7 @@ const prisma = new PrismaClient()
 
 async function main() {
     // Seed your database here
+    console.log('Seeding database...')
 }
 
 main()

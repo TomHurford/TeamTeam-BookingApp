@@ -14,8 +14,8 @@ datasource db {
 
 model UserType {
   id   Int    @id @default(autoincrement())
-  type String
-  User User[]
+  type String @unique
+  user User[]
 }
 
 model User {
@@ -25,9 +25,9 @@ model User {
   password  String
   type      UserType    @relation(references: [id], fields: [userType])
   userType  Int
-  Committee Committee[]
-  Members   Members[]
-  Ticket    Ticket[]
+  committee Committee[]
+  members   Members[]
+  ticket    Ticket[]
   Purchase  Purchase[]
 }
 
@@ -35,26 +35,41 @@ model Society {
   id          Int         @id @default(autoincrement())
   name        String
   description String
-  links       String
-  Committee   Committee[]
-  Members     Members[]
-  Events      Event[]
+  links       SocietyLinks[]
+  // A society can have many committee members and a committee member can be in many societies
+  committee   Committee[]
+  members     Members[]
+  events      Event[]
+}
+
+model SocietyLinks {
+  id       Int     @id @default(autoincrement())
+  society  Society @relation(references: [id], fields: [societyId])
+  societyId Int
+  instagram String?
+  facebook  String?
+  twitter   String?
+  website   String?
+  logo     String?
+  banner   String?
 }
 
 model Committee {
-  id        Int     @id @default(autoincrement())
+  // Committe model should consist of a Composite Foreign Key of Society and User
   user      User    @relation(references: [id], fields: [userId])
   userId    Int
   society   Society @relation(references: [id], fields: [societyId])
   societyId Int
+  role      String
+  @@id([userId, societyId])
 }
 
 model Members {
-  id        Int     @id @default(autoincrement())
   user      User    @relation(references: [id], fields: [userId])
   userId    Int
   society   Society @relation(references: [id], fields: [societyId])
   societyId Int
+  @@id([userId, societyId])
 }
 
 model Event {
@@ -65,14 +80,14 @@ model Event {
   location    String
   society     Society  @relation(references: [id], fields: [societyId])
   societyId   Int
-  Ticket      Ticket[]
+  ticket      Ticket[]
 }
 
 model TicketType {
   id     Int      @id @default(autoincrement())
   type   String
   price  Int
-  Ticket Ticket[]
+  ticket Ticket[]
 }
 
 model Ticket {
@@ -94,5 +109,6 @@ model Purchase {
   ticket        Ticket   @relation(references: [id], fields: [ticketId])
   ticketId      Int
   date          DateTime
+  total         Int
   paymentMethod String
 }

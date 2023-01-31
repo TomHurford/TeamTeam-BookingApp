@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//------------------//
+
+model UserType {
+  id   Int    @id @default(autoincrement())
+  type String
+  User User[]
+}
+
+model User {
+  id        Int         @id @default(autoincrement())
+  name      String
+  email     String      @unique
+  password  String
+  type      UserType    @relation(references: [id], fields: [userType])
+  userType  Int
+  Committee Committee[]
+  Members   Members[]
+  Ticket    Ticket[]
+  Purchase  Purchase[]
+}
+
+model Society {
+  id          Int         @id @default(autoincrement())
+  name        String
+  description String
+  links       String
+  Committee   Committee[]
+  Members     Members[]
+  Events      Event[]
+}
+
+model Committee {
+  id        Int     @id @default(autoincrement())
+  user      User    @relation(references: [id], fields: [userId])
+  userId    Int
+  society   Society @relation(references: [id], fields: [societyId])
+  societyId Int
+}
+
+model Members {
+  id        Int     @id @default(autoincrement())
+  user      User    @relation(references: [id], fields: [userId])
+  userId    Int
+  society   Society @relation(references: [id], fields: [societyId])
+  societyId Int
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  date        DateTime
+  location    String
+  society     Society  @relation(references: [id], fields: [societyId])
+  societyId   Int
+  Ticket      Ticket[]
+}
+
+model TicketType {
+  id     Int      @id @default(autoincrement())
+  type   String
+  price  Int
+  Ticket Ticket[]
+}
+
+model Ticket {
+  id           Int        @id @default(autoincrement())
+  user         User       @relation(references: [id], fields: [userId])
+  userId       Int
+  event        Event      @relation(references: [id], fields: [eventId])
+  eventId      Int
+  ticketType   TicketType @relation(references: [id], fields: [ticketTypeId])
+  ticketTypeId Int
+  status       String
+  Purchase     Purchase[]
+}
+
+model Purchase {
+  id            Int      @id @default(autoincrement())
+  user          User     @relation(references: [id], fields: [userId])
+  userId        Int
+  ticket        Ticket   @relation(references: [id], fields: [ticketId])
+  ticketId      Int
+  date          DateTime
+  paymentMethod String
+}

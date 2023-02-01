@@ -52,6 +52,146 @@
           }
         }
       }
+    },
+    "/login/verfiy":{
+      "post" :{
+        "tags": ["Login"],
+        "summary": "Verify Login",
+        "description": "Used to verify a users current login",
+        "operationId": "VerifyLogin",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login_Verification_Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User Verified",
+            "schema": {
+              "$ref": "#/definitions/Login_Success_Response"
+            }
+          },
+          "401": {
+            "description": "User not verified",
+            "schema": {
+              "$ref": "#/definitions/Login_Failure_Response"
+            }
+          }
+        }
+      }
+    },
+    "/login/logout":{
+      "post" :{
+        "tags": ["Login"],
+        "summary": "Logout",
+        "description": "Used to logout a user",
+        "operationId": "Logout",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login_Verification_Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful logout",
+            "schema": {
+              "$ref": "#/definitions/Login_Success_Response"
+            }
+          },
+          "401": {
+            "description": "User not verified",
+            "schema": {
+              "$ref": "#/definitions/Login_Failure_Response"
+            }
+          }
+        }
+      }
+    },
+    "/login/reset":{
+      "post" :{
+        "tags": ["Login"],
+        "summary": "Reset Password",
+        "description": "Used to reset a users password",
+        "operationId": "ResetPassword",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login_Reset_Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful reset",
+            "schema": {
+              "$ref": "#/definitions/Login_Success_Response"
+            }
+          },
+          "401": {
+            "description": "User not verified",
+            "schema": {
+              "$ref": "#/definitions/Login_Failure_Response"
+            }
+          }
+        }
+      }
+    },
+    "/login/signup":{
+      "post" :{
+        "tags": ["Login"],
+        "summary": "Signup",
+        "description": "Used to signup a new user",
+        "operationId": "Signup",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login_Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful signup",
+            "schema": {
+              "$ref": "#/definitions/Login_Success_Response"
+            }
+          },
+          "409": {
+            "description": "User not verified",
+            "schema": {
+              "$ref": "#/definitions/Login_Failure_Response"
+            }
+          }
+        }
+      }
     }
   },
   "schemes": ["http"],
@@ -65,6 +205,17 @@
           "type": "string"
         },
         "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Login_Reset_Request": {
+      "type": "object",
+      "properties": {
+        "token":{
+          "type": "string"
+        },
+        "new_password": {
           "type": "string"
         }
       }
@@ -84,6 +235,14 @@
           "type": "string"
         },
         "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Login_Verification_Request": {
+      "type": "object",
+      "properties": {
+        "token": {
           "type": "string"
         }
       }

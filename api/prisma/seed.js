@@ -33,7 +33,7 @@ async function seedDatabase() {
 
 const TICKET_STATUS = ['PENDING', 'PAID', 'CANCELLED']
 
-async function clearDB() {
+async function clearDatabase() {
     console.log('Clearing the database...')
     await prisma.$executeRaw`TRUNCATE TABLE "User" CASCADE;`
     await prisma.$executeRaw`TRUNCATE TABLE "Society" CASCADE;`
@@ -423,5 +423,5 @@ module.exports = {
     seedTickets,
     seedPurchase,
     seedDatabase,
-    clearDB
+    clearDatabase
 }

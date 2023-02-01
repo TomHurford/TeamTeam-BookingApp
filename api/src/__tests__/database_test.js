@@ -3,11 +3,6 @@ const prisma = require('../../prisma/prisma.js');
 
 // I want to test the database by testing the constraints on the database
 
-// beforeEach(async () => {
-//     await seed.clearDB();
-//     await seed.seedDatabase();
-// });
-
 test(
     'UserType type must be unique',
     // Attempt to create a user type with the id 1 and type 'ADMIN'

@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "test": "jest"
+    "dev": "nodemon ./bin/www"
   },
   "dependencies": {
     "@prisma/client": "^4.9.0",

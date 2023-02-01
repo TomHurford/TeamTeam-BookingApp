@@ -298,7 +298,7 @@ async function seedTickets() {
                     id: 1,
                 },
             },
-            status: TICKET_STATUS.PURCHASED,
+            status: TICKET_STATUS[1],
         },
     })
     const events = await prisma.event.findMany()
@@ -346,6 +346,7 @@ async function seedPurchase() {
                     id: 1,
                 }
             },
+            status: TICKET_STATUS.PAID,
         },
     })
 

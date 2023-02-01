@@ -23,8 +23,8 @@ model User {
   name      String
   email     String      @unique
   password  String
-  type      UserType    @relation(references: [id], fields: [userType])
   userType  Int
+  type      UserType    @relation(references: [id], fields: [userType])
   committee Committee[]
   members   Members[]
   ticket    Ticket[]
@@ -32,8 +32,8 @@ model User {
 }
 
 model Society {
-  id          Int         @id @default(autoincrement())
-  name        String
+  id          Int            @id @default(autoincrement())
+  name        String     @unique 
   description String
   links       SocietyLinks[]
   // A society can have many committee members and a committee member can be in many societies
@@ -43,32 +43,34 @@ model Society {
 }
 
 model SocietyLinks {
-  id       Int     @id @default(autoincrement())
-  society  Society @relation(references: [id], fields: [societyId])
-  societyId Int
+  id        Int     @id @default(autoincrement())
   instagram String?
   facebook  String?
   twitter   String?
   website   String?
-  logo     String?
-  banner   String?
+  logo      String?
+  banner    String?
+  societyId Int    @unique
+  society   Society @relation(references: [id], fields: [societyId])
 }
 
 model Committee {
   // Committe model should consist of a Composite Foreign Key of Society and User
-  user      User    @relation(references: [id], fields: [userId])
-  userId    Int
-  society   Society @relation(references: [id], fields: [societyId])
-  societyId Int
   role      String
+  userId    Int   
+  societyId Int  
+  user      User    @relation(references: [id], fields: [userId])
+  society   Society @relation(references: [id], fields: [societyId])
+
   @@id([userId, societyId])
 }
 
 model Members {
-  user      User    @relation(references: [id], fields: [userId])
   userId    Int
-  society   Society @relation(references: [id], fields: [societyId])
   societyId Int
+  user      User    @relation(references: [id], fields: [userId])
+  society   Society @relation(references: [id], fields: [societyId])
+
   @@id([userId, societyId])
 }
 
@@ -78,8 +80,8 @@ model Event {
   description String
   date        DateTime
   location    String
-  society     Society  @relation(references: [id], fields: [societyId])
   societyId   Int
+  society     Society  @relation(references: [id], fields: [societyId])
   ticket      Ticket[]
 }
 
@@ -92,23 +94,25 @@ model TicketType {
 
 model Ticket {
   id           Int        @id @default(autoincrement())
-  user         User       @relation(references: [id], fields: [userId])
-  userId       Int
-  event        Event      @relation(references: [id], fields: [eventId])
-  eventId      Int
-  ticketType   TicketType @relation(references: [id], fields: [ticketTypeId])
-  ticketTypeId Int
   status       String
+  userId       Int
+  eventId      Int
+  ticketTypeId Int
+  user         User       @relation(references: [id], fields: [userId])
+  event        Event      @relation(references: [id], fields: [eventId])
+  ticketType   TicketType @relation(references: [id], fields: [ticketTypeId])
   Purchase     Purchase[]
+  @@unique([userId, eventId])
 }
 
 model Purchase {
   id            Int      @id @default(autoincrement())
-  user          User     @relation(references: [id], fields: [userId])
-  userId        Int
-  ticket        Ticket   @relation(references: [id], fields: [ticketId])
-  ticketId      Int
   date          DateTime
   total         Int
   paymentMethod String
+  userId        Int
+  ticketId      Int
+  user          User     @relation(references: [id], fields: [userId])
+  ticket        Ticket   @relation(references: [id], fields: [ticketId])
+  @@unique([userId, ticketId])
 }

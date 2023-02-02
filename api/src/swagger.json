@@ -12,7 +12,7 @@
   "basePath": "/",
   "host": "localhost:5001/api-docs",
   "paths":{
-    "/login":{
+    "/user/login":{
       "post" :{
         "tags": ["Login"],
         "summary": "Login",
@@ -53,7 +53,7 @@
         }
       }
     },
-    "/login/verfiy":{
+    "/user/verfiy":{
       "post" :{
         "tags": ["Login"],
         "summary": "Verify Login",
@@ -88,7 +88,7 @@
         }
       }
     },
-    "/login/logout":{
+    "/user/logout":{
       "post" :{
         "tags": ["Login"],
         "summary": "Logout",
@@ -123,7 +123,7 @@
         }
       }
     },
-    "/login/reset":{
+    "/user/reset":{
       "post" :{
         "tags": ["Login"],
         "summary": "Reset Password",
@@ -158,7 +158,7 @@
         }
       }
     },
-    "/login/signup":{
+    "/user/signup":{
       "post" :{
         "tags": ["Login"],
         "summary": "Signup",

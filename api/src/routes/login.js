@@ -6,7 +6,7 @@ const loginController = require('../controllers/login.js')
 // The login function from the login controller is called when a POST request is made to the /login route, that function returns a response, with a JWT token if the login is successful
 
 // This route is used to login a user
-router.post('/', (req, res) => {
+router.post('/login', (req, res) => {
     loginController.login(req.body.email, req.body.password, res)
 })
 

@@ -1,11 +1,11 @@
 const request = require('supertest')
 const prisma = require('../../prisma/prisma.js')
 const app = require('../server.js')
-const seed = require('../../prisma/seed.js')
+// const seed = require('../../prisma/seed.js')
 let token = null
 
 beforeAll(async () => {
-    await prisma.$connect()
+    console.log('MAKE SURE BEFORE YOU RUN THESE TESTS THAT YOU HAVE RUN: npx prisma migrate reset')
 })
 
 beforeEach(async () => {
@@ -116,6 +116,14 @@ describe('Reset', () => {
             })
         expect(resetResponse.statusCode).toBe(200)
         expect(resetResponse.body).toHaveProperty('token')
+        await prisma.user.update({
+            where: {
+                email: 'admin@admin.com'
+            },
+            data: {
+                password: 'admin'
+            }
+        })
     })
 
     test('Reset with invalid token', async () => {
@@ -130,13 +138,6 @@ describe('Reset', () => {
     })
 
     test('Reset with invalid password (same as previous)', async () => {
-        const response = await request(app)
-            .post('/login')
-            .send({
-                email: 'admin@admin.com',
-                password: 'admin'
-            })
-        const token = response.body.token
         const resetResponse = await request(app)
             .post('/login/reset')
             .send({
@@ -149,13 +150,6 @@ describe('Reset', () => {
     })
 
     test('Reset with invalid password (empty)', async () => {
-        const response = await request(app)
-            .post('/login')
-            .send({
-                email: 'admin@admin.com',
-                password: 'admin'
-            })
-        const token = response.body.token
         const resetResponse = await request(app)
             .post('/login/reset')
             .send({
@@ -174,11 +168,18 @@ describe('Signup', () => {
         const response = await request(app)
             .post('/login/signup')
             .send({
+                name: 'admin1',
                 email: 'admin1@admin.com',
                 password: 'admin1'
             })
         expect(response.statusCode).toBe(200)
         expect(response.body).toHaveProperty('token')
+
+        await prisma.user.delete({
+            where: {
+                email: 'admin1@admin.com'
+            }
+        })
     })
 
     test('Signup with invalid credentials (empty email)', async () => {

@@ -84,34 +84,50 @@ async function reset(req, res) {
 }
 
 // This function is used to sign up a new user
-async function signup(email, password, res) {
+async function signup(req, res) {
+    // Check that the request body is not empty and contains the correct properties
+    if (req.body === undefined || req.body.email === undefined || req.body.password === undefined || req.body.name === undefined) {
+        return res.status(409).send({token: null, message: 'Request body cannot be empty'})
+    }
+
     // Check if the user already exists
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
         where: {
-            email: email
+            email: req.body.email
         }
     })
-    if (user) {
-        res.status(409).send({token: null, message: 'User already exists'})
-    } else {
-        // Check that neither the email or password are empty
-        if (email === '' || password === '') {
-            res.status(409).send({token: null, message: 'Email and password cannot be empty'})
-        }
 
-        // Create a new user
-        const newUser = await prisma.user.create({
-            data: {
-                email: email,
-                password: password
-            }
-        })
-        // Create a new JWT token
-        const token = jwt.sign({ id: newUser.id }, process.env.TOKEN_SECRET, {
-            expiresIn: 86400 // expires in 24 hours
-        })
-        res.status(200).send({token: token})
+    if (user) {
+        return res.status(409).send({token: null, message: 'User already exists'})
     }
+
+    // Check that name, email and password are not empty
+    if (req.body.name === '' || req.body.email === '' || req.body.password === '') {
+        return res.status(409).send({token: null, message: 'Name, email and password cannot be empty'})
+    }
+
+    // Create a new user
+    user = await prisma.user.create({
+        data: {
+            email: req.body.email,
+            password: req.body.password,
+            name: req.body.name,
+            type: {
+                connect: {
+                    id: 1
+                },
+            },
+        }
+    })
+    // Create a new JWT token
+    const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, {
+        expiresIn: 86400 // expires in 24 hours
+    })
+    // Send the JWT token in the response
+    res.status(200).send({token: token})
+
+
+
 }
 
 

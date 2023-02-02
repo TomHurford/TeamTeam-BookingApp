@@ -27,7 +27,7 @@ router.post('/reset', (req, res) => {
 
 // This route is used to sign up a new user
 router.post('/signup', (req, res) => {
-    loginController.signup(req.body.email, req.body.password, res)
+    loginController.signup(req, res)
 })
 
 

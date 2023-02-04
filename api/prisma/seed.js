@@ -2,9 +2,7 @@ const prisma = require('./prisma.js')
 const { faker } = require('@faker-js/faker')
 
 async function main() {
-    // Empty the database
-    // await clearDB()
-
+    await clearDatabase()
     seedDatabase()
 }
 
@@ -33,11 +31,13 @@ async function seedDatabase() {
 
 const TICKET_STATUS = ['PENDING', 'PAID', 'CANCELLED']
 
-async function clearDB() {
-    console.log('Clearing the database...')
+
+// I want all other functions to wait for this function to finish before continuing, 
+async function clearDatabase() {
     await prisma.$executeRaw`TRUNCATE TABLE "User" CASCADE;`
     await prisma.$executeRaw`TRUNCATE TABLE "Society" CASCADE;`
     await prisma.$executeRaw`TRUNCATE TABLE "Committee" CASCADE;`
+    await prisma.$executeRaw`TRUNCATE TABLE "Members" CASCADE;`
     await prisma.$executeRaw`TRUNCATE TABLE "Event" CASCADE;`
     await prisma.$executeRaw`TRUNCATE TABLE "TicketType" CASCADE;`
     await prisma.$executeRaw`TRUNCATE TABLE "Ticket" CASCADE;`
@@ -409,6 +409,7 @@ main()
     })
     .catch(async e => {
         console.error(e)
+        console.log('Error seeding database')
         await prisma.$disconnect()
         process.exit(1)
     })
@@ -423,5 +424,5 @@ module.exports = {
     seedTickets,
     seedPurchase,
     seedDatabase,
-    clearDB
+    clearDatabase
 }

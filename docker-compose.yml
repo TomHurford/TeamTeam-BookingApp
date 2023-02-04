@@ -37,6 +37,7 @@ services:
     ports:
       - 5000:5000
     volumes:
+      - ./api/prisma:/usr/src/app/prisma
       - ./api/bin:/usr/src/app/bin
       - ./api/src:/usr/src/app/src
       - ./api/node_modules:/usr/src/app/node_modules

@@ -2,6 +2,8 @@
 const prisma = require('../../prisma/prisma.js')
 const jwt = require('jsonwebtoken')
 
+const auth = require('../utils/jwt_auth.js')
+
 // This function is used to login a user
 async function login(email, password, res) {
     const user = await prisma.user.findUnique({
@@ -11,10 +13,7 @@ async function login(email, password, res) {
     })
     if (user) {
         if (user.password === password) {
-            const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, {
-                expiresIn: 86400 // expires in 24 hours
-            })
-            res.status(200).send({token: token })
+            res.status(200).send({token: auth.generateToken(user), message: 'Login successful'})
         } else {
             res.status(401).send({token: null, message: 'Invalid password'})
         }
@@ -23,24 +22,13 @@ async function login(email, password, res) {
     }
 }
 
-// This function is used to verify a JWT token
-async function verify(token, res) {
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(401).send({token: null, message: 'Unauthorized'})
-        }
-        res.status(200).send({token: token})
-    })
-}
-
 // This function is used to logout a user
-async function logout(token, res) {
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(401).send({token: null, message: 'Unauthorized'})
-        }
-        res.status(200).send({token: null})
-    })
+async function logout(req, res) {
+    if(auth.authenticate(req)) {
+        res.status(200).send({token: null, message: 'Logout successful'})
+    } else {
+        res.status(401).send({token: null, message: 'Unauthorized'})
+    }
 }
 
 // This function is used to reset a user's password, the new password is sent in the request body
@@ -136,7 +124,6 @@ async function signup(req, res) {
 
 module.exports = {
     login,
-    verify,
     logout,
     reset,
     signup

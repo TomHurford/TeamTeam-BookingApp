@@ -50,11 +50,16 @@ describe('Get Events', () => {
         expect(response.body).toHaveProperty('events')
     })
 
-    // This is a GET request
+    // This is a POST request
     test('Get event by id', async () => {
+        // Create a json object with the event_id
+        const event_id = {
+            event_id: 1
+        }
         const response = await request(app)
-            .get('/events/1')
+            .get('/events')
             .set('Authorization', 'Bearer ' + token)
+            .send(event_id)
         expect(response.statusCode).toBe(200)
         expect(response.body).toHaveProperty('event')
     })
@@ -96,8 +101,8 @@ describe('Get Events', () => {
     test('Get events by date range and society_id', async () => {
         // Create a json object with the date range and society_id
         const dateRange = {
-            start: '2023-01-01',
-            end: '2023-12-31',
+            start_date: '2023-01-01',
+            end_date: '2023-12-31',
             society_id: 1
         }
         const response = await request(app)
@@ -114,7 +119,7 @@ describe('Get Events', () => {
     test('Get events by open ended date range (Start only)', async () => {
         // Create a json object with the date range
         const dateRange = {
-            start: '2023-01-01'
+            start_date: '2023-01-01'
         }
         const response = await request(app)
             .post('/events/date')
@@ -129,7 +134,7 @@ describe('Get Events', () => {
     test('Get events by open ended date range (End only)', async () => {
         // Create a json object with the date range
         const dateRange = {
-            end: '2023-12-31'
+            end_date: '2023-12-31'
         }
         const response = await request(app)
             .post('/events/date')
@@ -144,7 +149,7 @@ describe('Get Events', () => {
     test('Get events by open ended date range (Start only) and society_id', async () => {
         // Create a json object with the date range
         const dateRange = {
-            start: '2023-01-01',
+            start_date: '2023-01-01',
             society_id: 1
         }
         const response = await request(app)
@@ -161,7 +166,7 @@ describe('Get Events', () => {
     test('Get events by open ended date range (End only) and society_id', async () => {
         // Create a json object with the date range
         const dateRange = {
-            end: '2023-12-31',
+            end_date: '2023-12-31',
             society_id: 1
         }
         const response = await request(app)
@@ -225,10 +230,10 @@ describe('Create Event', () => {
             .post('/events/create')
             .set('Authorization', 'Bearer ' + token)
             .send(event)
-        expect(response2.statusCode).toBe(403)
+        expect(response2.statusCode).toBe(401)
         expect(response2.body).toHaveProperty('error')
         // Expect the event to not be created
-        expect(response2.body.error).toBe('User is not a committee member')
+        expect(response2.body.error).toBe('Unauthorized')
     })
 
     // This is a POST request
@@ -247,6 +252,25 @@ describe('Create Event', () => {
         expect(response.body).toHaveProperty('error')
         // Expect the event to not be created
         expect(response.body.error).toBe('Missing event details')
+    })
+
+    test('Create event with date in the past', async () => {
+        // Create a json object with the event details
+        const event = {
+            name: 'Test Event',
+            description: 'This is a test event',
+            date: '2019-02-02T00:10:00.000Z',
+            location: faker.address.streetAddress(),
+            society_id: 1
+        }
+        const response = await request(app)
+            .post('/events/create')
+            .set('Authorization', 'Bearer ' + token)
+            .send(event)
+        expect(response.statusCode).toBe(400)
+        expect(response.body).toHaveProperty('error')
+        // Expect the event to not be created
+        expect(response.body.error).toBe('Invalid date')
     })
 
     // This is a POST request

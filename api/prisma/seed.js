@@ -267,7 +267,7 @@ async function seedEvents() {
             name: 'Event 1',
             description: 'Event 1 description',
             location: 'Event 1 location',
-            date: '2023-2-2T00:10:00.000Z',
+            date: new Date('2023-2-2'),
         },
     })
     // For each society, add 3 events in the next 3 months

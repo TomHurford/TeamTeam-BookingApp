@@ -113,5 +113,4 @@ model Purchase {
   ticketId      Int
   user          User     @relation(references: [id], fields: [userId])
   ticket        Ticket   @relation(references: [id], fields: [ticketId])
-  @@unique([userId, ticketId])
 }

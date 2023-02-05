@@ -102,7 +102,6 @@ model Ticket {
   event        Event      @relation(references: [id], fields: [eventId])
   ticketType   TicketType @relation(references: [id], fields: [ticketTypeId])
   Purchase     Purchase[]
-  @@unique([userId, eventId])
 }
 
 model Purchase {

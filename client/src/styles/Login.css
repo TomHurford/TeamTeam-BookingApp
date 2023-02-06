@@ -1,0 +1,94 @@
+
+
+.container {
+    width: 30vw;
+    min-width: 200px;
+    left: 35vw;
+    position: relative;
+    aspect-ratio: 0.75;
+    position: relative;
+    align-self: center;
+    text-align: center;
+    display: block;
+}
+.container[disabled] {
+    height: 0;
+    width: 0;
+    overflow: hidden;
+    display: none;
+}
+
+@media (max-width: 667px) {
+    .container {
+        left: calc( 50vw - 100px );
+    }
+}
+
+.container > h1 {
+    font-size: 3em;
+}
+
+.container > form {
+    width: 100%;
+}
+
+.container > form > .field {
+    margin-top: 10px;
+    width: 100%;
+    aspect-ratio: 4;
+    text-align: left;
+    font-size: 1.1em;
+}
+.container > form > .field > label {
+    width: 100%;
+    padding: 5px;
+}
+.container > form > .field > label.buttonLabel {
+    width: 100%;
+    padding: 5px;
+    font-size: 0.7em;
+    line-height: 0.9em;
+}
+.container > form > .field > label.buttonLabel:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+.container > form > .field > input {
+    padding-left: 15px;
+    padding-right: 15px;
+    width: calc( 100% - 30px );
+    aspect-ratio: 10;
+    box-shadow: 1px 1px 3px rgba(135, 135, 135, 0.452);
+    border-radius: 10px;
+    border: 1px;
+    outline: 5px;
+    font-size: 1.1em;
+}
+.container > form > .field > input:active {
+    border: 2px;
+}
+
+.container > form > button {
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
+    aspect-ratio: 10;
+    box-shadow: 1px 1px 3px rgba(135, 135, 135, 0.452);
+    border-radius: 10px;
+    border: 1px;
+    outline: 5px;
+    font-size: 1.1em;
+    text-align: center;
+    margin: auto;
+    margin-top: 10px;
+}
+.container > form > button:hover {
+    transform: scale(1.1);
+    transition: 0.5s;
+    cursor: pointer;
+}
+.container > form > button:active {
+    transform: scale(1.05);
+    transition: 0.5s;
+    opacity: 0.8;
+}

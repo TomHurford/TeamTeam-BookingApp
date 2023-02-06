@@ -10,6 +10,7 @@ const swaggerUi = require('swagger-ui-express');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var swaggerDocument = require('./swagger.json');
+var basketRouter = require('./routes/basket');
 
 var app = express();
 
@@ -22,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // If you are adding a new route, you need to add it here
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/basket', basketRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // catch 404 and forward to error handler

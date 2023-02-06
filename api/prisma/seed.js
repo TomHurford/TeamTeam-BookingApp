@@ -2,9 +2,7 @@ const prisma = require('./prisma.js')
 const { faker } = require('@faker-js/faker')
 
 async function main() {
-    // Empty the database
-    // await clearDB()
-
+    await clearDatabase()
     seedDatabase()
 }
 
@@ -33,11 +31,13 @@ async function seedDatabase() {
 
 const TICKET_STATUS = ['PENDING', 'PAID', 'CANCELLED']
 
-async function clearDB() {
-    console.log('Clearing the database...')
+
+// I want all other functions to wait for this function to finish before continuing, 
+async function clearDatabase() {
     await prisma.$executeRaw`TRUNCATE TABLE "User" CASCADE;`
     await prisma.$executeRaw`TRUNCATE TABLE "Society" CASCADE;`
     await prisma.$executeRaw`TRUNCATE TABLE "Committee" CASCADE;`
+    await prisma.$executeRaw`TRUNCATE TABLE "Members" CASCADE;`
     await prisma.$executeRaw`TRUNCATE TABLE "Event" CASCADE;`
     await prisma.$executeRaw`TRUNCATE TABLE "TicketType" CASCADE;`
     await prisma.$executeRaw`TRUNCATE TABLE "Ticket" CASCADE;`
@@ -85,6 +85,19 @@ async function seedUsers() {
             type: {
                 connect: {
                     id: 1,
+                },
+            },
+        },
+    })
+
+    await prisma.user.create({
+        data: {
+            name: 'Student',
+            email: 'student@kcl.ac.uk',
+            password: 'student',
+            type: {
+                connect: {
+                    id: 2,
                 },
             },
         },
@@ -254,7 +267,7 @@ async function seedEvents() {
             name: 'Event 1',
             description: 'Event 1 description',
             location: 'Event 1 location',
-            date: new Date(),
+            date: new Date('2023-2-2'),
         },
     })
     // For each society, add 3 events in the next 3 months
@@ -409,6 +422,7 @@ main()
     })
     .catch(async e => {
         console.error(e)
+        console.log('Error seeding database')
         await prisma.$disconnect()
         process.exit(1)
     })
@@ -423,5 +437,5 @@ module.exports = {
     seedTickets,
     seedPurchase,
     seedDatabase,
-    clearDB
+    clearDatabase
 }

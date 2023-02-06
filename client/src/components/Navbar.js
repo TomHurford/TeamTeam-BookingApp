@@ -1,5 +1,5 @@
 import React from 'react';
-import './Navbar.css';
+import '../styles/Navbar.css';
 import {Link} from 'react-router-dom';
 
 //Create a navbar component
@@ -7,8 +7,8 @@ import {Link} from 'react-router-dom';
 function Navbar() {
     return (
         <div>
-        <nav class = "navbar">
-            <ul>
+        <nav className = "navbar">
+            <ul className='navbarElements'>
                 <Link to = "/"><li>Home</li></Link>
                 <Link to = "/societies"><li>Societies</li></Link>
                 <Link to = "/signup"><li>Sign up</li></Link>

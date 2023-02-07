@@ -2,6 +2,8 @@
 const prisma = require('../../prisma/prisma.js')
 const jwt = require('jsonwebtoken')
 
+const auth = require('../utils/jwt_auth.js')
+
 // This function is used to login a user
 async function login(email, password, res) {
     const user = await prisma.user.findUnique({
@@ -11,10 +13,8 @@ async function login(email, password, res) {
     })
     if (user) {
         if (user.password === password) {
-            const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, {
-                expiresIn: 86400 // expires in 24 hours
-            })
-            res.status(200).send({token: token })
+            const token = await auth.generateToken(user)
+            res.status(200).send({token: token, message: 'Login successful'})
         } else {
             res.status(401).send({token: null, message: 'Invalid password'})
         }
@@ -23,42 +23,42 @@ async function login(email, password, res) {
     }
 }
 
-// This function is used to verify a JWT token
-async function verify(token, res) {
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(401).send({token: null, message: 'Unauthorized'})
-        }
-        // Create a new token with a new expiration time
-        const token = jwt.sign({ id: decoded.id }, process.env.TOKEN_SECRET, {
-            expiresIn: 86400 // expires in 24 hours
-        })
-        res.status(200).send({token: token})
-    })
-}
-
 // This function is used to logout a user
-async function logout(token, res) {
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(401).send({token: null, message: 'Unauthorized'})
+async function logout(req, res) {
+    // const auth_resopnse = 
+    // Get the token from the request header
+    const token = req.headers['authorization'].split(' ')[1]
+
+    // Try to verify the token using the auth.authenticate function
+    try {
+        const auth_response = await auth.authenticate(token)
+        if (auth_response) {
+            res.status(200).send({message: 'Logout successful'})
+        }else {
+            res.status(401).send({message: 'Unauthorized'})
         }
-        res.status(200).send({token: null})
-    })
+    } catch (err) {
+        res.status(401).send({message: 'Unauthorized'})
+    }
 }
 
 // This function is used to reset a user's password, the new password is sent in the request body
 async function reset(req, res) {
+    // Get the token from the request header
+    const token = req.headers['authorization'].split(' ')[1]
+    const auth_response = null
+    try {
+        auth_response = await auth.authenticate(token)
+    } catch (err) {
+        res.status(401).send({message: 'Unauthorized'})
+    }
+    
     // Verify the JWT token
-    jwt.verify(req.body.token, process.env.TOKEN_SECRET, async (err, decoded) => {
-        if (err) {
-            return res.status(401).send({token: null, message: 'Unauthorized'})
-        }
-
+    if (auth_response) {
         // If the users password is the same as the old password, return an error
         let user = await prisma.user.findUnique({
             where: {
-                id: decoded.id
+                id: req.userId
             }
         })
         if (user.password === req.body.new_password) {
@@ -73,18 +73,18 @@ async function reset(req, res) {
         // Update the user's password
         user = await prisma.user.update({
             where: {
-                id: decoded.id
+                id: req.userId
             },
             data: {
                 password: req.body.new_password
             }
         })
         // Create a new JWT token
-        const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, {
-            expiresIn: 86400 // expires in 24 hours
-        })
+        const token = await auth.generateToken(user)
         res.status(200).send({token: token})
-    })
+    } else {
+        res.status(401).send({token: null, message: 'Unauthorized'})
+    }
 }
 
 // This function is used to sign up a new user
@@ -140,7 +140,6 @@ async function signup(req, res) {
 
 module.exports = {
     login,
-    verify,
     logout,
     reset,
     signup

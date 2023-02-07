@@ -76,7 +76,7 @@ model Members {
 
 model Event {
   id          Int      @id @default(autoincrement())
-  name        String
+  name        String  
   description String
   date        DateTime
   location    String
@@ -102,7 +102,6 @@ model Ticket {
   event        Event      @relation(references: [id], fields: [eventId])
   ticketType   TicketType @relation(references: [id], fields: [ticketTypeId])
   Purchase     Purchase[]
-  @@unique([userId, eventId])
 }
 
 model Purchase {
@@ -114,5 +113,4 @@ model Purchase {
   ticketId      Int
   user          User     @relation(references: [id], fields: [userId])
   ticket        Ticket   @relation(references: [id], fields: [ticketId])
-  @@unique([userId, ticketId])
 }

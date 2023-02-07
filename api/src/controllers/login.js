@@ -13,7 +13,8 @@ async function login(email, password, res) {
     })
     if (user) {
         if (user.password === password) {
-            res.status(200).send({token: auth.generateToken(user), message: 'Login successful'})
+            const token = await auth.generateToken(user)
+            res.status(200).send({token: token, message: 'Login successful'})
         } else {
             res.status(401).send({token: null, message: 'Invalid password'})
         }
@@ -24,25 +25,40 @@ async function login(email, password, res) {
 
 // This function is used to logout a user
 async function logout(req, res) {
-    if(auth.authenticate(req)) {
-        res.status(200).send({token: null, message: 'Logout successful'})
-    } else {
-        res.status(401).send({token: null, message: 'Unauthorized'})
+    // const auth_resopnse = 
+    // Get the token from the request header
+    const token = req.headers['authorization'].split(' ')[1]
+
+    // Try to verify the token using the auth.authenticate function
+    try {
+        const auth_response = await auth.authenticate(token)
+        if (auth_response) {
+            res.status(200).send({message: 'Logout successful'})
+        }else {
+            res.status(401).send({message: 'Unauthorized'})
+        }
+    } catch (err) {
+        res.status(401).send({message: 'Unauthorized'})
     }
 }
 
 // This function is used to reset a user's password, the new password is sent in the request body
 async function reset(req, res) {
+    // Get the token from the request header
+    const token = req.headers['authorization'].split(' ')[1]
+    const auth_response = null
+    try {
+        auth_response = await auth.authenticate(token)
+    } catch (err) {
+        res.status(401).send({message: 'Unauthorized'})
+    }
+    
     // Verify the JWT token
-    jwt.verify(req.body.token, process.env.TOKEN_SECRET, async (err, decoded) => {
-        if (err) {
-            return res.status(401).send({token: null, message: 'Unauthorized'})
-        }
-
+    if (auth_response) {
         // If the users password is the same as the old password, return an error
         let user = await prisma.user.findUnique({
             where: {
-                id: decoded.id
+                id: req.userId
             }
         })
         if (user.password === req.body.new_password) {
@@ -57,18 +73,18 @@ async function reset(req, res) {
         // Update the user's password
         user = await prisma.user.update({
             where: {
-                id: decoded.id
+                id: req.userId
             },
             data: {
                 password: req.body.new_password
             }
         })
         // Create a new JWT token
-        const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, {
-            expiresIn: 86400 // expires in 24 hours
-        })
+        const token = await auth.generateToken(user)
         res.status(200).send({token: token})
-    })
+    } else {
+        res.status(401).send({token: null, message: 'Unauthorized'})
+    }
 }
 
 // This function is used to sign up a new user

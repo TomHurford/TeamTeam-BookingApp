@@ -2,24 +2,32 @@
 
 const jwt = require('jsonwebtoken')
 
-async function authenticate(req) {
+async function authenticate(token) {
+    // Decode the JWT token
+
+    // try to decode the token if error return false
+    let decoded = null
+    try {
+        decoded = jwt.verify(token, process.env.TOKEN_SECRET)
+    } catch (e) {
+        decoded = false
+    }
     return new Promise((resolve, reject) => {
-        // The JWT token is sent in the Authorization header, it is prefixed with 'Bearer '
-        const token = req.headers.authorization.split(' ')[1]
-        jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-            if (err) {
-                reject(err)
-            }
+        // If the token is valid, resolve the promise and return the decoded token
+        if (decoded) {
             resolve(decoded)
-        }, (err) => {
-            reject(err)
-        })
+        } else {
+            reject('Unauthorized')
+        }
     })
 }
 
 async function authenticateAdmin(req) {
     return new Promise((resolve, reject) => {
         // The JWT token is sent in the Authorization header, it is prefixed with 'Bearer '
+        if (!req.headers.authorization) {
+            reject('Unauthorized')
+        }
         const token = req.headers.authorization.split(' ')[1]
         jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
             if (err) {
@@ -34,7 +42,7 @@ async function authenticateAdmin(req) {
             reject(err)
         })
     })
-} 
+}
 
 async function generateToken(user) {
     return new Promise((resolve, reject) => {
@@ -48,6 +56,15 @@ async function generateToken(user) {
         })
         resolve(token)
     })
+    // if (!user) {
+    //     throw new Error('User not found')
+    // }
+    // // If user type is 1, the user is an admin and the admin flag is set to true
+    // const admin = user.type === 1
+    // const token = jwt.sign({ id: user.id, admin: admin }, process.env.TOKEN_SECRET, {
+    //     expiresIn: 86400 // expires in 24 hours
+    // })
+    // return token
 }
 
 module.exports = {

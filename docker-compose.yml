@@ -43,5 +43,6 @@ services:
       - ./api/node_modules:/usr/src/app/node_modules
       - ./api/package.json:/usr/src/app/package.json
       - ./api/package-lock.json:/usr/src/app/package-lock.json
+      - ./api/.env:/usr/src/app/.env
     working_dir: /usr/src/app
-    command: bash -c "npm install && npm start"
+    command: bash -c "npm install && npx prisma generate && npx prisma db push && npx prisma db seed && npm start"

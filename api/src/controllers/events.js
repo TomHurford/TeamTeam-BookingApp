@@ -1,5 +1,7 @@
 // EVENTS CONTROLLER
 const prisma = require('../../prisma/prisma.js')
+const auth = require('../utils/jwt_auth.js')
+
 
 // TODO: What if we have hundreds of events? We need to paginate the results
 async function dateRange(start_date, end_date){
@@ -41,23 +43,18 @@ async function dateRange(start_date, end_date){
 
 
 async function getEvents(req, res) {
-    // try {
-    //     // Authenticate the user
-    //     const decoded = await authenticate(req)
-
-    //     // Get all events
-    //     const events = await prisma.event.findMany({
-    //         where: {
-    //             user_id: decoded.id
-    //         }
-    //     })
-
-    //     res.status(200).send(events)
-    // } catch (err) {
-    //     res.status(401).send({token: null, error: 'Unauthorized'})
-    // }
-    const events = await prisma.event.findMany()
-    res.status(200).send(events)
+    console.log(req.body)
+    try {
+        // Authenticate the user
+        const decoded = await auth.authenticate(req)
+        // Get all events
+        const events = await prisma.event.findMany()
+        res.status(200).send({events: events})
+    } catch (err) {
+        res.status(401).send({token: null, error: 'Unauthorized'})
+    }
+    // const events = await prisma.event.findMany()
+    // res.status(200).send({events: events})
 }
 
 async function getEventById(req, res) {
@@ -72,8 +69,9 @@ async function getEventById(req, res) {
             }
         })
 
-        res.status(200).send(event)
+        res.status(200).send({event: event})
     } catch (err) {
+        console.log(err)
         res.status(401).send({token: null, error: 'Unauthorized'})
     }
 }

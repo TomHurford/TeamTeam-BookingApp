@@ -11,7 +11,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
     const response = await request(app)
-        .post('/login')
+        .post('/user/login')
         .send({
             email: 'admin@admin.com',
             password: 'admin'
@@ -57,7 +57,7 @@ describe('Get Events', () => {
             event_id: 1
         }
         const response = await request(app)
-            .get('/events')
+            .post('/events')
             .set('Authorization', 'Bearer ' + token)
             .send(event_id)
         expect(response.statusCode).toBe(200)

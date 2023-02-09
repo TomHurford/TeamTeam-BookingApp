@@ -31,6 +31,3 @@ You should also have nodemon installed as part of the dependencies. Nodemon will
 # run with nodemon
 npx nodemon start
 ```
-
-
-

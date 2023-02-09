@@ -314,34 +314,17 @@ describe('Delete Event', () => {
         expect(response.statusCode).toBe(200)
         expect(response.body).toHaveProperty('message')
         // Expect the event to be deleted
-        expect(response.body.message).toBe('Event deleted')
+        expect(response.body.message).toBe('Event Archived')
 
-        // Check that the event has been deleted using prisma
+        // Check that the event has been archived in prisma
         const event = await prisma.event.findUnique({
-            where: {
-                eventId: 1
-            }
-        })
-        expect(event).toBeNull()
-
-        // Recreate the event
-        await prisma.event.create({
-            data: {
-                id: 1,
-                name: 'Event 1',
-                description: 'This is a test event',
-                date: '2023-12-02T00:10:00.000Z',
-                location: faker.address.streetAddress(),
-                societyId: 1
-            }
-        })
-        // Check that the event has been recreated using prisma
-        const event2 = await prisma.event.findUnique({
             where: {
                 id: 1
             }
         })
-        expect(event2).not.toBeNull()
+
+        expect(event).toHaveProperty('isArchived')
+        expect(event.isArchived).toBe(true)
     })
 
     // This is a POST request

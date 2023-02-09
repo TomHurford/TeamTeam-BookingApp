@@ -179,7 +179,7 @@ async function deleteEvent(req, res) {
     try {
         // Authenticate the user
         const decoded = await auth.authenticate(req)
-        
+
         // The delete request must contain the eventId
         if (!req.body.eventId) {
             res.status(400).send({ error: 'Missing Event Details' })
@@ -213,14 +213,18 @@ async function deleteEvent(req, res) {
             return
         }
 
-        // Delete the event
-        await prisma.event.delete({
+        // Update the Event so that isArchived is true
+
+        await prisma.event.update({
             where: {
                 id: req.body.eventId
+            },
+            data: {
+                isArchived: true
             }
         })
 
-        res.status(200).send({ message: 'Event Deleted' })
+        res.status(200).send({ message: 'Event Archived' })
     } catch (err) {
         console.log(err)
         res.status(401).send({ token: null, error: 'Unauthorized' })

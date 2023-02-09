@@ -2,70 +2,140 @@
 import React, { Component } from 'react';
 import '../styles/Login.css';
 import axios from 'axios';
+const jwtController = require('../utils/jwt.js');
+
 
 // Create a login component that prints the input email and password to the console
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            name: '',
             email: '',
             password: '',
             confirmPassword: '',
+
+            //block of state variables relating to showing forms
             disableLoginForm: false,
             disableSignUp: true,
             disableForgotPassword: true,
             disablePopUpMessage: true,
+            disableResetPassword: true,
             popUpMessage: ''
         };
     }
     
-    // Update the state when the user types in the email and password (or other) fields
+    // Update the state of variable associated with a field
     handleChange = (event) => {
         this.setState({
             [event.target.name]: event.target.value
         });
     }
 
-    // Print the email and password to the console when the user clicks the login button
+    // Submit login to backend to receive token for use
     handleSubmitLogin = (event) => {
-        if (this.state.username == '' || this.state.password == '') {
-            console.log('Empty Fields')
-            
-            this.setState({
-                disablePopUpMessage: false,
-                popUpMessage: 'You have left a field empty'
-            });
-        }
+        if (this.state.username === '' || this.state.password === '') {
+            console.log('Empty Fields');
+            this.showMessage('You have left a field empty');
+            return false;
+        } 
         event.preventDefault();
-        console.log(this.state);
-        axios.post('https://localhost:5001/user/login', { username: this.state.email, password: this.state.password })
+        
+        axios.post('http://localhost:5001/user/login', { email: this.state.email, password: this.state.password })
             .then(response => {
                 console.log(response.data.token);
+                if (response.data.token) {
+                    jwtController.setToken(response.data.token);
+                    window.location = '/profile';
+                } else {
+                    this.showMessage('Error: ' + response.data.message);
+                }
             })
             .catch(error => {
                 console.log(error.message);
+                this.showMessage('Local Client Error: ' + error.message);
             });
         return false;
     }
 
-    // Print the email, password and cpassword to the console when the user clicks the Sign Up button
+    // Submit signup to backend to receive successful sign up
     handleSubmitSignUp = (event) => {
+        if (this.state.confirmPassword === this.state.password) {
+            console.log('Passwords Do Not Match');
+            this.showMessage('You have left a field empty');
+            this.signupToggle();
+            return false;
+        } 
+
+
         event.preventDefault();
-        console.log(this.state);
-        this.showMessage('Signed Up. Check Email for Verification.');
+        
+        axios.post('http://localhost:5001/user/signup', { name: this.state.name, email: this.state.email, password: this.state.password })
+            .then(response => {
+                if (response.data.success) {
+                    this.showMessage('Signed Up. Check Email for Verification.');
+                } else {
+                    this.showMessage('Error: ' + response.data.message);
+                }
+            })
+            .catch(error => {
+                console.log(error.message);
+                this.showMessage('Local Client Error: ' + error.message);
+            });
+        
         return false;
     }
 
-    // Print the email to the console when the user clicks the forgot button
+    // Submit forgot password to backend to receive successful forgot password email
     handleSubmitForgot = (event) => {
         event.preventDefault();
-        console.log(this.state);
-        this.showMessage('Forgot Password Email Sent If Email Exists.');
+        
+        axios.post('http://localhost:5001/user/forgotPassword', { email: this.state.email })
+            .then(response => {
+                if (response.data.success) {
+                    this.showMessage('Forgot Password Email Sent If Email Exists.');
+                } else {
+                    this.showMessage('Error: ' + response.data.message);
+                }
+            })
+            .catch(error => {
+                console.log(error.message);
+                this.showMessage('Local Client Error: ' + error.message);
+            });
+        
         return false;
     }
 
+    // Submit a new password to be set
+    handleSubmitResetPassword = (event) => {
 
 
+    //     if (this.state.confirmPassword === this.state.password) {
+    //         console.log('Passwords Do Not Match');
+    //         this.showMessage('You have left a field empty');
+    //         signupToggle();
+    //         return false;
+    //     } 
+    //     event.preventDefault();
+        
+    //     axios.post('http://localhost:5001/user/reset', { verificationCode: password: this.state.password })
+    //         .then(response => {
+    //             if (response.data.success) {
+    //                 this.showMessage('Password Reset');
+    //             } else {
+    //                 showMessage('Error: ' + response.data.message);
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.log(error.message);
+    //             this.showMessage('Local Client Error: ' + error.message);
+    //         });
+        
+    //     return false;
+    }
+
+
+    // Toggle the signup Form Viewable
     signupToggle = (event) => {
         this.setState({
             disableLoginForm: !this.state.disableLoginForm,
@@ -73,6 +143,7 @@ class Login extends Component {
         });
     }
 
+    // Toggle the Forgot Password Form Viewable
     forgotToggle = (event) => {
         this.setState({
             disableLoginForm: !this.state.disableLoginForm,
@@ -80,12 +151,23 @@ class Login extends Component {
         });
     }
 
+    // Toggle the Reset Password Form Viewable
+    resetPasswordToggle = (event) => {
+        this.setState({
+            disableLoginForm: !this.state.disableLoginForm,
+            disableResetPassword: !this.state.disableResetPassword
+        });
+    }
+
+    // Open the Message Overlay
     showMessage = (message) => {
         this.setState({
             disablePopUpMessage: false,
             popUpMessage: message
         });
     }
+    
+    // Close the Message Overlay
     closeMessage = (event) => {
         this.setState({
             disablePopUpMessage: true,
@@ -96,15 +178,12 @@ class Login extends Component {
         return false;
     }
 
-    // login(email=this.state.email, password=this.state.password) {
-    //     console.log('test');
-    //     fetch('https://localhost:5001/login',{'email':email,'password':password})
-    //     .then((res) => {
-    //         console.log(res);
+    loginNewUser = (code) => {
 
-    //     }).catch((err) => console.log(err));
-    // }
-
+    }
+    
+    //Run On Render to check if link holds extra data
+    
     render() {
         return (
             <div>
@@ -122,7 +201,7 @@ class Login extends Component {
                         </div>
                         <div className='field'>
                             <label htmlFor="password">Password</label><br />
-                            <input type="password" name="password" onChange={this.handleChange} required />
+                            <input type="password" name="password" minLength="8" onChange={this.handleChange} required />
                         </div>
                         <div className='field' style={{textAlign: 'right', height: '0.9em', marginTop: 0, marginBottom: '10px'}}>
                             <label className='buttonLabel' onClick={this.forgotToggle}>Forgot Your Password?</label><br />
@@ -138,12 +217,16 @@ class Login extends Component {
                             <label className='buttonLabel' onClick={this.signupToggle}>Already a User? Log In</label><br />
                         </div>
                         <div className='field'>
+                            <label htmlFor="text">Name</label><br />
+                            <input type="text" name="name" minLength="3" onChange={this.handleChange} required />
+                        </div>
+                        <div className='field'>
                             <label htmlFor="email">Email</label><br />
                             <input type="email" name="email" onChange={this.handleChange} required />
                         </div>
                         <div className='field'>
                             <label htmlFor="password">Password</label><br />
-                            <input type="password" name="password" onChange={this.handleChange} required />
+                            <input type="password" name="password" minLength="8" onChange={this.handleChange} required />
                         </div>
                         <div className='field'>
                             <label htmlFor="confirmPassword">Confirm Password</label><br />
@@ -167,9 +250,23 @@ class Login extends Component {
                     </form>
                 </div>
 
+                <div className="container" id='resetPasswordForm' disabled={this.state.disableResetPassword}>
+                    <h1>Reset Password</h1>
+                    <form onSubmit={this.handleSubmitResetPassword} action="#">
+                        <div className='field'>
+                            <label htmlFor="password">Password</label><br />
+                            <input type="password" name="password" minLength="8" onChange={this.handleChange} required />
+                        </div>
+                        <div className='field'>
+                            <label htmlFor="confirmPassword">Confirm Password</label><br />
+                            <input type="password" name="confirmPassword" onChange={this.handleChange} required />
+                        </div>
+                        <button type="submit">Reset Password</button>
+                    </form>
+                </div>
+
                 <div className='overlay' disabled={this.state.disablePopUpMessage}>
                     <div className='container' id='popupForm'>
-                        <h1></h1>
                         <form onSubmit={this.closeMessage} action="#">
                             <div className='field'>
                                 <label style={{textAlign: 'center'}}>{this.state.popUpMessage}</label><br />

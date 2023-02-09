@@ -25,6 +25,11 @@ router.post('/signup', (req, res) => {
     loginController.signup(req, res)
 })
 
+// This route is used to sign up a new user
+router.post('/forgotPassword', (req, res) => {
+    loginController.forgotPassword(req, res)
+})
+
 
 
 module.exports = router

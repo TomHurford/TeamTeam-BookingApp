@@ -14,28 +14,6 @@ router.post('/', (req, res) => {
     eventsController.getEventById(req, res)
 })
 
-
-// When a POST request is made to the /events/society, it should include a JSON object with the following properties:
-// { "society": [society_id] }
-router.post('/society', (req, res) => {
-    eventsController.getEventsBySociety(req, res)
-})
-
-// When a POST request is made to the /events/date, it should include a JSON object with the following properties:
-// { "start_date": [date] }
-// { "end_date": [date] }
-router.post('/date', (req, res) => {
-    eventsController.getEventsByDate(req, res)
-})
-
-// When a POST request is made to the /events/date/society, it should include a JSON object with the following properties:
-// { "start_date": [date] }
-// { "end_date": [date] }
-// { "society": [society_id] }
-router.post('/date', (req, res) => {
-    eventsController.getEventsByDateAndSociety(req, res)
-})
-
 // When a POST request is made to the /events/create, it should include a JSON object with the following properties:
 // { "name": [event_name] }
 // { "description": [event_description] }

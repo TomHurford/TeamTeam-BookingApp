@@ -29,6 +29,7 @@ async function authenticate(req) {
     })
 }
 
+// Special authentication function for admin users
 async function authenticateAdmin(req) {
     return new Promise((resolve, reject) => {
         // The JWT token is sent in the Authorization header, it is prefixed with 'Bearer '

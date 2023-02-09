@@ -10,7 +10,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
     const response = await request(app)
-        .post('/login')
+        .post('/user/login')
         .send({
             email: 'admin@admin.com',
             password: 'admin'
@@ -22,7 +22,7 @@ beforeEach(async () => {
 describe('Login', () => {
     test('Login with valid credentials', async () => {
         const response = await request(app)
-            .post('/login')
+            .post('/user/login')
             .send({
                 email: 'admin@admin.com',
                 password: 'admin'
@@ -33,7 +33,7 @@ describe('Login', () => {
 
     test('Login with invalid credentials', async () => {
         const response = await request(app)
-            .post('/login')
+            .post('/user/login')
             .send({
                 email: 'admin@admin.com',
                 password: 'wrongpassword'
@@ -45,7 +45,7 @@ describe('Login', () => {
 
     test('Login with invalid email', async () => {
         const response = await request(app)
-            .post('/login')
+            .post('/user/login')
             .send({
                 email: 'admin@admin',
                 password: 'admin'
@@ -56,52 +56,26 @@ describe('Login', () => {
     })
 })
 
-// Here I am testing the verify function from the login controller
-describe('Verify', () => {
-    test('Verify with valid token', async () => {
-        const verifyResponse = await request(app)
-            .post('/login/verify')
-            .send({
-                token: token
-            })
-        expect(verifyResponse.statusCode).toBe(200)
-        expect(verifyResponse.body).toHaveProperty('token')
-    })
-
-    test('Verify with invalid token', async () => {
-        const response = await request(app)
-            .post('/login/verify')
-            .send({
-                token: 'invalidtoken'
-            })
-        expect(response.statusCode).toBe(401)
-        expect(response.body).toHaveProperty('message')
-        expect(response.body.token).toBe(null)
-    })
-})
-
 // Here I am testing the logout function from the login controller
 describe('Logout', () => {
     test('Logout with valid token', async () => {
+        // Put the token in the header of the request under Authorization and Bearer
         const logoutResponse = await request(app)
-            .post('/login/logout')
-            .send({
-                token: token
-            })
+            .post('/user/logout')
+            .set('Authorization', 'Bearer ' + token)
+        // console.log(logoutResponse.body)
         expect(logoutResponse.statusCode).toBe(200)
-        expect(logoutResponse.body).toHaveProperty('token')
-        expect(logoutResponse.body.token).toBe(null)
+        expect(logoutResponse.body).toHaveProperty('message')
+        expect(logoutResponse.body.message).toBe('Logout successful')
     })
 
     test('Logout with invalid token', async () => {
         const response = await request(app)
-            .post('/login/logout')
-            .send({
-                token: 'invalidtoken'
-            })
+            .post('/user/logout')
+            .set('Authorization', 'Bearer ' + 'invalidtoken')
         expect(response.statusCode).toBe(401)
         expect(response.body).toHaveProperty('message')
-        expect(response.body.token).toBe(null)
+        expect(response.body.message).toBe('Unauthorized')
     })
 })
 
@@ -109,9 +83,9 @@ describe('Logout', () => {
 describe('Reset', () => {
     test('Reset with valid token', async () => {
         const resetResponse = await request(app)
-            .post('/login/reset')
+            .post('/user/reset')
+            .set('Authorization', 'Bearer ' + token)
             .send({
-                token: token,
                 new_password: 'newpassword'
             })
         expect(resetResponse.statusCode).toBe(200)
@@ -128,7 +102,7 @@ describe('Reset', () => {
 
     test('Reset with invalid token', async () => {
         const response = await request(app)
-            .post('/login/reset')
+            .post('/user/reset')
             .send({
                 token: 'invalidtoken',
             })
@@ -139,7 +113,7 @@ describe('Reset', () => {
 
     test('Reset with invalid password (same as previous)', async () => {
         const resetResponse = await request(app)
-            .post('/login/reset')
+            .post('/user/reset')
             .send({
                 token: token,
                 new_password: 'admin'
@@ -151,7 +125,7 @@ describe('Reset', () => {
 
     test('Reset with invalid password (empty)', async () => {
         const resetResponse = await request(app)
-            .post('/login/reset')
+            .post('/user/reset')
             .send({
                 token: token,
                 new_password: ''
@@ -166,7 +140,7 @@ describe('Reset', () => {
 describe('Signup', () => {
     test('Signup with valid credentials', async () => {
         const response = await request(app)
-            .post('/login/signup')
+            .post('/user/signup')
             .send({
                 name: 'admin1',
                 email: 'admin1@admin.com',
@@ -184,7 +158,7 @@ describe('Signup', () => {
 
     test('Signup with invalid credentials (empty email)', async () => {
         const response = await request(app)
-            .post('/login/signup')
+            .post('/user/signup')
             .send({
                 email: '',
                 password: 'admin1'
@@ -196,7 +170,7 @@ describe('Signup', () => {
 
     test('Signup with invalid credentials (empty password)', async () => {
         const response = await request(app)
-            .post('/login/signup')
+            .post('/user/signup')
             .send({
                 email: 'admin2@admin.com',
                 password: ''
@@ -208,7 +182,7 @@ describe('Signup', () => {
 
     test('Sign up with an email that already exists', async () => {
         const response = await request(app)
-            .post('/login/signup')
+            .post('/user/signup')
             .send({
                 email: 'admin@admin.com',
                 password: 'admin'

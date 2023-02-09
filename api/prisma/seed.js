@@ -2,7 +2,7 @@ const prisma = require("./prisma.js");
 const { faker } = require("@faker-js/faker");
 
 async function main() {
-  await clearDatabase();
+  // await clearDatabase();
   seedDatabase();
 }
 
@@ -176,6 +176,20 @@ async function seedCommittee() {
   const societies = await prisma.society.findMany();
   for (let i = 0; i < societies.length; i++) {
     const society = societies[i];
+    const userId = faker.datatype.number({ min: 1, max: 50 });
+    // Make sure the user is not already in the committee
+    const userInCommittee = await prisma.committee.findMany({
+      where: {
+        societyId: society.id,
+        userId: userId,
+      },
+    });
+    if (userInCommittee.length > 0) {
+      continue;
+    } else {
+      break;
+    }
+
     await prisma.committee.create({
       data: {
         society: {
@@ -185,7 +199,7 @@ async function seedCommittee() {
         },
         user: {
           connect: {
-            id: faker.datatype.number({ min: 1, max: 50 }),
+            id: userId,
           },
         },
         role: faker.name.jobTitle(),
@@ -265,7 +279,8 @@ async function seedEvents() {
       name: "Event 1",
       description: "Event 1 description",
       location: "Event 1 location",
-      date: new Date("2023-2-2"),
+      date: new Date("2023-12-2"),
+      isArchived: false,
     },
   });
   // For each society, add 3 events in the next 3 months
@@ -284,6 +299,7 @@ async function seedEvents() {
           description: faker.lorem.paragraph(),
           location: faker.address.streetAddress(),
           date: faker.date.future(),
+          isArchived: false,
         },
       });
     }

@@ -29,22 +29,22 @@ CREATE TABLE "Society" (
 -- CreateTable
 CREATE TABLE "SocietyLinks" (
     "id" SERIAL NOT NULL,
-    "societyId" INTEGER NOT NULL,
     "instagram" TEXT,
     "facebook" TEXT,
     "twitter" TEXT,
     "website" TEXT,
     "logo" TEXT,
     "banner" TEXT,
+    "societyId" INTEGER NOT NULL,
 
     CONSTRAINT "SocietyLinks_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
 CREATE TABLE "Committee" (
+    "role" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
     "societyId" INTEGER NOT NULL,
-    "role" TEXT NOT NULL,
 
     CONSTRAINT "Committee_pkey" PRIMARY KEY ("userId","societyId")
 );
@@ -65,6 +65,7 @@ CREATE TABLE "Event" (
     "date" TIMESTAMP(3) NOT NULL,
     "location" TEXT NOT NULL,
     "societyId" INTEGER NOT NULL,
+    "isArchived" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Event_pkey" PRIMARY KEY ("id")
 );
@@ -81,10 +82,10 @@ CREATE TABLE "TicketType" (
 -- CreateTable
 CREATE TABLE "Ticket" (
     "id" SERIAL NOT NULL,
+    "status" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
     "eventId" INTEGER NOT NULL,
     "ticketTypeId" INTEGER NOT NULL,
-    "status" TEXT NOT NULL,
 
     CONSTRAINT "Ticket_pkey" PRIMARY KEY ("id")
 );
@@ -92,11 +93,11 @@ CREATE TABLE "Ticket" (
 -- CreateTable
 CREATE TABLE "Purchase" (
     "id" SERIAL NOT NULL,
-    "userId" INTEGER NOT NULL,
-    "ticketId" INTEGER NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "total" INTEGER NOT NULL,
     "paymentMethod" TEXT NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "ticketId" INTEGER NOT NULL,
 
     CONSTRAINT "Purchase_pkey" PRIMARY KEY ("id")
 );
@@ -106,6 +107,12 @@ CREATE UNIQUE INDEX "UserType_type_key" ON "UserType"("type");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Society_name_key" ON "Society"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "SocietyLinks_societyId_key" ON "SocietyLinks"("societyId");
 
 -- AddForeignKey
 ALTER TABLE "User" ADD CONSTRAINT "User_userType_fkey" FOREIGN KEY ("userType") REFERENCES "UserType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

@@ -33,7 +33,7 @@ model User {
 
 model Society {
   id          Int            @id @default(autoincrement())
-  name        String     @unique 
+  name        String         @unique
   description String
   links       SocietyLinks[]
   // A society can have many committee members and a committee member can be in many societies
@@ -50,18 +50,17 @@ model SocietyLinks {
   website   String?
   logo      String?
   banner    String?
-  societyId Int    @unique
+  societyId Int     @unique
   society   Society @relation(references: [id], fields: [societyId])
 }
 
 model Committee {
   // Committe model should consist of a Composite Foreign Key of Society and User
   role      String
-  userId    Int   
-  societyId Int  
+  userId    Int
+  societyId Int
   user      User    @relation(references: [id], fields: [userId])
   society   Society @relation(references: [id], fields: [societyId])
-
   @@id([userId, societyId])
 }
 
@@ -70,17 +69,17 @@ model Members {
   societyId Int
   user      User    @relation(references: [id], fields: [userId])
   society   Society @relation(references: [id], fields: [societyId])
-
   @@id([userId, societyId])
 }
 
 model Event {
   id          Int      @id @default(autoincrement())
-  name        String  
+  name        String
   description String
   date        DateTime
   location    String
   societyId   Int
+  isArchived  Boolean  @default(false)
   society     Society  @relation(references: [id], fields: [societyId])
   ticket      Ticket[]
 }
@@ -102,7 +101,6 @@ model Ticket {
   event        Event      @relation(references: [id], fields: [eventId])
   ticketType   TicketType @relation(references: [id], fields: [ticketTypeId])
   Purchase     Purchase[]
-  @@unique([userId, eventId])
 }
 
 model Purchase {
@@ -114,5 +112,4 @@ model Purchase {
   ticketId      Int
   user          User     @relation(references: [id], fields: [userId])
   ticket        Ticket   @relation(references: [id], fields: [ticketId])
-  @@unique([userId, ticketId])
 }

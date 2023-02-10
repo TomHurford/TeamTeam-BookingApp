@@ -30,6 +30,12 @@ router.post('/forgotPassword', (req, res) => {
     loginController.forgotPassword(req, res)
 })
 
+// This route is used to verify a new user
+router.post('/verify', (req, res) => {
+    loginController.verify(req, res)
+})
+
+
 
 
 module.exports = router

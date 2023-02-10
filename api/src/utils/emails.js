@@ -1,43 +1,46 @@
+
 const nodemailer = require('nodemailer');
 
-// create reusable transport method (opens pool of SMTP connections)
-var smtpTransport = nodemailer.createTransport("SMTP",{
-    service: "Gmail",
+/*
+
+
+How To Use:
+
+Call mail() from the file using params to, subject and body.
+
+
+*/
+
+
+
+// let transporter = nodemailer.createTransport(
+    // `smtp://noreply@ticketopia.armtech.dev:(8N.J1NOI.U*@ticketopia.armtech.dev:587`);
+// EMAIL : noreply@ticketopia.armtech.dev => PASSWORD : (8N.J1NOI.U*
+
+const transporter = nodemailer.createTransport({
+    host: 'ticketopia.armtech.dev',
+    port: 465,
     auth: {
-        user: "ibnjalal47@gmail.com",
-        pass: "Deliverus1"
+        user: 'noreply@ticketopia.armtech.dev',
+        pass: '(8N.J1NOI.U*'
+    },
+    tls: {
+        rejectUnauthorized:false
     }
 });
 
-// setup e-mail data with unicode symbols
-var mailOptions = {
-    from: "Fred Foo ✔ <foo@blurdybloop.com>", // sender address
-    to: "amohabbat02@gmail.com", // list of receivers
-    subject: "Hello ✔", // Subject line
-    text: "Hello world ✔", // plaintext body
-    html: "<b>Hello world ✔</b>" // html body
-}
+const header = (subject) => {return "<h2>" + subject + "</h2><br/><hr/><br/>";}
+const footer = "<br/><br/><footer>Ticketopia</footer>"
 
-mail = (from="no-reply@ticketopia.ddns.net",to='amohabbat02@gmail.com',subject="test",body="test") => {
-    // const transporter = nodemailer.createTransport({sendmail: true}, {
-    // from: from,
-    // to: to,
-    // subject: subject,
-    // });
-    // transporter.sendMail({text: body});
-
-    smtpTransport.sendMail(mailOptions, function(error, response){
-        if(error){
-            console.log(error);
-        }else{
-            console.log("Message sent: " + response.message);
-        }
-    
-        // if you don't want to use this transport object anymore, uncomment following line
-        //smtpTransport.close(); // shut down the connection pool, no more messages
+async function mail(to='junkbox@tiketopia.armtech.dev',subject="test",body="test") {
+    await transporter.sendMail({
+        from: 'noreply@ticketopia.armtech.dev',
+        to: to,
+        subject: subject,
+        html: header(subject) + body + footer
     });
 }
 
 module.exports = {
-    mail,
+     mail
 }

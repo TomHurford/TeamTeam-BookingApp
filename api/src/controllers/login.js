@@ -204,6 +204,9 @@ async function forgotPassword(req, res) {
 
 // This function is used to login a user
 async function verify(req, res) {
+    if (req.body === undefined) {
+        res.status(404).send({token: null, message: 'Verification Code not found'})
+    }
     
     auth = await prisma.verification.findUnique({
         where: {

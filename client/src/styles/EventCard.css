@@ -1,0 +1,39 @@
+.eventCard{
+    width: 400px;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: left;
+    background-color: #59a9df;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgb(26, 11, 240);
+    padding: 20px;
+    margin: 1%;
+    cursor: pointer;
+}
+
+.eventName{
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+    margin: 0;
+}
+
+.eventDate{
+    font-size: 1rem;
+    color: blue;
+    margin: 0;
+}
+
+.eventDescription{
+    font-size: 1rem;
+    color: black;
+    margin: 2;
+}
+
+.eventLocation{
+    font-size: 1rem;
+    color: black;
+    margin: 0;
+}

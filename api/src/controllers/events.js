@@ -1,126 +1,34 @@
 // EVENTS CONTROLLER
 const prisma = require('../../prisma/prisma.js')
-
-// TODO: What if we have hundreds of events? We need to paginate the results
-async function dateRange(start_date, end_date){
-    // If either start date is null, return all events before the end date
-    // If either end date is null, return all events after the start date
-    // If both dates are null, return all events
-    // If both dates are not null, return all events between the two dates
-    if (start_date === null && end_date === null) {
-        return await prisma.event.findMany()
-    }
-    if (start_date === null) {
-        return await prisma.event.findMany({
-            where: {
-                date: {
-                    lte: end_date
-                }
-            }
-        })
-    }
-    if (end_date === null) {
-        return await prisma.event.findMany({
-            where: {
-                date: {
-                    gte: start_date
-                }
-            }
-        })
-    }
-    return await prisma.event.findMany({
-        where: {
-            date: {
-                gte: start_date,
-                lte: end_date
-            }
-        }
-    })
-}
-
-
+const auth = require('../utils/jwt_auth.js')
 
 async function getEvents(req, res) {
-    // try {
-    //     // Authenticate the user
-    //     const decoded = await authenticate(req)
-
-    //     // Get all events
-    //     const events = await prisma.event.findMany({
-    //         where: {
-    //             user_id: decoded.id
-    //         }
-    //     })
-
-    //     res.status(200).send(events)
-    // } catch (err) {
-    //     res.status(401).send({token: null, error: 'Unauthorized'})
-    // }
-    const events = await prisma.event.findMany()
-    res.status(200).send(events)
+    try {
+        // Authenticate the user
+        const decoded = await auth.authenticate(req)
+        // Get all events
+        const events = await prisma.event.findMany()
+        res.status(200).send({events: events})
+    } catch (err) {
+        res.status(401).send({token: null, error: 'Unauthorized'})
+    }
+    // const events = await prisma.event.findMany()
+    // res.status(200).send({events: events})
 }
 
 async function getEventById(req, res) {
     try {
         // Authenticate the user
-        const decoded = await authenticate(req)
+        const decoded = await auth.authenticate(req)
 
         // Get the event
         const event = await prisma.event.findUnique({
             where: {
-                id: req.params.id
+                id: req.body.eventId
             }
         })
 
-        res.status(200).send(event)
-    } catch (err) {
-        res.status(401).send({token: null, error: 'Unauthorized'})
-    }
-}
-
-async function getEventsBySociety(req, res) {
-    try {
-        // Authenticate the user
-        const decoded = await authenticate(req)
-
-        // Get all events
-        const events = await prisma.event.findMany({
-            where: {
-                society_id: req.params.id
-            }
-        })
-        // 
-
-        res.status(200).send(events)
-    } catch (err) {
-        res.status(401).send({token: null, error: 'Unauthorized'})
-    }
-}
-
-async function getEventsByDate(req, res) {
-    try {
-        // Authenticate the user
-        const decoded = await authenticate(req)
-
-        const events = await dateRange(req.params.start_date, req.params.end_date)
-
-        res.status(200).send(events)
-    } catch (err) {
-        res.status(401).send({token: null, error: 'Unauthorized'})
-    }
-}
-
-async function getEventsByDateAndSociety(req, res) {
-    try {
-        // Authenticate the user
-        const decoded = await authenticate(req)
-
-        const events = await dateRange(req.params.start_date, req.params.end_date)
-
-        // Filter the events by society
-        const filteredEvents = events.filter(event => event.society_id === req.params.society_id)
-
-        res.status(200).send(events)
+        res.status(200).send({ event: event })
     } catch (err) {
         res.status(401).send({token: null, error: 'Unauthorized'})
     }
@@ -129,10 +37,10 @@ async function getEventsByDateAndSociety(req, res) {
 async function createEvent(req, res) {
     try {
         // Authenticate the user
-        const decoded = await authenticate(req)
+        const decoded = await auth.authenticate(req)
 
-        // Check that the request body is valid i.e. has all the required fields name, description, date, location, society_id
-        if (!req.body.name || !req.body.description || !req.body.date || !req.body.location || !req.body.society_id) {
+        // Check that the request body is valid i.e. has all the required fields name, description, date, location, societyId
+        if (!req.body.name || !req.body.description || !req.body.date || !req.body.location || !req.body.societyId) {
             res.status(400).send({error: 'Missing Event Details'})
             return
         }
@@ -140,19 +48,27 @@ async function createEvent(req, res) {
         // Get the society
         const society = await prisma.society.findUnique({
             where: {
-                id: req.body.society_id
+                id: req.body.societyId
             }
         })
 
         // If the society does not exist, return an error
         if (!society) {
-            res.status(400).send({error: 'invalid society_id'})
+            res.status(400).send({error: 'Invalid societyId'})
             return
         }
 
-        // Check that the user is a member of the society committee
-        if (!society.committee.includes(decoded.id)) {
-            res.status(401).send({error: 'Unauthorized'})
+        // Check that the user is a member of the society
+        const isMember = await prisma.committee.findMany({
+            where: {
+                societyId: req.body.societyId,
+                userId: decoded.id
+            }
+        })
+
+        // If the user is not a member of the society committee, return an error
+        if (isMember.length === 0) {
+            res.status(401).send({ error: 'Unauthorized' })
             return
         }
 
@@ -162,19 +78,167 @@ async function createEvent(req, res) {
             return
         }
 
+        // Get the event from the request body
+        const event = await prisma.event.create({
+            data: {
+                name: req.body.name,
+                description: req.body.description,
+                date: req.body.date,
+                location: req.body.location,
+                societyId: req.body.societyId
+            }
+        })
 
-        res.status(200).send(event)
+        res.status(200).send({event: event})
     } catch (err) {
+        console.log(err)
         res.status(401).send({token: null, error: 'Unauthorized'})
     }
 }
+
+async function updateEvent(req, res) {
+    try {
+        // Authenticate the user
+        const decoded = await auth.authenticate(req)
+
+        // The update request must contain the eventId and at least one other field
+        if (!req.body.eventId || (!req.body.name && !req.body.description && !req.body.date && !req.body.location)) {
+            res.status(400).send({error: 'Missing Event Details'})
+            return
+        }
+
+        // Get the event
+        const event = await prisma.event.findUnique({
+            where: {
+                id: req.body.eventId
+            }
+        })
+
+        // If the event does not exist, return an error
+        if (!event) {
+            res.status(400).send({error: 'Invalid eventId'})
+            return
+        }
+
+        // Get the society
+        const society = await prisma.society.findUnique({
+            where: {
+                id: event.societyId
+            }
+        })
+
+
+
+        // If the society does not exist, return an error
+        if (!society) {
+            res.status(400).send({error: 'Invalid societyId'})
+            return
+        }
+
+        // Check that the user is a member of the society
+        const isMember = await prisma.committee.findMany({
+            where: {
+                societyId: event.societyId,
+                userId: decoded.id
+            }
+        })
+
+        // If the user is not a member of the society committee, return an error
+        if (isMember.length === 0) {
+            res.status(401).send({ error: 'Unauthorized' })
+            return
+        }
+
+        // If the date is in the request body, check that it is in the future and is valid
+        if (req.body.date && new Date(req.body.date) < new Date()) {
+            res.status(400).send({error: 'Invalid Date'})
+            return
+        }
+
+        // Update the event with the details from the request body not all the fields are required to be updated so we only update the ones that are present
+        const updatedEvent = await prisma.event.update({
+            where: {
+                id: req.body.eventId
+            },
+            data: {
+                name: req.body.name ? req.body.name : event.name,
+                description: req.body.description ? req.body.description : event.description,
+                date: req.body.date ? req.body.date : event.date,
+                location: req.body.location ? req.body.location : event.location
+            }
+        })
+
+        res.status(200).send({ event: updatedEvent })
+    } catch (err) {
+        res.status(401).send({ token: null, error: 'Unauthorized' })
+    }
+}
+
+
+async function deleteEvent(req, res) {
+    try {
+        // Authenticate the user
+        const decoded = await auth.authenticate(req)
+
+        // The delete request must contain the eventId
+        if (!req.body.eventId) {
+            res.status(400).send({ error: 'Missing Event Details' })
+            return
+        }
+
+        // Get the event
+        const event = await prisma.event.findUnique({
+            where: {
+                id: req.body.eventId
+            }
+        })
+
+        // If the event does not exist, return an error
+        if (!event) {
+            res.status(400).send({ error: 'Invalid eventId' })
+            return
+        }
+
+        // Check that the user is a member of the society
+        const isMember = await prisma.committee.findMany({
+            where: {
+                societyId: event.societyId,
+                userId: decoded.id
+            }
+        })
+
+        // If the user is not a member of the society committee, return an error
+        if (isMember.length === 0) {
+            res.status(401).send({ error: 'Unauthorized'})
+            return
+        }
+
+        // Update the Event so that isArchived is true
+
+        await prisma.event.update({
+            where: {
+                id: req.body.eventId
+            },
+            data: {
+                isArchived: true
+            }
+        })
+
+        res.status(200).send({ message: 'Event Archived' })
+    } catch (err) {
+        console.log(err)
+        res.status(401).send({ token: null, error: 'Unauthorized' })
+    }
+}
+
+
+
 
 
 module.exports = {
     getEvents,
     getEventById,
-    getEventsBySociety,
-    getEventsByDate,
-    getEventsByDateAndSociety,
-    createEvent
+    createEvent,
+    updateEvent,
+    deleteEvent
 }

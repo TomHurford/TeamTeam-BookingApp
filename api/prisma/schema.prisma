@@ -28,7 +28,8 @@ model User {
   committee Committee[]
   members   Members[]
   ticket    Ticket[]
-  Purchase  Purchase[]
+  purchase  Purchase[]
+  verifications  Verifications[]
 }
 
 model Society {
@@ -114,4 +115,12 @@ model Purchase {
   ticketId      Int
   user          User     @relation(references: [id], fields: [userId])
   ticket        Ticket   @relation(references: [id], fields: [ticketId])
+}
+
+model Verifications {
+  id            Int @id @default(autoincrement())
+  verificationType String
+  verificationCode String
+  userId        Int
+  user          User     @relation(references: [id], fields: [userId])
 }

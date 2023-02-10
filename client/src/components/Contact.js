@@ -1,5 +1,7 @@
 import React from "react";
 
+//A component for Contact page to be added
+
 function Contact(){
     return(
         <div>

@@ -4,10 +4,12 @@ import Event from './Event';
 import '../styles/Home.css';
 import SearchBar from "./SearchBar";
 
+//Fetching events from the database and displaying them on the home page
+
 class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = { data: [] }
+        this.state = {data: []}
         this.fetchData();
     }
     
@@ -21,9 +23,7 @@ class Home extends Component {
     welcome() {
         return(
         <div className="welcome">
-            <br/>
             <h1>Welcome to Ticketopia!</h1>
-            <p>Here you can find all the events you want to attend!</p>
             <SearchBar/>
         </div>
         )

@@ -1,11 +1,18 @@
+/*Styling for the home page and events grid below*/
+
 .homePage{
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     width: 100%;
     height: 100%;
     background-color: cadetblue;
-    padding: 0 20px;
+    
+}
+
+.events{
+    display: grid;
+    gap: 70px;
+    grid-template-columns: repeat(3, 1fr);
 }
 

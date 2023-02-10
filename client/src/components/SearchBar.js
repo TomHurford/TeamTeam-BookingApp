@@ -1,9 +1,11 @@
 import React, {useState} from "react";
 
+//Creating a search bar component
+
 function SearchBar(){
     const [input, setInput] = useState('');
     const handleInput = (e) => {
-    setInput(e.target.value);
+        setInput(e.target.value);
     }
     
     return(

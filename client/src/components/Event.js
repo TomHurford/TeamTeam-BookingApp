@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import '../styles/EventCard.css';
 
+//Creating an event component to show event details
+
 class Event extends Component { 
   render() {
     return (

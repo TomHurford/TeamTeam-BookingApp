@@ -22,6 +22,20 @@ async function login(email, password, res) {
     }
 }
 
+// This function is used to verify a JWT token
+async function verify(token, res) {
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
+        if (err) {
+            return res.status(401).send({token: null, message: 'Unauthorized'})
+        }
+        // Create a new token with a new expiration time
+        const token = jwt.sign({ id: decoded.id }, process.env.TOKEN_SECRET, {
+            expiresIn: 86400 // expires in 24 hours
+        })
+        res.status(200).send({token: token})
+    })
+}
+
 // This function is used to logout a user
 async function logout(req, res) {
     if(auth.authenticate(req)) {

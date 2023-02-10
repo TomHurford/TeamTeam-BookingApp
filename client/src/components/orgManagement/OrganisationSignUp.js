@@ -1,8 +1,7 @@
 
 import React, { Component, useEffect } from 'react';
-import '../styles/orgManagement/OrganisationSignUp.css';
+import '../../styles/orgManagement/OrganisationSignUp.css';
 import axios from 'axios';
-const jwtController = require('../utils/jwt.js')
 
 
 // Create a login component that prints the input email and password to the console
@@ -11,6 +10,7 @@ class OrganisationSignUp extends Component {
         super(props);
         this.state = {
             oraganisationName: '',
+            oraganisationDesc: '',
             
 
             //block of state variables relating to showing forms
@@ -30,12 +30,12 @@ class OrganisationSignUp extends Component {
     handleSubmitSignUp = (event) => {
         event.preventDefault();
         
-        axios.post('http://localhost:5001/organisation/signup', { organisationName: this.state.organisationName })
+        axios.post('http://localhost:5001/societies/signup', { organisationName: this.state.organisationName })
             .then(response => {
                 if (response.data.success) {
                     this.showMessage('Signed Up. Check Email for Verification.');
                 } else {
-                    showMessage('Error: ' + response.data.message);
+                    this.showMessage('Error: ' + response.data.message);
                 }
             })
             .catch(error => {
@@ -74,6 +74,10 @@ class OrganisationSignUp extends Component {
                             <label htmlFor="text">Name Of Organisation</label><br />
                             <input type="text" name="oraganisationName" minLength="3" onChange={this.handleChange} required />
                         </div>
+                        <div className='field'>
+                            <label htmlFor="text">Description</label><br />
+                            <input type="textarea" name="oraganisationDesc" minLength="10" onChange={this.handleChange} required />
+                        </div>
                         <button type="submit">Sign Up</button>
                     </form>
                 </div>
@@ -94,4 +98,4 @@ class OrganisationSignUp extends Component {
     }
 }
 
-export default Login;
+export default OrganisationSignUp;

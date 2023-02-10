@@ -1,11 +1,11 @@
-// ORGANISATION CONTROLLER
+// SOCIETY CONTROLLER
 const prisma = require('../../prisma/prisma.js')
 
 
-// This function is used to create a new organisation
+// This function is used to create a new society
 async function signup(req, res) {
     // Check that the request body is not empty and contains the correct properties
-    if (req.body === undefined || req.body.organisationName === undefined || req.body.userId === undefined) {
+    if (req.body === undefined || req.body.name === undefined || req.body.userId === undefined) {
         return res.status(409).send({token: null, message: 'Request body cannot be empty'})
     }
 
@@ -22,23 +22,23 @@ async function signup(req, res) {
     // Check if the society already exists
     let society = await prisma.society.findUnique({
         where: {
-            organisationName: req.body.organisationName
+            name: req.body.name
         }
     })
 
     if (society) {
-        return res.status(409).send({token: null, message: 'Organisation already exists'})
+        return res.status(409).send({token: null, message: 'Society already exists'})
     }
 
     // Check that name, email and password are not empty
-    if (req.body.organisationName === '') {
+    if (req.body.name === '') {
         return res.status(409).send({token: null, message: 'Name cannot be empty'})
     }
 
     // Create a new user
     society = await prisma.society.create({
         data: {
-            organisationName: req.body.organisationName,
+            name: req.body.name,
         }
     });
     committee = await prisma.committee.create({

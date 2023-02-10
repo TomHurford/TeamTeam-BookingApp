@@ -3,25 +3,36 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var app = express();
 const swaggerUi = require('swagger-ui-express');
+const cors = require('cors');
+
 
 
 // If you are adding a new route, you need to add it here
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
+var eventsRouter = require('./routes/events');
 var swaggerDocument = require('./swagger.json');
 
-var app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors({
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+
 
 // If you are adding a new route, you need to add it here
 app.use('/', indexRouter);
 app.use('/user', loginRouter);
+app.use('/events', eventsRouter)
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // catch 404 and forward to error handler

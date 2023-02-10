@@ -89,6 +89,19 @@ async function seedUsers() {
             },
         },
     })
+
+    await prisma.user.create({
+        data: {
+            name: 'Student',
+            email: 'student@kcl.ac.uk',
+            password: 'student',
+            type: {
+                connect: {
+                    id: 2,
+                },
+            },
+        },
+    })
     // Use faker to generate 50 random users
     for (let i = 0; i < 50; i++) {
         await prisma.user.create({
@@ -254,7 +267,7 @@ async function seedEvents() {
             name: 'Event 1',
             description: 'Event 1 description',
             location: 'Event 1 location',
-            date: new Date(),
+            date: new Date('2023-2-2'),
         },
     })
     // For each society, add 3 events in the next 3 months

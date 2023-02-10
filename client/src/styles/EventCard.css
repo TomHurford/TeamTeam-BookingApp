@@ -1,0 +1,39 @@
+/*Styling for the event cards below*/
+
+.eventCard{
+    width: 400px;
+    height: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: lightblue;
+    border-radius: 5px;
+    box-shadow: 0 0 10px darkblue;
+    padding: 30px;
+    cursor: pointer;
+}
+
+.eventName{
+    font-size:  30px;
+    font-weight: bold;
+    color: black;
+    margin: 0;
+}
+
+.eventDate{
+    font-size: 25px;
+    color: blue;
+    margin: 0;
+}
+
+.eventDescription{
+    font-size: 20px;
+    color: black;
+    margin: 2;
+}
+
+.eventLocation{
+    font-size: 25px;
+    color: black;
+    margin: 0;
+}

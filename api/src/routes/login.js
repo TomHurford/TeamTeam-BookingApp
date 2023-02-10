@@ -10,14 +10,9 @@ router.post('/login', (req, res) => {
     loginController.login(req.body.email, req.body.password, res)
 })
 
-// This route is used to verify a JWT token
-router.post('/verify', (req, res) => {
-    loginController.verify(req.body.token, res)
-})
-
 // This route is used to logout a user
 router.post('/logout', (req, res) => {
-    loginController.logout(req.body.token, res)
+    loginController.logout(req, res)
 })
 
 // This route is used to reset a user's password

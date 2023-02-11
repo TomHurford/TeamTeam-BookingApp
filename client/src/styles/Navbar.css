@@ -1,0 +1,46 @@
+/*Styling for the navbar and logo below*/
+
+.navbar{
+    width: 100%;
+    height: 60px;
+    background-color: #000000;
+    position: fixed;
+}
+
+.navbarElements{
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.appLogo{
+    width: 60px;;
+    height: 60px;
+    top: 0px;
+    left: 0px;
+    margin-right: 1392px;
+    position: absolute;
+}
+
+.appLogo img{
+    width: 100%;
+    height: 100%;
+}
+
+ul li{
+    list-style: none;
+    color: lightblue;
+    font-size: 25px;
+    font-weight: bold;
+    float: right;
+    margin: 15px;
+    
+}
+
+ul li:hover{
+    cursor: pointer;
+    color: greenyellow;
+}

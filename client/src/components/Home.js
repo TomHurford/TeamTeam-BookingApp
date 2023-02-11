@@ -35,7 +35,9 @@ class Home extends Component {
             {this.welcome()}
             <ul className="events">
                 {this.state.data.map(event => (
-                    <Event key={event.id} specificEvent = {event}></Event>
+                    <li key={event.id} onClick={()=>console.log("Clickable")} >
+                    <Event specificEvent = {event}/>
+                    </li>
                 ))}
             </ul>
             </div>

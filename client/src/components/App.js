@@ -1,22 +1,19 @@
-
-
+import Home from './Home'
 import '../styles/App.css';
 import React from 'react';
-
+import Contact from './Contact';
 import {Routes, Route} from 'react-router-dom';
 import Navbar from './Navbar';
-import Purchase from './Past';
-import PayPal from './PayPal';
 
+//Routes to connect to the homepage, the contact page and other pages which can be added here
 
 function App() {
   return (
     <div>
       <Navbar/>
       <Routes>
-        <Route exact path = "/Purchase" element={<Purchase/>}></Route>
-        
-        <Route exact path = "/PayPal" element={<PayPal/>}></Route>
+        <Route path = "/" element={<Home/>}></Route>
+        <Route path = "/contact" element={<Contact/>}></Route>
       </Routes>
     </div>
   )
@@ -24,3 +21,4 @@ function App() {
 }
 
 export default App;
+

@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,react,reactnative
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,react,reactnative
 
+### database ###
+database/*
+
 ### react ###
 .DS_*
 *.log
@@ -287,5 +290,3 @@ google-services.json
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,react,reactnative
-
-migrations/

@@ -1,23 +1,251 @@
 {
-    "swagger": "2.0",
-    "info": {
-      "version": "1.0.0",
-      "title": "My User Project CRUD",
-      "description": "My User Project Application API",
-      "license": {
-        "name": "MIT",
-        "url": "https://opensource.org/licenses/MIT"
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Team Team Players API Documentation",
+    "description": "Documentation of the API for the Team Team Players application.",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "basePath": "/",
+  "host": "localhost:5001/api-docs",
+  "paths":{
+    "/user/login":{
+      "post" :{
+        "tags": ["Login"],
+        "summary": "Login",
+        "description": "Login",
+        "operationId": "Login",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login_Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful login",
+            "schema": {
+              "$ref": "#/definitions/Login_Success_Response"
+            }
+          },
+          "401": {
+            "description": "Incorrect Password",
+            "schema": {
+              "$ref": "#/definitions/Login_Failure_Response"
+            }
+          },
+          "404": {
+            "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/Login_Failure_Response"
+            }
+          }
+        }
       }
     },
-    "host": "localhost:8000",
-    "basePath": "/",
-    "tags": [
-      {
-        "name": "Users",
-        "description": "API for users in the system"
+    "/user/verfiy":{
+      "post" :{
+        "tags": ["Login"],
+        "summary": "Verify Login",
+        "description": "Used to verify a users current login",
+        "operationId": "VerifyLogin",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login_Verification_Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User Verified",
+            "schema": {
+              "$ref": "#/definitions/Login_Success_Response"
+            }
+          },
+          "401": {
+            "description": "User not verified",
+            "schema": {
+              "$ref": "#/definitions/Login_Failure_Response"
+            }
+          }
+        }
       }
-    ],
-    "schemes": ["http"],
-    "consumes": ["application/json"],
-    "produces": ["application/json"]
+    },
+    "/user/logout":{
+      "post" :{
+        "tags": ["Login"],
+        "summary": "Logout",
+        "description": "Used to logout a user",
+        "operationId": "Logout",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login_Verification_Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful logout",
+            "schema": {
+              "$ref": "#/definitions/Login_Success_Response"
+            }
+          },
+          "401": {
+            "description": "User not verified",
+            "schema": {
+              "$ref": "#/definitions/Login_Failure_Response"
+            }
+          }
+        }
+      }
+    },
+    "/user/reset":{
+      "post" :{
+        "tags": ["Login"],
+        "summary": "Reset Password",
+        "description": "Used to reset a users password",
+        "operationId": "ResetPassword",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login_Reset_Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful reset",
+            "schema": {
+              "$ref": "#/definitions/Login_Success_Response"
+            }
+          },
+          "401": {
+            "description": "User not verified",
+            "schema": {
+              "$ref": "#/definitions/Login_Failure_Response"
+            }
+          }
+        }
+      }
+    },
+    "/user/signup":{
+      "post" :{
+        "tags": ["Login"],
+        "summary": "Signup",
+        "description": "Used to signup a new user",
+        "operationId": "Signup",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Login object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login_Request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful signup",
+            "schema": {
+              "$ref": "#/definitions/Login_Success_Response"
+            }
+          },
+          "409": {
+            "description": "User not verified",
+            "schema": {
+              "$ref": "#/definitions/Login_Failure_Response"
+            }
+          }
+        }
+      }
+    }
+  },
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "definitions": {
+    "Login_Request": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "Login_Reset_Request": {
+      "type": "object",
+      "properties": {
+        "token":{
+          "type": "string"
+        },
+        "new_password": {
+          "type": "string"
+        }
+      }
+    },
+    "Login_Success_Response": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "Login_Failure_Response": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Login_Verification_Request": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        }
+      }
+    }
   }
+}

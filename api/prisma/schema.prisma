@@ -61,6 +61,7 @@ model Committee {
   societyId Int  
   user      User    @relation(references: [id], fields: [userId])
   society   Society @relation(references: [id], fields: [societyId])
+
   @@id([userId, societyId])
 }
 
@@ -69,6 +70,7 @@ model Members {
   societyId Int
   user      User    @relation(references: [id], fields: [userId])
   society   Society @relation(references: [id], fields: [societyId])
+
   @@id([userId, societyId])
 }
 
@@ -100,7 +102,7 @@ model Ticket {
   event        Event      @relation(references: [id], fields: [eventId])
   ticketType   TicketType @relation(references: [id], fields: [ticketTypeId])
   Purchase     Purchase[]
-  
+  @@unique([userId, eventId])
 }
 
 model Purchase {
@@ -112,5 +114,5 @@ model Purchase {
   ticketId      Int
   user          User     @relation(references: [id], fields: [userId])
   ticket        Ticket   @relation(references: [id], fields: [ticketId])
- 
+  @@unique([userId, ticketId])
 }

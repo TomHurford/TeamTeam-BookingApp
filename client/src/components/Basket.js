@@ -16,6 +16,9 @@ class Basket extends Component {
   render() {
     return (
       <div className="cart">
+        <h1>Basket</h1>
+        <h1></h1>
+        <h1></h1>
         {/* <h1>{this.state.eventName}</h1> */}
         <p>Order Summary</p>
         <button onClick={()=>this.addItem()}>Add to Cart</button>

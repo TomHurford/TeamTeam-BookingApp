@@ -18,7 +18,7 @@ beforeEach(async () => {
     token = response.body.token
 })
 
-// Here I am testing the login function from the login controller
+// // Here I am testing the login function from the login controller
 describe('Login', () => {
     test('Login with valid credentials', async () => {
         const response = await request(app)
@@ -56,7 +56,7 @@ describe('Login', () => {
     })
 })
 
-// Here I am testing the logout function from the login controller
+// // Here I am testing the logout function from the login controller
 describe('Logout', () => {
     test('Logout with valid token', async () => {
         // Put the token in the header of the request under Authorization and Bearer
@@ -79,13 +79,23 @@ describe('Logout', () => {
     })
 })
 
-// Here I am testing the reset function from the login controller
+// // Here I am testing the reset function from the login controller
 describe('Reset', () => {
-    test('Reset with valid token', async () => {
+    test('Reset with valid Code', async () => {
+        await prisma.verifications.create({
+            data: {
+                verificationType: 'forgotPassword',
+                verificationCode: 'verificationCode',
+                userId: 1
+            }
+        });
+
         const resetResponse = await request(app)
             .post('/user/reset')
-            .set('Authorization', 'Bearer ' + token)
             .send({
+                verificationType: 'forgotPassword',
+                verificationCode: 'verificationCode',
+                userId: 1,
                 new_password: 'newpassword'
             })
         expect(resetResponse.statusCode).toBe(200)
@@ -100,11 +110,21 @@ describe('Reset', () => {
         })
     })
 
-    test('Reset with invalid token', async () => {
+    test('Reset with invalid Code', async () => {
+        await prisma.verifications.create({
+            data: {
+                verificationType: 'forgotPassword',
+                verificationCode: 'verificationCode',
+                userId: 1
+            }
+        });
         const response = await request(app)
             .post('/user/reset')
             .send({
-                token: 'invalidtoken',
+                verificationType: 'forgotPassword',
+                verificationCode: 'invalidCode',
+                userId: 1,
+                new_password: 'newpassword'
             })
         expect(response.statusCode).toBe(401)
         expect(response.body).toHaveProperty('message')
@@ -112,42 +132,65 @@ describe('Reset', () => {
     })
 
     test('Reset with invalid password (same as previous)', async () => {
+        await prisma.verifications.create({
+            data: {
+                verificationType: 'forgotPassword',
+                verificationCode: 'verificationCode',
+                userId: 1
+            }
+        });
+
         const resetResponse = await request(app)
             .post('/user/reset')
             .send({
-                token: token,
+                verificationType: 'forgotPassword',
+                verificationCode: 'verificationCode',
+                userId: 1,
                 new_password: 'admin'
             })
         expect(resetResponse.statusCode).toBe(409)
         expect(resetResponse.body).toHaveProperty('message')
         expect(resetResponse.body.token).toBe(null)
+        expect(resetResponse.body.message).toBe('New password cannot be the same as the old password')
     })
 
     test('Reset with invalid password (empty)', async () => {
+        await prisma.verifications.create({
+            data: {
+                verificationType: 'forgotPassword',
+                verificationCode: 'verificationCode',
+                userId: 1
+            }
+        });
+
         const resetResponse = await request(app)
             .post('/user/reset')
             .send({
-                token: token,
+                verificationType: 'forgotPassword',
+                verificationCode: 'verificationCode',
+                userId: 1,
                 new_password: ''
             })
         expect(resetResponse.statusCode).toBe(409)
         expect(resetResponse.body).toHaveProperty('message')
         expect(resetResponse.body.token).toBe(null)
+        expect(resetResponse.body.message).toBe('New password cannot be empty')
     })
 })
 
 // Here I am testing the signup function from the login controller
 describe('Signup', () => {
     test('Signup with valid credentials', async () => {
+        
         const response = await request(app)
             .post('/user/signup')
             .send({
                 name: 'admin1',
-                email: 'admin1@admin.com',
+                email: 'admin11@admin.com',
                 password: 'admin1'
             })
         expect(response.statusCode).toBe(200)
-        expect(response.body).toHaveProperty('token')
+        
 
         await prisma.user.delete({
             where: {
@@ -193,5 +236,87 @@ describe('Signup', () => {
     })
 })
 
+// Here I am testing the signup function from the login controller
+describe('Verify', () => {
+    test('Verify A User Account', async () => {   
+        await prisma.verifications.create({
+            data: {
+                verificationType: 'newUser',
+                verificationCode: 'verificationCode',
+                userId: 1
+            }
+        });     
 
+        const response = await request(app)
+            .post('/user/verify')
+            .send({
+                verificationType: 'newUser',
+                verificationCode: 'verificationCode',
+                userId: 1
+            })
+        expect(response.statusCode).toBe(200)
+    })
 
+    test('Verify A User Account with bad code', async () => {
+        await prisma.verifications.create({
+            data: {
+                verificationType: 'newUser',
+                verificationCode: 'verificationCode',
+                userId: 1
+            }
+        });
+        
+        const response = await request(app)
+            .post('/user/verify')
+            .send({
+                verificationType: 'newUser',
+                verificationCode: 'invalidCode',
+                userId: 1
+            })
+        expect(response.statusCode).toBe(404)
+    })
+
+    test('Verify A User Account with no valid code', async () => {
+
+        const response = await request(app)
+            .post('/user/verify')
+            .send({
+                verificationType: 'newUser',
+                verificationCode: 'invalidCode',
+                userId: 1
+            })
+        expect(response.statusCode).toBe(404)
+    })
+})
+
+describe('ForgotPassword', () => {
+    test('Submit a forgot password', async () => {   
+
+        const response = await request(app)
+            .post('/user/forgotPassword')
+            .send({
+                email: 'admin@admin.com',
+            })
+        expect(response.statusCode).toBe(200)
+    })
+
+    test('Submit a fp with bad email', async () => {
+        
+        const response = await request(app)
+            .post('/user/forgotPassword')
+            .send({
+                email: 'admin@adsfds.com',
+            })
+        expect(response.statusCode).toBe(404)
+    })
+
+    test('Submit a fp with empty email', async () => {
+        
+        const response = await request(app)
+            .post('/user/forgotPassword')
+            .send({
+                email: '',
+            })
+        expect(response.statusCode).toBe(409)
+    })
+})

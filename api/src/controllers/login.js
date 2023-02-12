@@ -7,33 +7,39 @@ const { randomString } = require('../utils/random.js')
 
 // This function is used to login a user
 async function login(email, password, res) {
-        const user = await prisma.user.findUnique({
-            where: {
-                email: email
-            }
-        })
-        if (user) {
-            if (user.password === password) {
-                const token = await auth.generateToken(user)
-                res.status(200).send({token: token, message: 'Login successful'})
-            } else {
-                res.status(401).send({token: null, message: 'Invalid password'})
-            }
-        } else {
-            res.status(404).send({token: null, message: 'User not found'})
+    if (email === undefined || password === undefined) {
+        return res.status(409).send({token: null, message: 'Request body cannot be empty'})
+    }
+
+    const user = await prisma.user.findUnique({
+        where: {
+            email: email
         }
+    })
+
+    if (user) {
+        if (user.password === password) {
+            const token = await auth.generateToken(user)
+            res.status(200).send({token: token, message: 'Login successful'})
+        } else {
+            res.status(401).send({token: null, message: 'Invalid password'})
+        }
+    } else {
+        res.status(404).send({token: null, message: 'User not found'})
+    }
 }
 
 // This function is used to logout a user
 async function logout(req, res) {
     // const auth_resopnse = 
     // Get the token from the request header
-    const token = req.headers['authorization'].split(' ')[1]
+    //const token = req.headers['authorization'].split(' ')[1]
 
     // Try to verify the token using the auth.authenticate function
     try {
-        const auth_response = await auth.authenticate(token)
+        const auth_response = await auth.authenticate(req)
         if (auth_response) {
+            // release token
             res.status(200).send({message: 'Logout successful'})
         }else {
             res.status(401).send({message: 'Unauthorized'})
@@ -45,31 +51,24 @@ async function logout(req, res) {
 
 // This function is used to reset a user's password, the new password is sent in the request body
 async function reset(req, res) {
-    if (req.body.verificationType == 'Token') {
-        // Get the token from the request header
-        const token = req.headers['authorization'].split(' ')[1]
-        const auth_response = null
-        try {
-            auth_response = await auth.authenticate(token)
-        } catch (err) {
-            res.status(401).send({message: 'Unauthorized'})
-        }
-    } else {
-        auth = await prisma.verification.findUnique({
-            where: {
-                verificationCode: req.body.verificationCode,
-                userId: req.body.userId,
-                verificationType: 'forgotPassword'
-            }
-        })
+    if (req.body === undefined || req.body.verificationCode === undefined || req.body.userId === undefined || req.body.new_password === undefined) {
+        return res.status(409).send({token: null, message: 'Request body cannot be empty'})
     }
+
+    const verification = await prisma.verifications.findFirst({
+        where: {
+            verificationCode: req.body.verificationCode,
+            userId: req.body.userId,
+            verificationType: 'forgotPassword'
+        }
+    })
     
-    // Verify the JWT token
-    if (auth_response || auth) {
+    // Verify the code
+    if (verification) {
         // If the users password is the same as the old password, return an error
         let user = await prisma.user.findUnique({
             where: {
-                id: req.userId
+                id: req.body.userId
             }
         })
         if (user.password === req.body.new_password) {
@@ -84,7 +83,7 @@ async function reset(req, res) {
         // Update the user's password
         user = await prisma.user.update({
             where: {
-                id: req.userId
+                id: req.body.userId
             },
             data: {
                 password: req.body.new_password
@@ -93,11 +92,10 @@ async function reset(req, res) {
         // Delete forget password request
         await prisma.verifications.delete({
             where: {
-                verificationCode: req.body.verificationCode,
-                userId: req.body.userId,
-                verificationType: 'forgotPassword'
+                id: verification.id
             }
         })
+
         // Create a new JWT token
         const token = await auth.generateToken(user)
         res.status(200).send({token: token})
@@ -149,8 +147,7 @@ async function signup(req, res) {
         data: {
             verificationCode: verifyCode,
             verificationType: "newUser",
-            userId: user.id,
-            user: user
+            userId: user.id
         }
     });
 
@@ -164,7 +161,7 @@ async function signup(req, res) {
 
 
 async function forgotPassword(req, res) {
-    if (req.body.email === undefined) {
+    if (req.body.email === undefined || req.body.email === undefined || req.body.email === '') {
         return res.status(409).send({token: null, message: 'Request body cannot be empty'})
     }
 
@@ -176,8 +173,6 @@ async function forgotPassword(req, res) {
     })
 
     if (user) {
-        vCode = "randomCode"
-
         //Add code to table
         //Email link with code to user
 
@@ -187,28 +182,25 @@ async function forgotPassword(req, res) {
             data: {
                 verificationCode: verifyCode,
                 verificationType: "forgotPassword",
-                userId: user.id,
-                user: user
+                userId: user.id
             }
         });
 
         // Mail the verification code
     
-        
-        // Send the JWT token in the response
-        res.status(200).send()
+        return res.status(200).send()
     }
 
-    res.status(200).send()
+    res.status(404).send({message: 'User Not Found'})
 }
 
 // This function is used to login a user
 async function verify(req, res) {
-    if (req.body === undefined) {
-        res.status(404).send({token: null, message: 'Verification Code not found'})
+    if (req.body === undefined || req.body.verificationCode === undefined || req.body.verificationType === undefined || req.body.userId === undefined) {
+        return res.status(409).send({message: 'Request body cannot be empty'})
     }
     
-    auth = await prisma.verification.findUnique({
+    const verification = await prisma.verifications.findFirst({
         where: {
             verificationCode: req.body.verificationCode,
             userId: req.body.userId,
@@ -216,29 +208,16 @@ async function verify(req, res) {
         }
     })
 
-    if (!auth) return res.status(404).send({token: null, message: 'Verification Code not found'})
+    if (!verification) return res.status(404).send({token: null, message: 'Verification Code not found'})
 
     // Delete verification request
     await prisma.verifications.delete({
         where: {
-            verificationCode: req.body.verificationCode,
-            userId: req.body.userId,
-            verificationType: 'newUser'
+            id: verification.id
         }
     })
 
-    const user = await prisma.user.findUnique({
-        where: {
-            userId: req.body.userId
-        }
-    })
-
-    if (user) {
-        const token = await auth.generateToken(user)
-        res.status(200).send({token: token, message: 'Login successful'})
-    } else {
-        res.status(404).send({token: null, message: 'User not found'})
-    }
+    return res.status(200).send();
 }
 
 
@@ -247,5 +226,7 @@ module.exports = {
     login,
     logout,
     reset,
-    signup
+    signup,
+    forgotPassword,
+    verify
 }

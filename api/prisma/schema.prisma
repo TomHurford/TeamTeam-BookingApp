@@ -28,7 +28,7 @@ model User {
   committee Committee[]
   members   Members[]
   ticket    Ticket[]
-  purchase  Purchase[]
+  Purchase  Purchase[]
   verifications  Verifications[]
 }
 
@@ -62,7 +62,6 @@ model Committee {
   societyId Int
   user      User    @relation(references: [id], fields: [userId])
   society   Society @relation(references: [id], fields: [societyId])
-
   @@id([userId, societyId])
 }
 
@@ -71,7 +70,6 @@ model Members {
   societyId Int
   user      User    @relation(references: [id], fields: [userId])
   society   Society @relation(references: [id], fields: [societyId])
-
   @@id([userId, societyId])
 }
 

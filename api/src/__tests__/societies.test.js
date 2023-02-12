@@ -32,13 +32,27 @@ beforeAll(async () => {
 
 beforeEach(async () => {
     // Before Each test we want to login as a user
-        const res = await request(app)
-        .post('/user/login')
-        .send({
-            email: 'admin@admin.com',
-            password: 'admin'
-        });
+    const res = await request(app)
+    .post('/user/login')
+    .send({
+        email: 'admin@admin.com',
+        password: 'admin'
+    });
     token = res.body.token;
+});
+
+describe('Create Societies', () => {
+    test('Signup societies with normal values', async () => {
+        const response = await request(app)
+            .get('/societies/signup')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+                name: 'Team Team Society',
+                userId: 1
+            })
+
+            expect(response.statusCode).toBe(200);
+    });
 });
 
 

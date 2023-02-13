@@ -35,13 +35,18 @@ class Home extends Component {
             {this.welcome()}
             <ul className="events">
                 {this.state.data.map(event => (
-                    <li key={event.id} onClick={()=>console.log("Clickable")} >
+                    <li key={event.id} onClick={this.handleClick} >
+                    {/* <li key={event.id} onClick={()=>console.log("Clickable")} > */}
                     <Event specificEvent = {event}/>
                     </li>
                 ))}
             </ul>
             </div>
         )
+    }
+
+    handleClick= () => {
+        window.location.href = '/event-details';
     }
 }
 export default Home

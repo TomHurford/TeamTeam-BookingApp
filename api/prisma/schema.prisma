@@ -11,11 +11,10 @@ datasource db {
 }
 
 //------------------//
-
 model UserType {
-  id   Int    @id @default(autoincrement())
-  type String @unique
-  user User[]
+  id    Int  @id @unique @default(autoincrement())
+  type  String
+  users User[]
 }
 
 model User {
@@ -35,6 +34,7 @@ model User {
 model Society {
   id          Int            @id @default(autoincrement())
   name        String         @unique
+  email     String      @unique
   description String
   links       SocietyLinks[]
   // A society can have many committee members and a committee member can be in many societies
@@ -56,13 +56,13 @@ model SocietyLinks {
 }
 
 model Committee {
-  // Committe model should consist of a Composite Foreign Key of Society and User
-  role      String
+  role    String
   userId    Int
   societyId Int
   user      User    @relation(references: [id], fields: [userId])
   society   Society @relation(references: [id], fields: [societyId])
   @@id([userId, societyId])
+  isArchived  Boolean @default(false)
 }
 
 model Members {
@@ -71,6 +71,7 @@ model Members {
   user      User    @relation(references: [id], fields: [userId])
   society   Society @relation(references: [id], fields: [societyId])
   @@id([userId, societyId])
+  isArchived  Boolean @default(false)
 }
 
 model Event {
@@ -83,36 +84,48 @@ model Event {
   isArchived  Boolean  @default(false)
   society     Society  @relation(references: [id], fields: [societyId])
   ticket      Ticket[]
+  ticketTypes  TicketType[]
+  purchase    Purchase[]
 }
 
 model TicketType {
-  id     Int      @id @default(autoincrement())
-  type   String
-  price  Int
-  ticket Ticket[]
+  id         Int   @id @unique @default(autoincrement())
+  ticketType String
+  price      Int
+  quantity   Int
+  eventId      Int
+  event        Event      @relation(references: [id], fields: [eventId])
+  tickets    Ticket[]
+  isArchived  Boolean @default(false)
 }
 
 model Ticket {
-  id           Int        @id @default(autoincrement())
-  status       String
+  id         Int     @id @unique @default(autoincrement())
+  ticketData String
+  status     String     @default("PENDING")
   userId       Int
   eventId      Int
   ticketTypeId Int
+  purchaseId Int
+  purchase         Purchase       @relation(references: [id], fields: [purchaseId])
   user         User       @relation(references: [id], fields: [userId])
   event        Event      @relation(references: [id], fields: [eventId])
   ticketType   TicketType @relation(references: [id], fields: [ticketTypeId])
-  Purchase     Purchase[]
+  isArchived  Boolean @default(false)
 }
 
 model Purchase {
-  id            Int      @id @default(autoincrement())
-  date          DateTime
+  id            Int   @id @unique @default(autoincrement())
+  date          DateTime @default(now())
   total         Int
   paymentMethod String
+  status     String     @default("PENDING")
   userId        Int
-  ticketId      Int
+  eventId      Int
   user          User     @relation(references: [id], fields: [userId])
-  ticket        Ticket   @relation(references: [id], fields: [ticketId])
+  event        Event      @relation(references: [id], fields: [eventId])
+  tickets       Ticket[]
+  isArchived  Boolean @default(false)
 }
 
 model Verifications {

@@ -11,9 +11,9 @@
   },
   "basePath": "/",
   "host": "localhost:5001/api-docs",
-  "paths":{
-    "/user/login":{
-      "post" :{
+  "paths": {
+    "/user/login": {
+      "post": {
         "tags": ["Login"],
         "summary": "Login",
         "description": "Login",
@@ -53,8 +53,8 @@
         }
       }
     },
-    "/user/verfiy":{
-      "post" :{
+    "/user/verfiy": {
+      "post": {
         "tags": ["Login"],
         "summary": "Verify Login",
         "description": "Used to verify a users current login",
@@ -88,8 +88,8 @@
         }
       }
     },
-    "/user/logout":{
-      "post" :{
+    "/user/logout": {
+      "post": {
         "tags": ["Login"],
         "summary": "Logout",
         "description": "Used to logout a user",
@@ -123,8 +123,8 @@
         }
       }
     },
-    "/user/reset":{
-      "post" :{
+    "/user/reset": {
+      "post": {
         "tags": ["Login"],
         "summary": "Reset Password",
         "description": "Used to reset a users password",
@@ -158,8 +158,8 @@
         }
       }
     },
-    "/user/signup":{
-      "post" :{
+    "/user/signup": {
+      "post": {
         "tags": ["Login"],
         "summary": "Signup",
         "description": "Used to signup a new user",
@@ -212,7 +212,7 @@
     "Login_Reset_Request": {
       "type": "object",
       "properties": {
-        "token":{
+        "token": {
           "type": "string"
         },
         "new_password": {

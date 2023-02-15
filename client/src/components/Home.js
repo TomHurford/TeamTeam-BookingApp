@@ -35,9 +35,9 @@ class Home extends Component {
             {this.welcome()}
             <ul className="events">
                 {this.state.data.map(event => (
-                    <li key={event.id} onClick={this.handleClick} >
-                    {/* <li key={event.id} onClick={()=>console.log("Clickable")} > */}
-                    <Event specificEvent = {event}/>
+                    
+                    <li key={event.id} onClick={()=>this.handleClick(event.id)} >
+                    <Event details={event.id} specificEvent = {event}/>
                     </li>
                 ))}
             </ul>
@@ -45,8 +45,15 @@ class Home extends Component {
         )
     }
 
-    handleClick= () => {
-        window.location.href = '/event-details';
+    // handleClick= (specificEvent) => {
+    //     window.location.href = '/event-details?eventId=' + specificEvent;
+    // }
+    handleClick= (eventId) => {
+        window.location.href = '/event-details?eventId=' + eventId;
     }
+
+    // handleClick= () => {
+    //     window.location.href = '/event-details?eventId=';
+    // }
 }
 export default Home

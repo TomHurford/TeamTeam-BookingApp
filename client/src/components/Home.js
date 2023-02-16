@@ -16,7 +16,7 @@ class Home extends Component {
     fetchData() {
         fetch('http://localhost:5001/events')
         .then(response => response.json())
-        .then(eventsList => {this.setState({data: eventsList})})
+        .then(eventsList => {this.setState({data: eventsList.events})})
         .catch(error => console.error(error))
     }
 
@@ -34,8 +34,7 @@ class Home extends Component {
             <div className="homePage">
             {this.welcome()}
             <ul className="events">
-                {this.state.data.map(event => (
-                    
+                {this.state.data.map(event => (    
                     <li key={event.id} onClick={()=>this.handleClick(event.id)} >
                     <Event details={event.id} specificEvent = {event}/>
                     </li>
@@ -45,15 +44,8 @@ class Home extends Component {
         )
     }
 
-    // handleClick= (specificEvent) => {
-    //     window.location.href = '/event-details?eventId=' + specificEvent;
-    // }
     handleClick= (eventId) => {
         window.location.href = '/event-details?eventId=' + eventId;
     }
-
-    // handleClick= () => {
-    //     window.location.href = '/event-details?eventId=';
-    // }
 }
 export default Home

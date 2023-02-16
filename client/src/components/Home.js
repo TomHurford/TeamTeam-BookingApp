@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import '../styles/Events.css';
-import Event from './Event';
+import Event from './Events/Event';
 import '../styles/Home.css';
 import SearchBar from "./SearchBar";
 
@@ -16,7 +16,7 @@ class Home extends Component {
     fetchData() {
         fetch('http://localhost:5001/events')
         .then(response => response.json())
-        .then(eventsList => {this.setState({data: eventsList})})
+        .then(eventsList => {this.setState({data: eventsList.events})})
         .catch(error => console.error(error))
     }
 
@@ -34,12 +34,18 @@ class Home extends Component {
             <div className="homePage">
             {this.welcome()}
             <ul className="events">
-                {this.state.data.map(event => (
-                    <Event key={event.id} specificEvent = {event}></Event>
+                {this.state.data.map(event => (    
+                    <li key={event.id} onClick={()=>this.handleClick(event.id)} >
+                    <Event details={event.id} specificEvent = {event}/>
+                    </li>
                 ))}
             </ul>
             </div>
         )
+    }
+
+    handleClick= (eventId) => {
+        window.location.href = '/event-details?eventId=' + eventId;
     }
 }
 export default Home

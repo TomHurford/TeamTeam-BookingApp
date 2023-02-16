@@ -5,9 +5,8 @@ import Contact from './Contact';
 
 import {Routes, Route} from 'react-router-dom';
 import Navbar from './Navbar';
-import Purchase from './Purchase';
-
-
+import EventDetails from './Events/EventDetails';
+import Basket from './Basket';
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
@@ -17,8 +16,9 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path = "/" element={<Home/>}></Route>
-        <Route path = "/contact" element={<Contact/>}></Route> 
-        <Route path = "/purchase" element={<Purchase/>}></Route>
+        <Route path = "/contact" element={<Contact/>}></Route>
+        <Route path = "/event-details" element={<EventDetails/>}></Route>
+        <Route path = "/basket" element={<Basket/>}></Route>
       </Routes>
     </div>
   )

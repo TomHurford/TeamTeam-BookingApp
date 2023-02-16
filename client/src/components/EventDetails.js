@@ -6,22 +6,37 @@ import '../styles/Home.css';
 class EventDetails extends Component{
   constructor(props){
     super(props);
-    this.state = {data: []}
+    this.state = {data: null}
     this.fetchData();
   }
 
 
   fetchData() {
-    fetch('http://localhost:5001/events')
+    const searchParams = new URLSearchParams(window.location.search);
+    const eventId = parseInt(searchParams.get('eventId'));
+    console.log(eventId);
+    fetch('http://localhost:5001/events', 
+    {
+    method: 'POST',
+    mode: 'cors', 
+    credentials: 'same-origin',
+    headers: {
+        'Content-Type': 'application/json',
+      },
+      body : JSON.stringify({"eventId": eventId})
+    }
+    )
     .then(response => response.json())
-    .then(eventsList => {this.setState({data: eventsList})})
+    .then(event => {
+      this.setState({data: event})
+      console.log("Response"+event);
+    })
     .catch(error => console.error(error))
 }
 
   render(){
-    const searchParams = new URLSearchParams(window.location.search);
-    const eventId = searchParams.get('eventId');
-    const event = this.state.data[eventId - 1];
+    const event = this.state.data;
+    console.log(this.state.data);
     if (!event) {
       return <div>Loading...</div>;
     }
@@ -32,8 +47,6 @@ class EventDetails extends Component{
       </div>
     )
   }
-  
-
 }
 
 

@@ -1,4 +1,4 @@
-// EVENTS CONTROLLER
+//EVENTS CONTROLLER
 const prisma = require('../../prisma/prisma.js')
 
 // TODO: What if we have hundreds of events? We need to paginate the results

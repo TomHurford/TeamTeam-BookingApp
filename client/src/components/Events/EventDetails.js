@@ -1,7 +1,7 @@
 import React,{Component} from "react";  
 import ExtendedEvent from "./ExtendedEvent";
-import '../styles/Events.css';
-import '../styles/Home.css';
+import '../../styles/Events.css';
+import '../../styles/Home.css';
 
 class EventDetails extends Component{
   constructor(props){

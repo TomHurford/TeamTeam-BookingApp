@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import '../styles/EventCard.css';
+import '../../styles/EventCard.css';
 
 //Creating an event component to show event details
 

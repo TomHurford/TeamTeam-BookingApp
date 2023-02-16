@@ -4,9 +4,8 @@ import React from 'react';
 import Contact from './Contact';
 import {Routes, Route} from 'react-router-dom';
 import Navbar from './Navbar';
-import EventDetails from './EventDetails';
+import EventDetails from './Events/EventDetails';
 import Basket from './Basket';
-import Event from './Event';
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
@@ -19,7 +18,6 @@ function App() {
         <Route path = "/contact" element={<Contact/>}></Route>
         <Route path = "/event-details" element={<EventDetails/>}></Route>
         <Route path = "/basket" element={<Basket/>}></Route>
-        <Route path = "/event" element={<Event/>}></Route>
       </Routes>
     </div>
   )

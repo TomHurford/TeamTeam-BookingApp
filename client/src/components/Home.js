@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import '../styles/Events.css';
-import Event from './Event';
+import Event from './Events/Event';
 import '../styles/Home.css';
 import SearchBar from "./SearchBar";
 

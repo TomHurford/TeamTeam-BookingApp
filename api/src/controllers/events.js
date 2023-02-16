@@ -5,7 +5,7 @@ const auth = require("../utils/jwt_auth.js");
 async function getEvents(req, res) {
   try {
     // Authenticate the user
-    const decoded = await auth.authenticate(req);
+    // const decoded = await auth.authenticate(req);
     // Get all events
     const events = await prisma.event.findMany();
     res.status(200).send({ events: events });

@@ -63,12 +63,12 @@ async function getEvents(req, res) {
 async function getEventById(req, res) {
     try {
         // Authenticate the user
-        const decoded = await authenticate(req)
+        // const decoded = await authenticate(req)
 
         // Get the event
         const event = await prisma.event.findUnique({
             where: {
-                id: req.params.id
+                id: req.body.eventId
             }
         })
 

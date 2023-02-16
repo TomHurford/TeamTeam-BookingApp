@@ -1,5 +1,5 @@
 import React,{Component} from "react";  
-import Event from "./Event";
+import ExtendedEvent from "./ExtendedEvent";
 import '../styles/Events.css';
 import '../styles/Home.css';
 
@@ -36,14 +36,14 @@ class EventDetails extends Component{
 
   render(){
     const event = this.state.data;
-    console.log(this.state.data);
+    // console.log(this.state.data);
     if (!event) {
       return <div>Loading...</div>;
     }
     return(
       <div>
         <h1>Event Details</h1>
-        <h1><Event specificEvent = {event}/></h1>
+        <h1><ExtendedEvent specificEvent = {event.event} ticketTypes = {event.ticket_types} specificSociety = {event.society}/></h1>
       </div>
     )
   }

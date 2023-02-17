@@ -3,15 +3,20 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "test": "jest",
+    "dev": "nodemon ./bin/www"
   },
   "dependencies": {
     "@prisma/client": "^4.9.0",
+    "bcrypt": "^5.1.0",
     "cookie-parser": "~1.4.4",
+    "cors": "^2.8.5",
     "debug": "~2.6.9",
     "express": "^4.18.2",
     "http-errors": "~1.6.3",
     "jade": "^0.29.0",
+    "jsonwebtoken": "^9.0.0",
     "morgan": "~1.9.1",
     "prisma": "^4.9.0",
     "swagger-ui-express": "^4.6.0"
@@ -20,6 +25,10 @@
     "seed": "node prisma/seed.js"
   },
   "devDependencies": {
-    "nodemon": "^2.0.20"
+    "@faker-js/faker": "^7.6.0",
+    "jest": "^27.5.1",
+    "jest-mock-extended": "^2.0.4",
+    "nodemon": "^2.0.20",
+    "supertest": "^6.3.3"
   }
 }

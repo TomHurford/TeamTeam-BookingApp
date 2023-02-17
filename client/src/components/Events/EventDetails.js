@@ -14,7 +14,6 @@ class EventDetails extends Component{
   fetchData() {
     const searchParams = new URLSearchParams(window.location.search);
     const eventId = parseInt(searchParams.get('eventId'));
-    console.log(eventId);
     fetch('http://localhost:5001/events', 
     {
     method: 'POST',
@@ -29,14 +28,12 @@ class EventDetails extends Component{
     .then(response => response.json())
     .then(event => {
       this.setState({data: event})
-      console.log("Response"+event);
     })
     .catch(error => console.error(error))
 }
 
   render(){
     const event = this.state.data;
-    // console.log(this.state.data);
     if (!event) {
       return <div>Loading...</div>;
     }

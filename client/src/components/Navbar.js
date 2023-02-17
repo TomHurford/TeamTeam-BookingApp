@@ -11,7 +11,7 @@ function Navbar() {
         <div>
         <nav className = "navbar">
             <ul className='navbarElements'>
-                <div className='appLogo'><img src = {logo} alt = "Logo"></img></div>
+                <Link to = "/"><div className='appLogo' ><img src = {logo} alt = "Logo"></img></div></Link>
                 <Link to = "/"><li>Home</li></Link>
                 <Link to = "/societies"><li>Societies</li></Link>
                 <Link to = "/signup"><li>Sign up</li></Link>

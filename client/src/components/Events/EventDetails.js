@@ -2,6 +2,7 @@ import React,{Component} from "react";
 import ExtendedEvent from "./ExtendedEvent";
 import '../../styles/Events.css';
 import '../../styles/Home.css';
+import '../../styles/TitleOfPage.css'
 
 class EventDetails extends Component{
   constructor(props){
@@ -39,8 +40,7 @@ class EventDetails extends Component{
     }
     return(
       <div>
-        <br/>
-        <h1>Event Details</h1>
+        <h1 className="title">Event Details</h1>
         <h1><ExtendedEvent specificEvent = {event.event} 
         ticketTypes = {event.ticket_types} 
         specificSociety = {event.society}

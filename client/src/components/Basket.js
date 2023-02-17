@@ -1,13 +1,12 @@
 import React, {Component} from 'react';
-import '../styles/Basket.css';
+import '../styles/TitleOfPage.css';
 
 class Basket extends Component {
   render() {
     console.log(this.props.tickets);
     return (
-    <div className="basket">
-    <h1> Basket </h1>
-    <h1> Basket </h1>
+    <div>  
+      <h1 className='title'> Basket </h1>
     <ol className="basket">
       {this.props.tickets.map((ticket) => (
         <li key={ticket.id}>

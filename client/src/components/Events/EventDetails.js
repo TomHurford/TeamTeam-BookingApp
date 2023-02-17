@@ -40,7 +40,11 @@ class EventDetails extends Component{
     return(
       <div>
         <h1>Event Details</h1>
-        <h1><ExtendedEvent specificEvent = {event.event} ticketTypes = {event.ticket_types} specificSociety = {event.society}/></h1>
+        <h1><ExtendedEvent specificEvent = {event.event} 
+        ticketTypes = {event.ticket_types} 
+        specificSociety = {event.society}
+        addTicket = {this.props.addTicket}
+        /></h1>
       </div>
     )
   }

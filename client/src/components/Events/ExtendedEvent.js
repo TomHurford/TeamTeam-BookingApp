@@ -21,8 +21,12 @@ class ExtendedEvent extends Component {
             <li key={ticketType.id}>
               <span className="ticketType">{ticketType.ticketType} </span>
               <span className="ticketPrice">{ticketType.price} </span>
-              <button onClick={()=>this.addTicket(ticketType.ticketType, ticketType.price)}>Add to Cart</button>
-              <button onClick={()=>this.removeTicket(ticketType.ticketType, ticketType.price)}>Remove from Cart</button>
+              <button onClick={() => 
+              this.props.addTicket({
+                "name":this.props.specificEvent.name,
+                "type":ticketType.ticketType,
+                "price":ticketType.price
+                })}>Add to Cart</button>
             </li>
           ))}
         </ul>
@@ -41,25 +45,6 @@ class ExtendedEvent extends Component {
         </ol>
       </div>
     );
-  }
-
-  addTicket(type, price){
-    const id = this.state.id + 1;
-    this.setState({tickets: [...this.state.tickets, {type, price,id}]});
-    this.setState({totalPrice: this.state.totalPrice + price});
-    this.setState({count: this.state.count + 1});
-    this.setState({id: id});
-  }
-
-  removeTicket(type, price){
-    const index = this.state.tickets.findIndex(ticket => ticket.type === type);
-    if (index >= 0) {
-      const newItems = [...this.state.tickets];
-      newItems.splice(index, 1);
-      this.setState({ tickets: newItems });
-      this.state.count !== 0 && this.setState({totalPrice: this.state.totalPrice - price});
-      this.state.count !== 0 && this.setState({count: this.state.count - 1});
-    }
   }
 }
 

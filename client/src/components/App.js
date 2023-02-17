@@ -1,26 +1,24 @@
-import logo from '../assets/logo.svg';
-import '../styles/App.css';
+// import logo from "../assets/logo.svg";
+import "../styles/App.css";
+import { Routes, Route } from "react-router-dom";
+import React, { Component } from "react";
+import ViewSociety from "./viewSociety";
+import CreateSocietyForm from "./createSocietyForm";
+import SearchSocieties from "./searchSocieties";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <header>This is a new app</header>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  render() {
+    return (
+      <main className="container">
+        <Routes>
+          <Route path="/societies/:id/:name?" element={<ViewSociety />} />
+          <Route path="/societies" element={<SearchSocieties />} />
+
+          <Route path="/create-society" element={<CreateSocietyForm />} />
+        </Routes>
+      </main>
+    );
+  }
 }
 
 export default App;

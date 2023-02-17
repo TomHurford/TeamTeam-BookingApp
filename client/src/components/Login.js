@@ -186,7 +186,7 @@ class Login extends Component {
     
     render() {
         return (
-            <div>
+            <div className='page-container'>
                 <div className='underlay'></div>
 
                 <div className="container" id='LoginForm' disabled={this.state.disableLoginForm}>
@@ -201,7 +201,7 @@ class Login extends Component {
                         </div>
                         <div className='field'>
                             <label htmlFor="password">Password</label><br />
-                            <input type="password" name="password" minLength="8" onChange={this.handleChange} required />
+                            <input type="password" name="password" minLength="4" onChange={this.handleChange} required />
                         </div>
                         <div className='field' style={{textAlign: 'right', height: '0.9em', marginTop: 0, marginBottom: '10px'}}>
                             <label className='buttonLabel' onClick={this.forgotToggle}>Forgot Your Password?</label><br />

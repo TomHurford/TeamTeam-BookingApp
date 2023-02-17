@@ -2,6 +2,7 @@ import Home from './Home'
 import '../styles/App.css';
 import React from 'react';
 import Contact from './Contact';
+import Login from './Login';
 import {Routes, Route} from 'react-router-dom';
 import Navbar from './Navbar';
 import EventDetails from './Events/EventDetails';
@@ -26,11 +27,12 @@ function App() {
   }
 
   return (
-    <div>
+    <div className='root-container'>
       <Navbar/>
       <Routes>
         <Route path = "/" element={<Home/>}></Route>
         <Route path = "/contact" element={<Contact/>}></Route>
+        <Route path = "/login" element={<Login/>}></Route>
         <Route path = "/event-details" element={<EventDetails addTicket = {addTicket}/>}></Route>
         <Route path = "/basket" element={<Basket tickets = {tickets} removeTicket = {removeTicket} totalPrice = {totalPrice}/>}></Route>
       </Routes>

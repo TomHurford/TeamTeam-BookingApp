@@ -3,17 +3,24 @@ const prisma = require('../../prisma/prisma.js')
 const jwt = require('jsonwebtoken')
 
 const auth = require('../utils/jwt_auth.js')
+const { randomString } = require('../utils/random.js')
 
 // This function is used to login a user
 async function login(email, password, res) {
+    if (email === undefined || password === undefined) {
+        return res.status(409).send({token: null, message: 'Request body cannot be empty'})
+    }
+
     const user = await prisma.user.findUnique({
         where: {
             email: email
         }
     })
+
     if (user) {
         if (user.password === password) {
-            res.status(200).send({token: auth.generateToken(user), message: 'Login successful'})
+            const token = await auth.generateToken(user)
+            res.status(200).send({token: token, message: 'Login successful'})
         } else {
             res.status(401).send({token: null, message: 'Invalid password'})
         }
@@ -22,41 +29,46 @@ async function login(email, password, res) {
     }
 }
 
-// This function is used to verify a JWT token
-async function verify(token, res) {
-    jwt.verify(token, process.env.TOKEN_SECRET, (err, decoded) => {
-        if (err) {
-            return res.status(401).send({token: null, message: 'Unauthorized'})
-        }
-        // Create a new token with a new expiration time
-        const token = jwt.sign({ id: decoded.id }, process.env.TOKEN_SECRET, {
-            expiresIn: 86400 // expires in 24 hours
-        })
-        res.status(200).send({token: token})
-    })
-}
-
 // This function is used to logout a user
 async function logout(req, res) {
-    if(auth.authenticate(req)) {
-        res.status(200).send({token: null, message: 'Logout successful'})
-    } else {
-        res.status(401).send({token: null, message: 'Unauthorized'})
+    // const auth_resopnse = 
+    // Get the token from the request header
+    //const token = req.headers['authorization'].split(' ')[1]
+
+    // Try to verify the token using the auth.authenticate function
+    try {
+        const auth_response = await auth.authenticate(req)
+        if (auth_response) {
+            // release token
+            res.status(200).send({message: 'Logout successful'})
+        }else {
+            res.status(401).send({message: 'Unauthorized'})
+        }
+    } catch (err) {
+        res.status(401).send({message: 'Unauthorized'})
     }
 }
 
 // This function is used to reset a user's password, the new password is sent in the request body
 async function reset(req, res) {
-    // Verify the JWT token
-    jwt.verify(req.body.token, process.env.TOKEN_SECRET, async (err, decoded) => {
-        if (err) {
-            return res.status(401).send({token: null, message: 'Unauthorized'})
-        }
+    if (req.body === undefined || req.body.verificationCode === undefined || req.body.userId === undefined || req.body.new_password === undefined) {
+        return res.status(409).send({token: null, message: 'Request body cannot be empty'})
+    }
 
+    const verification = await prisma.verifications.findFirst({
+        where: {
+            verificationCode: req.body.verificationCode,
+            userId: req.body.userId,
+            verificationType: 'forgotPassword'
+        }
+    })
+    
+    // Verify the code
+    if (verification) {
         // If the users password is the same as the old password, return an error
         let user = await prisma.user.findUnique({
             where: {
-                id: decoded.id
+                id: req.body.userId
             }
         })
         if (user.password === req.body.new_password) {
@@ -71,18 +83,25 @@ async function reset(req, res) {
         // Update the user's password
         user = await prisma.user.update({
             where: {
-                id: decoded.id
+                id: req.body.userId
             },
             data: {
                 password: req.body.new_password
             }
         })
-        // Create a new JWT token
-        const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, {
-            expiresIn: 86400 // expires in 24 hours
+        // Delete forget password request
+        await prisma.verifications.delete({
+            where: {
+                id: verification.id
+            }
         })
+
+        // Create a new JWT token
+        const token = await auth.generateToken(user)
         res.status(200).send({token: token})
-    })
+    } else {
+        res.status(401).send({token: null, message: 'Unauthorized'})
+    }
 }
 
 // This function is used to sign up a new user
@@ -120,19 +139,86 @@ async function signup(req, res) {
                 },
             },
         }
-    })
-    // Create a new JWT token
-    const token = jwt.sign({ id: user.id }, process.env.TOKEN_SECRET, {
-        expiresIn: 86400 // expires in 24 hours
-    })
+    });
+
+    // Create verification code
+    verifyCode = randomString();
+    verification = await prisma.verifications.create({
+        data: {
+            verificationCode: verifyCode,
+            verificationType: "newUser",
+            userId: user.id
+        }
+    });
+
+    // Mail the verification code
+
+    
     // Send the JWT token in the response
-    res.status(200).send({token: token})
-
-
+    res.status(200).send()
 
 }
 
 
+async function forgotPassword(req, res) {
+    if (req.body.email === undefined || req.body.email === undefined || req.body.email === '') {
+        return res.status(409).send({token: null, message: 'Request body cannot be empty'})
+    }
+
+    // Check if the user already exists
+    let user = await prisma.user.findUnique({
+        where: {
+            email: req.body.email
+        }
+    })
+
+    if (user) {
+        //Add code to table
+        //Email link with code to user
+
+        // Create verification code
+        verifyCode = randomString();
+        verification = await prisma.verifications.create({
+            data: {
+                verificationCode: verifyCode,
+                verificationType: "forgotPassword",
+                userId: user.id
+            }
+        });
+
+        // Mail the verification code
+    
+        return res.status(200).send()
+    }
+
+    res.status(404).send({message: 'User Not Found'})
+}
+
+// This function is used to login a user
+async function verify(req, res) {
+    if (req.body === undefined || req.body.verificationCode === undefined || req.body.verificationType === undefined || req.body.userId === undefined) {
+        return res.status(409).send({message: 'Request body cannot be empty'})
+    }
+    
+    const verification = await prisma.verifications.findFirst({
+        where: {
+            verificationCode: req.body.verificationCode,
+            userId: req.body.userId,
+            verificationType: 'newUser'
+        }
+    })
+
+    if (!verification) return res.status(404).send({token: null, message: 'Verification Code not found'})
+
+    // Delete verification request
+    await prisma.verifications.delete({
+        where: {
+            id: verification.id
+        }
+    })
+
+    return res.status(200).send();
+}
 
 
 
@@ -140,5 +226,7 @@ module.exports = {
     login,
     logout,
     reset,
-    signup
+    signup,
+    forgotPassword,
+    verify
 }

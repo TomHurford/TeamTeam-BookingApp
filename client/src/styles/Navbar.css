@@ -5,6 +5,7 @@
     height: 60px;
     background-color: #000000;
     position: fixed;
+    top: 0;
 }
 
 .navbarElements{
@@ -26,6 +27,19 @@
 }
 
 .appLogo img{
+    width: 100%;
+    height: 100%;
+}
+
+.basketLogo{
+    width: 60px;
+    height: 60px;
+    top: 0px;
+    right: 0px;
+    position: absolute;
+}
+
+.basketLogo img{
     width: 100%;
     height: 100%;
 }

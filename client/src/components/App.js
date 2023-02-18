@@ -5,6 +5,7 @@ import React, { Component } from "react";
 import ViewSociety from "./viewSociety";
 import CreateSocietyForm from "./createSocietyForm";
 import SearchSocieties from "./searchSocieties";
+import EditSocietyForm from "./editSocietyForm";
 
 class App extends Component {
   render() {
@@ -15,6 +16,8 @@ class App extends Component {
           <Route path="/societies" element={<SearchSocieties />} />
 
           <Route path="/create-society" element={<CreateSocietyForm />} />
+
+          <Route path="/edit-society" element={<EditSocietyForm />} />
         </Routes>
       </main>
     );

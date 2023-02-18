@@ -14,7 +14,6 @@ services:
       - 5432:5432
     volumes:
       - ./database/postgres:/var/lib/postgresql/data
-    
 
   react:
     image: node:18.13.0
@@ -28,7 +27,7 @@ services:
       - ./client/node_modules:/usr/src/app/node_modules
       - ./client/package.json:/usr/src/app/package.json
       - ./client/package-lock.json:/usr/src/app/package-lock.json
-    working_dir: /client/src/app
+    working_dir: /usr/src/app
     command: bash -c "npm install && npm start"
     
   express:
@@ -36,14 +35,13 @@ services:
     container_name: express
     restart: always
     ports:
-      - 5000:5000
+      - 5001:5001
     volumes:
+      - ./api/prisma:/usr/src/app/prisma
       - ./api/bin:/usr/src/app/bin
       - ./api/src:/usr/src/app/src
       - ./api/node_modules:/usr/src/app/node_modules
       - ./api/package.json:/usr/src/app/package.json
       - ./api/package-lock.json:/usr/src/app/package-lock.json
-      - ./api/.env.docker:/usr/src/app/.env
-      - ./api/prisma:/usr/src/app/prisma
     working_dir: /usr/src/app
-    command: bash -c "npm install && npx prisma generate && npx prisma db push && npm start"
+    command: bash -c "npm install && npm start"

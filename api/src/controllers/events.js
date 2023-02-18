@@ -5,7 +5,7 @@ const auth = require("../utils/jwt_auth.js");
 async function getEvents(req, res) {
   try {
     // Authenticate the user
-    const decoded = await auth.authenticate(req);
+    // const decoded = await auth.authenticate(req);
     // Get all events
     const events = await prisma.event.findMany();
     res.status(200).send({ events: events });
@@ -19,7 +19,7 @@ async function getEvents(req, res) {
 async function getEventById(req, res) {
   try {
     // Authenticate the user
-    const decoded = await auth.authenticate(req);
+    // const decoded = await auth.authenticate(req);
 
     // Get the event
     const event = await prisma.event.findUnique({
@@ -28,7 +28,19 @@ async function getEventById(req, res) {
       },
     });
 
-    res.status(200).send({ event: event });
+    const ticket_types = await prisma.ticketType.findMany({
+        where: {
+            event : event
+        }
+    })
+
+    const society = await prisma.society.findUnique({
+        where: {
+            id: event.societyId 
+        }
+    })
+
+    res.status(200).send({event: event, ticket_types: ticket_types, society: society})
   } catch (err) {
     res.status(401).send({ token: null, error: "Unauthorized" });
   }

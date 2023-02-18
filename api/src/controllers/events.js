@@ -40,13 +40,7 @@ async function getEventById(req, res) {
         }
     })
 
-    const societyLinks = await prisma.societyLinks.findUnique({
-        where: {
-            societyId: event.societyId 
-        }
-    })
-
-    res.status(200).send({event: event, ticket_types: ticket_types, society: society, societyLinks: societyLinks})
+    res.status(200).send({event: event, ticket_types: ticket_types, society: society})
   } catch (err) {
     res.status(401).send({ token: null, error: "Unauthorized" });
   }

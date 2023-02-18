@@ -1,3 +1,4 @@
+
 import Home from './Home'
 import '../styles/App.css';
 import React from 'react';
@@ -6,6 +7,10 @@ import {Routes, Route} from 'react-router-dom';
 import Navbar from './Navbar';
 import EventDetails from './Events/EventDetails';
 import Basket from './Basket';
+import ViewSociety from "./viewSociety";
+import CreateSocietyForm from "./createSocietyForm";
+import SearchSocieties from "./searchSocieties";
+import EditSocietyForm from "./editSocietyForm";
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
@@ -33,6 +38,10 @@ function App() {
         <Route path = "/contact" element={<Contact/>}></Route>
         <Route path = "/event-details" element={<EventDetails addTicket = {addTicket}/>}></Route>
         <Route path = "/basket" element={<Basket tickets = {tickets} removeTicket = {removeTicket} totalPrice = {totalPrice}/>}></Route>
+        <Route path="/societies/:id/:name?" element={<ViewSociety />} />
+        <Route path="/societies" element={<SearchSocieties />} />
+        <Route path="/create-society" element={<CreateSocietyForm />} />
+        <Route path="/edit-society" element={<EditSocietyForm />} />
       </Routes>
     </div>
   )

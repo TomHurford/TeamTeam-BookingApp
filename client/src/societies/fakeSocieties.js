@@ -9,6 +9,7 @@ const societies = [
     numberOfEvents: 2,
     socialLinks: { instagram: "", facebook: "", twitter: "", website: "" },
     imageLinks: { logo: "", banner: "" },
+    committeeMembers: [],
   },
   {
     id: "2",
@@ -18,6 +19,7 @@ const societies = [
     numberOfEvents: 1,
     socialLinks: { instagram: "", facebook: "", twitter: "", website: "" },
     imageLinks: { logo: "", banner: "" },
+    committeeMembers: [],
   },
   {
     id: "3",
@@ -27,6 +29,7 @@ const societies = [
     numberOfEvents: 42,
     socialLinks: { instagram: "", facebook: "", twitter: "", website: "" },
     imageLinks: { logo: "", banner: "" },
+    committeeMembers: [],
   },
   {
     id: "4",
@@ -36,6 +39,7 @@ const societies = [
     numberOfEvents: 2,
     socialLinks: { instagram: "", facebook: "", twitter: "", website: "" },
     imageLinks: { logo: "", banner: "" },
+    committeeMembers: [],
   },
   {
     id: "5",
@@ -45,6 +49,7 @@ const societies = [
     numberOfEvents: 12,
     socialLinks: { instagram: "", facebook: "", twitter: "", website: "" },
     imageLinks: { logo: "", banner: "" },
+    committeeMembers: [],
   },
   {
     id: "6",
@@ -54,6 +59,49 @@ const societies = [
     numberOfEvents: 42,
     socialLinks: { instagram: "", facebook: "", twitter: "", website: "" },
     imageLinks: { logo: "", banner: "" },
+    committeeMembers: [],
+  },
+
+  {
+    id: "7",
+    name: "Philosophy",
+    category: { id: "2", name: "Academic" },
+    numberOfFollowers: 23,
+    numberOfEvents: 2,
+    socialLinks: { instagram: "", facebook: "", twitter: "", website: "" },
+    imageLinks: { logo: "", banner: "" },
+    committeeMembers: [],
+  },
+
+  {
+    id: "8",
+    name: "Medicine",
+    category: { id: "2", name: "Academic" },
+    numberOfFollowers: 223,
+    numberOfEvents: 8,
+    socialLinks: { instagram: "", facebook: "", twitter: "", website: "" },
+    imageLinks: { logo: "", banner: "" },
+    committeeMembers: [],
+  },
+  {
+    id: "9",
+    name: "Football",
+    category: { id: "1", name: "Sport" },
+    numberOfFollowers: 21,
+    numberOfEvents: 11,
+    socialLinks: { instagram: "", facebook: "", twitter: "", website: "" },
+    imageLinks: { logo: "", banner: "" },
+    committeeMembers: [],
+  },
+  {
+    id: "10",
+    name: "Muay Thai",
+    category: { id: "1", name: "Sport" },
+    numberOfFollowers: 9,
+    numberOfEvents: 1,
+    socialLinks: { instagram: "", facebook: "", twitter: "", website: "" },
+    imageLinks: { logo: "", banner: "" },
+    committeeMembers: [],
   },
 ];
 

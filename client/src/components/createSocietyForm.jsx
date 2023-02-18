@@ -1,11 +1,16 @@
 import React, { Component } from "react";
 import Input from "./input";
+import Joi from "joi-browser";
 
 class CreateSocietyForm extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
     console.log("Society created");
+  };
+
+  schema = {
+    societyName: Joi.string().required(),
   };
 
   render() {
@@ -40,16 +45,27 @@ class CreateSocietyForm extends Component {
 
           {/* Image links below*/}
           <h5>Images</h5>
-          <Input name="logo" value="" label="Logo Link" onChange=" " />
-          <Input name="banner" value="" label="Banner Link" onChange=" " />
+          <small id="imageHelp" class="form-text text-muted">
+            You must enter a link to the images
+          </small>
+          <Input name="logo" value="" label="Logo" onChange=" " />
+          <Input
+            name="banner"
+            value=""
+            label="Banner"
+            onChange=" 
+          "
+          />
 
-          <div>
-            <label htmlFor="">Society Description</label>
+          <div className="form-group">
+            <label for="">Society Description</label>
             <textarea
-              id="w3review"
-              name="w3review"
+              id="societyDescription"
+              className="form-control"
+              name="societyDescription"
               rows="8"
-              cols="175"
+              cols="173"
+              style={{ marginBottom: "8px" }}
             ></textarea>
           </div>
 

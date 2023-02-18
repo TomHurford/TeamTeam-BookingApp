@@ -36,6 +36,7 @@ function App() {
         <Route path = "/event-details" element={<EventDetails addTicket = {addTicket}/>}></Route>
         <Route path = "/basket" element={<Basket tickets = {tickets} removeTicket = {removeTicket} totalPrice = {totalPrice}/>}></Route>
       </Routes>
+      
     </div>
   )
   

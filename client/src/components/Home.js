@@ -29,8 +29,8 @@ class Home extends Component {
 
     searchBar(){
         return(
-           <form>
-                  <input type="text" placeholder = "Search for events..."/>
+           <form className="searchBar">
+                <input type="text" placeholder = "Search for events..."/>
            </form>
         )
 

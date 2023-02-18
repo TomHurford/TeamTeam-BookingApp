@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-y: auto;
 }
 
 code {
@@ -19,6 +20,8 @@ code {
   top: 0;
   left: 0;
   z-index: 0;
+  min-height: 300px;
+  overflow-y: auto;
 }
 
 .page-container {
@@ -39,4 +42,25 @@ code {
   top: 0;
   left: 0;
   z-index: 1000;
+}
+
+.underlay {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -10000;
+    /* Unsplash Royalty free License */
+    background: url('https://images.unsplash.com/photo-1567201864585-6baec9110dac?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+}
+
+.spacer {
+  width: 100%;
+  height: 100px;
+  float: left;
 }

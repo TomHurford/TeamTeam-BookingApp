@@ -35,9 +35,13 @@ class EditSocietyCommittee extends Component {
 
   handleRemoveMember = (id) => {
     this.setState((prevState) => {
-      return {
-        members: prevState.members.filter((m) => m.id !== id),
-      };
+      if (prevState.members.length > 1) {
+        return {
+          members: prevState.members.filter((m) => m.id !== id),
+        };
+      } else {
+        console.log("At least one committee member required");
+      }
     });
   };
 

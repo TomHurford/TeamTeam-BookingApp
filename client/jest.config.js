@@ -4,4 +4,7 @@ module.exports = {
       '<rootDir>/__mocks__/fileMock.js',
     '\\.(css|less)$': 'identity-obj-proxy',
   },
+  transform: {
+    "^.+\\.jsx?$": "babel-jest"
+  },
 };

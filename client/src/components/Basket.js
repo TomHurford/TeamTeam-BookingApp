@@ -3,12 +3,11 @@ import '../styles/TitleOfPage.css';
 
 class Basket extends Component {
   render() {
-    console.log(this.props.tickets);
     return (
     <div>  
       <h1 className='title'> Basket </h1>
     <ol className="basket">
-      {this.props.tickets.map((ticket) => (
+      {this.props.tickets && this.props.tickets.map((ticket) => (
         <li key={ticket.id}>
           <div className="basket-item">
             <p  className="basket-item-event-name">{ticket.ticket.name}</p>

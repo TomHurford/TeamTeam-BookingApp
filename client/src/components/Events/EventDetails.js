@@ -2,6 +2,7 @@ import React,{Component} from "react";
 import '../../styles/Events.css';
 import '../../styles/Home.css';
 import '../../styles/TitleOfPage.css'
+import {getEventById} from "../../utils/events"
 
 class EventDetails extends Component{
   constructor(props){
@@ -11,27 +12,12 @@ class EventDetails extends Component{
   }
 
 
-  fetchData() {
+  async fetchData() {
     const searchParams = new URLSearchParams(window.location.search);
     const eventId = parseInt(searchParams.get('eventId'));
-    fetch('http://localhost:5001/events', 
-    {
-    method: 'POST',
-    mode: 'cors', 
-    credentials: 'same-origin',
-    headers: {
-        'Content-Type': 'application/json',
-      },
-      body : JSON.stringify({"eventId": eventId})
-    }
-    )
-    .then(response => response.json())
-    .then(event => {
-      console.log(event)
-      this.setState({data: event})
-    })
-    .catch(error => console.error(error))
-}
+    const event = await getEventById(eventId);
+    this.setState({ data: event });
+  }
 
   render(){
     const event = this.state.data;
@@ -77,8 +63,7 @@ class EventDetails extends Component{
             <h2>Tickets</h2>
             {
               event.ticket_types.map((ticketType) => {
-                console.log(ticketType);
-                return <div className="ticket">
+                return <div className="ticket"  key={ticketType.id}>
                   <div className="ticketHeader">{ticketType.ticketType}</div>
                   <div className="price">Price: {ticketType.price}</div>
                   <div className="spacesBar"><div className="innerBar" data-free={ticketType.quantity}></div></div>

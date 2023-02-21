@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import '../styles/Events.css';
 import Event from './Events/Event';
 import '../styles/Home.css';
+import {getEvents} from "../utils/events"
 
 //Fetching events from the database and displaying them on the home page
 
@@ -12,11 +13,9 @@ class Home extends Component {
         this.fetchData();
     }
     
-    fetchData() {
-        fetch('http://localhost:5001/events')
-        .then(response => response.json())
-        .then(eventsList => {this.setState({data: eventsList.events})})
-        .catch(error => console.error(error))
+    async fetchData() {
+        const events = await getEvents();
+        this.setState({data: events})
     }
 
     welcome() {

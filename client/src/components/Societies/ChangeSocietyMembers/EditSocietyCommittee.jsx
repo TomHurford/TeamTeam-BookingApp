@@ -33,7 +33,6 @@ const EditSocietyCommittee = () => {
           id={member.id}
           key={member.id.toString()}
           removeMember={handleRemoveMember}
-          style={{ marginBottom: "40px" }}
         />
       ))}
       <AddCommitteeMember addMember={handleAddMember} />

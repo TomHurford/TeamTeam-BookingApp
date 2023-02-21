@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import Pagination from "./pagination";
-import { getSocieties } from "../societies/fakeSocieties";
-import { paginate } from "../utils/paginate";
-import SearchBar from "./searchBar";
+import Pagination from "../Pagination";
+import { getSocieties } from "../../societies/fakeSocieties";
+import { paginate } from "../../utils/paginate";
+import SearchBar from "../Searchbar";
 import { Link } from "react-router-dom";
-import CreateSocietyForm from "./createSocietyForm";
+import CreateSocietyForm from "./CreateSocietyForm";
 import { Button } from "bootstrap";
 
 class SearchSocieties extends Component {
@@ -32,7 +32,7 @@ class SearchSocieties extends Component {
       <React.Fragment>
         <h2>Societies</h2>
         <SearchBar onChange={this.handleSearch} />
-
+        ks
         <table className="table">
           <thead>
             <tr>
@@ -44,7 +44,7 @@ class SearchSocieties extends Component {
           </thead>
           <tbody>
             {societies.map((society) => (
-              <tr>
+              <tr key={society.id}>
                 <td>
                   <a href={`/societies/${society.id}/${society.name}`}>
                     {society.name}
@@ -58,7 +58,6 @@ class SearchSocieties extends Component {
             ))}
           </tbody>
         </table>
-
         <Pagination
           itemsCount={this.state.societies.length}
           pageSize={this.state.pageSize}
@@ -70,11 +69,9 @@ class SearchSocieties extends Component {
             Create Society
           </button>
         </Link>
-
         <Link to="/edit-society">
           <button className="btn btn-primary">Edit Society</button>
         </Link>
-
         {/* TODO: Use destructuring */}
       </React.Fragment>
     );

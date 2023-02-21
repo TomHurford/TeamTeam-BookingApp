@@ -6,10 +6,10 @@ import { Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import EventDetails from "./Events/EventDetails";
 import Basket from "./Basket";
-import ViewSociety from "./ViewSociety";
-import CreateSocietyForm from "./CreateSocietyForm";
-import SearchSocieties from "./SearchSocieties";
-import EditSocietyForm from "./EditSocietyForm";
+import ViewSociety from "./Societies/ViewSociety";
+import CreateSocietyForm from "./Societies/CreateSocietyForm";
+import SearchSocieties from "./Societies/SearchSocieties";
+import EditSocietyForm from "./Societies/EditSocietyForm";
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 

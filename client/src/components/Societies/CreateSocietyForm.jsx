@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Input from "./input";
+import Input from "../Input";
 import Joi from "joi-browser";
 
 class CreateSocietyForm extends Component {
@@ -26,9 +26,9 @@ class CreateSocietyForm extends Component {
           />
 
           <div className="form-group">
-            <label for="categorySelect">Select a category</label>
+            <label htmlFor="categorySelect">Select a category</label>
             <select className="form-select" id="categorySelect">
-              <option value="1" selected>
+              <option value="1" defaultValue>
                 Sport
               </option>
               <option value="2">Social</option>
@@ -45,7 +45,7 @@ class CreateSocietyForm extends Component {
 
           {/* Image links below*/}
           <h5>Images</h5>
-          <small id="imageHelp" class="form-text text-muted">
+          <small id="imageHelp" className="form-text text-muted">
             You must enter a link to the images
           </small>
           <Input name="logo" value="" label="Logo" onChange=" " />
@@ -58,7 +58,7 @@ class CreateSocietyForm extends Component {
           />
 
           <div className="form-group">
-            <label for="">Society Description</label>
+            <label htmlFor="">Society Description</label>
             <textarea
               id="societyDescription"
               className="form-control"

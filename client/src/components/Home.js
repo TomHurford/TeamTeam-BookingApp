@@ -13,7 +13,7 @@ class Home extends Component {
     }
     
     fetchData() {
-        fetch('http://localhost:5001/events')
+        fetch('http://express:5001/events')
         .then(response => response.json())
         .then(eventsList => {this.setState({data: eventsList.events})})
         .catch(error => console.error(error))

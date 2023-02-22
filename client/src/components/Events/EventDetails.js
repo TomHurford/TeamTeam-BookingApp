@@ -2,6 +2,7 @@ import React,{Component} from "react";
 import ExtendedEvent from "./ExtendedEvent";
 import '../../styles/Events.css';
 import '../../styles/Home.css';
+import '../../styles/TitleOfPage.css'
 
 class EventDetails extends Component{
   constructor(props){
@@ -14,7 +15,6 @@ class EventDetails extends Component{
   fetchData() {
     const searchParams = new URLSearchParams(window.location.search);
     const eventId = parseInt(searchParams.get('eventId'));
-    console.log(eventId);
     fetch('http://localhost:5001/events', 
     {
     method: 'POST',
@@ -29,21 +29,23 @@ class EventDetails extends Component{
     .then(response => response.json())
     .then(event => {
       this.setState({data: event})
-      console.log("Response"+event);
     })
     .catch(error => console.error(error))
 }
 
   render(){
     const event = this.state.data;
-    // console.log(this.state.data);
     if (!event) {
       return <div>Loading...</div>;
     }
     return(
       <div>
-        <h1>Event Details</h1>
-        <h1><ExtendedEvent specificEvent = {event.event} ticketTypes = {event.ticket_types} specificSociety = {event.society}/></h1>
+        <h1 className="title">Event Details</h1>
+        <h1><ExtendedEvent specificEvent = {event.event} 
+        ticketTypes = {event.ticket_types} 
+        specificSociety = {event.society}
+        addTicket = {this.props.addTicket}
+        /></h1>
       </div>
     )
   }

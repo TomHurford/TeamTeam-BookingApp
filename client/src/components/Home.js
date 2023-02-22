@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import '../styles/Events.css';
 import Event from './Events/Event';
 import '../styles/Home.css';
-import SearchBar from "./SearchBar";
 
 //Fetching events from the database and displaying them on the home page
 
@@ -24,15 +23,24 @@ class Home extends Component {
         return(
         <div className="welcome">
             <h1>Welcome to Ticketopia!</h1>
-            <SearchBar/>
         </div>
         )
+    }
+
+    searchBar(){
+        return(
+           <form>
+                  <input type="text" placeholder = "Search for events..."/>
+           </form>
+        )
+
     }
 
     render(){
         return(
             <div className="homePage">
             {this.welcome()}
+            {this.searchBar()}
             <ul className="events">
                 {this.state.data.map(event => (    
                     <li key={event.id} onClick={()=>this.handleClick(event.id)} >

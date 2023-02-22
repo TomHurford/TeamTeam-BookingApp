@@ -5,6 +5,7 @@
     height: 60px;
     background-color: #000000;
     position: fixed;
+    top: 0;
 }
 
 .navbarElements{

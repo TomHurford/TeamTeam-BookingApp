@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import '../styles/Events.css';
 import Event from './Events/Event';
 import '../styles/Home.css';
-import {getEvents} from "../utils/events"
+import {getEvents} from "../utils/EventsLogic"
 
 //Fetching events from the database and displaying them on the home page
 

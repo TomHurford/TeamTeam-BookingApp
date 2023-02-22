@@ -2,7 +2,7 @@ import React,{Component} from "react";
 import '../../styles/Events.css';
 import '../../styles/Home.css';
 import '../../styles/TitleOfPage.css'
-import {getEventById} from "../../utils/events"
+import {getEventById} from "../../utils/EventsLogic"
 
 class EventDetails extends Component{
   constructor(props){

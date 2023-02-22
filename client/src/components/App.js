@@ -1,6 +1,6 @@
 import Home from "./Home";
 import "../styles/App.css";
-import React from "react";
+import {React, useEffect, useState} from "react";
 import Contact from "./Contact";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
@@ -14,9 +14,37 @@ import EditSocietyForm from "./Societies/EditSocietyForm";
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
 function App() {
-  const [tickets, setTickets] = React.useState([]);
-  const [ticketId, setTicketId] = React.useState(0);
-  const [totalPrice, setTotalPrice] = React.useState(0);
+  const [tickets, setTickets] = useState([]);
+  const [ticketId, setTicketId] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    const storedTickets = sessionStorage.getItem('tickets');
+    const storedTicketId = sessionStorage.getItem('ticketId');
+    const storedTotalPrice = sessionStorage.getItem('totalPrice');
+    if(storedTickets) {
+      setTickets(JSON.parse(storedTickets));
+      console.log("current tickets");
+      console.log(tickets);
+      console.log("stored tickets");
+      console.log(JSON.parse(storedTickets));
+      console.log(storedTickets);
+
+    }
+    if(storedTicketId) {
+      setTicketId(JSON.parse(storedTicketId));
+    }
+    if(storedTotalPrice) {
+      setTotalPrice(JSON.parse(storedTotalPrice));
+    }
+  }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem('tickets', JSON.stringify(tickets));
+    sessionStorage.setItem('ticketId', JSON.stringify(ticketId));
+    sessionStorage.setItem('totalPrice', JSON.stringify(totalPrice));
+  }, [tickets, ticketId, totalPrice]);
+  
 
   const addTicket = (ticket) => {
     setTickets([...tickets, { ticket, id: ticketId }]);

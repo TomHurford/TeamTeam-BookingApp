@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Contact snapshot test 1`] = `
+<h1
+  className="title"
+>
+  I am Contact Page
+</h1>
+`;

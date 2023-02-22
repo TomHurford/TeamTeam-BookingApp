@@ -1,0 +1,94 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OrganisationSignUp snapshot test 1`] = `
+<div>
+  <div
+    className="underlay"
+  />
+  <div
+    className="container"
+    id="SignUpForm"
+  >
+    <h1>
+      Sign Up
+    </h1>
+    <form
+      action="#"
+      onSubmit={[Function]}
+    >
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="text"
+        >
+          Name Of Organisation
+        </label>
+        <br />
+        <input
+          minLength="3"
+          name="oraganisationName"
+          onChange={[Function]}
+          required={true}
+          type="text"
+        />
+      </div>
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="text"
+        >
+          Description
+        </label>
+        <br />
+        <input
+          minLength="10"
+          name="oraganisationDesc"
+          onChange={[Function]}
+          required={true}
+          type="textarea"
+        />
+      </div>
+      <button
+        type="submit"
+      >
+        Sign Up
+      </button>
+    </form>
+  </div>
+  <div
+    className="overlay"
+    disabled={true}
+  >
+    <div
+      className="container"
+      id="popupForm"
+    >
+      <h1 />
+      <form
+        action="#"
+        onSubmit={[Function]}
+      >
+        <div
+          className="field"
+        >
+          <label
+            style={
+              Object {
+                "textAlign": "center",
+              }
+            }
+          />
+          <br />
+        </div>
+        <button
+          type="submit"
+        >
+          Close
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+`;

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Input from "../Input";
+import Input from "../common/Input";
 import Joi from "joi-browser";
 
 class CreateSocietyForm extends Component {

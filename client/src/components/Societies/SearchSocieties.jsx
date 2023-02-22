@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import Pagination from "../Pagination";
+import Pagination from "../common/Pagination";
 import { getSocieties } from "../../societies/fakeSocieties";
 import { paginate } from "../../utils/paginate";
-import SearchBar from "../Searchbar";
+import SearchBar from "../common/Searchbar";
 import { Link } from "react-router-dom";
 import CreateSocietyForm from "./CreateSocietyForm";
 import { Button } from "bootstrap";
@@ -32,7 +32,7 @@ class SearchSocieties extends Component {
       <React.Fragment>
         <h2>Societies</h2>
         <SearchBar onChange={this.handleSearch} />
-        ks
+
         <table className="table">
           <thead>
             <tr>

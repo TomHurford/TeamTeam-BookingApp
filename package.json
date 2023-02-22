@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "bootstrap": "^5.2.3",
-    "joi-browser": "^13.4.0",
-    "lodash": "^4.17.21"
-  }
-}

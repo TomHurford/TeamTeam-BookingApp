@@ -18,6 +18,8 @@ function Navbar() {
                 <Link to = "/login"><li>Login</li></Link>
                 <Link to = "/contact"><li>Contact</li></Link>
                 <Link to = "/basket"><div className='basketLogo'><img src = {basket} alt = "Basket"></img></div></Link>
+                <Link to = "/purchase"><li>Purchase</li></Link>
+                <Link to = "/paypal"><li>PayPal</li></Link>
             </ul>
         </nav>
         </div>

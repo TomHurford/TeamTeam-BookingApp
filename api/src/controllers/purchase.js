@@ -43,16 +43,33 @@ const getFutureTickets = async (req, res) => {
     console.log("userId: ", userId)
 
     // Get all purchases for the user where the event date is in the future
-    const futureTickets = await prisma.purchase.findMany({
+    const purchases = await prisma.purchase.findMany({
       where: {
         userId: userId,
         event: {
           date: {
             gte: new Date()
           }
-        }
+        },
+        isArchived: false
       }
     })
+
+    // Retreive tickets using purchase id and add the tickets to purchase json
+
+    const futureTickets = await Promise.all(purchases.map(async (purchase) => {
+      const tickets = await prisma.ticket.findMany({
+        where: {
+          purchaseId: purchase.id
+        }
+      })
+      return {
+        ...purchase,
+        tickets: tickets
+      }
+    }))
+
+
 
     console.log("futureTickets: ", futureTickets)
     res.status(200).send({ futureTickets: futureTickets });

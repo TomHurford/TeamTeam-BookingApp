@@ -13,7 +13,11 @@ const EditSocietyCommittee = () => {
   const [newMemberId, setNewMemberId] = React.useState(4);
 
   const handleRemoveMember = (id) => {
-    setMembers((prevMembers) => prevMembers.filter((m) => m.id !== id));
+    if (members.length > 1) {
+      setMembers((prevMembers) => prevMembers.filter((m) => m.id !== id));
+    } else {
+      console.log("Committee must have at least one member");
+    }
   };
 
   const handleAddMember = (email) => {

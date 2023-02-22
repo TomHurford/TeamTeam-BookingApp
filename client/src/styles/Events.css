@@ -5,6 +5,7 @@
     height: 300px;
     overflow: hidden;
     position: relative;
+    padding: 0 !important;
 }
 .header > .image {
     width: 100%;

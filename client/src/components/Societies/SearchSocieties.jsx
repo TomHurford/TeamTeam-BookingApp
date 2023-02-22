@@ -1,18 +1,36 @@
 import React, { Component } from "react";
 import Pagination from "../common/Pagination";
-import { getSocieties } from "../../societies/fakeSocieties";
+
 import { paginate } from "../../utils/paginate";
 import SearchBar from "../common/Searchbar";
 import { Link } from "react-router-dom";
 
 
 class SearchSocieties extends Component {
-  state = {
-    societies: getSocieties(), // bad implementation, will change later
-    currentPage: 1,
-    pageSize: 5,
-    searchQuery: " ",
-  };
+
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      data : [], // bad implementation, will change later
+      currentPage: 1,
+      pageSize: 5,
+      searchQuery: " ",
+    };
+    this.fetchData();
+}
+
+ 
+  fetchData() {
+    fetch('http://localhost:5001/societies/getSocieties')
+    .then(response => response.json())
+    .then(societiesList => {this.setState({data: societiesList})})
+      .catch(error => console.error(error))
+    
+}
+
+
+
 
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
@@ -25,7 +43,7 @@ class SearchSocieties extends Component {
   render() {
     const { pageSize, currentPage } = this.state;
 
-    const societies = paginate(this.state.societies, currentPage, pageSize);
+    const societies = paginate(this.state.data, currentPage, pageSize);
 
     return (
       <React.Fragment>
@@ -50,15 +68,15 @@ class SearchSocieties extends Component {
                   </a>
                   {/* TODO: Use Link */}
                 </td>
-                <td>{society.category.name}</td>
-                <td>{society.numberOfFollowers}</td>
-                <td>{society.numberOfEvents}</td>
+                <td>{society.category}</td>
+                <td>{society.members}</td>
+                <td>{society.description}</td>
               </tr>
             ))}
           </tbody>
         </table>
         <Pagination
-          itemsCount={this.state.societies.length}
+          itemsCount={this.state.data.length}
           pageSize={this.state.pageSize}
           currentPage={this.state.currentPage}
           onPageChange={this.handlePageChange}

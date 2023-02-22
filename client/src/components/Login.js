@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import '../styles/Login.css';
-import axios from 'axios';
+const axios = require('axios').default;
 const jwtController = require('../utils/jwt.js');
 
 

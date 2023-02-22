@@ -1,5 +1,5 @@
 // import jwt from 'jsonwebtoken';
-import axios from 'axios';
+const axios = require('axios').default;
 
 // export const decodeToken = (token) => {
 //     return jwt.decode(token);

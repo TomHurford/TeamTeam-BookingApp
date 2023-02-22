@@ -5,6 +5,23 @@ module.exports = {
     '\\.(css|less)$': 'identity-obj-proxy',
   },
   transform: {
-    "^.+\\.jsx?$": "babel-jest"
+    "\\.[jt]sx?$": "babel-jest",
+    "\\.css$": "some-css-transformer",
   },
+  "collectCoverage": true,
+  "coverageReporters": ["json", "lcov", "text", "clover"],
+  "coverageDirectory": "coverage",
+  "covergeThreshold": {
+    "global": {
+      "branches": 0,
+      "functions": 0,
+      "lines": 0,
+      "statements": 0
+    },
+    "moduleDirectories": ["node_modules", "client"],
+  },
+  watchPlugins: [
+    'jest-watch-typeahead/filename',
+    'jest-watch-typeahead/testname',
+  ],
 };

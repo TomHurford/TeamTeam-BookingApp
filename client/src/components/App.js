@@ -1,4 +1,3 @@
-
 import Home from './Home'
 import '../styles/App.css';
 import React from 'react';
@@ -49,4 +48,3 @@ function App() {
 }
 
 export default App;
-

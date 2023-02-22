@@ -7,7 +7,8 @@ class EditSocietyForm extends Component {
   state = {};
   render() {
     return (
-      <div>
+      <div className='page-container'>
+        <div className='underlay'></div>
         <h1>Edit Society</h1>
         <form onSubmit={this.handleSubmit}>
           <fieldset disabled>

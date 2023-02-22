@@ -15,7 +15,8 @@ class CreateSocietyForm extends Component {
 
   render() {
     return (
-      <div>
+      <div className='page-container'>
+        <div className='underlay'></div>
         <h1>Create Society</h1>
         <form onSubmit={this.handleSubmit}>
           <Input

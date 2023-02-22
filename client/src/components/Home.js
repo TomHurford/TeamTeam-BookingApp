@@ -13,7 +13,7 @@ class Home extends Component {
     }
     
     fetchData() {
-        fetch('http://express:5001/events')
+        fetch('http://localhost:5001/events')
         .then(response => response.json())
         .then(eventsList => {this.setState({data: eventsList.events})})
         .catch(error => console.error(error))
@@ -29,8 +29,8 @@ class Home extends Component {
 
     searchBar(){
         return(
-           <form>
-                  <input type="text" placeholder = "Search for events..."/>
+           <form className="searchBar">
+                <input type="text" placeholder = "Search for events..."/>
            </form>
         )
 
@@ -38,16 +38,19 @@ class Home extends Component {
 
     render(){
         return(
-            <div className="homePage">
-            {this.welcome()}
-            {this.searchBar()}
-            <ul className="events">
-                {this.state.data.map(event => (    
-                    <li key={event.id} onClick={()=>this.handleClick(event.id)} >
-                    <Event details={event.id} specificEvent = {event}/>
-                    </li>
-                ))}
-            </ul>
+            <div className='page-container'>
+                <div className='underlay'></div>
+                <div className="homePage">
+                    {this.welcome()}
+                    {this.searchBar()}
+                    <ul className="events">
+                        {this.state.data.map(event => (    
+                            <li key={event.id} onClick={()=>this.handleClick(event.id)} >
+                            <Event details={event.id} specificEvent = {event}/>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
             </div>
         )
     }

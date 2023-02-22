@@ -36,8 +36,11 @@ export default function Paypal() {
   }, [hasRendered]);
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-      <div ref={paypal} style={{ maxWidth: "500px" }}></div>
+    <div className='page-container'>
+        <div className='underlay'></div>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div ref={paypal} style={{ maxWidth: "500px" }}></div>
+        </div>
     </div>
   );
 }

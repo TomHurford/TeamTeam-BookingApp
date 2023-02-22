@@ -2,6 +2,9 @@ import Home from "./Home";
 import "../styles/App.css";
 import React from "react";
 import Contact from "./Contact";
+import Login from './Login';
+import Purchase from './Purchase';
+import PayPal from './PayPal';
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import EventDetails from "./Events/EventDetails";
@@ -34,7 +37,11 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
+        <Route path = "/login" element={<Login/>}></Route>
         <Route path="/contact" element={<Contact />}></Route>
+        <Route path="/purchase" element={<Purchase />}></Route>
+        <Route path="/paypal" element={<PayPal />}></Route>
+
         <Route
           path="/event-details"
           element={<EventDetails addTicket={addTicket} />}
@@ -49,6 +56,7 @@ function App() {
             />
           }
         ></Route>
+        
         <Route path="/societies/:id/:name?" element={<ViewSociety />} />
         <Route path="/societies" element={<SearchSocieties />} />
         <Route path="/create-society" element={<CreateSocietyForm />} />

@@ -29,49 +29,52 @@ class SearchSocieties extends Component {
 
     return (
       <React.Fragment>
-        <h2>Societies</h2>
-        <SearchBar onChange={this.handleSearch} />
+        <div className='page-container'>
+          <div className='underlay'></div>
+          <h2>Societies</h2>
+          <SearchBar onChange={this.handleSearch} />
 
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Followers</th>
-              <th>Number of Events</th>
-            </tr>
-          </thead>
-          <tbody>
-            {societies.map((society) => (
-              <tr key={society.id}>
-                <td>
-                  <a href={`/societies/${society.id}/${society.name}`}>
-                    {society.name}
-                  </a>
-                  {/* TODO: Use Link */}
-                </td>
-                <td>{society.category.name}</td>
-                <td>{society.numberOfFollowers}</td>
-                <td>{society.numberOfEvents}</td>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Followers</th>
+                <th>Number of Events</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <Pagination
-          itemsCount={this.state.societies.length}
-          pageSize={this.state.pageSize}
-          currentPage={this.state.currentPage}
-          onPageChange={this.handlePageChange}
-        />
-        <Link to="/create-society">
-          <button className="btn btn-primary" style={{ marginRight: "15px" }}>
-            Create Society
-          </button>
-        </Link>
-        <Link to="/edit-society">
-          <button className="btn btn-primary">Edit Society</button>
-        </Link>
-        {/* TODO: Use destructuring */}
+            </thead>
+            <tbody>
+              {societies.map((society) => (
+                <tr key={society.id}>
+                  <td>
+                    <a href={`/societies/${society.id}/${society.name}`}>
+                      {society.name}
+                    </a>
+                    {/* TODO: Use Link */}
+                  </td>
+                  <td>{society.category.name}</td>
+                  <td>{society.numberOfFollowers}</td>
+                  <td>{society.numberOfEvents}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <Pagination
+            itemsCount={this.state.societies.length}
+            pageSize={this.state.pageSize}
+            currentPage={this.state.currentPage}
+            onPageChange={this.handlePageChange}
+          />
+          <Link to="/create-society">
+            <button className="btn btn-primary" style={{ marginRight: "15px" }}>
+              Create Society
+            </button>
+          </Link>
+          <Link to="/edit-society">
+            <button className="btn btn-primary">Edit Society</button>
+          </Link>
+          {/* TODO: Use destructuring */}
+        </div>
       </React.Fragment>
     );
   }

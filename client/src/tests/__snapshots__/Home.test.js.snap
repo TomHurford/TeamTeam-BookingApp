@@ -30,6 +30,7 @@ exports[`Home snapshot test 1`] = `
     </form>
     <ul
       className="events"
+      data-testid="events-list"
     />
   </div>
 </div>

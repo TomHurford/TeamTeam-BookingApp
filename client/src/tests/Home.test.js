@@ -3,6 +3,7 @@ import renderer from 'react-test-renderer';
 import Home from '../components/Home';
 import { render, screen } from '@testing-library/react';
 
+
 test('Home snapshot test', () => {
   const component = renderer.create(<Home />);
   const tree = component.toJSON();
@@ -26,6 +27,12 @@ test('check welcome message', () => {
     const welcomeElement = screen.getByTestId('welcome-message');
     expect (welcomeElement).toHaveTextContent('Welcome to Ticketopia!');
     expect(welcomeElement).toBeInTheDocument();
+});
+
+test('list of events render on home page', () => {
+    render(<Home />);
+    const eventsList = screen.getByTestId('events-list');
+    expect(eventsList).toBeInTheDocument();  
 });
 
 

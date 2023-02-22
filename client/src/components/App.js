@@ -60,7 +60,7 @@ function App() {
 
   return (
     <div className='root-container'>
-      <Navbar/>
+      <Navbar data-testid = "test-logo"/>
       <Routes>
         <Route path = "/" element={<Home/>}></Route>
         <Route path = "/contact" element={<Contact/>}></Route>

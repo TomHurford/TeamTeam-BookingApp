@@ -21,6 +21,33 @@ function App() {
   const [ticketId, setTicketId] = React.useState(0);
   const [totalPrice, setTotalPrice] = React.useState(0);
 
+  useEffect(() => {
+    const storedTickets = sessionStorage.getItem('tickets');
+    const storedTicketId = sessionStorage.getItem('ticketId');
+    const storedTotalPrice = sessionStorage.getItem('totalPrice');
+    if(storedTickets) {
+      setTickets(JSON.parse(storedTickets));
+      console.log("current tickets");
+      console.log(tickets);
+      console.log("stored tickets");
+      console.log(JSON.parse(storedTickets));
+      console.log(storedTickets);
+
+    }
+    if(storedTicketId) {
+      setTicketId(JSON.parse(storedTicketId));
+    }
+    if(storedTotalPrice) {
+      setTotalPrice(JSON.parse(storedTotalPrice));
+    }
+  }, []);
+
+  useEffect(() => {
+    sessionStorage.setItem('tickets', JSON.stringify(tickets));
+    sessionStorage.setItem('ticketId', JSON.stringify(ticketId));
+    sessionStorage.setItem('totalPrice', JSON.stringify(totalPrice));
+  }, [tickets, ticketId, totalPrice]);
+
   const addTicket = (ticket) => {
     setTickets([...tickets, { ticket, id: ticketId }]);
     setTicketId(ticketId + 1);

@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Basket snapshot test 1`] = `
+<div>
+  <h1
+    className="title"
+  >
+     Basket 
+  </h1>
+  <ol
+    className="basket"
+  />
+  <h1>
+    Total: $
+  </h1>
+</div>
+`;

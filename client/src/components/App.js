@@ -1,6 +1,6 @@
 import Home from "./Home";
 import "../styles/App.css";
-import React from "react";
+import React, {useEffect} from "react";
 import Contact from "./Contact";
 import Login from './Login';
 import Purchase from './Purchase';

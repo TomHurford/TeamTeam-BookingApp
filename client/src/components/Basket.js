@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import '../styles/TitleOfPage.css';
+import PropTypes from 'prop-types';
 
 class Basket extends Component {
   render() {
@@ -24,4 +25,9 @@ class Basket extends Component {
   }
 }
 
+Basket.propTypes = {
+  tickets: PropTypes.array,
+  totalPrice: PropTypes.number,
+  removeTicket: PropTypes.func
+};
 export default Basket;

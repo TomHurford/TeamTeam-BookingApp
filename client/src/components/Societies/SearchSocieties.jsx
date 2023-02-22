@@ -4,8 +4,7 @@ import { getSocieties } from "../../societies/fakeSocieties";
 import { paginate } from "../../utils/paginate";
 import SearchBar from "../common/Searchbar";
 import { Link } from "react-router-dom";
-import CreateSocietyForm from "./CreateSocietyForm";
-import { Button } from "bootstrap";
+
 
 class SearchSocieties extends Component {
   state = {

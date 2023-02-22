@@ -14,6 +14,7 @@ var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/login');
 var eventsRouter = require('./routes/events');
 var societiesRouter = require('./routes/societies');
+var purchaseRouter = require('./routes/purchase');
 var swaggerDocument = require('./swagger.json');
 
 
@@ -36,6 +37,7 @@ app.use('/', indexRouter);
 app.use('/user', loginRouter);
 app.use('/events', eventsRouter);
 app.use('/societies', societiesRouter);
+app.use('/purchase', purchaseRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // catch 404 and forward to error handler

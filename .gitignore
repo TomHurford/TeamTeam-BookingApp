@@ -290,4 +290,7 @@ google-services.json
 .history
 .ionide
 
+## Dont include the database folder
+database/
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,react,reactnative

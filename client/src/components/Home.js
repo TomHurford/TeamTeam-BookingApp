@@ -20,7 +20,7 @@ class Home extends Component {
 
     welcome() {
         return(
-        <div className="welcome">
+        <div className="welcome" data-testid = "welcome-message">
             <h1>Welcome to Ticketopia!</h1>
         </div>
         )
@@ -28,7 +28,7 @@ class Home extends Component {
 
     searchBar(){
         return(
-           <form className="searchBar">
+           <form className="searchBar" data-testid = "search-bar">
                 <input type="text" placeholder = "Search for events..."/>
            </form>
         )
@@ -39,7 +39,7 @@ class Home extends Component {
         return(
             <div className='page-container'>
                 <div className='underlay'></div>
-                <div className="homePage">
+                <div className="homePage" data-testid = "home-component">
                     {this.welcome()}
                     {this.searchBar()}
                     <ul className="events">

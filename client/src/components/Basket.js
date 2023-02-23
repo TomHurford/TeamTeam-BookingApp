@@ -14,7 +14,7 @@ class Basket extends Component {
             <p  className="basket-item-event-name">{ticket.ticket.name}</p>
             <p  className="basket-item-type">{ticket.ticket.type}</p>
             <p  className="basket-item-price">$ {ticket.ticket.price}</p>
-            <button className="basket-item-remove" onClick={() => this.props.removeTicket(ticket)}>Remove</button>
+            <button className="basket-item-remove"  data-testid="remove-button" onClick={() => this.props.removeTicket(ticket)}>Remove</button>
           </div>
         </li>
       ))}

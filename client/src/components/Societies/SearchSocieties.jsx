@@ -5,32 +5,26 @@ import { paginate } from "../../utils/paginate";
 import SearchBar from "../common/Searchbar";
 import { Link } from "react-router-dom";
 
-
 class SearchSocieties extends Component {
-
-
   constructor(props) {
     super(props);
     this.state = {
-      data : [], // bad implementation, will change later
+      data: [], // bad implementation, will change later
       currentPage: 1,
       pageSize: 5,
       searchQuery: " ",
     };
     this.fetchData();
-}
+  }
 
- 
   fetchData() {
-    fetch('http://localhost:5001/societies/getSocieties')
-    .then(response => response.json())
-    .then(societiesList => {this.setState({data: societiesList})})
-      .catch(error => console.error(error))
-    
-}
-
-
-
+    fetch("http://localhost:5001/societies/getSocieties")
+      .then((response) => response.json())
+      .then((societiesList) => {
+        this.setState({ data: societiesList });
+      })
+      .catch((error) => console.error(error));
+  }
 
   handlePageChange = (page) => {
     this.setState({ currentPage: page });

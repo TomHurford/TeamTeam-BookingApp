@@ -1,40 +1,34 @@
 import React, { Component } from "react";
-import Input from "./input";
+import Input from "../common/Input";
 import Joi from "joi-browser";
+import EditSocietyCommittee from "./ChangeSocietyMembers/EditSocietyCommittee";
 
-class CreateSocietyForm extends Component {
-  handleSubmit = (e) => {
-    e.preventDefault();
-
-    console.log("Society created");
-  };
-
-  schema = {
-    societyName: Joi.string().required(),
-  };
-
+class EditSocietyForm extends Component {
+  state = {};
   render() {
     return (
       <div>
-        <h1>Create Society</h1>
+        <h1>Edit Society</h1>
         <form onSubmit={this.handleSubmit}>
-          <Input
-            name="societyName"
-            value=""
-            label="Society Name"
-            onChange=" "
-          />
+          <fieldset disabled>
+            <Input
+              name="societyName"
+              value=""
+              label="Society Name"
+              onChange=" "
+            />
 
-          <div className="form-group">
-            <label for="categorySelect">Select a category</label>
-            <select className="form-select" id="categorySelect">
-              <option value="1" selected>
-                Sport
-              </option>
-              <option value="2">Social</option>
-              <option value="3">Academic</option>
-            </select>
-          </div>
+            <div className="form-group">
+              <label htmlFor="categorySelect">Select a category</label>
+              <select className="form-select" id="categorySelect">
+                <option value="1" defaultValue>
+                  Sport
+                </option>
+                <option value="2">Social</option>
+                <option value="3">Academic</option>
+              </select>
+            </div>
+          </fieldset>
 
           {/* Socials below*/}
           <h5>Socials</h5>
@@ -45,7 +39,7 @@ class CreateSocietyForm extends Component {
 
           {/* Image links below*/}
           <h5>Images</h5>
-          <small id="imageHelp" class="form-text text-muted">
+          <small id="imageHelp" className="form-text text-muted">
             You must enter a link to the images
           </small>
           <Input name="logo" value="" label="Logo" onChange=" " />
@@ -54,11 +48,11 @@ class CreateSocietyForm extends Component {
             value=""
             label="Banner"
             onChange=" 
-          "
+                "
           />
 
           <div className="form-group">
-            <label for="">Society Description</label>
+            <label htmlFor="">Society Description</label>
             <textarea
               id="societyDescription"
               className="form-control"
@@ -69,11 +63,13 @@ class CreateSocietyForm extends Component {
             ></textarea>
           </div>
 
-          <button className="btn btn-primary">Create Society</button>
+          <button className="btn btn-primary">Save</button>
         </form>
+
+        <EditSocietyCommittee />
       </div>
     );
   }
 }
 
-export default CreateSocietyForm;
+export default EditSocietyForm;

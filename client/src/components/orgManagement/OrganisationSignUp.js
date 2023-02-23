@@ -1,7 +1,7 @@
 
 import React, { Component, useEffect } from 'react';
 import '../../styles/orgManagement/OrganisationSignUp.css';
-import axios from 'axios';
+const axios = require('axios').default;
 
 
 // Create a login component that prints the input email and password to the console

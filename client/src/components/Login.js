@@ -1,7 +1,9 @@
-import React, { Component } from "react";
-import "../styles/Login.css";
-import axios from "axios";
-const jwtController = require("../utils/jwt.js");
+
+import React, { Component } from 'react';
+import '../styles/Login.css';
+const axios = require('axios').default;
+const jwtController = require('../utils/jwt.js');
+
 
 // Create a login component that prints the input email and password to the console
 class Login extends Component {
@@ -188,7 +190,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
+      <div className="page-container">
         <div className="underlay"></div>
 
         <div

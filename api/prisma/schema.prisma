@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,37 +7,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//------------------//
 model UserType {
-  id    Int  @id @unique @default(autoincrement())
+  id    Int    @id @unique @default(autoincrement())
   type  String
   users User[]
 }
 
 model User {
-  id        Int         @id @default(autoincrement())
-  name      String
-  email     String      @unique
-  password  String
-  userType  Int
-  type      UserType    @relation(references: [id], fields: [userType])
-  committee Committee[]
-  members   Members[]
-  ticket    Ticket[]
-  Purchase  Purchase[]
-  verifications  Verifications[]
+  id            Int             @id @default(autoincrement())
+  name          String
+  email         String          @unique
+  password      String
+  userType      Int
+  committee     Committee[]
+  members       Members[]
+  Purchase      Purchase[]
+  ticket        Ticket[]
+  type          UserType        @relation(fields: [userType], references: [id])
+  verifications Verifications[]
 }
 
 model Society {
-  id          Int            @id @default(autoincrement())
-  name        String         @unique
-  email     String      @unique
+  id          Int           @id @default(autoincrement())
+  name        String        @unique
+  email       String        @unique
   description String
-  links       SocietyLinks[]
-  // A society can have many committee members and a committee member can be in many societies
   committee   Committee[]
-  members     Members[]
   events      Event[]
+  members     Members[]
+  links       SocietyLinks?
 }
 
 model SocietyLinks {
@@ -52,86 +47,89 @@ model SocietyLinks {
   logo      String?
   banner    String?
   societyId Int     @unique
-  society   Society @relation(references: [id], fields: [societyId])
+  society   Society @relation(fields: [societyId], references: [id])
 }
 
 model Committee {
-  role    String
-  userId    Int
-  societyId Int
-  user      User    @relation(references: [id], fields: [userId])
-  society   Society @relation(references: [id], fields: [societyId])
+  role       String
+  userId     Int
+  societyId  Int
+  isArchived Boolean @default(false)
+  society    Society @relation(fields: [societyId], references: [id])
+  user       User    @relation(fields: [userId], references: [id])
+
   @@id([userId, societyId])
-  isArchived  Boolean @default(false)
 }
 
 model Members {
-  userId    Int
-  societyId Int
-  user      User    @relation(references: [id], fields: [userId])
-  society   Society @relation(references: [id], fields: [societyId])
+  userId     Int
+  societyId  Int
+  isArchived Boolean @default(false)
+  society    Society @relation(fields: [societyId], references: [id])
+  user       User    @relation(fields: [userId], references: [id])
+
   @@id([userId, societyId])
-  isArchived  Boolean @default(false)
 }
 
 model Event {
-  id          Int      @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   name        String
   description String
   date        DateTime
   location    String
   societyId   Int
-  isArchived  Boolean  @default(false)
-  society     Society  @relation(references: [id], fields: [societyId])
-  ticket      Ticket[]
-  ticketTypes  TicketType[]
+  isArchived  Boolean      @default(false)
+  banner      String       @default("https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80")
+  society     Society      @relation(fields: [societyId], references: [id])
   purchase    Purchase[]
+  ticket      Ticket[]
+  ticketTypes TicketType[]
 }
 
 model TicketType {
-  id         Int   @id @unique @default(autoincrement())
+  id         Int      @id @unique @default(autoincrement())
   ticketType String
   price      Int
   quantity   Int
-  eventId      Int
-  event        Event      @relation(references: [id], fields: [eventId])
+  eventId    Int
+  isArchived Boolean  @default(false)
   tickets    Ticket[]
-  isArchived  Boolean @default(false)
+  event      Event    @relation(fields: [eventId], references: [id])
 }
 
 model Ticket {
-  id         Int     @id @unique @default(autoincrement())
-  ticketData String
-  status     String     @default("PENDING")
+  id           Int        @id @unique @default(autoincrement())
+  ticketData   String
+  status       String     @default("PENDING")
   userId       Int
   eventId      Int
   ticketTypeId Int
-  purchaseId Int
-  purchase         Purchase       @relation(references: [id], fields: [purchaseId])
-  user         User       @relation(references: [id], fields: [userId])
-  event        Event      @relation(references: [id], fields: [eventId])
-  ticketType   TicketType @relation(references: [id], fields: [ticketTypeId])
-  isArchived  Boolean @default(false)
+  purchaseId   Int
+  isArchived   Boolean    @default(false)
+  event        Event      @relation(fields: [eventId], references: [id])
+  purchase     Purchase   @relation(fields: [purchaseId], references: [id])
+  ticketType   TicketType @relation(fields: [ticketTypeId], references: [id])
+  user         User       @relation(fields: [userId], references: [id])
 }
 
 model Purchase {
-  id            Int   @id @unique @default(autoincrement())
+  id            Int      @id @unique @default(autoincrement())
   date          DateTime @default(now())
   total         Int
   paymentMethod String
-  status     String     @default("PENDING")
+  status        String   @default("PENDING")
   userId        Int
-  eventId      Int
-  user          User     @relation(references: [id], fields: [userId])
-  event        Event      @relation(references: [id], fields: [eventId])
+  eventId       Int
+  isArchived    Boolean  @default(false)
+  event         Event    @relation(fields: [eventId], references: [id])
+  user          User     @relation(fields: [userId], references: [id])
   tickets       Ticket[]
-  isArchived  Boolean @default(false)
 }
 
 model Verifications {
-  id            Int @id @default(autoincrement())
+  id               Int    @id @default(autoincrement())
   verificationType String
   verificationCode String
-  userId        Int
-  user          User     @relation(references: [id], fields: [userId])
+  userId           Int
+  user             User   @relation(fields: [userId], references: [id])
 }

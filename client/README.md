@@ -4,17 +4,17 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Testing
 
-- Before running tests make sure that the database is seeded and postgres and express are running in the background.
+*Before running tests make sure that the database is seeded and postgres and express are running in the background.*
 
 To run tests use the following command:
 
-### npm run test 
+### `npm run test`
 
 To check code test coverage: 
 
-### npm run coverage
+### `npm run coverage`
 
-**Snapshot Testing**
+### Snapshot Testing
 
 Tests will fail if the component has been updated. 
 You can review changes and save the new snapshot with the updated component.

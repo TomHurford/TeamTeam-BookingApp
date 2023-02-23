@@ -190,7 +190,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
+      <div className="page-container">
         <div className="underlay"></div>
 
         <div

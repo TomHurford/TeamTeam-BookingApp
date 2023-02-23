@@ -1,0 +1,72 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navbar snapshot test 1`] = `
+<div
+  className="nav-container"
+>
+  <nav
+    className="navbar"
+  >
+    <ul
+      className="navbarElements"
+    >
+      <a
+        href="/"
+        onClick={[Function]}
+      >
+        <li
+          className="left"
+        >
+          <img
+            alt="Logo"
+            src="logo.png"
+          />
+        </li>
+      </a>
+      <a
+        href="/"
+        onClick={[Function]}
+      >
+        <li>
+          Home
+        </li>
+      </a>
+      <a
+        href="/societies"
+        onClick={[Function]}
+      >
+        <li>
+          Societies
+        </li>
+      </a>
+      <a
+        href="/login"
+        onClick={[Function]}
+      >
+        <li>
+          Login / SignUp
+        </li>
+      </a>
+      <a
+        href="/contact"
+        onClick={[Function]}
+      >
+        <li>
+          Contact
+        </li>
+      </a>
+      <a
+        href="/basket"
+        onClick={[Function]}
+      >
+        <li>
+          <img
+            alt="Basket"
+            src="basket.png"
+          />
+        </li>
+      </a>
+    </ul>
+  </nav>
+</div>
+`;

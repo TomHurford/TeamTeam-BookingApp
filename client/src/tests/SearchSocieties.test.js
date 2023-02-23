@@ -1,7 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import SearchSocieties from "../components/searchSocieties";
-import { render, screen } from "@testing-library/react";
+import SearchSocieties from "../components/Societies/SearchSocieties";
 import { BrowserRouter } from "react-router-dom";
 
 test("SearchSocieties snapshot test", () => {

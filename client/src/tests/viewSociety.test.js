@@ -1,8 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import ViewSociety from '../components/viewSociety';
+import ViewSociety from '../components/Societies/ViewSociety';
 
-test('viewSociety snapshot test', () => {
+test('ViewSociety snapshot test', () => {
   const component = renderer.create(<ViewSociety />);
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();

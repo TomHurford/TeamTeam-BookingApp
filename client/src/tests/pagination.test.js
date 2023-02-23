@@ -1,8 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Pagination from '../components/pagination';
+import Pagination from '../components/common/Pagination';
 
-test('pagination snapshot test', () => {
+test('Pagination snapshot test', () => {
   const component = renderer.create(<Pagination />);
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();

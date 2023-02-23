@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`createSocietyForm snapshot test 1`] = `
+exports[`CreateSocietyForm snapshot test 1`] = `
 <div>
   <h1>
     Create Society
@@ -29,7 +29,7 @@ exports[`createSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        for="categorySelect"
+        htmlFor="categorySelect"
       >
         Select a category
       </label>
@@ -38,7 +38,7 @@ exports[`createSocietyForm snapshot test 1`] = `
         id="categorySelect"
       >
         <option
-          selected={true}
+          defaultValue={true}
           value="1"
         >
           Sport
@@ -130,7 +130,7 @@ exports[`createSocietyForm snapshot test 1`] = `
       Images
     </h5>
     <small
-      class="form-text text-muted"
+      className="form-text text-muted"
       id="imageHelp"
     >
       You must enter a link to the images
@@ -173,7 +173,7 @@ exports[`createSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        for=""
+        htmlFor=""
       >
         Society Description
       </label>

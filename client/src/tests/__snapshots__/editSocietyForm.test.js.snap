@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`editSocietyForm snapshot test 1`] = `
+exports[`EditSocietyForm snapshot test 1`] = `
 <div>
   <h1>
     Edit Society
@@ -30,7 +30,7 @@ exports[`editSocietyForm snapshot test 1`] = `
         className="form-group"
       >
         <label
-          for="categorySelect"
+          htmlFor="categorySelect"
         >
           Select a category
         </label>
@@ -39,7 +39,7 @@ exports[`editSocietyForm snapshot test 1`] = `
           id="categorySelect"
         >
           <option
-            selected={true}
+            defaultValue={true}
             value="1"
           >
             Sport
@@ -132,7 +132,7 @@ exports[`editSocietyForm snapshot test 1`] = `
       Images
     </h5>
     <small
-      class="form-text text-muted"
+      className="form-text text-muted"
       id="imageHelp"
     >
       You must enter a link to the images
@@ -175,7 +175,7 @@ exports[`editSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        for=""
+        htmlFor=""
       >
         Society Description
       </label>
@@ -198,5 +198,82 @@ exports[`editSocietyForm snapshot test 1`] = `
       Save
     </button>
   </form>
+  <div
+    className=""
+  >
+    <h1>
+      Committee Members
+    </h1>
+    <div>
+      <span>
+        <button
+          className="btn btn-danger"
+          onClick={[Function]}
+          style={
+            Object {
+              "marginRight": "8px",
+            }
+          }
+        >
+          Remove
+        </button>
+        nid@nid.com
+        <h3 />
+      </span>
+    </div>
+    <div>
+      <span>
+        <button
+          className="btn btn-danger"
+          onClick={[Function]}
+          style={
+            Object {
+              "marginRight": "8px",
+            }
+          }
+        >
+          Remove
+        </button>
+        hi@hi.com
+        <h3 />
+      </span>
+    </div>
+    <div>
+      <span>
+        <button
+          className="btn btn-danger"
+          onClick={[Function]}
+          style={
+            Object {
+              "marginRight": "8px",
+            }
+          }
+        >
+          Remove
+        </button>
+        hdsdfasi@dhi.com
+        <h3 />
+      </span>
+    </div>
+    <form
+      onSubmit={[Function]}
+    >
+      <input
+        onChange={[Function]}
+        placeholder="Enter member's email"
+        value=""
+      />
+      <button
+        className="btn btn-primary"
+        style={
+          Object {
+            "marginLeft": "8px",
+          }
+        }
+      >
+        Add Member
+      </button>
+    </form>
+  </div>
 </div>
 `;

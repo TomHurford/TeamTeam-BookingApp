@@ -1,8 +1,8 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import CreateSocietyForm from '../components/createSocietyForm';
+import CreateSocietyForm from '../components/Societies/CreateSocietyForm';
 
-test('createSocietyForm snapshot test', () => {
+test('CreateSocietyForm snapshot test', () => {
   const component = renderer.create(<CreateSocietyForm />);
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();

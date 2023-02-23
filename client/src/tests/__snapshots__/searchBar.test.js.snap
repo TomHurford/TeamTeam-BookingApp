@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`searchBar snapshot test 1`] = `
+exports[`SearchBar snapshot test 1`] = `
 <input
   className="form-control my-4"
   name="query"

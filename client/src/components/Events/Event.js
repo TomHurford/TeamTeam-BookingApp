@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import '../../styles/EventCard.css';
+import PropTypes from 'prop-types';
 
 //Creating an event component to show event details
 
@@ -16,4 +17,11 @@ class Event extends Component {
   }
 }
 
+Event.propTypes = {
+  specificEvent: PropTypes.object,
+  'specificEvent.name': PropTypes.string,
+  'specificEvent.description': PropTypes.string,
+  'specificEvent.date': PropTypes.string,
+  'specificEvent.location': PropTypes.string
+};
 export default Event;

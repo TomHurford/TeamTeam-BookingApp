@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Input from "../common/Input";
-import Joi from "joi-browser";
 import EditSocietyCommittee from "./ChangeSocietyMembers/EditSocietyCommittee";
 
 class EditSocietyForm extends Component {

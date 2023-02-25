@@ -106,7 +106,7 @@ class Login extends Component {
     }
 
     // Submit a new password to be set
-    handleSubmitResetPassword = (event) => {
+    handleSubmitResetPassword = () => {
 
 
     //     if (this.state.confirmPassword === this.state.password) {
@@ -135,7 +135,7 @@ class Login extends Component {
 
 
     // Toggle the signup Form Viewable
-    signupToggle = (event) => {
+    signupToggle = () => {
         this.setState({
             disableLoginForm: !this.state.disableLoginForm,
             disableSignUp: !this.state.disableSignUp
@@ -143,7 +143,7 @@ class Login extends Component {
     }
 
     // Toggle the Forgot Password Form Viewable
-    forgotToggle = (event) => {
+    forgotToggle = () => {
         this.setState({
             disableLoginForm: !this.state.disableLoginForm,
             disableForgotPassword: !this.state.disableForgotPassword
@@ -151,7 +151,7 @@ class Login extends Component {
     }
 
     // Toggle the Reset Password Form Viewable
-    resetPasswordToggle = (event) => {
+    resetPasswordToggle = () => {
         this.setState({
             disableLoginForm: !this.state.disableLoginForm,
             disableResetPassword: !this.state.disableResetPassword
@@ -167,7 +167,7 @@ class Login extends Component {
     }
     
     // Close the Message Overlay
-    closeMessage = (event) => {
+    closeMessage = () => {
         this.setState({
             disablePopUpMessage: true,
             disableLoginForm: false,
@@ -177,7 +177,7 @@ class Login extends Component {
         return false;
     }
 
-    loginNewUser = (code) => {
+    loginNewUser = () => {
 
     }
     

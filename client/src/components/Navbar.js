@@ -2,7 +2,8 @@ import React, {useEffect} from 'react';
 import '../styles/Navbar.css';
 import {Link} from 'react-router-dom';
 import logo from '../utils/logo.png';
-import basket from '../utils/basket.png'
+import basket from '../utils/basket.png';
+const jwtController = require('../utils/jwt.js');
 
 //Create a navbar component
 
@@ -10,9 +11,6 @@ function Navbar() {
     const [isLoggedIn, setIsLoggedIn] = React.useState([]);
 
     useEffect(() => {
-        console.log(jwtController.getToken());
-        console.log(jwtController.setToken('grgsfgrssg'))
-        console.log(jwtController.getToken());
         setIsLoggedIn(jwtController.isLoggedIn());
     }, []);
 

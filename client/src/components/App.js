@@ -27,11 +27,11 @@ function App() {
     const storedTotalPrice = sessionStorage.getItem('totalPrice');
     if(storedTickets) {
       setTickets(JSON.parse(storedTickets));
-      console.log("current tickets");
-      console.log(tickets);
-      console.log("stored tickets");
-      console.log(JSON.parse(storedTickets));
-      console.log(storedTickets);
+      // console.log("current tickets");
+      // console.log(tickets);
+      // console.log("stored tickets");
+      // console.log(JSON.parse(storedTickets));
+      // console.log(storedTickets);
 
     }
     if(storedTicketId) {

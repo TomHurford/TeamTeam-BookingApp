@@ -42,14 +42,14 @@ class Home extends Component {
                 <div className="homePage" data-testid = "home-component">
                     {this.welcome()}
                     {this.searchBar()}
-                    <ul className="events">
+                    <div className="events">
                         {console.log(this.state.data)}
                         {this.state.data.map(event => (    
-                            <li key={event.id} onClick={()=>this.handleClick(event.id)} >
+                            <div className="eventCard" key={event.id} onClick={()=>this.handleClick(event.id)} >
                             <Event details={event.id} specificEvent = {event}/>
-                            </li>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 </div>
             </div>
         )

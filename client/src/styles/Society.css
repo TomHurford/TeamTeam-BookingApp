@@ -1,0 +1,37 @@
+.societyPage-container {
+    margin: 15px;
+}
+.societyPage-container > h2 {
+
+}
+.societyPage-container > .table {
+    width: 90%;
+    height: 10em;
+    background-color: white;
+}
+.societyPage-container > .table > thead {
+    width: 100%;
+    height: 2em;
+}
+.societyPage-container > .table > thead > tr {
+    width: 100%;
+    height: 2em;
+}
+.societyPage-container > .table > thead > tr > th {
+    height: 2em;
+    font-size: 2em;
+}
+.societyPage-container > .table > tbody {
+    width: 100%;
+    text-align: center;
+}
+.societyPage-container > .table > tbody > tr {
+    
+}
+.societyPage-container > .table > tbody > tr > td {
+    height: 2em;
+    font-size: 1.5em;
+}
+.societyPage-container > .table > tbody > tr > td > a {
+    
+}

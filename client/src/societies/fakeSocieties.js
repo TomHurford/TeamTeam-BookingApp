@@ -1,4 +1,4 @@
-import * as societiesAPI from "./fakeSocietyCategories";
+// import * as societiesAPI from "./fakeSocietyCategories";
 
 const societies = [
   {

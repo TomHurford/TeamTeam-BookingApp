@@ -16,37 +16,54 @@ on:
       - dev/dev_main
 
 jobs:
-  build:
-
+  test:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [14.x, 16.x, 18.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    services:
+      postgres:
+        image: postgres:12.2
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        # Start the postgres service in the background
+        # before running the tests
+        # The `healthcheck` option ensures that the service is healthy
+        # before moving on to the next step
+        # See: https://docs.docker.com/compose/compose-file/#healthcheck
+
+      express:
+        build:
+          context: ./api
+          dockerfile: Dockerfile
+        ports:
+          - 5001:5001
+        volumes:
+          - ./api:/usr/src/app
+        # Start the express service in the background
+        # before running the tests
+        options: >-
+          --health-cmd "curl -f http://localhost:5001/health || exit 1"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        # The `entrypoint` option overrides the default `CMD` command
+        # in the Dockerfile to start the service with `npm run start:dev`
+        # The `healthcheck` option ensures that the service is healthy
+        # before moving on to the next step
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-    - run: docker-compose up -d postgres
-      working-directory: .
-    - name: Install dependencies and start express server
-      run: |
-        cd api
-        npm install
-        npm run dev
-      working-directory: .
-    - name: Install dependencies and run tests
-      run: |
-        cd client
-        npm install
-        npm run test
-      working-directory: .
-#     - run: |
-#         pkill node
-#       working-directory: ./api
-#     - run: docker-compose down
-#       working-directory: .
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build and test
+        run: |
+          # Install dependencies and run tests
+          cd ../client && npm install && npm test

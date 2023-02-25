@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React  from "react";
 
 import Member from "./Member";
 import AddCommitteeMember from "./AddCommitteeMember";

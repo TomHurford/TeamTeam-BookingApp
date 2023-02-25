@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
 const SearchBar = ({ value, onChange }) => {
   return (
@@ -11,6 +12,11 @@ const SearchBar = ({ value, onChange }) => {
       onChange={(e) => onChange(e.currentTarget.value)}
     />
   );
+};
+
+SearchBar.propTypes = {
+  value: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 export default SearchBar;

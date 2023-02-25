@@ -28,8 +28,8 @@ const Pagination = (props) => {
   );
 };
 
-Pagination.PropTypes = {
-  'itemsCount' : PropTypes.array,
+Pagination.propTypes = {
+  'itemsCount' : PropTypes.number,
   pageSize : PropTypes.number,
   currentPage : PropTypes.number,
   onPageChange : PropTypes.func

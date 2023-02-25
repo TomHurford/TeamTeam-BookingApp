@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import React from "react";
 import PropTypes from 'prop-types';
 
 const AddCommitteeMember = (props) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = React.useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();

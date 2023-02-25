@@ -31,7 +31,7 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: docker-compose up -d postgress
+    - run: docker-compose up -d postgres
       working-directory: .
     - name: Install dependencies and start express server
       run: |

@@ -220,6 +220,19 @@ async function verify(req, res) {
     return res.status(200).send();
 }
 
+async function checkUserLoggedIn(req, res) {
+
+    try {
+        const decoded = jwt.authenticate(req);
+        if (Date.now() >= exp * 1000) {
+            return res.status(401).send();
+        }
+        return res.status(200).send();
+    } catch (err) {
+        return res.status(401).send();
+    }
+}
+
 
 
 module.exports = {
@@ -228,5 +241,6 @@ module.exports = {
     reset,
     signup,
     forgotPassword,
-    verify
+    verify,
+    checkUserLoggedIn
 }

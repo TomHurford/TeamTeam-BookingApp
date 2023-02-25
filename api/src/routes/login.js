@@ -35,6 +35,11 @@ router.post('/verify', (req, res) => {
     loginController.verify(req, res)
 })
 
+// This route is used to verify a token
+router.post('/checkUserLoggedIn', (req, res) => {
+    checkUserLoggedIn.verify(req, res)
+})
+
 
 
 

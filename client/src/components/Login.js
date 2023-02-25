@@ -43,10 +43,9 @@ class Login extends Component {
         
         axios.post('http://localhost:5001/user/login', { email: this.state.email, password: this.state.password })
             .then(response => {
-                console.log(response.data.token);
                 if (response.data.token) {
                     jwtController.setToken(response.data.token);
-                    window.location = '/profile';
+                    window.location = '/';
                 } else {
                     this.showMessage('Error: ' + response.data.message);
                 }

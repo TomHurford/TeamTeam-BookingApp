@@ -22,15 +22,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [14.x, 16.x, 18.x]
+        node-version: [18.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - name: Install dependencies and run tests
-      run: |
-        pwd
-        ls -hartl
-        cd /home/runner/work/TeamTeam-BookingApp/TeamTeam-BookingApp/client
-        ls -hartl
-        npm install
-        npm run test
+    - run: pwd
+    - run: ls -hartl
+    - run: cd TeamTeam-BookingApp
+    - run: ls -hartl

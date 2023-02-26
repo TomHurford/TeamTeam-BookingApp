@@ -35,4 +35,12 @@ test('check welcome message', () => {
 //     expect(eventsList).toBeInTheDocument();  
 // });
 
+test('check if events are clickable', () => {
+    render(<Home />);
+    const eventsList = screen.getByTestId('events-list');
+    
+});
+
+
+
 

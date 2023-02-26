@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 
-export default function Paypal() {
+export default function PayPal() {
   const paypal = useRef();
   const [hasRendered, setHasRendered] = useState(false);
 

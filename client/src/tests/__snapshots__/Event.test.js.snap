@@ -3,12 +3,14 @@
 exports[`Event snapshot test 1`] = `
 <div
   className="innerEventCard"
+  data-testid="eventCardID"
 >
   <div
     className="imageCard"
   >
     <div
       className="image"
+      data-testid="eventImageID"
       style={
         Object {
           "backgroundImage": "url(undefined)",
@@ -17,6 +19,7 @@ exports[`Event snapshot test 1`] = `
     />
     <div
       className="eventName"
+      data-testid="eventNameID"
     />
     <div
       className="hiddenUntilHover"
@@ -26,9 +29,11 @@ exports[`Event snapshot test 1`] = `
       />
       <div
         className="eventDesc"
+        data-testid="eventDescriptionID"
       />
       <div
         className="locationTime"
+        data-testid="eventLocationTimeID"
       >
          
       </div>
@@ -39,6 +44,7 @@ exports[`Event snapshot test 1`] = `
   >
     <div
       className="societyName"
+      data-testid="eventSocietyNameID"
     >
       Society Name
     </div>

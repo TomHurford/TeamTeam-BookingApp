@@ -3,23 +3,24 @@ import '../../styles/EventCard.css';
 import PropTypes from 'prop-types';
 
 //Creating an event component to show event details
+//Event society name needs to be fixed
 
 class Event extends Component { 
   
   render() {
     return (
-      <div className="innerEventCard">
+      <div className="innerEventCard" data-testid = "eventCardID">
         <div className="imageCard">
-          <div className="image" style={{backgroundImage: `url(${this.props.specificEvent.banner})`}}></div>
-          <div className="eventName">{this.props.specificEvent.name}</div>
+          <div className="image" data-testid = "eventImageID" style={{backgroundImage: `url(${this.props.specificEvent.banner})`}}></div>
+          <div className="eventName" data-testid = "eventNameID">{this.props.specificEvent.name}</div>
           <div className="hiddenUntilHover">
           <div className="imageOverlay"></div>
-            <div className="eventDesc">{this.props.specificEvent.description}</div>
-            <div className="locationTime">{this.props.specificEvent.location} {this.props.specificEvent.date}</div>
+            <div className="eventDesc" data-testid = "eventDescriptionID">{this.props.specificEvent.description}</div>
+            <div className="locationTime" data-testid = "eventLocationTimeID">{this.props.specificEvent.location} {this.props.specificEvent.date}</div>
           </div>
         </div>
         <div className="society">
-          <div className="societyName">Society Name</div>
+          <div className="societyName" data-testid = "eventSocietyNameID">Society Name</div> 
           <div className="iconNext"><div className="icon"></div></div>
         </div>
       </div>

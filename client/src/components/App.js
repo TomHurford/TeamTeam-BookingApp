@@ -1,8 +1,10 @@
 import Home from "./Home";
 import "../styles/App.css";
-import {React, useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import Contact from "./Contact";
 import Login from './Login';
+import Purchase from './Purchase';
+import PayPal from './PayPal';
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import EventDetails from "./Events/EventDetails";
@@ -15,9 +17,9 @@ import EditSocietyForm from "./Societies/EditSocietyForm";
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
 function App() {
-  const [tickets, setTickets] = useState([]);
-  const [ticketId, setTicketId] = useState(0);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const [tickets, setTickets] = React.useState([]);
+  const [ticketId, setTicketId] = React.useState(0);
+  const [totalPrice, setTotalPrice] = React.useState(0);
 
   useEffect(() => {
     const storedTickets = sessionStorage.getItem('tickets');
@@ -25,11 +27,11 @@ function App() {
     const storedTotalPrice = sessionStorage.getItem('totalPrice');
     if(storedTickets) {
       setTickets(JSON.parse(storedTickets));
-      console.log("current tickets");
-      console.log(tickets);
-      console.log("stored tickets");
-      console.log(JSON.parse(storedTickets));
-      console.log(storedTickets);
+      // console.log("current tickets");
+      // console.log(tickets);
+      // console.log("stored tickets");
+      // console.log(JSON.parse(storedTickets));
+      // console.log(storedTickets);
 
     }
     if(storedTicketId) {
@@ -45,7 +47,6 @@ function App() {
     sessionStorage.setItem('ticketId', JSON.stringify(ticketId));
     sessionStorage.setItem('totalPrice', JSON.stringify(totalPrice));
   }, [tickets, ticketId, totalPrice]);
-  
 
   const addTicket = (ticket) => {
     setTickets([...tickets, { ticket, id: ticketId }]);
@@ -59,14 +60,29 @@ function App() {
   };
 
   return (
-    <div className='root-container'>
-      <Navbar data-testid = "test-logo"/>
+    <div>
+      <Navbar />
       <Routes>
-      <Route path = "/" element={<Home/>}></Route>
-        <Route path = "/contact" element={<Contact/>}></Route>
+        <Route path="/" element={<Home />}></Route>
         <Route path = "/login" element={<Login/>}></Route>
-        <Route path = "/event-details" element={<EventDetails addTicket = {addTicket}/>}></Route>
-        <Route path = "/basket" element={<Basket tickets = {tickets} removeTicket = {removeTicket} totalPrice = {totalPrice}/>}></Route>
+        <Route path="/contact" element={<Contact />}></Route>
+        <Route path="/purchase" element={<Purchase />}></Route>
+        <Route path="/paypal" element={<PayPal />}></Route>
+
+        <Route
+          path="/event-details"
+          element={<EventDetails addTicket={addTicket} />}
+        ></Route>
+        <Route
+          path="/basket"
+          element={
+            <Basket
+              tickets={tickets}
+              removeTicket={removeTicket}
+              totalPrice={totalPrice}
+            />
+          }
+        ></Route>
         
         <Route path="/societies/:id/:name?" element={<ViewSociety />} />
         <Route path="/societies" element={<SearchSocieties />} />

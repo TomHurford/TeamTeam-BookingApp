@@ -12,9 +12,7 @@
 }
 .events{
     margin-top: 100px;
-    display: grid;
-    gap: 30px;
-    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
 }
 
 .welcome{

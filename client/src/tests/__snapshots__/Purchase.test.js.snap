@@ -2,20 +2,27 @@
 
 exports[`Purchase snapshot test 1`] = `
 <div
-  className="purchase"
+  className="page-container"
 >
-  <h1>
-    Future Tickets
-  </h1>
   <div
-    className="purchase__container"
+    className="underlay"
+  />
+  <div
+    className="purchase"
   >
+    <h1>
+      Future Tickets
+    </h1>
     <div
-      className="purchase__wrapper"
+      className="purchase__container"
     >
-      <ul
-        className="purchase__items"
-      />
+      <div
+        className="purchase__wrapper"
+      >
+        <ul
+          className="purchase__items"
+        />
+      </div>
     </div>
   </div>
 </div>

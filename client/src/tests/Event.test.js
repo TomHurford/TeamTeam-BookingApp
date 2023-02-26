@@ -22,7 +22,7 @@ test('Event is defined', () => {
   expect(event).toBeDefined();
 });
 
-test('Event component renders 4 elements', () => {
+test('Event component renders both the image card and the society', () => {
   const {getByTestId} = render(<Event specificEvent= {{
     "id": 1,
     "name": "Event 1",
@@ -31,7 +31,9 @@ test('Event component renders 4 elements', () => {
     "location": "Event 1 location"
   }}/>);
   const event = getByTestId('eventCardID');
-  expect(event.children.length).toBe(4);
+  expect(event.children.length).toBe(2);
+  expect(event.children[0].className).toBe("imageCard");
+  expect(event.children[1].className).toBe("society");
 });
 
 test('Event name is correct', () => {
@@ -59,30 +61,42 @@ test('Event description is correct', () => {
   expect (eventDescription.textContent).toBe("Event 1 description");
 });
 
-test('Event date is correct', () => {
+test('Event location and date is correct', () => {
   const {getByTestId} = render(<Event specificEvent={{
     "id": 1,
     "name": "Event 1",
     "description": "Event 1 description",
     "date": "2023-12-02T00:00:00.000Z",
-    "location": "Event 1 location"
+    "location": "Event 1 location "
   }}/>);
-  const eventDate = getByTestId('eventDateID');
-  expect (eventDate.textContent).toBe("2023-12-02T00:00:00.000Z");
+  const eventLocation = getByTestId('eventLocationTimeID');
+  expect (eventLocation.textContent).toBe("Event 1 location  2023-12-02T00:00:00.000Z");
 });
 
-test('Event location is correct', () => {
+test('Event society name is correct', () => {
   const {getByTestId} = render(<Event specificEvent={{
     "id": 1,
     "name": "Event 1",
     "description": "Event 1 description",
     "date": "2023-12-02T00:00:00.000Z",
-    "location": "Event 1 location"
+    "location": "Event 1 location",
   }}/>);
-  const eventLocation = getByTestId('eventLocationID');
-  expect (eventLocation.textContent).toBe("Event 1 location");
+  const eventSocietyId = getByTestId('eventSocietyNameID');
+  expect (eventSocietyId.textContent).toBe("Society Name");
 });
 
+test('Event image is correct', () => {
+  const {getByTestId} = render(<Event specificEvent={{
+    "id": 1,
+    "name": "Event 1",
+    "description": "Event 1 description",
+    "date": "2023-12-02T00:00:00.000Z",
+    "location": "Event 1 location",
+    "banner": "https://www.google.com"
+  }}/>);
+  const eventImage = getByTestId('eventImageID');
+  expect (eventImage.style.backgroundImage).toBe("url(https://www.google.com)");
+});
 
 
 

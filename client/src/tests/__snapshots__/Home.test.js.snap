@@ -28,7 +28,7 @@ exports[`Home snapshot test 1`] = `
         type="text"
       />
     </form>
-    <ul
+    <div
       className="events"
       data-testid="events-list"
     />

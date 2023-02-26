@@ -1,0 +1,55 @@
+/*Styling for the navbar and logo below*/
+
+.navbar{
+    width: 100%;
+    height: 60px;
+    background-color: #000000;
+    position: fixed;
+    top: 0;
+    min-width: 700px;
+    padding: 0 !important;
+}
+
+.navbarElements{
+    display: flex;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.navbar ul a {
+    height: 60px;
+}
+.navbar ul li{
+    list-style: none;
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    float: right;
+    padding: 15px;
+    height: 60px;
+    
+}
+
+.navbar ul li:hover{
+    cursor: pointer;
+    opacity: 0.8;
+    transform: scale(1.05);
+    transition: 0.3s;
+}
+
+.navbar ul li:active{
+    transform: scale(1.02);
+    transition: 0.3s;
+}
+
+.navbar ul li > img{
+    width: 30px;
+    height: 30px;
+}
+.navbar ul li.left {
+    position: absolute;
+    left: 0;
+}

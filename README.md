@@ -14,7 +14,7 @@
 
 Once running you can access the apps at:
 - react: http://localhost:3000
-- express: http://localhost:5000
+- express: http://localhost:5001
 - postgres: http://localhost:5432
 
 ### Developing outside of Docker

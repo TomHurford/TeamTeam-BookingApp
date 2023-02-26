@@ -1,9 +1,9 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Paypal from '../components/Paypal';
+import PayPal from '../components/PayPal';
 
 test('Paypal snapshot test', () => {
-  const component = renderer.create(<Paypal />);
+  const component = renderer.create(<PayPal />);
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 });

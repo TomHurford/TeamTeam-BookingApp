@@ -28,5 +28,5 @@ jobs:
     steps:
     - run: pwd
     - run: ls -hartl
-    - run: cd TeamTeam-BookingApp
+    - run: cd ..
     - run: ls -hartl

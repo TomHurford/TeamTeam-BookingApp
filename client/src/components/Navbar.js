@@ -8,10 +8,12 @@ const jwtController = require('../utils/jwt.js');
 //Create a navbar component
 
 function Navbar() {
-    const [isLoggedIn, setIsLoggedIn] = React.useState([]);
+    const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
     useEffect(() => {
-        setIsLoggedIn(jwtController.isLoggedIn());
+        console.log(jwtController.getToken())
+        jwtController.checkIsLoggedIn();
+        setIsLoggedIn(jwtController.getIsLoggedIn());
     }, []);
 
     return (

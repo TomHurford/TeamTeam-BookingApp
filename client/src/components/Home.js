@@ -43,7 +43,6 @@ class Home extends Component {
                     {this.welcome()}
                     {this.searchBar()}
                     <div className="events">
-                        {console.log(this.state.data)}
                         {this.state.data.map(event => (    
                             <div className="eventCard" key={event.id} onClick={()=>this.handleClick(event.id)} >
                             <Event details={event.id} specificEvent = {event}/>

@@ -65,6 +65,9 @@
     width: 90px;
     height: 90px;
     position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 .body > .societyInfo > .name {
     font-size: 1.5em;

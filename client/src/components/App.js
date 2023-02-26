@@ -13,6 +13,7 @@ import ViewSociety from "./Societies/ViewSociety";
 import CreateSocietyForm from "./Societies/CreateSocietyForm";
 import SearchSocieties from "./Societies/SearchSocieties";
 import EditSocietyForm from "./Societies/EditSocietyForm";
+import Logout from "./Logout";
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
@@ -65,6 +66,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path = "/login" element={<Login/>}></Route>
+        <Route path = "/logout" element={<Logout/>}></Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/purchase" element={<Purchase />}></Route>
         <Route path="/paypal" element={<PayPal />}></Route>

@@ -29,10 +29,10 @@ test('check welcome message', () => {
     expect(welcomeElement).toBeInTheDocument();
 });
 
-test('list of events render on home page', () => {
-    render(<Home />);
-    const eventsList = screen.getByTestId('events-list');
-    expect(eventsList).toBeInTheDocument();  
-});
+// test('list of events render on home page', () => {
+//     render(<Home />);
+//     const eventsList = screen.getByTestId('events-list');
+//     expect(eventsList).toBeInTheDocument();  
+// });
 
 

@@ -11,6 +11,8 @@ import ViewSociety from "./Societies/ViewSociety";
 import CreateSocietyForm from "./Societies/CreateSocietyForm";
 import SearchSocieties from "./Societies/SearchSocieties";
 import EditSocietyForm from "./Societies/EditSocietyForm";
+import Purchase from "./Purchase";
+
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
@@ -67,6 +69,8 @@ function App() {
         <Route path = "/login" element={<Login/>}></Route>
         <Route path = "/event-details" element={<EventDetails addTicket = {addTicket}/>}></Route>
         <Route path = "/basket" element={<Basket tickets = {tickets} removeTicket = {removeTicket} totalPrice = {totalPrice}/>}></Route>
+        <Route path = "/purchase/:id" element={<Purchase tickets = {tickets} totalPrice = {totalPrice}/>}></Route>
+
         
         <Route path="/societies/:id/:name?" element={<ViewSociety />} />
         <Route path="/societies" element={<SearchSocieties />} />

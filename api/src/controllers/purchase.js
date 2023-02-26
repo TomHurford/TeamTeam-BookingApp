@@ -69,10 +69,23 @@ const getFutureTickets = async (req, res) => {
       }
     }))
 
-
+    //Retreive event using event id and add the event to purchase json
+    const futureTicketWithEvent = await Promise.all(futureTickets.map(async (ticket) => {
+      const event = await prisma.event.findUnique({
+        where: {
+          id: ticket.eventId
+        }
+      })
+      return {
+        ...ticket,
+        event: event
+      }
+    }))
+    console.log("purchases: ", purchases)
+    
 
     console.log("futureTickets: ", futureTickets)
-    res.status(200).send({ futureTickets: futureTickets });
+    res.status(200).send({ futureTickets:futureTicketWithEvent });
   } catch (err) {
     console.log(err)
     res.status(401).send({ token: null, error: "Unauthorized" });

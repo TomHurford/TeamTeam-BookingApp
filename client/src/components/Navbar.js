@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import logo from '../utils/logo.png';
 import basket from '../utils/basket.png'
 
+
 //Create a navbar component
 
 function Navbar() {
@@ -16,6 +17,7 @@ function Navbar() {
                 <Link to = "/societies"><li>Societies</li></Link>
                 <Link to = "/login"><li>Login / SignUp</li></Link>
                 <Link to = "/contact"><li>Contact</li></Link>
+                <Link to = "/purchase/future"><li>Purchase</li></Link>
                 <Link to = "/basket"><li><img src = {basket} alt = "Basket"></img></li></Link>
             </ul>
         </nav>

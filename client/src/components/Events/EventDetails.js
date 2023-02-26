@@ -30,7 +30,7 @@ class EventDetails extends Component{
 
         <div className="header">
           <div className="image" style={{backgroundImage: `url(${event.event.banner})`}}></div>
-          <div className="title">{event.event.name}</div>
+          <div className="title" >{event.event.name}</div>
         </div>
 
         <div className="body">

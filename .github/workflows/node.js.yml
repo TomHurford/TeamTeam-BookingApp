@@ -30,7 +30,7 @@ jobs:
       run: |
         pwd
         ls -hartl
-        cd /home/runner/work/TeamTeam-BookingApp/TeamTeam-BookingApp/
+        cd /home/runner/work/TeamTeam-BookingApp/TeamTeam-BookingApp/client
         ls -hartl
         npm install
         npm run test

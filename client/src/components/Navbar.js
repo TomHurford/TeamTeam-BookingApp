@@ -5,6 +5,7 @@ import logo from '../utils/logo.png';
 import basket from '../utils/basket.png';
 const jwtController = require('../utils/jwt.js');
 
+
 //Create a navbar component
 
 function Navbar() {
@@ -24,8 +25,7 @@ function Navbar() {
                 { isLoggedIn ? <Link to = "/logout"><li>Logout</li></Link> : <Link to = "/login"><li>Login / SignUp</li></Link> }
                 { isLoggedIn ? <Link to = "/profile"><li>Profile</li></Link> : <div></div> }
                 <Link to = "/contact"><li>Contact</li></Link>
-                <Link to = "/purchase"><li>Purchase</li></Link>
-                <Link to = "/paypal"><li>PayPal</li></Link>
+                <Link to = "/purchase/future"><li>Purchase</li></Link>
                 <Link to = "/basket"><li><img src = {basket} alt = "Basket"></img></li></Link>
             </ul>
         </nav>

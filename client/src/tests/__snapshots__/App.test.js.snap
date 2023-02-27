@@ -65,19 +65,11 @@ exports[`App snapshot test 1`] = `
           </li>
         </a>
         <a
-          href="/purchase"
+          href="/purchase/future"
           onClick={[Function]}
         >
           <li>
             Purchase
-          </li>
-        </a>
-        <a
-          href="/paypal"
-          onClick={[Function]}
-        >
-          <li>
-            PayPal
           </li>
         </a>
         <a

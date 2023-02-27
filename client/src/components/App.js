@@ -14,6 +14,7 @@ import CreateSocietyForm from "./Societies/CreateSocietyForm";
 import SearchSocieties from "./Societies/SearchSocieties";
 import EditSocietyForm from "./Societies/EditSocietyForm";
 
+
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
 function App() {
@@ -66,7 +67,7 @@ function App() {
         <Route path="/" element={<Home />}></Route>
         <Route path = "/login" element={<Login/>}></Route>
         <Route path="/contact" element={<Contact />}></Route>
-        <Route path="/purchase" element={<Purchase />}></Route>
+        <Route path = "/purchase/:id" element={<Purchase tickets = {tickets} totalPrice = {totalPrice}/>}></Route>
         <Route path="/paypal" element={<PayPal />}></Route>
 
         <Route

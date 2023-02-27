@@ -1,12 +1,8 @@
-
 import React, { useState, useEffect } from "react";
-
-//css
 import "../styles/Purchase.css";
 
 const FutureTickets = () => {
   const [futureTickets, setFutureTickets] = useState([]);
-  
 
   useEffect(() => {
     fetch("http://localhost:5001/purchase/future", {
@@ -24,6 +20,7 @@ const FutureTickets = () => {
         );
         setFutureTickets(sortedTickets);
       });
+      
   }, []);
 
   return (

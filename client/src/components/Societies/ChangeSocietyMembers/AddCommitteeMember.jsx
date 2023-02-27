@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import PropTypes from 'prop-types';
 
 const AddCommitteeMember = (props) => {
   const [value, setValue] = React.useState("");
@@ -21,6 +22,10 @@ const AddCommitteeMember = (props) => {
       </button>
     </form>
   );
+};
+
+AddCommitteeMember.propTypes = {
+  addMember: PropTypes.func,
 };
 
 export default AddCommitteeMember;

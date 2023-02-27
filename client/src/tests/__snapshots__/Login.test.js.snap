@@ -61,7 +61,7 @@ exports[`Login snapshot test 1`] = `
         </label>
         <br />
         <input
-          minLength="8"
+          minLength="4"
           name="password"
           onChange={[Function]}
           required={true}

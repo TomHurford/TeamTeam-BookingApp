@@ -3,6 +3,7 @@ import '../../styles/Events.css';
 import '../../styles/Home.css';
 import '../../styles/TitleOfPage.css'
 import {getEventById} from "../../utils/EventsLogic"
+import PropTypes from 'prop-types';
 
 class EventDetails extends Component{
   constructor(props){
@@ -30,7 +31,7 @@ class EventDetails extends Component{
 
         <div className="header">
           <div className="image" style={{backgroundImage: `url(${event.event.banner})`}}></div>
-          <div className="title">{event.event.name}</div>
+          <div className="title" >{event.event.name}</div>
         </div>
 
         <div className="body">
@@ -87,5 +88,8 @@ class EventDetails extends Component{
   }
 }
 
+EventDetails.propTypes = {
+  addTicket: PropTypes.func
+};
 
 export default EventDetails;

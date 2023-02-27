@@ -1,26 +1,85 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EditSocietyForm snapshot test 1`] = `
-<div>
-  <h1>
-    Edit Society
-  </h1>
-  <form>
-    <fieldset
-      disabled={true}
-    >
+<div
+  className="page-container"
+>
+  <div
+    className="underlay"
+  />
+  <div
+    className="societyPage-container"
+  >
+    <h1>
+      Edit Society
+    </h1>
+    <form>
+      <fieldset
+        disabled={true}
+      >
+        <div
+          className="form-group"
+        >
+          <label
+            htmlFor="props.name"
+          >
+            Society Name
+          </label>
+          <input
+            autoFocus={true}
+            className="form-control"
+            id="societyName"
+            onChange=" "
+            type="text"
+            value=""
+          />
+        </div>
+        <div
+          className="form-group"
+        >
+          <label
+            htmlFor="categorySelect"
+          >
+            Select a category
+          </label>
+          <select
+            className="form-select"
+            id="categorySelect"
+          >
+            <option
+              defaultValue={true}
+              value="1"
+            >
+              Sport
+            </option>
+            <option
+              value="2"
+            >
+              Social
+            </option>
+            <option
+              value="3"
+            >
+              Academic
+            </option>
+          </select>
+        </div>
+      </fieldset>
+      <h5>
+        Socials
+      </h5>
       <div
         className="form-group"
       >
         <label
           htmlFor="props.name"
         >
-          Society Name
+          Website
         </label>
         <input
           autoFocus={true}
           className="form-control"
-          id="societyName"
+          id="website"
           onChange=" "
           type="text"
           value=""
@@ -30,250 +89,200 @@ exports[`EditSocietyForm snapshot test 1`] = `
         className="form-group"
       >
         <label
-          htmlFor="categorySelect"
+          htmlFor="props.name"
         >
-          Select a category
+          Instagram
         </label>
-        <select
-          className="form-select"
-          id="categorySelect"
-        >
-          <option
-            defaultValue={true}
-            value="1"
-          >
-            Sport
-          </option>
-          <option
-            value="2"
-          >
-            Social
-          </option>
-          <option
-            value="3"
-          >
-            Academic
-          </option>
-        </select>
+        <input
+          autoFocus={true}
+          className="form-control"
+          id="instagram"
+          onChange=" "
+          type="text"
+          value=""
+        />
       </div>
-    </fieldset>
-    <h5>
-      Socials
-    </h5>
-    <div
-      className="form-group"
-    >
-      <label
-        htmlFor="props.name"
+      <div
+        className="form-group"
       >
-        Website
-      </label>
-      <input
-        autoFocus={true}
-        className="form-control"
-        id="website"
-        onChange=" "
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="form-group"
-    >
-      <label
-        htmlFor="props.name"
+        <label
+          htmlFor="props.name"
+        >
+          Twitter
+        </label>
+        <input
+          autoFocus={true}
+          className="form-control"
+          id="twitter"
+          onChange=" "
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
       >
-        Instagram
-      </label>
-      <input
-        autoFocus={true}
-        className="form-control"
-        id="instagram"
-        onChange=" "
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="form-group"
-    >
-      <label
-        htmlFor="props.name"
+        <label
+          htmlFor="props.name"
+        >
+          Facebook
+        </label>
+        <input
+          autoFocus={true}
+          className="form-control"
+          id="facebook"
+          onChange=" "
+          type="text"
+          value=""
+        />
+      </div>
+      <h5>
+        Images
+      </h5>
+      <small
+        className="form-text text-muted"
+        id="imageHelp"
       >
-        Twitter
-      </label>
-      <input
-        autoFocus={true}
-        className="form-control"
-        id="twitter"
-        onChange=" "
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="form-group"
-    >
-      <label
-        htmlFor="props.name"
+        You must enter a link to the images
+      </small>
+      <div
+        className="form-group"
       >
-        Facebook
-      </label>
-      <input
-        autoFocus={true}
-        className="form-control"
-        id="facebook"
-        onChange=" "
-        type="text"
-        value=""
-      />
-    </div>
-    <h5>
-      Images
-    </h5>
-    <small
-      className="form-text text-muted"
-      id="imageHelp"
-    >
-      You must enter a link to the images
-    </small>
-    <div
-      className="form-group"
-    >
-      <label
-        htmlFor="props.name"
+        <label
+          htmlFor="props.name"
+        >
+          Logo
+        </label>
+        <input
+          autoFocus={true}
+          className="form-control"
+          id="logo"
+          onChange=" "
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
       >
-        Logo
-      </label>
-      <input
-        autoFocus={true}
-        className="form-control"
-        id="logo"
-        onChange=" "
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="form-group"
-    >
-      <label
-        htmlFor="props.name"
+        <label
+          htmlFor="props.name"
+        >
+          Banner
+        </label>
+        <input
+          autoFocus={true}
+          className="form-control"
+          id="banner"
+          onChange="  "
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
       >
-        Banner
-      </label>
-      <input
-        autoFocus={true}
-        className="form-control"
-        id="banner"
-        onChange="  "
-        type="text"
-        value=""
-      />
-    </div>
-    <div
-      className="form-group"
-    >
-      <label
-        htmlFor=""
-      >
-        Society Description
-      </label>
-      <textarea
-        className="form-control"
-        cols="173"
-        id="societyDescription"
-        name="societyDescription"
-        rows="8"
-        style={
-          Object {
-            "marginBottom": "8px",
-          }
-        }
-      />
-    </div>
-    <button
-      className="btn btn-primary"
-    >
-      Save
-    </button>
-  </form>
-  <div
-    className=""
-  >
-    <h1>
-      Committee Members
-    </h1>
-    <div>
-      <span>
-        <button
-          className="btn btn-danger"
-          onClick={[Function]}
+        <label
+          htmlFor=""
+        >
+          Society Description
+        </label>
+        <textarea
+          className="form-control"
+          cols="173"
+          id="societyDescription"
+          name="societyDescription"
+          rows="8"
           style={
             Object {
-              "marginRight": "8px",
+              "marginBottom": "8px",
             }
           }
-        >
-          Remove
-        </button>
-        nid@nid.com
-        <h3 />
-      </span>
-    </div>
-    <div>
-      <span>
-        <button
-          className="btn btn-danger"
-          onClick={[Function]}
-          style={
-            Object {
-              "marginRight": "8px",
-            }
-          }
-        >
-          Remove
-        </button>
-        hi@hi.com
-        <h3 />
-      </span>
-    </div>
-    <div>
-      <span>
-        <button
-          className="btn btn-danger"
-          onClick={[Function]}
-          style={
-            Object {
-              "marginRight": "8px",
-            }
-          }
-        >
-          Remove
-        </button>
-        hdsdfasi@dhi.com
-        <h3 />
-      </span>
-    </div>
-    <form
-      onSubmit={[Function]}
-    >
-      <input
-        onChange={[Function]}
-        placeholder="Enter member's email"
-        value=""
-      />
+        />
+      </div>
       <button
         className="btn btn-primary"
-        style={
-          Object {
-            "marginLeft": "8px",
-          }
-        }
       >
-        Add Member
+        Save
       </button>
     </form>
+    <div
+      className=""
+    >
+      <h1>
+        Committee Members
+      </h1>
+      <div>
+        <span>
+          <button
+            className="btn btn-danger"
+            onClick={[Function]}
+            style={
+              Object {
+                "marginRight": "8px",
+              }
+            }
+          >
+            Remove
+          </button>
+          nid@nid.com
+          <h3 />
+        </span>
+      </div>
+      <div>
+        <span>
+          <button
+            className="btn btn-danger"
+            onClick={[Function]}
+            style={
+              Object {
+                "marginRight": "8px",
+              }
+            }
+          >
+            Remove
+          </button>
+          hi@hi.com
+          <h3 />
+        </span>
+      </div>
+      <div>
+        <span>
+          <button
+            className="btn btn-danger"
+            onClick={[Function]}
+            style={
+              Object {
+                "marginRight": "8px",
+              }
+            }
+          >
+            Remove
+          </button>
+          hdsdfasi@dhi.com
+          <h3 />
+        </span>
+      </div>
+      <form
+        onSubmit={[Function]}
+      >
+        <input
+          onChange={[Function]}
+          placeholder="Enter member's email"
+          value=""
+        />
+        <button
+          className="btn btn-primary"
+          style={
+            Object {
+              "marginLeft": "8px",
+            }
+          }
+        >
+          Add Member
+        </button>
+      </form>
+    </div>
   </div>
 </div>
 `;

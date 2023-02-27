@@ -13,7 +13,6 @@ import ViewSociety from "./Societies/ViewSociety";
 import CreateSocietyForm from "./Societies/CreateSocietyForm";
 import SearchSocieties from "./Societies/SearchSocieties";
 import EditSocietyForm from "./Societies/EditSocietyForm";
-import Purchase from "./Purchase";
 
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here

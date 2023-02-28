@@ -3,4 +3,11 @@ module.exports = {
     '@babel/preset-env',
     ['@babel/preset-react', {runtime: 'automatic'}],
   ],
+  // env: {
+  //   test: {
+  //     plugins: ['istanbul']
+  //   }
+  // },
+  // plugins: ['transform-class-properties']
+  // plugins: ['istanbul']
 };

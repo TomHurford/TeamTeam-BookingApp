@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 
-export default function Paypal() {
+export default function PayPal() {
   const paypal = useRef();
   const [hasRendered, setHasRendered] = useState(false);
 
@@ -36,8 +36,11 @@ export default function Paypal() {
   }, [hasRendered]);
 
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-      <div ref={paypal} style={{ maxWidth: "500px" }}></div>
+    <div className='page-container'>
+        <div className='underlay'></div>
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <div ref={paypal} style={{ maxWidth: "500px" }}></div>
+        </div>
     </div>
   );
 }

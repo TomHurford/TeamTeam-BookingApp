@@ -23,10 +23,28 @@ export const removeToken = () => {
 //     return decoded.exp < Date.now() / 1000;
 // }
 
-// export const isLoggedIn = () => {
-//     const token = getToken();
-//     return !!token && !isTokenExpired(token);
-// }
+export const isLoggedIn = () => {
+    const token = getToken();
+
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }      
+
+    axios.post('https://localhost:5001/user/verify', {}, {
+        headers: headers
+      })
+        .then(() => {
+            return true;
+        })
+        .catch(error => {
+            // Redirect to login page if the token is invalid
+            removeToken();
+            console.log(error.message);
+            return false;
+        });
+
+}
 
 // export const requireAuth = (nextState, replace) => {
 //     if (!isLoggedIn()) {

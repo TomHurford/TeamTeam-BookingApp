@@ -8,6 +8,12 @@ async function getEvents(req, res) {
     // const decoded = await auth.authenticate(req);
     // Get all events
     const events = await prisma.event.findMany();
+    var arr = [];
+    events.map(async (event) => {
+      event.society = await prisma.society.findFirst(event.societyId);
+      arr.push(event);
+    });
+    console.log(arr);
     res.status(200).send({ events: events });
   } catch (err) {
     res.status(401).send({ token: null, error: "Unauthorized" });
@@ -41,12 +47,12 @@ async function getEventById(req, res) {
     })
 
     const societyLinks = await prisma.societyLinks.findUnique({
-        where: {
-            societyId: event.societyId 
-        }
-    })
+      where: {
+          societyId: event.societyId 
+      }
+  })
 
-    res.status(200).send({event: event, ticket_types: ticket_types, society: society, societyLinks: societyLinks})
+  res.status(200).send({event: event, ticket_types: ticket_types, society: society, societyLinks: societyLinks})
   } catch (err) {
     res.status(401).send({ token: null, error: "Unauthorized" });
   }

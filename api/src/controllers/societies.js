@@ -311,10 +311,204 @@ async function updateSociety(req, res) {
   }
 }
 
+// Controller function to add a user to the committee of a society
+async function addCommitteeMember(req, res) {
+  try {
+    // Authenticate the user
+    const userId = (await auth.authenticate(req)).id;
+
+    // Check if user is a committee member of the society
+    const committee = await prisma.committee.findMany({
+      where: {
+        userId: userId,
+        societyId: req.body.societyId,
+      },
+      select: {
+        isPresident: true,
+      },
+    });
+
+    if (!committee) {
+      res.status(401).send({ message: "Unauthorized" });
+      return;
+    }
+
+    // Get the user from the email
+    const user = await prisma.user.findUnique({
+      where: {
+        email: req.body.email,
+      },
+    });
+
+    if (!user) {
+      res.status(404).send({ message: "User Not Found" });
+      return;
+    }
+
+    // Check if the user is already a committee member
+    const isCommitteeMember = await prisma.committee.findMany({
+      where: {
+        userId: user.id,
+        societyId: req.body.societyId,
+      },
+    });
+
+    if (isCommitteeMember) {
+      res.status(400).send({ message: "User is already a committee member" });
+      return;
+    }
+
+    // Add the user to the committee
+    const addCommitteeMember = await prisma.committee.create({
+      data: {
+        userId: user.id,
+        societyId: req.body.societyId,
+        isPresident: false,
+        role: req.body.role,
+      },
+    });
+
+    res.status(200).send({ message: "User added to committee" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+}
+
+// Controller function to remove a user from the committee of a society
+async function removeCommitteeMember(req, res) {
+  try {
+    // Authenticate the user
+    const userId = (await auth.authenticate(req)).id;
+
+    // Check if user is a committee member of the society
+    const committee = await prisma.committee.findMany({
+      where: {
+        userId: userId,
+        societyId: req.body.societyId,
+      },
+      select: {
+        isPresident: true,
+      }
+    });
+
+    if (!committee) {
+      res.status(401).send({ message: "Unauthorized" });
+      return;
+    }
+
+    // Check if the user is a committee member
+    const isCommitteeMember = await prisma.committee.findMany({
+      where: {
+        userId: req.body.userId,
+        societyId: req.body.societyId,
+      }
+    });
+
+    if (!isCommitteeMember) {
+      res.status(400).send({ message: "User is not a committee member" });
+      return;
+    }
+
+    // Remove the user from the committee
+    const removeCommitteeMember = await prisma.committee.delete({
+      where: {
+        id: req.body.committeeId,
+      },
+    });
+
+    res.status(200).send({ message: "User removed from committee" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+}
+
+// Controller function to update a user's role in the committee of a society
+async function updateCommitteeMember(req, res) {
+  try {
+    // Authenticate the user
+    const userId = (await auth.authenticate(req)).id;
+
+    // Check if user is a committee member of the society
+    const committee = await prisma.committee.findMany({
+      where: {
+        userId: userId,
+        societyId: req.body.societyId,
+      },
+      select: {
+        isPresident: true,
+      },
+    });
+
+    if (!committee) {
+      res.status(401).send({ message: "Unauthorized" });
+      return;
+    }
+
+    // Check if the user is a committee member
+    const isCommitteeMember = await prisma.committee.findMany({
+      where: {
+        userId: req.body.userId,
+        societyId: req.body.societyId,
+      },
+    });
+
+    if (!isCommitteeMember) {
+      res.status(400).send({ message: "User is not a committee member" });
+      return;
+    }
+
+    // Update the user's role in the committee
+    const updateCommitteeMember = await prisma.committee.update({
+      where: {
+        userId: req.body.userId,
+        societyId: req.body.societyId,
+      },
+      data: {
+        role: req.body.role,
+        isPresident: req.body.isPresident,
+      },
+    });
+
+    // Check that there aren't multiple presidents
+    const presidents = await prisma.committee.findMany({
+      where: {
+        societyId: req.body.societyId,
+        isPresident: true,
+      },
+    });
+
+    // If there are multiple presidents, set the first one to false
+    if (presidents.length > 1) {
+      const updatePresident = await prisma.committee.update({
+        where: {
+          userId: userId,
+          societyId: req.body.societyId,
+        },
+        data: {
+          isPresident: false,
+        },
+      });
+    }
+
+    res.status(200).send({ message: "User updated in committee" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+}
+
+
+
+
 module.exports = {
   signup,
   getSocieties,
   getSocietyById,
   updateSociety,
   deleteSociety,
+  addCommitteeMember,
+  removeCommitteeMember,
+  updateCommitteeMember,
 };

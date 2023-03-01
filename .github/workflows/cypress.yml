@@ -22,10 +22,10 @@ jobs:
       - name: Start containers
         run: docker-compose -f "docker-compose.yml" up -d --build
 
-      - name: Install node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 18.x
+      # - name: Install node
+      #   uses: actions/setup-node@v1
+      #   with:
+      #     node-version: 18.x
 
       
       - name: Install dependencies and run cypress tests

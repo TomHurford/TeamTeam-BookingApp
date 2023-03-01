@@ -15,14 +15,12 @@ on:
 jobs:
   docker-compose:
     runs-on: ubuntu-latest
-    steps: 
-      - name: Checkout
-        uses: actions/checkout@v3
+      steps: 
+        - name: Checkout
+          uses: actions/checkout@v3
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v5
+        - name: Cypress run
+          uses: cypress-io/github-action@v5
           with:
-            start: docker-compose up -d
+            start: docker-compose up postgres -d
             working-directory: ./client
-            wait-on: http://localhost:3000
-            wait-on-timeout: 60

@@ -24,7 +24,8 @@ jobs:
       
       - name: Install dependencies and run cypress tests
         run: |
+          pwd
+          ls -hartl
           cd client
           npm install
           npm run test
-        working-directory: . 

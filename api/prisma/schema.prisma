@@ -118,17 +118,17 @@ model Ticket {
 }
 
 model Purchase {
-  id            Int      @id @unique @default(autoincrement())
-  date          DateTime @default(now())
+  id            Int             @id @unique @default(autoincrement())
+  date          DateTime        @default(now())
   total         Int
   paymentMethod String
-  status        String   @default("PENDING")
+  status        PURCHASE_STATUS @default(PENDING)
   userId        Int
   eventId       Int
-  user          User     @relation(references: [id], fields: [userId])
-  event         Event    @relation(references: [id], fields: [eventId])
+  user          User            @relation(references: [id], fields: [userId])
+  event         Event           @relation(references: [id], fields: [eventId])
   tickets       Ticket[]
-  isArchived    Boolean  @default(false)
+  isArchived    Boolean         @default(false)
 }
 
 model Verifications {
@@ -142,4 +142,10 @@ model Verifications {
 enum TICKET_STATUS {
   UNUSED
   USED
+}
+
+enum PURCHASE_STATUS {
+  PENDING
+  PAID
+  REFUNDED
 }

@@ -31,5 +31,5 @@ jobs:
       - name: Install dependencies and run cypress tests
         run: |
           cd client
-          npx cypress run
+          npx cypress run --headed --no-video
         working-directory: . 

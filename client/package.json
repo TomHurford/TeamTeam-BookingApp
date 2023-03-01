@@ -27,7 +27,7 @@
     "babel-plugin-istanbul": "^6.1.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "check-code-coverage": "^1.10.4",
-    "cypress": "^12.6.0",
+    "cypress": "^12.7.0",
     "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.32.2",
     "flow-bin": "^0.200.0",

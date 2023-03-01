@@ -24,4 +24,4 @@ jobs:
       
       - name: Install dependencies and run cypress tests
         run: |
-          docker exec -i react sh -c "npm install && npx cypress run"
+          docker exec -i react sh -c "apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb && npm install && npx cypress run"

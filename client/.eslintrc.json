@@ -6,7 +6,8 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended"
+        "plugin:react/recommended",
+        "plugin:babel"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -23,5 +24,6 @@
         "react"
     ],
     "rules": {
+        // "react/prop-types": "off"
     }
 }

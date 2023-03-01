@@ -24,4 +24,4 @@ jobs:
       
       - name: Install dependencies and run cypress tests
         run: |
-          docker exec -i react sh -c "npx cypress run"
+          docker exec -i react sh -c "npm install && npx cypress run"

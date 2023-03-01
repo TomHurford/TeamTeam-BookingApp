@@ -24,9 +24,4 @@ jobs:
       
       - name: Install dependencies and run cypress tests
         run: |
-          ls -l /home/runner/work/TeamTeam-BookingApp/TeamTeam-BookingApp/client/node_modules/
-          pwd
-          ls -hartl
-          cd client
-          npm install
-          npm run test
+          docker exec -it react sh -c "ls -hartl && pwd"

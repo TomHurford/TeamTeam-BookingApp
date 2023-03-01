@@ -4,7 +4,9 @@
 // // controller to get past events for a user to display on the past events page for a user on the front end
 // // Path: api/src/controllers/past.js
 const prisma = require('../../prisma/prisma.js'); 
+const { mail } = require('../utils/emails.js');
 const auth = require('../utils/jwt_auth.js');
+const { randomString } = require('../utils/random.js');
 
 
 
@@ -107,7 +109,7 @@ const createPurchase = async () => {
       paymentMethod: "paypal",
       user: {
         connect: {
-          id: decoded.user.id
+          id: decoded.id
         }
       },
       event: {
@@ -118,10 +120,100 @@ const createPurchase = async () => {
     }
   });
 
-  for (var i = 0; i < req.body.tickets.length; i++) {
+  var quantity = 0;
 
+  var tickets = [];
+
+  for (const [key, value] of Object.entries(tickets)) {
+
+    let ticketType = await prisma.ticketType.findFirst({
+      where: {
+        id: key
+      }
+    })
+
+    if (!ticketType) {} else {
+      for (let i = 0; i < value; i++) {
+        quantity++;
+
+        const ticketEncode = {
+          ticketTypeName: ticketType.name,
+          ticketTypeID: ticketType.id,
+          userID: decoded.id,
+          eventID: event.id,
+          purchaseID: payment.id,
+          ticketSecret: randomString(),
+        }
+        tickets.append(ticketEncode);
+        
+        await prisma.ticket.create({
+          data: {
+            ticketData: ticketEncode,
+            purchase: {
+              connect: {
+                id: payment.id
+              }
+            },
+            ticketType: {
+              connect: {
+                id: ticketType.id
+              }
+            },
+            event: {
+              connect: {
+                id: event.id
+              }
+            },
+            user: {
+              connect: {
+                id: decoded.id
+              }
+            }
+          }
+        });
+        
+      }
+    }
+
+
+    
   }
 
+  var ticketString = ``
+
+  for (var ticket of tickets) {
+    ticketString += `
+    Tickets:
+    
+    `
+  }
+
+  const user = await prisma.user.findFirst({
+    where: {
+      id: decoded.id
+    }
+  })
+
+  var eventDate = new Date(this.props.specificEvent.date);
+
+  mail(to=user.email, subject="Purchase Confirmation", body=`
+  <h2>Purchase Confirmation Order #` + purchase.id + `</h2><br />
+  <br />
+  <h4> Confirmation Of Order Details:</h4><br />
+  <p><br />
+  Event Name: <a href="https://localhost:3000/event-details?eventId=` + event.id + `">` + event.name + `</a><br />
+  Event Date: ` + eventDate.toDateString() + `<br />
+  Event Date: ` + eventDate.toTimeString() + `<br />
+  Event URL: <a>https://localhost:3000/event-details?eventId=` + event.id + `</a><br />
+  <br />
+  <br />
+  Quantity Of Tickets: ` + quantity + `<br />
+  Payment Method: ` + req.body.method + `<br />
+  Total Sum Of Tickets: ` + req.body.total + `<br />
+  <br />
+  <br />
+  </p>
+  `);
 
 
 }
@@ -129,5 +221,6 @@ const createPurchase = async () => {
 
 module.exports = {
   getPastPurchases,
-  getFutureTickets
+  getFutureTickets,
+  createPurchase
 }

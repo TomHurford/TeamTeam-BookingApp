@@ -36,7 +36,7 @@ async function mail(to='junkbox@tiketopia.armtech.dev',subject="test",body="test
     await transporter.sendMail({
         from: 'noreply@ticketopia.armtech.dev',
         to: to,
-        subject: subject,
+        subject: subject + ' | TickeTopia',
         html: header(subject) + body + footer
     });
 }

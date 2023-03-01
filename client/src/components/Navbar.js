@@ -11,9 +11,10 @@ function Navbar() {
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
     useEffect(() => {
-        console.log(jwtController.getToken())
-        jwtController.checkIsLoggedIn();
-        setIsLoggedIn(jwtController.getIsLoggedIn());
+        jwtController.checkIsLoggedIn().then((res) => {
+            res ? console.log('Logged In!') : console.log('Not Logged In!');
+            setIsLoggedIn(res);
+        });
     }, []);
 
     return (

@@ -9,9 +9,6 @@ const sessionStorage = require('sessionstorage');
 export const getToken = () => {
     return sessionStorage.getItem('token');
 }
-export const getIsLoggedIn = () => {
-    return sessionStorage.getItem('isLoggedIn');
-}
 
 export const setToken = (token) => {
     console.log('SET TOKEN FUNC')
@@ -22,6 +19,7 @@ export const removeToken = () => {
     sessionStorage.removeItem('token');
 }
 
+
 // export const isTokenExpired = (token) => {
 //     const decoded = decodeToken(token);
 //     if (!decoded) return true;
@@ -30,6 +28,10 @@ export const removeToken = () => {
 
 export const checkIsLoggedIn = async () => {
     const token = getToken();
+
+    if (token == null || token == 'null' || token == undefined) {
+        return false;
+    }
 
     const headers = {
         'Content-Type': 'application/json',
@@ -42,12 +44,11 @@ export const checkIsLoggedIn = async () => {
         console.log(err);
       })
     if (res.status == 200) {
-        sessionStorage.setItem('isLoggedIn', true);
+        return true;
     } else {
-        sessionStorage.setItem('isLoggedIn', false);
         removeToken()
     }
-    return sessionStorage.getItem('isLoggedIn');
+    return false;
 
 }
 

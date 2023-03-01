@@ -24,6 +24,7 @@ function FutureTickets() {
     const [tickets, setTickets] = useState([]);
 
    
+    let i=0
     
     useEffect(() => {
         fetch("http://localhost:5001/purchase/future")
@@ -44,7 +45,7 @@ function FutureTickets() {
                     <div className="purchase__wrapper">
                         <ul className="purchase__items">
                             {tickets.map((ticket) => (
-                                <li className="purchase__item">
+                                <li className="purchase__item" key={i++}>
                                     <div className="purchase__item__link">
                                         <div className="purchase__item__info">
                                             <h5 className="purchase__item__text">{ticket.event.name}</h5>

@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 //Creating an event component to show event details
 
 class Event extends Component { 
+
+  d = new Date(this.props.specificEvent.date);
   
   render() {
     return (
@@ -14,13 +16,10 @@ class Event extends Component {
           <div className="eventName">{this.props.specificEvent.name}</div>
           <div className="hiddenUntilHover">
           <div className="imageOverlay"></div>
+            <div className="societyName">Society Name</div>
             <div className="eventDesc">{this.props.specificEvent.description}</div>
-            <div className="locationTime">{this.props.specificEvent.location} {this.props.specificEvent.date}</div>
+            <div className="locationTime">{this.props.specificEvent.location}<br />{this.d.toDateString()}</div>
           </div>
-        </div>
-        <div className="society">
-          <div className="societyName">Society Name</div>
-          <div className="iconNext"><div className="icon"></div></div>
         </div>
       </div>
     );

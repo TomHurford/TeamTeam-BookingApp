@@ -5,9 +5,9 @@
 // Import the supertest library
 const request = require("supertest");
 // Import the prisma library
-const prisma = require("../prisma/prisma");
+const prisma = require("../../prisma/prisma.js");
 // Import the app
-const app = require("../app");
+const app = require("../server.js");
 // Import the jwt_auth library
 const jwt_auth = require("../utils/jwt_auth");
 
@@ -33,15 +33,18 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   // Before Each test we want to login as a user
-  const res = await request(app).post("/user/login").send({
-    email: "admin@admin.com",
-    password: "admin",
-  });
+  const res = await request(app)
+    .post("/user/login")
+    .send({
+      email: "admin@admin.com",
+      password: "admin",
+    });
   token = res.body.token;
 });
 
 describe("Create Societies", () => {
   test("Signup societies with normal values", async () => {
+    console.log("sending request to /societies/signup");
     const response = await request(app)
       .get("/societies/signup")
       .set("Authorization", `Bearer ${token}`)

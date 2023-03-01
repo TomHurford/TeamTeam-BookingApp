@@ -24,4 +24,16 @@ router.post("/deleteSociety", (req, res) => {
   societyController.deleteSociety(req, res);
 });
 
+router.post("/addCommitteeMember", (req, res) => {
+  societyController.addCommitteeMember(req, res);
+});
+
+router.post("/removeCommitteeMember", (req, res) => {
+  societyController.removeCommitteeMember(req, res);
+});
+
+router.post("/updateCommitteeMember", (req, res) => {
+  societyController.updateCommitteeMember(req, res);
+});
+
 module.exports = router;

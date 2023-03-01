@@ -31,6 +31,5 @@ jobs:
       - name: Install dependencies and run cypress tests
         run: |
           cd client
-          npm install
           npx cypress run
         working-directory: . 

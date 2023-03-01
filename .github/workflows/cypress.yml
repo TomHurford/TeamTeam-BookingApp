@@ -26,4 +26,5 @@ jobs:
         run: |
           ls -hartl
           cd client
+          ls -hartl
           npx cypress run

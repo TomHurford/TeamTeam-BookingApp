@@ -81,9 +81,9 @@ const getFutureTickets = async (req, res) => {
   }
 }
 
-const createPurchase = async () => {
+const createPurchase = async (req,res) => {
 
-  // (user token, payment status, total, payment method, event id, tickets, quantity)
+  // (user token, payment status, total, payment method, event id, tickets)
   let decoded = null;
   try {
       decoded = await auth.authenticate(req);
@@ -91,19 +91,20 @@ const createPurchase = async () => {
       return res.status(401).send({message: 'Unauthorised'});
   }
   
-  if (req.body === undefined || req.body.status === undefined || req.body.total === undefined || req.body.method === undefined || req.body.tickets === undefined || req.body.eventId === undefined || req.body.quantity === undefined) {
-      return res.status(400).send({message: 'Missing Body'});
+  if (req.body === undefined || req.body.status === undefined || req.body.total === undefined || req.body.method === undefined || req.body.ticket_quantities === undefined || req.body.eventId === undefined) {
+    return res.status(400).send({message: 'Missing Body'});
   }
 
+  
   let event = await prisma.event.findFirst({
     where: {
-      id: eventId
+      id: req.body.eventId
     }
   })
 
   if (!event) return res.status(400).send({message: 'Invalid Event ID'});
 
-  let payment = await prisma.payment.create({
+  let payment = await prisma.purchase.create({
     data: {
       total: req.body.total,
       paymentMethod: "paypal",
@@ -124,7 +125,10 @@ const createPurchase = async () => {
 
   var tickets = [];
 
-  for (const [key, value] of Object.entries(tickets)) {
+  for (var type of req.body.ticket_quantities.types) {
+
+    key = type.id;
+    value = type.quantity
 
     let ticketType = await prisma.ticketType.findFirst({
       where: {
@@ -144,11 +148,12 @@ const createPurchase = async () => {
           purchaseID: payment.id,
           ticketSecret: randomString(),
         }
-        tickets.append(ticketEncode);
+        var tickettext = Buffer.from(JSON.stringify(ticketEncode)).toString('base64')
+        tickets.push({"qrData": tickettext, "String": ticketType.ticketType + " " + event.name + quantity});
         
         await prisma.ticket.create({
           data: {
-            ticketData: ticketEncode,
+            ticketData: tickettext,
             purchase: {
               connect: {
                 id: payment.id
@@ -179,30 +184,16 @@ const createPurchase = async () => {
     
   }
 
-  var ticketString = `
-  Tickets:
-  `
-
-  for (var ticket of tickets) {
-    var tickettext = Buffer.from(JSON.stringify(ticket)).toString('base64')
-    ticketString += `
-    <span style="font-family: 'Libre Barcode 128', cursive;">` + tickettext + `</span>
-    `
-  }
-
   const user = await prisma.user.findFirst({
     where: {
       id: decoded.id
     }
   })
 
-  var eventDate = new Date(this.props.specificEvent.date);
+  var eventDate = new Date(event.date);
 
-  mail(subject="Purchase Confirmation", body=`
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128&display=swap" rel="stylesheet">
-  <h2>Purchase Confirmation Order #` + purchase.id + `</h2><br />
+  mail(to=user.email,subject="Purchase Confirmation", body=`
+  <h2>Purchase Confirmation Order #` + payment.id + `</h2><br />
   <br />
   <h4> Confirmation Of Order Details:</h4><br />
   <p><br />
@@ -217,9 +208,10 @@ const createPurchase = async () => {
   Total Sum Of Tickets: ` + req.body.total + `<br />
   <br />
   <br />
-  ` + ticketString + `
   </p>
-  `);
+  `, qrYes=true,qrcodes=tickets);
+  
+  return res.status(200).send({message: 'Success'});
 }
     
 

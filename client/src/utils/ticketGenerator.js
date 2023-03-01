@@ -1,7 +1,8 @@
 
+const { default: axios } = require("axios");
 const jwt = require("./jwt.js");
 
-const generateTickets = async (event, ticketTypes, tickets) => {
+const generateTickets = async (event, ticketTypes, tickets, total) => {
 
     // Check Logged In
     var isLoggedIn = false;
@@ -14,25 +15,46 @@ const generateTickets = async (event, ticketTypes, tickets) => {
 
     // Create tickets for each.
 
-    if (event.id != ticketTypes[0].eventId) {
+    if (event.event.id != ticketTypes[0].eventId) {
         return 0;
     }
 
     var token = jwt.getToken();
 
-    ticketTypes.map((ticketType) => {
-        //make tickets for ticketype
+    const headers = {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      }      
 
-        var quantity = tickets[ticketType.id]
-        // (user token, ticketType, quantity) => API
+    var types = [];
+    ticketTypes.map((ticketType) => {
         
-        // for (let i = 0; i < tickets[ticketType.id]; i++) {
-             
-        // }
-        token;
-        quantity;
+        types.push({
+            "id": ticketType.id,
+            "quantity": tickets[ticketType.id]
+        });
+
     });
 
+    const res = await axios.post('http://localhost:5001/purchase/create', {
+            status: "paid",
+            method: "air",
+            total: total,
+            ticket_quantities: {
+                types: types
+            },
+            eventId: event.event.id
+        },{
+            headers: headers
+        }).catch(err => {
+            console.log(err);
+        })
+
+    console.log(res);
+
+    if (res.status === 200) return 1;
+
+    return 0;
 }
 
 

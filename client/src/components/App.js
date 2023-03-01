@@ -26,6 +26,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   useEffect(() => {
+    console.log(jwtController.getToken());
       jwtController.checkIsLoggedIn().then((res) => {
           res ? console.log('Logged In!') : console.log('Not Logged In!');
           setIsLoggedIn(res);
@@ -114,6 +115,14 @@ function App() {
     console.log(totalPrice());
   }
 
+  const emptyBasket = () => {
+    setBasketEvent({'a': 'b'})
+    setAvailableTicketTypes([])
+    setTickets({})
+
+    updateTicketSessionStorage();
+  }
+
   /* NORMAL ROUTE FUNCTIONALITY VIA ROUTER DOM */
 
   return (
@@ -145,6 +154,7 @@ function App() {
               totalPrice={totalPrice}
               addTicket={addTicket}
               isLoggedIn={isLoggedIn}
+              emptyBasket={emptyBasket}
             />
           }
         ></Route>

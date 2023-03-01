@@ -23,13 +23,18 @@ class Basket extends Component {
     this.setState({ totalPrice: this.props.totalPrice() })
   }
 
-  checkout() {
+  async checkout() {
     if (!this.props.isLoggedIn) {
       window.location = '/login';
     }
 
-    generateTickets(this.props.basketEvent, this.props.availableTicketTypes, this.props.tickets);
+    const res = await generateTickets(this.props.basketEvent, this.props.availableTicketTypes, this.props.tickets, this.props.totalPrice());
 
+    if (res) {
+      this.props.emptyBasket();
+    } else {
+      // refund payment and call help lol displat error
+    }
   }
 
   render() {
@@ -46,7 +51,7 @@ class Basket extends Component {
         }
       </ol>
       <h1>Total: £{totalPrice}</h1>
-      {this.props.isLoggedIn ? <button onClick={this.checkout()}>Checkout</button> : <div>You Need To Be Signed In <button onClick={() => {window.location = '/login'}}>Log In</button> </div>}
+      {this.props.isLoggedIn ? <button onClick={() => {this.checkout()}}>Checkout</button> : <div>You Need To Be Signed In <button onClick={() => {window.location = '/login'}}>Log In</button> </div>}
     </div>
     );
   }
@@ -61,5 +66,6 @@ Basket.propTypes = {
   totalPrice: PropTypes.func,
   removeTicket: PropTypes.func,
   addTicket: PropTypes.func,
+  emptyBasket: PropTypes.func,
 };
 export default Basket;

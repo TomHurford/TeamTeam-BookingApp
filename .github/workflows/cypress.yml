@@ -19,16 +19,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Start containers
-        run: |
-          docker-compose up -d postgres
-          docker-compose up -d express
-      
-      - name: Install dependencies and run cypress tests
-        run: |
-          ls -hartl
-          cd client
-          ls -hartl
-          npm install 
-          npm start & wait-on http://localhost:3000
-          npx cypress run
+      - name: Cypress run
+        uses: cypress-io/github-action@v5
+          with:
+            start: docker-compose up -d
+            working-directory: ./client
+            wait-on: http://localhost:3000
+            wait-on-timeout: 60

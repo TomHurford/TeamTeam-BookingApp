@@ -48,12 +48,6 @@
     "merge": "istanbul-merge cypress-coverage/coverage-final.json jest-coverage/coverage-final.json --out combined-coverage/coverage-final.json",
     "report:combined": "npx nyc report --reporter html --reporter text -t combined-coverage --report-dir combined-coverage/summary"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",

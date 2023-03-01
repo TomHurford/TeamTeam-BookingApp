@@ -1,0 +1,30 @@
+name: Cypress Tests
+
+on:
+  push:
+    branches: 
+    - main
+    - dev/client/client_main
+    - dev/dev_main
+  pull_request:
+    branches: 
+    - main
+    - dev/client/client_main
+    - dev/dev_main
+
+jobs:
+  docker-compose:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Start containers
+        run: docker-compose -f "docker-compose.yml" up -d --build
+      
+      - name: Install dependencies and run cypress tests
+        run: |
+          cd client
+          npm install
+          npx cypress run
+        working-directory: . 

@@ -21,8 +21,8 @@ jobs:
 
       - name: Start containers
         run: |
-        docker-compose up postgres -d
-        docker-compose up express -d 
+          docker-compose up postgres -d
+          docker-compose up express -d 
       
       - name: Install dependencies and run cypress tests
         run: |

@@ -78,6 +78,53 @@ const getFutureTickets = async (req, res) => {
     res.status(401).send({ token: null, error: "Unauthorized" });
   }
 }
+
+const createPurchase = async () => {
+
+  // (user token, payment status, total, payment method, event id, tickets, quantity)
+  let decoded = null;
+  try {
+      decoded = await auth.authenticate(req);
+  } catch (err) {
+      return res.status(401).send({message: 'Unauthorised'});
+  }
+  
+  if (req.body === undefined || req.body.status === undefined || req.body.total === undefined || req.body.method === undefined || req.body.tickets === undefined || req.body.eventId === undefined || req.body.quantity === undefined) {
+      return res.status(400).send({message: 'Missing Body'});
+  }
+
+  let event = await prisma.event.findFirst({
+    where: {
+      id: eventId
+    }
+  })
+
+  if (!event) return res.status(400).send({message: 'Invalid Event ID'});
+
+  let payment = await prisma.payment.create({
+    data: {
+      total: req.body.total,
+      paymentMethod: "paypal",
+      user: {
+        connect: {
+          id: decoded.user.id
+        }
+      },
+      event: {
+        connect: {
+          id: req.body.eventId
+        },
+      },
+    }
+  });
+
+  for (var i = 0; i < req.body.tickets.length; i++) {
+
+  }
+
+
+
+}
     
 
 module.exports = {

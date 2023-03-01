@@ -90,6 +90,7 @@ async function updateTicket(req, res) {
 }
 
 module.exports = {
-  getTicketsByUser,
-  makeTicketsForUser
+    getTickets,
+    createTickets,
+    updateTicket
 };

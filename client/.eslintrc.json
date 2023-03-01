@@ -5,9 +5,8 @@
         "node": true
     },
     "extends": [
-        "eslint:recommended",
-        "plugin:react/recommended"
-        // "plugin:babel"
+        // "eslint:recommended",
+        // "plugin:react/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -24,6 +23,6 @@
         "react"
     ],
     "rules": {
-        // "react/prop-types": "off"
+        "react/prop-types": "off"
     }
 }

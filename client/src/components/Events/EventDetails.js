@@ -68,7 +68,7 @@ class EventDetails extends Component{
                   <div className="ticketHeader">{ticketType.ticketType}</div>
                   <div className="price">Price: {ticketType.price}</div>
                   <div className="spacesBar"><div className="innerBar" data-free={ticketType.quantity}></div></div>
-                  <button className="addToCart" onClick={() => 
+                  <button name={ticketType.ticketType} className="addToCart" onClick={() => 
                     this.props.addTicket({
                       "name":event.event.name,
                       "type":ticketType.ticketType,

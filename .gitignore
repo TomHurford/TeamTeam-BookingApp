@@ -3,6 +3,8 @@
 
 .docker.env
 
+*/cypress/videos
+
 ### Code Coverage Reports ###
 cypress-coverage
 jest-coverage

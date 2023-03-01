@@ -179,12 +179,14 @@ const createPurchase = async () => {
     
   }
 
-  var ticketString = ``
+  var ticketString = `
+  Tickets:
+  `
 
   for (var ticket of tickets) {
+    var tickettext = Buffer.from(JSON.stringify(ticket)).toString('base64')
     ticketString += `
-    Tickets:
-    
+    <span style="font-family: 'Libre Barcode 128', cursive;">` + tickettext + `</span>
     `
   }
 
@@ -196,7 +198,10 @@ const createPurchase = async () => {
 
   var eventDate = new Date(this.props.specificEvent.date);
 
-  mail(to=user.email, subject="Purchase Confirmation", body=`
+  mail(subject="Purchase Confirmation", body=`
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+128&display=swap" rel="stylesheet">
   <h2>Purchase Confirmation Order #` + purchase.id + `</h2><br />
   <br />
   <h4> Confirmation Of Order Details:</h4><br />
@@ -212,10 +217,9 @@ const createPurchase = async () => {
   Total Sum Of Tickets: ` + req.body.total + `<br />
   <br />
   <br />
+  ` + ticketString + `
   </p>
   `);
-
-
 }
     
 

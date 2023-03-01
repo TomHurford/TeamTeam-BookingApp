@@ -4,7 +4,6 @@ import React, {useEffect} from "react";
 import Contact from "./Contact";
 import Login from './Login';
 import Purchase from './Purchase';
-import PayPal from './PayPal';
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import EventDetails from "./Events/EventDetails";
@@ -14,74 +13,138 @@ import CreateSocietyForm from "./Societies/CreateSocietyForm";
 import SearchSocieties from "./Societies/SearchSocieties";
 import EditSocietyForm from "./Societies/EditSocietyForm";
 import Logout from "./Logout";
+const jwtController = require('../utils/jwt.js');
+
+const sessionStorage = require('sessionstorage');
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
 function App() {
-  const [tickets, setTickets] = React.useState([]);
-  const [ticketId, setTicketId] = React.useState(0);
-  const [totalPrice, setTotalPrice] = React.useState(0);
+
+  /* LOG IN FUNCTIONALITY */
+
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   useEffect(() => {
-    const storedTickets = sessionStorage.getItem('tickets');
-    const storedTicketId = sessionStorage.getItem('ticketId');
-    const storedTotalPrice = sessionStorage.getItem('totalPrice');
-    if(storedTickets) {
-      setTickets(JSON.parse(storedTickets));
-      // console.log("current tickets");
-      // console.log(tickets);
-      // console.log("stored tickets");
-      // console.log(JSON.parse(storedTickets));
-      // console.log(storedTickets);
-
-    }
-    if(storedTicketId) {
-      setTicketId(JSON.parse(storedTicketId));
-    }
-    if(storedTotalPrice) {
-      setTotalPrice(JSON.parse(storedTotalPrice));
-    }
+      jwtController.checkIsLoggedIn().then((res) => {
+          res ? console.log('Logged In!') : console.log('Not Logged In!');
+          setIsLoggedIn(res);
+      });
   }, []);
 
+  /* BASKET FUNCTIONALITY */
+
+
+  const [basketEvent, setBasketEvent] = React.useState({'a': 'b'});
+  const [availableTicketTypes, setAvailableTicketTypes] = React.useState([]);
+  const [tickets, setTickets] = React.useState({});
+
+  const totalPrice = () => {
+    var total = 0;
+
+    availableTicketTypes.map((ticketType) => {
+      total += tickets[ticketType.id] * ticketType.price;
+    });
+
+    return total;
+  }
+
   useEffect(() => {
+    const storedBasketEvent = sessionStorage.getItem('basketEvent');
+    const storedAvailableTicketTypes = sessionStorage.getItem('availableTicketTypes');
+    const storedTickets = sessionStorage.getItem('tickets');
+    
+    if(storedBasketEvent) setBasketEvent(JSON.parse(storedBasketEvent));
+    if(storedAvailableTicketTypes) setAvailableTicketTypes(JSON.parse(storedAvailableTicketTypes));
+    if(storedTickets) setTickets(JSON.parse(storedTickets));
+
+  }, []);
+
+  const addTicket = (callData, ticketType) => {
+
+    var event = callData.event;
+    console.log(callData);
+
+    if (!basketEvent.event) {
+      
+      setBasketEvent(callData);
+      setAvailableTicketTypes(callData.ticket_types);
+
+    } else if (basketEvent.event.id != event.id) {
+      // WARN USER TO CLEAR BASKET, ON YES WE PUSH NEW TICKET
+
+      setBasketEvent(callData);
+      setAvailableTicketTypes(callData.ticket_types);
+      setTickets({});
+
+    } else if (!availableTicketTypes.find(tt => tt.id === ticketType.id)) {
+      return
+    }
+
+    var temptickets = tickets;
+    if (!tickets[ticketType.id]) temptickets[ticketType.id] = 1;
+    else temptickets[ticketType.id] += 1;
+    
+    setTickets(temptickets);
+
+    updateTicketSessionStorage();
+  };
+
+  const removeTicket = (callData, ticketType) => {
+    if (basketEvent == {}) return
+
+
+    var temptickets = tickets;
+    if (!tickets[ticketType.id]) temptickets[ticketType.id] = 0;
+    else temptickets[ticketType.id] -= 1;
+    
+    setTickets(temptickets);
+
+    updateTicketSessionStorage();
+  };
+
+  const updateTicketSessionStorage = () => {
+    sessionStorage.setItem('basketEvent', JSON.stringify(basketEvent));
+    sessionStorage.setItem('availableTicketTypes', JSON.stringify(availableTicketTypes));
     sessionStorage.setItem('tickets', JSON.stringify(tickets));
-    sessionStorage.setItem('ticketId', JSON.stringify(ticketId));
-    sessionStorage.setItem('totalPrice', JSON.stringify(totalPrice));
-  }, [tickets, ticketId, totalPrice]);
 
-  const addTicket = (ticket) => {
-    setTickets([...tickets, { ticket, id: ticketId }]);
-    setTicketId(ticketId + 1);
-    setTotalPrice(totalPrice + ticket.price);
-  };
+    console.log(basketEvent);
+    console.log(availableTicketTypes);
+    console.log(tickets);
+    console.log(totalPrice());
+  }
 
-  const removeTicket = (ticket) => {
-    setTickets(tickets.filter((t) => t.id !== ticket.id));
-    setTotalPrice(totalPrice - ticket.ticket.price);
-  };
+  /* NORMAL ROUTE FUNCTIONALITY VIA ROUTER DOM */
 
   return (
     <div>
-      <Navbar />
+      <Navbar isLoggedIn={isLoggedIn}/>
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path = "/login" element={<Login/>}></Route>
-        <Route path = "/logout" element={<Logout/>}></Route>
+        <Route path = "/login" element={<Login isLoggedIn={isLoggedIn}/>}></Route>
+        <Route path = "/logout" element={<Logout isLoggedIn={isLoggedIn}/>}></Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/purchase" element={<Purchase />}></Route>
-        <Route path="/paypal" element={<PayPal />}></Route>
 
         <Route
           path="/event-details"
-          element={<EventDetails addTicket={addTicket} />}
+          element={<EventDetails
+            addTicket={addTicket}
+            tickets={tickets}
+            removeTicket={removeTicket}
+        />}
         ></Route>
         <Route
           path="/basket"
           element={
             <Basket
+              basketEvent={basketEvent}
+              availableTicketTypes={availableTicketTypes}
               tickets={tickets}
               removeTicket={removeTicket}
               totalPrice={totalPrice}
+              addTicket={addTicket}
+              isLoggedIn={isLoggedIn}
             />
           }
         ></Route>

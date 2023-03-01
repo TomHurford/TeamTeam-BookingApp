@@ -64,3 +64,9 @@ code {
   height: 100px;
   float: left;
 }
+
+.barcodeCanvas {
+  width: 200px;
+  height: 100px;
+  overflow: hidden;
+}

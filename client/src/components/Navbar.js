@@ -1,21 +1,12 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import '../styles/Navbar.css';
 import {Link} from 'react-router-dom';
 import logo from '../utils/logo.png';
 import basket from '../utils/basket.png';
-const jwtController = require('../utils/jwt.js');
 
 //Create a navbar component
 
-function Navbar() {
-    const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-
-    useEffect(() => {
-        jwtController.checkIsLoggedIn().then((res) => {
-            res ? console.log('Logged In!') : console.log('Not Logged In!');
-            setIsLoggedIn(res);
-        });
-    }, []);
+function Navbar(props) {
 
     return (
         <div className='nav-container'>
@@ -24,8 +15,8 @@ function Navbar() {
                 <Link to = "/"><li className='left'><img src = {logo} alt = "Logo"></img></li></Link>
                 <Link to = "/"><li>Home</li></Link>
                 <Link to = "/societies"><li>Societies</li></Link>
-                { isLoggedIn ? <Link to = "/logout"><li>Logout</li></Link> : <Link to = "/login"><li>Login / SignUp</li></Link> }
-                { isLoggedIn ? <Link to = "/profile"><li>Profile</li></Link> : <div></div> }
+                { props.isLoggedIn ? <Link to = "/logout"><li>Logout</li></Link> : <Link to = "/login"><li>Login / SignUp</li></Link> }
+                { props.isLoggedIn ? <Link to = "/profile"><li>Profile</li></Link> : <div></div> }
                 <Link to = "/contact"><li>Contact</li></Link>
                 <Link to = "/purchase"><li>Purchase</li></Link>
                 <Link to = "/paypal"><li>PayPal</li></Link>

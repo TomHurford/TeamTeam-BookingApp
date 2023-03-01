@@ -10,6 +10,7 @@
     "axios": "^0.27.2",
     "crypto": "^1.0.1",
     "joi-browser": "^13.4.0",
+    "jsbarcode": "^3.11.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",

@@ -1,34 +1,65 @@
 import React, {Component} from 'react';
-import '../styles/TitleOfPage.css';
+import TicketHolderTicket from './Events/TicketHolder';
 import PropTypes from 'prop-types';
+import { generateTickets } from '../utils/ticketGenerator';
 
 class Basket extends Component {
+  constructor(props){
+    super(props);
+    this.state = {tickets: this.props.tickets, totalPrice: this.props.totalPrice()}
+  }
+
+  componentDidMount() {
+    this.setState({totalPrice: this.props.totalPrice()})
+  }
+
+  componentDidUpdate() {
+    this.props.totalPrice();
+    console.log('state change')
+  }
+
+  ticketsChange() {
+    console.log('tickets change')
+    this.setState({ totalPrice: this.props.totalPrice() })
+  }
+
+  checkout() {
+    if (!this.props.isLoggedIn) {
+      window.location = '/login';
+    }
+
+    generateTickets(this.props.basketEvent, this.props.availableTicketTypes, this.props.tickets);
+
+  }
+
   render() {
+    var totalPrice = this.state.totalPrice;
     return (
       <div className='page-container'>
           <div className='underlay'></div>
       <h1 className='title'> Basket </h1>
       <ol className="basket">
-        {this.props.tickets && this.props.tickets.map((ticket) => (
-          <li key={ticket.id}>
-            <div className="basket-item">
-              <p  className="basket-item-event-name">{ticket.ticket.name}</p>
-              <p  className="basket-item-type">{ticket.ticket.type}</p>
-              <p  className="basket-item-price">$ {ticket.ticket.price}</p>
-              <button className="basket-item-remove"  data-testid="remove-button" onClick={() => this.props.removeTicket(ticket)}>Remove</button>
-            </div>
-          </li>
-        ))}
+        {
+          this.props.availableTicketTypes.map((ticketType) => {
+            return <TicketHolderTicket extraChanges={this.ticketsChange} key={ticketType.id} event={this.props.basketEvent} tickets={this.props.tickets} ticketType={ticketType} addTicket={this.props.addTicket} removeTicket={this.props.removeTicket}/>
+          })
+        }
       </ol>
-      <h1>Total: ${this.props.totalPrice}</h1>
+      <h1>Total: £{totalPrice}</h1>
+      {this.props.isLoggedIn ? <button onClick={this.checkout()}>Checkout</button> : <div>You Need To Be Signed In <button onClick={() => {window.location = '/login'}}>Log In</button> </div>}
     </div>
     );
   }
 }
 
+//<Paypal totalPrice={this.props.totalPrice} event={this.props.basketEvent} tickets={this.props.tickets} />
+
 Basket.propTypes = {
-  tickets: PropTypes.array,
-  totalPrice: PropTypes.number,
-  removeTicket: PropTypes.func
+  basketEvent: PropTypes.object,
+  availableTicketTypes: PropTypes.array,
+  tickets: PropTypes.object,
+  totalPrice: PropTypes.func,
+  removeTicket: PropTypes.func,
+  addTicket: PropTypes.func,
 };
 export default Basket;

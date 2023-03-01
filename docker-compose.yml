@@ -27,6 +27,8 @@ services:
       - ./client/node_modules:/usr/src/app/node_modules
       - ./client/package.json:/usr/src/app/package.json
       - ./client/package-lock.json:/usr/src/app/package-lock.json
+      - ./client/cypress:/usr/src/app/cypress
+      - ./client/cypress.config.json:/usr/src/app/cypress.config.json
     working_dir: /usr/src/app
     command: bash -c "npm install && npm start"
     

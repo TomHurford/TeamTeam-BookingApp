@@ -17,19 +17,13 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v3
 
       - name: Start containers
-        run: docker-compose -f "docker-compose.yml" up -d --build
-
-      # - name: Install node
-      #   uses: actions/setup-node@v1
-      #   with:
-      #     node-version: 18.x
-
+        run: docker-compose -f "docker-compose.yml" up -d 
       
       - name: Install dependencies and run cypress tests
         run: |
           cd client
-          npx cypress run 
+          npm run test
         working-directory: . 

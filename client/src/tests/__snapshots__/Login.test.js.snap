@@ -45,7 +45,7 @@ exports[`Login snapshot test 1`] = `
         </label>
         <br />
         <input
-          name="email"
+          name="login-email"
           onChange={[Function]}
           required={true}
           type="email"
@@ -61,8 +61,8 @@ exports[`Login snapshot test 1`] = `
         </label>
         <br />
         <input
-          minLength="4"
-          name="password"
+          minLength="8"
+          name="login-password"
           onChange={[Function]}
           required={true}
           type="password"
@@ -88,6 +88,7 @@ exports[`Login snapshot test 1`] = `
         <br />
       </div>
       <button
+        name="login-button"
         type="submit"
       >
         Login
@@ -133,7 +134,7 @@ exports[`Login snapshot test 1`] = `
         <br />
         <input
           minLength="3"
-          name="name"
+          name="signup-name"
           onChange={[Function]}
           required={true}
           type="text"
@@ -149,7 +150,7 @@ exports[`Login snapshot test 1`] = `
         </label>
         <br />
         <input
-          name="email"
+          name="signup-email"
           onChange={[Function]}
           required={true}
           type="email"
@@ -166,7 +167,7 @@ exports[`Login snapshot test 1`] = `
         <br />
         <input
           minLength="8"
-          name="password"
+          name="signup-password"
           onChange={[Function]}
           required={true}
           type="password"
@@ -182,13 +183,14 @@ exports[`Login snapshot test 1`] = `
         </label>
         <br />
         <input
-          name="confirmPassword"
+          name="signup-confirmPassword"
           onChange={[Function]}
           required={true}
           type="password"
         />
       </div>
       <button
+        name="signup-button"
         type="submit"
       >
         Sign Up
@@ -217,7 +219,7 @@ exports[`Login snapshot test 1`] = `
         </label>
         <br />
         <input
-          name="email"
+          name="forgot-email"
           onChange={[Function]}
           required={true}
           type="email"
@@ -243,6 +245,7 @@ exports[`Login snapshot test 1`] = `
         <br />
       </div>
       <button
+        name="forgot-button"
         type="submit"
       >
         Send Reset Password Email

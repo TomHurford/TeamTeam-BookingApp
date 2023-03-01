@@ -6,8 +6,8 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:react/recommended",
-        "plugin:babel"
+        "plugin:react/recommended"
+        // "plugin:babel"
     ],
     "globals": {
         "Atomics": "readonly",

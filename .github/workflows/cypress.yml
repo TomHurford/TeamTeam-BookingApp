@@ -25,5 +25,5 @@ jobs:
       with:
         working-directory: ./client
         start: npm start
-        spec: cypress/e2e/*.spec.js
+        spec: cypress/e2e/*.spec.cy.js
       

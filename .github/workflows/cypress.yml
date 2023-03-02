@@ -19,10 +19,18 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Start containers
-      run: docker-compose up -d
+    # - name: Start containers
+    #   run: docker-compose up -d
 
-    - name: Cypress run
-      uses: cypress-io/github-action@v5
+    # - name: Cypress run
+    #   uses: cypress-io/github-action@v5
+    #   with:
+    #     working-directory: ./client
+
+    - name: Tests
+      uses: cloudposse/github-action-docker-compose-test-run@main
       with:
-        working-directory: ./client
+        file: docker-compose.yml
+        service: react
+        command: npx cypress run
+      

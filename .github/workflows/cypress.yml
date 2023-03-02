@@ -20,22 +20,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Start Postgres
-      run: docker-compose up -d postgres
-
-    - name: Seed database
-      run: |
-        cd api
-        npm install
-        npx prisma db push
-        node prisma/seed.js
-
-    - name: Start Express
-      run: docker-compose up -d express
-
     - name: Cypress run
       uses: cypress-io/github-action@v5
       with:
         working-directory: ./client
         start: npm start
+        spec: cypress/e2e/*.spec.js
       

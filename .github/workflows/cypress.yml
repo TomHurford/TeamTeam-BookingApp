@@ -16,33 +16,12 @@ jobs:
   docker-compose:
     runs-on: ubuntu-latest
 
-    services:
-
-      postgres:
-        image: postgres:12.2
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        volumes:
-          - ./database/postgres:/var/lib/postgresql/data
-      
-    env: 
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres?schema=public
-
     steps: 
     - name: Checkout
       uses: actions/checkout@v3
 
-    # - name: Start Postgres
-    #   run: docker-compose up -d postgres
+    - name: Start Postgres
+      run: docker-compose up -d postgres
 
     - name: Seed database
       run: |
@@ -52,7 +31,6 @@ jobs:
 
     - name: Start Express
       run: docker-compose up -d express
-
 
     - name: Cypress run
       uses: cypress-io/github-action@v5

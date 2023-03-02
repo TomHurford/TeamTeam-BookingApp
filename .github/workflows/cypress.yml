@@ -22,5 +22,5 @@ jobs:
     - name: Cypress run
       uses: cypress-io/github-action@v5
       with:
-        start: docker-compose up postgres -d
+        start: docker-compose up -d
         working-directory: ./client

@@ -15,14 +15,22 @@ on:
 jobs:
   docker-compose:
     runs-on: ubuntu-latest
+
     steps: 
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Start containers
+    - name: Start Postgres
+      run: docker-compose up -d postgres
+
+    - name: Seed database
       run: |
-        docker-compose up -d postgres
-        docker-compose up -d express
+        cd api
+        npm install
+        node prisma/seed.js
+
+    - name: Start Express
+      run: docker-compose up -d express
 
     - name: Cypress run
       uses: cypress-io/github-action@v5

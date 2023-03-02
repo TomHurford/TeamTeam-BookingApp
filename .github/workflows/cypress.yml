@@ -27,10 +27,9 @@ jobs:
     #   with:
     #     working-directory: ./client
 
-    - name: Tests
-      uses: cloudposse/github-action-docker-compose-test-run@main
+    - name: Cypress run
+      uses: cypress-io/github-action@v5
       with:
-        file: docker-compose.yml
-        service: react
-        command: npx cypress run
+        working-directory: ./client
+        start: npm start
       

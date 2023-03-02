@@ -13,7 +13,7 @@ on:
     - dev/dev_main
 
 jobs:
-  docker-compose:
+  test:
     runs-on: ubuntu-latest
 
     steps: 

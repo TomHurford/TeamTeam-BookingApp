@@ -19,8 +19,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    - name: Start containers
+      run: docker-compose up -d
+
     - name: Cypress run
       uses: cypress-io/github-action@v5
       with:
-        start: docker-compose up -d
         working-directory: ./client

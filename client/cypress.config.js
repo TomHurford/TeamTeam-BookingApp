@@ -17,5 +17,6 @@ module.exports = defineConfig({
       // with any changed environment variables
       return config
     },
+    baseUrl: 'http://localhost:3000',
   },
 });

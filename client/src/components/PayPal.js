@@ -8,7 +8,7 @@ export default function PayPal() {
     if (!hasRendered) {
       window.paypal
         .Buttons({
-          createOrder: (data, actions, err) => {
+          createOrder: ( actions ) => {
             return actions.order.create({
               intent: "CAPTURE",
               purchase_units: [

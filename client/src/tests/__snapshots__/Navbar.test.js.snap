@@ -75,7 +75,9 @@ exports[`Navbar snapshot test 1`] = `
         href="/basket"
         onClick={[Function]}
       >
-        <li>
+        <li
+          data-testid="basket-icon"
+        >
           <img
             alt="Basket"
             src="basket.png"

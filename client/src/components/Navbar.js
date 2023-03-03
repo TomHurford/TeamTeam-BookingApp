@@ -26,7 +26,7 @@ function Navbar() {
                 { isLoggedIn ? <Link to = "/profile"><li>Profile</li></Link> : <div></div> }
                 <Link to = "/contact"><li>Contact</li></Link>
                 <Link to = "/purchase/future"><li>Purchase</li></Link>
-                <Link to = "/basket"><li><img src = {basket} alt = "Basket"></img></li></Link>
+                <Link to = "/basket"><li data-testid='basket-icon'><img src = {basket} alt = "Basket"></img></li></Link>
             </ul>
         </nav>
         </div>

@@ -57,10 +57,7 @@ class SearchSocieties extends Component {
             {societies.map((society) => (
               <tr key={society.id}>
                 <td>
-                  <a href={`/societies/${society.id}/${society.name}`}>
-                    {society.name}
-                  </a>
-                  {/* TODO: Use Link */}
+                  <Link to={`/society/${society.id}`}>{society.name}</Link>
                 </td>
                 <td>{society.category}</td>
                 <td>{society.members}</td>

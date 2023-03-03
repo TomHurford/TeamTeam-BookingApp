@@ -99,7 +99,6 @@ async function getSocieties(req, res) {
 }
 
 async function getSocietyById(req, res) {
-
   // we should check if the user that made the request is a committee member of the society
   try {
     let committee = null;
@@ -131,26 +130,10 @@ async function getSocietyById(req, res) {
       where: {
         id: parseInt(req.body.societyId),
       },
-      select: {
-        id: true,
-        name: true,
-        category: true,
-        description: true,
-        members: {
-          select: {
-            userId: true,
-          },
-        },
-        links: {
-          select: {
-            instagram: true,
-            facebook: true,
-            twitter: true,
-            website: true,
-            logo: true,
-            banner: true,
-          },
-        },
+      include: {
+        members: true,
+        links: true,
+        events: true,
       },
     });
 
@@ -388,7 +371,7 @@ async function removeCommitteeMember(req, res) {
       },
       select: {
         isPresident: true,
-      }
+      },
     });
 
     if (!committee) {
@@ -401,7 +384,7 @@ async function removeCommitteeMember(req, res) {
       where: {
         userId: req.body.userId,
         societyId: req.body.societyId,
-      }
+      },
     });
 
     if (!isCommitteeMember) {
@@ -497,9 +480,6 @@ async function updateCommitteeMember(req, res) {
     res.status(500).send({ message: "Internal Server Error" });
   }
 }
-
-
-
 
 module.exports = {
   signup,

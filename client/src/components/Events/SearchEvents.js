@@ -28,19 +28,12 @@ class SearchEvents extends React.Component {
   }
 
 getEventsByName  = async (eventName) => {
-    if(this.state.query === "" && eventName === undefined){
+    if(eventName === ""){
       return [];
     }
     else{
-      var event_name;
-      if(eventName !== undefined){
-        event_name = eventName;
-      }
-      else{
-        event_name = this.state.query;
-      }
       try{
-        const response = await axios.post('http://localhost:5001/events/search', {name: event_name});
+        const response = await axios.post('http://localhost:5001/events/search', {name: eventName});
         const event = await response.data;
         const events = await event.event;
         return events;
@@ -50,17 +43,13 @@ getEventsByName  = async (eventName) => {
     }
   }
 
-async fetchData() {
-    const events = await this.getEventsByName();
-    this.setState({results: events})
-  } 
-
 
   render() {
     return (
       <div className="title">
           <input
             className="searchBar"
+            data-testid="search-bar"
             type="text"
             placeholder="Search for events..."
             value={this.state.query}

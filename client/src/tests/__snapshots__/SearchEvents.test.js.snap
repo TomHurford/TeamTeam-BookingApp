@@ -6,6 +6,7 @@ exports[`SearchEvents snapshot test 1`] = `
 >
   <input
     className="searchBar"
+    data-testid="search-bar"
     onChange={[Function]}
     onKeyDown={[Function]}
     placeholder="Search for events..."

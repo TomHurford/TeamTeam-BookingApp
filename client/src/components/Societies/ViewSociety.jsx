@@ -6,7 +6,7 @@ function ViewSociety() {
   const [society, setSociety] = useState({});
   const { id: societyId } = useParams();
 
-  useEffect((society) => {
+  useEffect(() => {
     axios.post('http://localhost:5001/societies/getSociety', {
       societyId: societyId
     })

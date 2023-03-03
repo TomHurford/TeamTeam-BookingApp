@@ -24,11 +24,13 @@ class SearchSocieties extends Component {
       .then((societiesList) => {
         this.setState({ data: societiesList });
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        console.log(error);
+      });
   }
-
+  
   handlePageChange = (page) => {
-    this.setState({ currentPage: page });
+    this.setState({currentPage: page });
   };
 
   handleSearch = (query) => {

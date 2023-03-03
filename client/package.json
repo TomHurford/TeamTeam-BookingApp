@@ -46,13 +46,8 @@
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
     "merge": "istanbul-merge cypress-coverage/coverage-final.json jest-coverage/coverage-final.json --out combined-coverage/coverage-final.json",
-    "report:combined": "npx nyc report --reporter html --reporter text -t combined-coverage --report-dir combined-coverage/summary"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "report:combined": "npx nyc report --reporter html --reporter text -t combined-coverage --report-dir combined-coverage/summary",
+    "test:all": "npm run test:jest && npx cypress run && npm run merge && npm run report:combined"
   },
   "browserslist": {
     "production": [

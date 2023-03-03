@@ -1,6 +1,8 @@
 import React from "react";
 const axios = require('axios').default;
 import Event from "./Event";
+import "../../styles/TitleOfPage.css"
+import "../../styles/Home.css"
 
 class SearchEvents extends React.Component {
   constructor(props) {
@@ -8,7 +10,8 @@ class SearchEvents extends React.Component {
     this.state = {
       query: "",
       results: []
-    };
+    }; 
+    this.fetchDataOnLoad(); 
     this.handleChange = this.handleChange.bind(this);
   }
 
@@ -16,18 +19,42 @@ class SearchEvents extends React.Component {
     this.setState({ query: event.target.value });
   }
 
-getEventsByName  = async () => {
+  fetchDataOnLoad = async () => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const eventName = await String(searchParams.get('name'));
+    this.setState({query: eventName})
+    const events = await this.getEventsByName(eventName);
+    this.setState({results: events})
+  }
+
+getEventsByName  = async (eventName) => {
     console.log("getEventsByName");
-    try{
-      console.log("getEventsByName try");
-      console.log(this.state.query);
-      const response = await axios.post('http://localhost:5001/events/search', {name: this.state.query});
-      const event = await response.data;
-      const events = await event.event;
-      console.log(await event);
-      return events;
-    } catch (error) {
-      return null;
+    console.log(eventName);
+    if(this.state.query === "" && eventName === undefined){
+      console.log("getEventsByName Outer if");
+      return [];
+    }
+    else{
+      var event_name;
+      if(eventName !== undefined){
+        console.log("getEventsByName if");
+        event_name = eventName;
+      }
+      else{
+        console.log("getEventsByName else");
+        event_name = this.state.query;
+      }
+      try{
+        console.log("getEventsByName try");
+        console.log(this.state.query);
+        const response = await axios.post('http://localhost:5001/events/search', {name: event_name});
+        const event = await response.data;
+        const events = await event.event;
+        console.log(await event);
+        return events;
+      } catch (error) {
+        return null;
+      }
     }
   }
 
@@ -39,21 +66,15 @@ async fetchData() {
 
   render() {
     return (
-      <div className="searchEvents">
-        <h1>Search Events</h1>
-        <h1>Search Events</h1>
-        <h1>Search Events</h1>
-        <h1>Search Events</h1>
-        <h1>Search Events</h1>
-        <h1>Search Events</h1>
-
+      <div className="title">
           <input
+            className="searchBar"
             type="text"
             placeholder="Search for events..."
             value={this.state.query}
             onChange={this.handleChange}
           />
-          <button onClick={()=> this.fetchData()}>Search</button>
+          <button onClick={()=> this.newSearch(this.state.query)}>Search</button>
 
           <div className="events" data-testid="events-list">
             {this.state.results.map(event => (    
@@ -61,7 +82,7 @@ async fetchData() {
                 <Event details={event.id} specificEvent = {event}/>
                 </div>
             ))}
-        </div>
+          </div>
       </div>
     );
   }
@@ -69,6 +90,10 @@ async fetchData() {
   handleClick= (eventId) => {
     window.location.href = '/event-details?eventId=' + eventId;
 }
+
+ newSearch = (eventName) => {
+    window.location.href = '/search-events?name=' + eventName;
+  }
 }
 
 export default SearchEvents;

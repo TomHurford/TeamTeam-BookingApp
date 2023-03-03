@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home snapshot test 1`] = `
+<div
+  className="page-container"
+>
+  <div
+    className="underlay"
+  />
+  <div
+    className="homePage"
+    data-testid="home-component"
+  >
+    <div
+      className="welcome"
+      data-testid="welcome-message"
+    >
+      <h1>
+        Welcome to Ticketopia!
+      </h1>
+    </div>
+    <form
+      className="searchBar"
+      data-testid="search-bar"
+    >
+      <input
+        placeholder="Search for events..."
+        type="text"
+      />
+    </form>
+    <ul
+      className="events"
+      data-testid="events-list"
+    />
+  </div>
+</div>
+`;

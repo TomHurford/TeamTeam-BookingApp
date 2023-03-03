@@ -4,6 +4,7 @@ import Pagination from "../common/Pagination";
 import { paginate } from "../../utils/paginate";
 import SearchBar from "../common/Searchbar";
 import { Link } from "react-router-dom";
+import '../../styles/Society.css';
 
 class SearchSocieties extends Component {
   constructor(props) {
@@ -41,8 +42,11 @@ class SearchSocieties extends Component {
 
     return (
       <React.Fragment>
-        <h2>Societies</h2>
-        <SearchBar onChange={this.handleSearch} />
+        <div className='page-container'>
+          <div className='underlay'></div>
+          <div className="searchSocietiesPage-container">
+            <h2>Societies</h2>
+            <SearchBar onChange={this.handleSearch} />
 
         <table className="table">
           <thead>

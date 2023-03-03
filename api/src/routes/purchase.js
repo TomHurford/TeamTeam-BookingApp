@@ -13,5 +13,9 @@ router.post("/future", (req, res) => {
   console.log("Request recieved");
   purchaseController.getFutureTickets(req, res);
 });
+router.post("/create", (req, res) => {
+    console.log("Request recieved")
+    purchaseController.createPurchase(req, res);
+});
 
 module.exports = router;

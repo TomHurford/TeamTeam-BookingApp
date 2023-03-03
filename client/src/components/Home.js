@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import '../styles/Events.css';
 import Event from './Events/Event';
 import '../styles/Home.css';
+import {getEvents} from "../utils/EventsLogic"
 
 //Fetching events from the database and displaying them on the home page
 
@@ -12,16 +13,14 @@ class Home extends Component {
         this.fetchData();
     }
     
-    fetchData() {
-        fetch('http://express:5001/events')
-        .then(response => response.json())
-        .then(eventsList => {this.setState({data: eventsList.events})})
-        .catch(error => console.error(error))
+    async fetchData() {
+        const events = await getEvents();
+        this.setState({data: events})
     }
 
     welcome() {
         return(
-        <div className="welcome">
+        <div className="welcome" data-testid = "welcome-message">
             <h1>Welcome to Ticketopia!</h1>
         </div>
         )
@@ -29,8 +28,8 @@ class Home extends Component {
 
     searchBar(){
         return(
-           <form>
-                  <input type="text" placeholder = "Search for events..."/>
+           <form className="searchBar" data-testid = "search-bar">
+                <input type="text" placeholder = "Search for events..."/>
            </form>
         )
 
@@ -38,16 +37,19 @@ class Home extends Component {
 
     render(){
         return(
-            <div className="homePage">
-            {this.welcome()}
-            {this.searchBar()}
-            <ul className="events">
-                {this.state.data.map(event => (    
-                    <li key={event.id} onClick={()=>this.handleClick(event.id)} >
-                    <Event details={event.id} specificEvent = {event}/>
-                    </li>
-                ))}
-            </ul>
+            <div className='page-container'>
+                <div className='underlay'></div>
+                <div className="homePage" data-testid = "home-component">
+                    {this.welcome()}
+                    {this.searchBar()}
+                    <div className="events">
+                        {this.state.data.map(event => (    
+                            <div className="eventCard" key={event.id} onClick={()=>this.handleClick(event.id)} >
+                            <Event details={event.id} specificEvent = {event}/>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         )
     }

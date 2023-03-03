@@ -27,8 +27,6 @@ async function seedDatabase() {
   console.log("Database seeded!");
 }
 
-const TICKET_STATUS = ["PENDING", "PAID", "CANCELLED"];
-
 // I want all other functions to wait for this function to finish before continuing,
 async function clearDatabase() {
   await prisma.$executeRaw`TRUNCATE TABLE "User" CASCADE;`;

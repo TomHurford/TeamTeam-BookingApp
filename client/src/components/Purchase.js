@@ -24,6 +24,7 @@ function FutureTickets() {
     const [tickets, setTickets] = useState([]);
 
    
+    let i=0
     
     useEffect(() => {
         fetch("http://localhost:5001/purchase/future")
@@ -36,25 +37,28 @@ function FutureTickets() {
     
    //return html with the ticket data 
     return (
-        <div className="purchase">
-            <h1>Future Tickets</h1>
-            <div className="purchase__container">
-                <div className="purchase__wrapper">
-                    <ul className="purchase__items">
-                        {tickets.map((ticket) => (
-                            <li className="purchase__item">
-                                <div className="purchase__item__link">
-                                    <div className="purchase__item__info">
-                                        <h5 className="purchase__item__text">{ticket.event.name}</h5>
-                                        <h5 className="purchase__item__text">{ticket.event.date}</h5>
-                                        <h5 className="purchase__item__text">{ticket.event.location}</h5>
-                                        <h5 className="purchase__item__text">{ticket.event.price}</h5>
-                                        <h5 className="purchase__item__text">{ticket.event.description}</h5>
+        <div className='page-container'>
+            <div className='underlay'></div>
+            <div className="purchase">
+                <h1>Future Tickets</h1>
+                <div className="purchase__container">
+                    <div className="purchase__wrapper">
+                        <ul className="purchase__items">
+                            {tickets.map((ticket) => (
+                                <li className="purchase__item" key={i++}>
+                                    <div className="purchase__item__link">
+                                        <div className="purchase__item__info">
+                                            <h5 className="purchase__item__text">{ticket.event.name}</h5>
+                                            <h5 className="purchase__item__text">{ticket.event.date}</h5>
+                                            <h5 className="purchase__item__text">{ticket.event.location}</h5>
+                                            <h5 className="purchase__item__text">{ticket.event.price}</h5>
+                                            <h5 className="purchase__item__text">{ticket.event.description}</h5>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        ))}
-                    </ul>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

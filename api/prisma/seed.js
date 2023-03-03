@@ -107,7 +107,6 @@ async function seedSocieties() {
       name: "Society 1",
       email: "society@societymail.com",
       description: "Society 1 description",
-      category: faker.random.word(),
       links: {
         create: {
           facebook: "https://www.facebook.com/",
@@ -127,7 +126,6 @@ async function seedSocieties() {
         name: faker.company.name(),
         email: faker.internet.email(),
         description: faker.lorem.paragraph(),
-        category: faker.random.word(),
         links: {
           create: {
             facebook: faker.internet.url(),

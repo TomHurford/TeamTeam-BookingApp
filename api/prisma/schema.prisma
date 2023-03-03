@@ -36,7 +36,7 @@ model Society {
   name        String         @unique
   email       String         @unique
   description String
-  category    String
+  category    SocietyCategories @default(OTHER)
   isArchived  Boolean        @default(false)
   links       SocietyLinks[]
   // A society can have many committee members and a committee member can be in many societies
@@ -139,4 +139,11 @@ model Verifications {
   verificationCode String
   userId           Int
   user             User   @relation(references: [id], fields: [userId])
+}
+
+enum SocietyCategories {
+  SPORTS
+  ACADEMIC
+  SOCIAL
+  OTHER
 }

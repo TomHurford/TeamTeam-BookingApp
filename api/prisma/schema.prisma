@@ -58,12 +58,13 @@ model SocietyLinks {
 }
 
 model Committee {
-  role       String
-  userId     Int
-  societyId  Int
-  user       User    @relation(references: [id], fields: [userId])
-  society    Society @relation(references: [id], fields: [societyId])
-  isArchived Boolean @default(false)
+  role        String
+  userId      Int
+  societyId   Int
+  isPresident Boolean @default(false)
+  user        User    @relation(references: [id], fields: [userId])
+  society     Society @relation(references: [id], fields: [societyId])
+  isArchived  Boolean @default(false)
 
   @@id([userId, societyId])
 }

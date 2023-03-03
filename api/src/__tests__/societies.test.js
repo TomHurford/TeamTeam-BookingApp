@@ -42,18 +42,64 @@ beforeEach(async () => {
   token = res.body.token;
 });
 
+
+// This is the test suite for the societies/signup route
+/**
+ * Things to be tested:
+ * 1. Signup societies with normal values
+ * 2. Signup societies with invalid values
+ * 3. Signup societies with invalid userId
+ * 4. Signup societies with repeated email
+ * 5. Signup societies with repeated name
+ * 6. Signup societies with missing values
+ */
+
+
+
 describe("Create Societies", () => {
   test("Signup societies with normal values", async () => {
     console.log("sending request to /societies/signup");
     const response = await request(app)
-      .get("/societies/signup")
+      .post("/societies/signup")
       .set("Authorization", `Bearer ${token}`)
       .send({
-        name: "Team Team Society",
-        userId: 1,
+        userId:1,
+        name:"Soc Signup Test",
+        email:"test@test.com",
+        description:"text",
+        category: "Society Category",
+        "links": {
+          instagram: "https://www.instagram.com/",
+          facebook: "https://www.facebook.com/",
+          twitter: "https://twitter.com/",
+          website: "https://www.google.com/",
+          banner: "https://www.google.com/",
+          logo: "https://www.google.com/"
+         }
       });
-
+    console.log("response from /societies/signup\n" + response.body);
     expect(response.statusCode).toBe(200);
+    expect(response.body).not.toBeNull();
+    expect(response.body.name).toBe("Soc Signup Test");
+    // Delete the society we just created
+    await prisma.committee.delete({
+      where: {
+        societyId: response.body.society.id
+      },
+    });
+    await prisma.societyLinks.delete({
+      where: {
+        societyId: response.body.society.id
+      },
+    });
+    await prisma.society.delete({
+      where: {
+        id: response.body.id,
+      },
+    });
+  });
+
+  test("Signup societies with invalid values (email)", async () => {
   });
 });
 

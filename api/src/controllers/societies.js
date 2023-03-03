@@ -2,26 +2,25 @@
 const { user } = require("../../prisma/prisma.js");
 const prisma = require("../../prisma/prisma.js");
 const auth = require("../utils/jwt_auth.js");
+const { mail } = require("../utils/emails.js");
 
 // This function is used to create a new society
 async function signup(req, res) {
   // Check that the request body is not empty and contains the correct properties
-  if (
-    req.body === undefined ||
-    req.body.name === undefined ||
-    req.body.userId === undefined
-  ) {
+
+  if (req.body.userId === undefined) {
     return res
       .status(409)
-      .send({ token: null, message: "Request body cannot be empty" });
+      .send({ token: null, message: "Request body requires userId" });
   }
 
   // Check if the user exists
   let user = await prisma.user.findUnique({
     where: {
-      userId: req.body.userId,
+      id: req.body.userId,
     },
   });
+
 
   if (!user) {
     return res.status(409).send({ token: null, message: "User Not Found" });
@@ -39,32 +38,71 @@ async function signup(req, res) {
       .send({ token: null, message: "Society already exists" });
   }
 
-  // Check that name, email and password are not empty
-  if (req.body.name === "") {
+  // Check that name, email, description, category and links are not empty
+  if (req.body.name === null || req.body.email === null || req.body.description === null || req.body.category === null || req.body.links === null) {
     return res
       .status(409)
-      .send({ token: null, message: "Name cannot be empty" });
+      .send({ token: null, message: "Missing Fields" });
   }
 
-  // Create a new user
+  // Create a new society
   society = await prisma.society.create({
     data: {
       name: req.body.name,
+      email: req.body.email,
+      description: req.body.description,
+      category: req.body.category,
+      links: {
+        create: {
+          instagram: req.body.links.instagram ? req.body.links.instagram : null,
+          facebook: req.body.links.facebook ? req.body.links.facebook : null,
+          twitter: req.body.links.twitte ? req.body.links.twitter : null,
+          website: req.body.links.website? req.body.links.website : null,
+          banner: req.body.links.banner ? req.body.links.banner : null,
+          logo: req.body.links.logo? req.body.links.logo : null,
+        }
+      }
     },
   });
+
+  /**
+   * Example of JSON for signup
+   * {
+   * "userId": "1",
+   * "name": "Society Name",
+   * "email": "test@test.com",
+   * "description": "Society Description",
+   * "category": "Society Category",
+   * "links": {
+   * "instagram": "https://www.instagram.com/",
+   * "facebook": "https://www.facebook.com/",
+   * "twitter": "https://twitter.com/",
+   * "website": "https://www.google.com/",
+   * "banner": "https://www.google.com/",
+   * "logo": "https://www.google.com/"
+   * }
+   * }
+   * 
+   *  */  
+  // Create the committee for that society
   committee = await prisma.committee.create({
     data: {
       userId: user.id,
-      user: user,
-      society: society,
+      role: "President",
+      isPresident: true,
       societyId: society.id,
     },
   });
 
   // Mail the organisation success
+  // TODO: Uncomment when @Abdulrahman can check the mail function
+  mail(
+    to = req.body.email,
+    subject = "Society Created",
+    body = "Your society has been created successfully",
+  );
 
-  // Send the JWT token in the response
-  res.status(200).send();
+  res.status(200).send({society: society});
 }
 
 async function getSocieties(req, res) {

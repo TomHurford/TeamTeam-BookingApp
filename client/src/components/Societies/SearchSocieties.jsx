@@ -4,6 +4,7 @@ import Pagination from "../common/Pagination";
 import { paginate } from "../../utils/paginate";
 import SearchBar from "../common/Searchbar";
 import { Link } from "react-router-dom";
+import ListFilter from "../common/ListFilter";
 
 class SearchSocieties extends Component {
   constructor(props) {
@@ -34,6 +35,8 @@ class SearchSocieties extends Component {
     this.setState({ searchQuery: query, currentPage: 1 });
   };
 
+  handleCategorySelect = (category) => {};
+
   render() {
     const { pageSize, currentPage } = this.state;
 
@@ -44,43 +47,57 @@ class SearchSocieties extends Component {
         <h2>Societies</h2>
         <SearchBar onChange={this.handleSearch} />
 
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Followers</th>
-              <th>Number of Events</th>
-            </tr>
-          </thead>
-          <tbody>
-            {societies.map((society) => (
-              <tr key={society.id}>
-                <td>
-                  <Link to={`/society/${society.id}`}>{society.name}</Link>
-                </td>
-                <td>{society.category}</td>
-                <td>{society.members}</td>
-                <td>{society.description}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <Pagination
-          itemsCount={this.state.data.length}
-          pageSize={this.state.pageSize}
-          currentPage={this.state.currentPage}
-          onPageChange={this.handlePageChange}
-        />
-        <Link to="/create-society">
-          <button className="btn btn-primary" style={{ marginRight: "15px" }}>
-            Create Society
-          </button>
-        </Link>
-        <Link to="/edit-society">
-          <button className="btn btn-primary">Edit Society</button>
-        </Link>
-        {/* TODO: Use destructuring */}
+        <div className="row">
+          <div className="col-2">
+            <ListFilter
+              categories={["SPORTS", "ACADEMIC", "SOCIAL", "OTHER"]}
+              onCategorySelect={this.handleCategorySelect}
+            />
+          </div>
+          <div className="col">
+            {" "}
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Category</th>
+                  <th>Followers</th>
+                  <th>Number of Events</th>
+                </tr>
+              </thead>
+              <tbody>
+                {societies.map((society) => (
+                  <tr key={society.id}>
+                    <td>
+                      <Link to={`/society/${society.id}`}>{society.name}</Link>
+                    </td>
+                    <td>{society.category}</td>
+                    <td>{society.members}</td>
+                    <td>{society.description}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <Pagination
+              itemsCount={this.state.data.length}
+              pageSize={this.state.pageSize}
+              currentPage={this.state.currentPage}
+              onPageChange={this.handlePageChange}
+            />
+            <Link to="/create-society">
+              <button
+                className="btn btn-primary"
+                style={{ marginRight: "15px" }}
+              >
+                Create Society
+              </button>
+            </Link>
+            <Link to="/edit-society">
+              <button className="btn btn-primary">Edit Society</button>
+            </Link>
+            {/* TODO: Use destructuring */}
+          </div>
+        </div>
       </React.Fragment>
     );
   }

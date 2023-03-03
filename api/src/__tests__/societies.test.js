@@ -3,13 +3,13 @@
 // We will also be using the jest library to run the tests
 
 // Import the supertest library
-const request = require("supertest");
+const request = require('supertest');
 // Import the prisma library
-const prisma = require("../../prisma/prisma.js");
+const prisma = require('../../prisma/prisma.js');
 // Import the app
-const app = require("../server.js");
+const app = require('../server.js');
 // Import the jwt_auth library
-const jwt_auth = require("../utils/jwt_auth");
+// const jwt_auth = require('../utils/jwt_auth');
 
 // I want to test these routes:
 // GET /societies
@@ -27,18 +27,19 @@ let token = null;
 
 beforeAll(async () => {
   console.log(
-    "MAKE SURE THAT BEFORE YOU RUN THESE TESTS YOU HAVE RUN: npx prisma migrate reset"
+      'MAKE SURE THAT BEFORE YOU RUN THESE TESTS YOU HAVE RUN:\n' +
+    'npx prisma migrate reset',
   );
 });
 
 beforeEach(async () => {
   // Before Each test we want to login as a user
   const res = await request(app)
-    .post("/user/login")
-    .send({
-      email: "admin@admin.com",
-      password: "admin",
-    });
+      .post('/user/login')
+      .send({
+        email: 'admin@admin.com',
+        password: 'admin',
+      });
   token = res.body.token;
 });
 
@@ -55,41 +56,40 @@ beforeEach(async () => {
  */
 
 
-
-describe("Create Societies", () => {
-  test("Signup societies with normal values", async () => {
-    console.log("sending request to /societies/signup");
+describe('Create Societies', () => {
+  test('Signup societies with normal values', async () => {
+    console.log('sending request to /societies/signup');
     const response = await request(app)
-      .post("/societies/signup")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        userId:1,
-        name:"Soc Signup Test",
-        email:"test@test.com",
-        description:"text",
-        category: "Society Category",
-        "links": {
-          instagram: "https://www.instagram.com/",
-          facebook: "https://www.facebook.com/",
-          twitter: "https://twitter.com/",
-          website: "https://www.google.com/",
-          banner: "https://www.google.com/",
-          logo: "https://www.google.com/"
-         }
-      });
-    console.log("response from /societies/signup\n" + response.body);
+        .post('/societies/signup')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          'userId': 1,
+          'name': 'Soc Signup Test',
+          'email': 'test@test.com',
+          'description': 'text',
+          'category': 'Society Category',
+          'links': {
+            instagram: 'https://www.instagram.com/',
+            facebook: 'https://www.facebook.com/',
+            twitter: 'https://twitter.com/',
+            website: 'https://www.google.com/',
+            banner: 'https://www.google.com/',
+            logo: 'https://www.google.com/',
+          },
+        });
+    console.log('response from /societies/signup\n' + response.body);
     expect(response.statusCode).toBe(200);
     expect(response.body).not.toBeNull();
-    expect(response.body.name).toBe("Soc Signup Test");
+    expect(response.body.name).toBe('Soc Signup Test');
     // Delete the society we just created
     await prisma.committee.delete({
       where: {
-        societyId: response.body.society.id
+        societyId: response.body.society.id,
       },
     });
     await prisma.societyLinks.delete({
       where: {
-        societyId: response.body.society.id
+        societyId: response.body.society.id,
       },
     });
     await prisma.society.delete({
@@ -99,301 +99,303 @@ describe("Create Societies", () => {
     });
   });
 
-  test("Signup societies with invalid values (email)", async () => {
+  test('Signup societies with invalid values (email)', async () => {
   });
 });
 
 // This is the test suite for the societies route
-describe("Get societies", () => {
+describe('Get societies', () => {
   // This is the test for the GET /societies route
-  test("Get societies", async () => {
+  test('Get societies', async () => {
     // Make the request to the API
     const res = await request(app)
-      .get("/societies")
-      .set("Authorization", `Bearer ${token}`)
-      .expect(200);
+        .get('/societies')
+        .set('Authorization', `Bearer ${token}`)
+        .expect(200);
     // Check the response
     expect(res.body).not.toBeNull();
     expect(res.body.length).toBe(4);
-    expect(res.body[0].name).toBe("Society 1");
+    expect(res.body[0].name).toBe('Society 1');
   });
 
-  test("Get societies with invalid token", async () => {
+  test('Get societies with invalid token', async () => {
     // Make the request to the API
     const res = await request(app)
-      .get("/societies")
-      .set("Authorization", `Bearer ${token}1`)
-      .expect(401);
+        .get('/societies')
+        .set('Authorization', `Bearer ${token}1`)
+        .expect(401);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe("Invalid token");
+    expect(res.body.message).toBe('Invalid token');
   });
 
   // This is the test for the POST /societies route
-  test("Get society with id", async () => {
+  test('Get society with id', async () => {
     // Make the request to the API
     const res = await request(app)
-      .post("/societies")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        id: 1,
-      })
-      .expect(200);
+        .post('/societies')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          id: 1,
+        })
+        .expect(200);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.name).toBe("Society 1");
+    expect(res.body.name).toBe('Society 1');
   });
 
-  test("Get society with invalid id", async () => {
+  test('Get society with invalid id', async () => {
     // Make the request to the API
     const res = await request(app)
-      .post("/societies")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        id: -1,
-      })
-      .expect(404);
+        .post('/societies')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          id: -1,
+        })
+        .expect(404);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe("Society not found");
+    expect(res.body.message).toBe('Society not found');
   });
 
-  test("Get society with invalid token", async () => {
+  test('Get society with invalid token', async () => {
     // Make the request to the API
     const res = await request(app)
-      .post("/societies")
-      .set("Authorization", `Bearer ${token}1`)
-      .send({
-        id: 1,
-      })
-      .expect(401);
+        .post('/societies')
+        .set('Authorization', `Bearer ${token}1`)
+        .send({
+          id: 1,
+        })
+        .expect(401);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe("Invalid token");
+    expect(res.body.message).toBe('Invalid token');
   });
 });
 
 // These are the tests for the societies/update route
-describe("Update society", () => {
-  test("Update society with valid data", async () => {
+describe('Update society', () => {
+  test('Update society with valid data', async () => {
     // Make the request to the API
     const res = await request(app)
-      .post("/societies/update")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        id: 1,
-        name: "Society 1 updated",
-        description: "Society 1 description updated",
-      })
-      .expect(200);
+        .post('/societies/update')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          id: 1,
+          name: 'Society 1 updated',
+          description: 'Society 1 description updated',
+        })
+        .expect(200);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.name).toBe("Society 1 updated");
-    expect(res.body.description).toBe("Society 1 description updated");
+    expect(res.body.name).toBe('Society 1 updated');
+    expect(res.body.description).toBe('Society 1 description updated');
   });
 
-  test("Update society with invalid data", async () => {
+  test('Update society with invalid data', async () => {
     // Make the request to the API
     const res = await request(app)
-      .post("/societies/update")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        id: 1,
-        name: "",
-        description: "",
-      })
-      .expect(400);
+        .post('/societies/update')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          id: 1,
+          name: '',
+          description: '',
+        })
+        .expect(400);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe("Invalid data");
+    expect(res.body.message).toBe('Invalid data');
   });
 
-  test("Update society with invalid token", async () => {
+  test('Update society with invalid token', async () => {
     // Make the request to the API
     const res = await request(app)
-      .post("/societies/update")
-      .set("Authorization", `Bearer ${token}1`)
-      .send({
-        id: 1,
-        name: "Society 1 updated",
-        description: "Society 1 description updated",
-      })
-      .expect(401);
+        .post('/societies/update')
+        .set('Authorization', `Bearer ${token}1`)
+        .send({
+          id: 1,
+          name: 'Society 1 updated',
+          description: 'Society 1 description updated',
+        })
+        .expect(401);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe("Invalid token");
+    expect(res.body.message).toBe('Invalid token');
   });
 
-  test("Update society with invalid id", async () => {
+  test('Update society with invalid id', async () => {
     // Make the request to the API
     const res = await request(app)
-      .post("/societies/update")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        id: -1,
-        name: "Society 1 updated",
-        description: "Society 1 description updated",
-      })
-      .expect(404);
+        .post('/societies/update')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          id: -1,
+          name: 'Society 1 updated',
+          description: 'Society 1 description updated',
+        })
+        .expect(404);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe("Society not found");
+    expect(res.body.message).toBe('Society not found');
   });
 
-  test("Update society with invalid id and invalid data", async () => {
+  test('Update society with invalid id and invalid data', async () => {
     // Make the request to the API
     const res = await request(app)
-      .post("/societies/update")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        id: -1,
-        name: "",
-        description: "",
-      })
-      .expect(400);
+        .post('/societies/update')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          id: -1,
+          name: '',
+          description: '',
+        })
+        .expect(400);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe("Invalid data");
+    expect(res.body.message).toBe('Invalid data');
   });
 
-  test("Update society with invalid id and invalid token", async () => {
+  test('Update society with invalid id and invalid token', async () => {
     // Make the request to the API
     const res = await request(app)
-      .post("/societies/update")
-      .set("Authorization", `Bearer ${token}1`)
-      .send({
-        id: -1,
-        name: "Society 1 updated",
-        description: "Society 1 description updated",
-      })
-      .expect(401);
+        .post('/societies/update')
+        .set('Authorization', `Bearer ${token}1`)
+        .send({
+          id: -1,
+          name: 'Society 1 updated',
+          description: 'Society 1 description updated',
+        })
+        .expect(401);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe("Invalid token");
+    expect(res.body.message).toBe('Invalid token');
   });
 
-  test("Update society with invalid id and invalid data and invalid token", async () => {
-    // Make the request to the API
-    const res = await request(app)
-      .post("/societies/update")
-      .set("Authorization", `Bearer ${token}1`)
-      .send({
-        id: -1,
-        name: "",
-        description: "",
-      })
-      .expect(400);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe("Invalid data");
-  });
+  test('Update society with invalid id and invalid data and invalid token',
+      async () => {
+      // Make the request to the API
+        const res = await request(app)
+            .post('/societies/update')
+            .set('Authorization', `Bearer ${token}1`)
+            .send({
+              id: -1,
+              name: '',
+              description: '',
+            })
+            .expect(400);
+        // Check the response
+        expect(res.body).not.toBeNull();
+        expect(res.body.message).toBe('Invalid data');
+      });
 
-  test("Update society as a user with no permission", async () => {
+  test('Update society as a user with no permission', async () => {
     // Login as a user with no permission
     const res = await request(app)
-      .post("/users/login")
-      .send({
-        email: "student@kcl.ac.uk",
-        password: "student",
-      })
-      .expect(200);
+        .post('/users/login')
+        .send({
+          email: 'student@kcl.ac.uk',
+          password: 'student',
+        })
+        .expect(200);
     // Make the request to the API
     const res2 = await request(app)
-      .post("/societies/update")
-      .set("Authorization", `Bearer ${res.body.token}`)
-      .send({
-        id: 1,
-        name: "Society 1 updated",
-        description: "Society 1 description updated",
-      })
-      .expect(403);
+        .post('/societies/update')
+        .set('Authorization', `Bearer ${res.body.token}`)
+        .send({
+          id: 1,
+          name: 'Society 1 updated',
+          description: 'Society 1 description updated',
+        })
+        .expect(403);
     // Check the response
     expect(res2.body).not.toBeNull();
     expect(res2.body.message).toBe(
-      "You do not have permission to perform this action"
+        'You do not have permission to perform this action',
     );
   });
 });
 
-// The societies are not actually deleted from the database, they are just marked as archived
-describe("Delete society", () => {
-  test("Delete society with valid id", async () => {
+// The societies are not actually deleted from the database, they are just
+// marked as archived
+describe('Delete society', () => {
+  test('Delete society with valid id', async () => {
     // Make the request to the API
     const res = await request(app)
-      .post("/societies/delete")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        id: 1,
-      })
-      .expect(200);
+        .post('/societies/delete')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          id: 1,
+        })
+        .expect(200);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe("Society deleted");
+    expect(res.body.message).toBe('Society deleted');
   });
 
-  test("Delete society with invalid id", async () => {
+  test('Delete society with invalid id', async () => {
     // Make the request to the API
     const res = await request(app)
-      .post("/societies/delete")
-      .set("Authorization", `Bearer ${token}`)
-      .send({
-        id: -1,
-      })
-      .expect(404);
+        .post('/societies/delete')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          id: -1,
+        })
+        .expect(404);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe("Society not found");
+    expect(res.body.message).toBe('Society not found');
   });
 
-  test("Delete society with invalid token", async () => {
+  test('Delete society with invalid token', async () => {
     // Make the request to the API
     const res = await request(app)
-      .post("/societies/delete")
-      .set("Authorization", `Bearer ${token}1`)
-      .send({
-        id: 1,
-      })
-      .expect(401);
+        .post('/societies/delete')
+        .set('Authorization', `Bearer ${token}1`)
+        .send({
+          id: 1,
+        })
+        .expect(401);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe("Invalid token");
+    expect(res.body.message).toBe('Invalid token');
   });
 
-  test("Delete society with invalid id and invalid token", async () => {
+  test('Delete society with invalid id and invalid token', async () => {
     // Make the request to the API
     const res = await request(app)
-      .post("/societies/delete")
-      .set("Authorization", `Bearer ${token}1`)
-      .send({
-        id: -1,
-      })
-      .expect(401);
+        .post('/societies/delete')
+        .set('Authorization', `Bearer ${token}1`)
+        .send({
+          id: -1,
+        })
+        .expect(401);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe("Invalid token");
+    expect(res.body.message).toBe('Invalid token');
   });
 
-  test("Delete society as a user with no permission", async () => {
+  test('Delete society as a user with no permission', async () => {
     // Login as a user with no permission
     const res = await request(app)
-      .post("/users/login")
-      .send({
-        email: "student@kcl.ac.uk",
-        password: "student",
-      })
-      .expect(200);
+        .post('/users/login')
+        .send({
+          email: 'student@kcl.ac.uk',
+          password: 'student',
+        })
+        .expect(200);
     // Make the request to the API
     const res2 = await request(app)
-      .post("/societies/delete")
-      .set("Authorization", `Bearer ${res.body.token}`)
-      .send({
-        id: 1,
-      })
-      .expect(403);
+        .post('/societies/delete')
+        .set('Authorization', `Bearer ${res.body.token}`)
+        .send({
+          id: 1,
+        })
+        .expect(403);
     // Check the response
     expect(res2.body).not.toBeNull();
     expect(res2.body.message).toBe(
-      "You do not have permission to perform this action"
+        'You do not have permission to perform this action',
     );
   });
 });

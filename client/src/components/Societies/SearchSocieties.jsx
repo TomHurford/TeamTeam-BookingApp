@@ -1,30 +1,27 @@
 import React, { Component } from "react";
 import Pagination from "../common/Pagination";
-
 import { paginate } from "../../utils/paginate";
 import SearchBar from "../common/Searchbar";
 import { Link } from "react-router-dom";
 import ListFilter from "../common/ListFilter";
+import axios from "axios";
 
 class SearchSocieties extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: [], // bad implementation, will change later
+      societiesList: [], // bad implementation, will change later
       currentPage: 1,
       pageSize: 5,
       searchQuery: " ",
     };
-    this.fetchData();
   }
 
-  fetchData() {
-    fetch("http://localhost:5001/societies/getSocieties")
-      .then((response) => response.json())
-      .then((societiesList) => {
-        this.setState({ data: societiesList });
-      })
-      .catch((error) => console.error(error));
+  async componentDidMount() {
+    const { data: societiesList } = await axios.get(
+      "http://localhost:5001/societies/getSocieties"
+    );
+    this.setState({ societiesList });
   }
 
   handlePageChange = (page) => {
@@ -43,11 +40,11 @@ class SearchSocieties extends Component {
     const { pageSize, currentPage, selectedCategory } = this.state;
 
     const filtered =
-      selectedCategory && selectedCategory !== "ALL"
-        ? this.state.data.filter(
+      selectedCategory && selectedCategory !== "All"
+        ? this.state.societiesList.filter(
             (society) => society.category === selectedCategory
           )
-        : this.state.data;
+        : this.state.societiesList;
 
     const societies = paginate(filtered, currentPage, pageSize);
 
@@ -59,7 +56,7 @@ class SearchSocieties extends Component {
         <div className="row">
           <div className="col-2">
             <ListFilter
-              categories={["ALL", "SPORTS", "ACADEMIC", "SOCIAL", "OTHER"]}
+              categories={["All", "Sports", "Academic", "Social", "Other"]}
               selectedCategory={this.state.selectedCategory}
               onCategorySelect={this.handleCategorySelect}
             />

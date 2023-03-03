@@ -1,11 +1,18 @@
 import React from "react";
 
-const ListFilter = ({ categories }) => {
+const ListFilter = ({ categories, selectedCategory, onCategorySelect }) => {
   return (
     <ul className="list-group">
-      <li className="list-group-item active">All</li>
       {categories.map((category) => (
-        <li key={category} className="list-group-item">
+        <li
+          onClick={() => onCategorySelect(category)}
+          key={category}
+          className={
+            category === selectedCategory
+              ? "list-group-item active"
+              : "list-group-item"
+          }
+        >
           {category}
         </li>
       ))}

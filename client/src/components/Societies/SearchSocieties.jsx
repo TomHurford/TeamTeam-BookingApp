@@ -35,12 +35,21 @@ class SearchSocieties extends Component {
     this.setState({ searchQuery: query, currentPage: 1 });
   };
 
-  handleCategorySelect = (category) => {};
+  handleCategorySelect = (category) => {
+    this.setState({ selectedCategory: category, currentPage: 1 });
+  };
 
   render() {
-    const { pageSize, currentPage } = this.state;
+    const { pageSize, currentPage, selectedCategory } = this.state;
 
-    const societies = paginate(this.state.data, currentPage, pageSize);
+    const filtered =
+      selectedCategory && selectedCategory !== "ALL"
+        ? this.state.data.filter(
+            (society) => society.category === selectedCategory
+          )
+        : this.state.data;
+
+    const societies = paginate(filtered, currentPage, pageSize);
 
     return (
       <React.Fragment>
@@ -50,19 +59,19 @@ class SearchSocieties extends Component {
         <div className="row">
           <div className="col-2">
             <ListFilter
-              categories={["SPORTS", "ACADEMIC", "SOCIAL", "OTHER"]}
+              categories={["ALL", "SPORTS", "ACADEMIC", "SOCIAL", "OTHER"]}
+              selectedCategory={this.state.selectedCategory}
               onCategorySelect={this.handleCategorySelect}
             />
           </div>
           <div className="col">
-            {" "}
             <table className="table">
               <thead>
                 <tr>
                   <th>Name</th>
                   <th>Category</th>
                   <th>Followers</th>
-                  <th>Number of Events</th>
+                  <th>Description</th>
                 </tr>
               </thead>
               <tbody>
@@ -79,7 +88,7 @@ class SearchSocieties extends Component {
               </tbody>
             </table>
             <Pagination
-              itemsCount={this.state.data.length}
+              itemsCount={filtered.length}
               pageSize={this.state.pageSize}
               currentPage={this.state.currentPage}
               onPageChange={this.handlePageChange}

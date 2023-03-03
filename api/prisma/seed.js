@@ -123,7 +123,7 @@ async function seedSocieties() {
     },
   });
   // use faker to generate 10 random societies
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 20; i++) {
     await prisma.society.create({
       data: {
         name: faker.company.name(),

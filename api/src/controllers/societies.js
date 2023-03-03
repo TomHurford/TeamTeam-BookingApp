@@ -99,11 +99,10 @@ async function getSocieties(req, res) {
 }
 
 async function getSocietyById(req, res) {
+
   // we should check if the user that made the request is a committee member of the society
   try {
     let committee = null;
-
-    console.log(req.headers.authorization);
 
     // If the request header authorization is not empty, the user is logged in
     if (req.headers.authorization) {
@@ -130,7 +129,7 @@ async function getSocietyById(req, res) {
     // Get the society
     const society = await prisma.society.findUnique({
       where: {
-        id: req.body.societyId,
+        id: parseInt(req.body.societyId),
       },
       select: {
         id: true,

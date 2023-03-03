@@ -4,14 +4,19 @@ import axios from "axios";
 
 function ViewSociety() {
   const [society, setSociety] = useState({});
-  const { id } = useParams();
+  const { id: societyId } = useParams();
 
-  useEffect(() => {
-    axios
-      .get(`http://localhost:5001/societies/getSociety/${id}`)
-      .then((response) => setSociety(response.data))
-      .catch((error) => console.error(error));
-  }, [id]);
+  useEffect((society) => {
+    axios.post('http://localhost:5001/societies/getSociety', {
+      societyId: societyId
+    })
+      .then(response => {
+        setSociety(response.data.society);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [societyId]);
 
   return (
     <div>

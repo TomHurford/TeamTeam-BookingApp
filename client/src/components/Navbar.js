@@ -19,6 +19,9 @@ function Navbar() {
                 <Link to = "/profile"><li>Profile</li></Link>
                 <Link to = "/logout"><li>Logout</li></Link>
                 <Link to = "/contact"><li>Contact</li></Link>
+                <Link to = "/about"><li>About</li></Link>
+                <Link to = "/privacy"><li>Privacy</li></Link>
+                <Link to = "/terms"><li>Terms</li></Link>
                 <Link to = "/basket"><div className='basketLogo'><img src = {basket} alt = "Basket"></img></div></Link>
                 <Link to = "/purchase"><li>Purchase</li></Link>
                 <Link to = "/paypal"><li>PayPal</li></Link>

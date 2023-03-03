@@ -2,6 +2,9 @@ import Home from "./Home";
 import "../styles/App.css";
 import React from "react";
 import Contact from "./Contact";
+import About from "./About";
+import Privacy from "./Privacy";
+import Terms from "./Terms";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import EventDetails from "./Events/EventDetails";
@@ -10,6 +13,8 @@ import ViewSociety from "./Societies/ViewSociety";
 import CreateSocietyForm from "./Societies/CreateSocietyForm";
 import SearchSocieties from "./Societies/SearchSocieties";
 import EditSocietyForm from "./Societies/EditSocietyForm";
+
+
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
@@ -35,6 +40,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route path="/contact" element={<Contact />}></Route>
+        <Route path="/about" element={<About />}></Route>
+        <Route path="/terms" element={<Terms />}></Route>
+        <Route path="/privacy" element={<Privacy />}></Route>
         <Route
           path="/event-details"
           element={<EventDetails addTicket={addTicket} />}

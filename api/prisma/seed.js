@@ -101,7 +101,7 @@ async function seedUsers() {
   }
 }
 
-const randomCategory = ["SPORTS", "ACADEMIC", "SOCIAL", "OTHER"];
+const randomCategory = ["Sports", "Academic", "Social", "Other"];
 
 async function seedSocieties() {
   await prisma.society.create({
@@ -109,7 +109,7 @@ async function seedSocieties() {
       name: "Society 1",
       email: "society@societymail.com",
       description: "Society 1 description",
-      category: "OTHER",
+      category: "Other",
       links: {
         create: {
           facebook: "https://www.facebook.com/",
@@ -196,7 +196,7 @@ async function seedCommittee() {
 }
 
 async function seedMembers() {
-  // For each society, add 20 members, one user could be in multiple societies or none
+  // For each society, add between 5 to 30 members, one user could be in multiple societies or none
   await prisma.members.create({
     data: {
       society: {
@@ -215,7 +215,7 @@ async function seedMembers() {
   const societies = await prisma.society.findMany();
   for (let i = 0; i < societies.length; i++) {
     const society = societies[i];
-    for (let j = 0; j < 20; j++) {
+    for (let j = 0; j < Math.floor(Math.random() * 30) + 5; j++) {
       // We need to make sure that the user is not already a member of the society
       var userID = faker.datatype.number({ min: 1, max: 50 });
       var present = true;

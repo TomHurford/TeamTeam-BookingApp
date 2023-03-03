@@ -36,7 +36,7 @@ model Society {
   name        String         @unique
   email       String         @unique
   description String
-  category    SocietyCategories @default(OTHER)
+  category    SocietyCategories @default(Other)
   isArchived  Boolean        @default(false)
   links       SocietyLinks[]
   // A society can have many committee members and a committee member can be in many societies
@@ -142,8 +142,9 @@ model Verifications {
 }
 
 enum SocietyCategories {
-  SPORTS
-  ACADEMIC
-  SOCIAL
-  OTHER
+  Sports
+  Academic
+  Social
+  Other
 }
+// I know bad style, will sort this later with the enum

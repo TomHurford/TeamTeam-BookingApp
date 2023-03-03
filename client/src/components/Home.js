@@ -35,6 +35,7 @@ class Home extends Component {
         return(
             <input 
             className="searchBar"
+            data-testid="search-bar"
             type="text" 
             placeholder = "Search for events..."
             value={this.state.query}
@@ -53,7 +54,6 @@ class Home extends Component {
                     {this.welcome()}
                     {this.searchBar()}
                     <div className="events" data-testid="events-list">
-                        {console.log(this.state.data)}
                         {this.state.data.map(event => (    
                             <div className="eventCard" key={event.id} onClick={()=>this.handleClick(event.id)} >
                             <Event details={event.id} specificEvent = {event}/>

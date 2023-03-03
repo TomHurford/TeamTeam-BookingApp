@@ -1,8 +1,8 @@
 // Test file for tickets routes
 
 const request = require("supertest");
-const app = require("../app");
-const prisma = require("../prisma/prisma");
+const app = require("../server.js");
+const prisma = require("../../prisma/prisma.js");
 
 let token = null;
 

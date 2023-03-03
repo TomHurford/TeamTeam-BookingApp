@@ -84,7 +84,9 @@ class SearchSocieties extends Component {
         <Link to="/edit-society">
           <button className="btn btn-primary">Edit Society</button>
         </Link>
-        {/* TODO: Use destructuring */}
+            {/* TODO: Use destructuring */}
+          </div>
+        </div>
       </React.Fragment>
     );
   }

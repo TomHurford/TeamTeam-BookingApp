@@ -1,5 +1,6 @@
 import React from "react";
 const axios = require('axios').default;
+import Event from "./Event";
 
 class SearchEvents extends React.Component {
   constructor(props) {
@@ -22,8 +23,9 @@ getEventsByName  = async () => {
       console.log(this.state.query);
       const response = await axios.post('http://localhost:5001/events/search', {name: this.state.query});
       const event = await response.data;
+      const events = await event.event;
       console.log(await event);
-      return event;
+      return events;
     } catch (error) {
       return null;
     }
@@ -31,7 +33,7 @@ getEventsByName  = async () => {
 
 async fetchData() {
     const events = await this.getEventsByName();
-    this.setState({results: events.data})
+    this.setState({results: events})
   } 
 
 

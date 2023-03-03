@@ -9,8 +9,13 @@ import {getEvents} from "../utils/EventsLogic"
 class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = {data: []}
+        this.state = {data: [],  query: ""}
         this.fetchData();
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({ query: event.target.value });
     }
     
     async fetchData() {
@@ -28,9 +33,14 @@ class Home extends Component {
 
     searchBar(){
         return(
-           <form className="searchBar" data-testid = "search-bar">
-                <input type="text" placeholder = "Search for events..."/>
-           </form>
+            <input 
+            className="searchBar"
+            type="text" 
+            placeholder = "Search for events..."
+            value={this.state.query}
+            onChange={this.handleChange}
+            onKeyDown = {(e) => { if (e.key === 'Enter') { this.newSearch(this.state.query) }}}
+            />
         )
 
     }
@@ -57,6 +67,10 @@ class Home extends Component {
 
     handleClick= (eventId) => {
         window.location.href = '/event-details?eventId=' + eventId;
+    }
+
+    newSearch = (eventName) => {
+        window.location.href = '/search-events?name=' + eventName;
     }
 }
 export default Home

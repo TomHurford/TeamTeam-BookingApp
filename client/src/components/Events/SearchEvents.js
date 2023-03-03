@@ -73,8 +73,8 @@ async fetchData() {
             placeholder="Search for events..."
             value={this.state.query}
             onChange={this.handleChange}
+            onKeyDown = {(e) => { if (e.key === 'Enter') { this.newSearch(this.state.query) }}}
           />
-          <button onClick={()=> this.newSearch(this.state.query)}>Search</button>
 
           <div className="events" data-testid="events-list">
             {this.state.results.map(event => (    

@@ -10,7 +10,7 @@ class SearchSocieties extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      societiesList: [], // bad implementation, will change later
+      societiesList: [],
       currentPage: 1,
       pageSize: 5,
       searchQuery: " ",

@@ -1,14 +1,14 @@
 import React from "react";
 
-const Input = (props) => {
+const Input = ({ name, label, value, onChange }) => {
   return (
     <div className="form-group">
-      <label htmlFor="props.name">{props.label}</label>
+      <label htmlFor={name}>{label}</label>
       <input
-        autoFocus
-        value={props.value}
-        onChange={props.onChange}
-        id={props.name}
+        value={value}
+        onChange={onChange}
+        id={name}
+        name={name}
         type="text"
         className="form-control"
       />

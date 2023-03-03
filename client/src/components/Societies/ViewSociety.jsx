@@ -53,17 +53,17 @@ function ViewSociety() {
         />
       </a>
 
-      <a href={societyLinks.facebook}>
+      <a href={societyLinks.twitter}>
         <FontAwesomeIcon
-          icon={faFacebook}
+          icon={faTwitter}
           size="3x"
           style={{ marginLeft: "10px", marginBottom: "7px" }}
         />
       </a>
 
-      <a href={societyLinks.twitter}>
+      <a href={societyLinks.facebook}>
         <FontAwesomeIcon
-          icon={faTwitter}
+          icon={faFacebook}
           size="3x"
           style={{ marginLeft: "10px", marginBottom: "7px" }}
         />

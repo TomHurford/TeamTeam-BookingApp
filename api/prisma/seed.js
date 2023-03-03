@@ -101,12 +101,15 @@ async function seedUsers() {
   }
 }
 
+const randomCategory = ["SPORTS", "ACADEMIC", "SOCIAL", "OTHER"];
+
 async function seedSocieties() {
   await prisma.society.create({
     data: {
       name: "Society 1",
       email: "society@societymail.com",
       description: "Society 1 description",
+      category: "OTHER",
       links: {
         create: {
           facebook: "https://www.facebook.com/",
@@ -126,6 +129,7 @@ async function seedSocieties() {
         name: faker.company.name(),
         email: faker.internet.email(),
         description: faker.lorem.paragraph(),
+        category: randomCategory[faker.datatype.number(3)],
         links: {
           create: {
             facebook: faker.internet.url(),

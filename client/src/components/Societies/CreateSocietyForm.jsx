@@ -1,5 +1,4 @@
 import React from "react";
-import Input from "../common/Input";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
@@ -40,16 +39,28 @@ function CreateSocietyForm() {
       <h1>Create Society</h1>
 
       <form onSubmit={formik.handleSubmit}>
-        <Input
-          name="societyName"
-          value={formik.values.societyName}
-          onChange={formik.handleChange}
-          label={
-            formik.touched.societyName && formik.errors.societyName
+        <div class="form-group">
+          <label
+            className={`form-label ${
+              formik.touched.societyName && formik.errors.societyName
+                ? " text-danger"
+                : ""
+            }`}
+            htmlFor="societyName"
+          >
+            {formik.touched.societyName && formik.errors.societyName
               ? formik.errors.societyName
-              : "Society Name"
-          }
-        />
+              : "Society Name"}
+          </label>
+          <input
+            name="societyName"
+            value={formik.values.societyName}
+            onChange={formik.handleChange}
+            type="text"
+            className="form-control"
+            onBlur={formik.handleBlur}
+          />
+        </div>
 
         <div className="form-group">
           <label>Select a category</label>
@@ -69,78 +80,152 @@ function CreateSocietyForm() {
 
         {/* Socials below*/}
         <h5>Socials</h5>
-        <Input
-          name="website"
-          value={formik.values.website}
-          onChange={formik.handleChange}
-          label={
-            formik.touched.website && formik.errors.website
+
+        <div class="form-group">
+          <label
+            className={`form-label ${
+              formik.touched.website && formik.errors.website
+                ? " text-danger"
+                : ""
+            }`}
+            htmlFor="website"
+          >
+            {formik.touched.website && formik.errors.website
               ? formik.errors.website
-              : "Website"
-          }
-          //onBlur={formik.handleBlur}
-        />
-        <Input
-          name="instagram"
-          value={formik.values.instagram}
-          onChange={formik.handleChange}
-          label={
-            formik.touched.instagram && formik.errors.instagram
+              : "Website"}
+          </label>
+          <input
+            name="website"
+            value={formik.values.website}
+            onChange={formik.handleChange}
+            type="text"
+            className="form-control"
+            onBlur={formik.handleBlur}
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            className={`form-label ${
+              formik.touched.instagram && formik.errors.instagram
+                ? " text-danger"
+                : ""
+            }`}
+            htmlFor="instagram"
+          >
+            {formik.touched.instagram && formik.errors.instagram
               ? formik.errors.instagram
-              : "Instagram"
-          }
-        />
-        <Input
-          name="twitter"
-          value={formik.values.twitter}
-          onChange={formik.handleChange}
-          label={
-            formik.touched.twitter && formik.errors.twitter
+              : "Instagram"}
+          </label>
+          <input
+            name="instagram"
+            value={formik.values.instagram}
+            onChange={formik.handleChange}
+            type="text"
+            className="form-control"
+            onBlur={formik.handleBlur}
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            className={`form-label ${
+              formik.touched.twitter && formik.errors.twitter
+                ? " text-danger"
+                : ""
+            }`}
+            htmlFor="twitter"
+          >
+            {formik.touched.twitter && formik.errors.twitter
               ? formik.errors.twitter
-              : "Twitter"
-          }
-        />
-        <Input
-          name="facebook"
-          value={formik.values.facebook}
-          onChange={formik.handleChange}
-          label={
-            formik.touched.facebook && formik.errors.facebook
+              : "Twitter"}
+          </label>
+          <input
+            name="twitter"
+            value={formik.values.twitter}
+            onChange={formik.handleChange}
+            type="text"
+            className="form-control"
+            onBlur={formik.handleBlur}
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            className={`form-label ${
+              formik.touched.facebook && formik.errors.facebook
+                ? " text-danger"
+                : ""
+            }`}
+            htmlFor="facebook"
+          >
+            {formik.touched.facebook && formik.errors.facebook
               ? formik.errors.facebook
-              : "Facebook"
-          }
-        />
+              : "Facebook"}
+          </label>
+          <input
+            name="facebook"
+            value={formik.values.facebook}
+            onChange={formik.handleChange}
+            type="text"
+            className="form-control"
+            onBlur={formik.handleBlur}
+          />
+        </div>
 
         {/* Image links below*/}
         <h5>Images</h5>
         <small id="imageHelp" className="form-text text-muted">
           You must enter a link to the images
         </small>
-        <Input
-          name="logo"
-          value={formik.values.logo}
-          onChange={formik.handleChange}
-          label={
-            formik.touched.logo && formik.errors.logo
+        <div class="form-group">
+          <label
+            className={`form-label ${
+              formik.touched.logo && formik.errors.logo ? " text-danger" : ""
+            }`}
+            htmlFor="logo"
+          >
+            {formik.touched.logo && formik.errors.logo
               ? formik.errors.logo
-              : "Society Logo"
-          }
-        />
-        <Input
-          name="banner"
-          value={formik.values.banner}
-          onChange={formik.handleChange}
-          label={
-            formik.touched.banner && formik.errors.banner
+              : "Society Logo"}
+          </label>
+          <input
+            name="logo"
+            value={formik.values.logo}
+            onChange={formik.handleChange}
+            type="text"
+            className="form-control"
+            onBlur={formik.handleBlur}
+          />
+        </div>
+
+        <div class="form-group">
+          <label
+            className={`form-label ${
+              formik.touched.banner && formik.errors.banner
+                ? " text-danger"
+                : ""
+            }`}
+            htmlFor="banner"
+          >
+            {formik.touched.banner && formik.errors.banner
               ? formik.errors.banner
-              : "Society Banner"
-          }
-        />
+              : "Society Banner"}
+          </label>
+          <input
+            name="banner"
+            value={formik.values.banner}
+            onChange={formik.handleChange}
+            type="text"
+            className="form-control"
+            onBlur={formik.handleBlur}
+          />
+        </div>
 
         <div className="form-group">
           <label
             className={`form-label ${
-              formik.touched.instagram && formik.errors.description
+              formik.touched.description && formik.errors.description
                 ? " text-danger"
                 : ""
             }`}

@@ -133,7 +133,7 @@ function App() {
         <Route path = "/login" element={<Login isLoggedIn={isLoggedIn}/>}></Route>
         <Route path = "/logout" element={<Logout isLoggedIn={isLoggedIn}/>}></Route>
         <Route path="/contact" element={<Contact />}></Route>
-        <Route path="/purchase" element={<Purchase />}></Route>
+        <Route path="/tickets" element={<Purchase />}></Route>
 
         <Route
           path="/event-details"

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 const AddCommitteeMember = (props) => {
   const [value, setValue] = React.useState("");
@@ -13,8 +13,10 @@ const AddCommitteeMember = (props) => {
     <form onSubmit={(event) => handleSubmit(event)}>
       <input
         value={value}
+        type="email"
         placeholder="Enter member's email"
         onChange={(event) => setValue(event.target.value)}
+        required
       />
       <button className="btn btn-primary" style={{ marginLeft: "8px" }}>
         Add Member

@@ -70,7 +70,7 @@ class SearchSocieties extends Component {
 
     return (
       <React.Fragment>
-        <h2>Societies</h2>
+        <h1>Societies</h1>
         <SearchBar
           value={this.state.searchQuery}
           onChange={this.handleSearch}

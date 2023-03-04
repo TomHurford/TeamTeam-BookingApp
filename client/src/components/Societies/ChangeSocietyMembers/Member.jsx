@@ -7,11 +7,11 @@ const Member = (props) => {
         <button
           className="btn btn-danger"
           onClick={() => props.removeMember(props.id)}
-          style={{ marginRight: "8px" }}
+          style={{ marginBottom: "8px" }}
         >
           Remove
         </button>
-        {props.email}
+        {`   ${props.email}`}
       </span>
     </div>
   );

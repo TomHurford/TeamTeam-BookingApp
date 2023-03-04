@@ -7,6 +7,7 @@ import {
   faInstagram,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
+import ContactSocietyForm from "./ContactSocietyForm";
 
 function ViewSociety() {
   const [society, setSociety] = useState({});
@@ -70,6 +71,8 @@ function ViewSociety() {
       </a>
 
       <h2>Events:</h2>
+
+      <ContactSocietyForm societyName={society.name} />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
 
 function CreateSocietyForm() {
   const formik = useFormik({
@@ -29,8 +30,14 @@ function CreateSocietyForm() {
       banner: Yup.string().url("Must be a valid URL"),
     }),
 
-    onSubmit: (values) => {
-      console.log("Society created");
+    onSubmit: async (values) => {
+      console.log(values);
+
+      await axios
+        .post("http://localhost:5001/societies/signup", values)
+        .then((res) => {
+          console.log(res);
+        });
     },
   });
 

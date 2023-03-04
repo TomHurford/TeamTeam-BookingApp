@@ -47,6 +47,7 @@ function ViewSociety() {
               Follow
             </button>
           </div>
+          <img src={societyLinks.logo} alt="Society Logo" />
           <p>{society.description}</p>
           <p>
             <strong>Category:</strong> {society.category}

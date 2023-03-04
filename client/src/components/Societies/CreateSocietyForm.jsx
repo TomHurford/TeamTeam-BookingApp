@@ -39,7 +39,7 @@ function CreateSocietyForm() {
       <h1>Create Society</h1>
 
       <form onSubmit={formik.handleSubmit}>
-        <div class="form-group">
+        <div className="form-group">
           <label
             className={`form-label ${
               formik.touched.societyName && formik.errors.societyName
@@ -81,7 +81,7 @@ function CreateSocietyForm() {
         {/* Socials below*/}
         <h5>Socials</h5>
 
-        <div class="form-group">
+        <div className="form-group">
           <label
             className={`form-label ${
               formik.touched.website && formik.errors.website
@@ -104,7 +104,7 @@ function CreateSocietyForm() {
           />
         </div>
 
-        <div class="form-group">
+        <div className="form-group">
           <label
             className={`form-label ${
               formik.touched.instagram && formik.errors.instagram
@@ -127,7 +127,7 @@ function CreateSocietyForm() {
           />
         </div>
 
-        <div class="form-group">
+        <div className="form-group">
           <label
             className={`form-label ${
               formik.touched.twitter && formik.errors.twitter
@@ -150,7 +150,7 @@ function CreateSocietyForm() {
           />
         </div>
 
-        <div class="form-group">
+        <div className="form-group">
           <label
             className={`form-label ${
               formik.touched.facebook && formik.errors.facebook
@@ -178,7 +178,7 @@ function CreateSocietyForm() {
         <small id="imageHelp" className="form-text text-muted">
           You must enter a link to the images
         </small>
-        <div class="form-group">
+        <div className="form-group">
           <label
             className={`form-label ${
               formik.touched.logo && formik.errors.logo ? " text-danger" : ""
@@ -199,7 +199,7 @@ function CreateSocietyForm() {
           />
         </div>
 
-        <div class="form-group">
+        <div className="form-group">
           <label
             className={`form-label ${
               formik.touched.banner && formik.errors.banner

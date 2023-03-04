@@ -41,7 +41,7 @@ function EditSocietyForm() {
 
       <form onSubmit={formik.handleSubmit}>
         <fieldset disabled>
-          <div class="form-group">
+          <div className="form-group">
             <label className="form-label" htmlFor="societyName">
               Society Name
             </label>
@@ -74,7 +74,7 @@ function EditSocietyForm() {
         {/* Socials below*/}
         <h5>Socials</h5>
 
-        <div class="form-group">
+        <div className="form-group">
           <label
             className={`form-label ${
               formik.touched.website && formik.errors.website
@@ -97,7 +97,7 @@ function EditSocietyForm() {
           />
         </div>
 
-        <div class="form-group">
+        <div className="form-group">
           <label
             className={`form-label ${
               formik.touched.instagram && formik.errors.instagram
@@ -120,7 +120,7 @@ function EditSocietyForm() {
           />
         </div>
 
-        <div class="form-group">
+        <div className="form-group">
           <label
             className={`form-label ${
               formik.touched.twitter && formik.errors.twitter
@@ -143,7 +143,7 @@ function EditSocietyForm() {
           />
         </div>
 
-        <div class="form-group">
+        <div className="form-group">
           <label
             className={`form-label ${
               formik.touched.facebook && formik.errors.facebook
@@ -171,7 +171,7 @@ function EditSocietyForm() {
         <small id="imageHelp" className="form-text text-muted">
           You must enter a link to the images
         </small>
-        <div class="form-group">
+        <div className="form-group">
           <label
             className={`form-label ${
               formik.touched.logo && formik.errors.logo ? " text-danger" : ""
@@ -192,7 +192,7 @@ function EditSocietyForm() {
           />
         </div>
 
-        <div class="form-group">
+        <div className="form-group">
           <label
             className={`form-label ${
               formik.touched.banner && formik.errors.banner

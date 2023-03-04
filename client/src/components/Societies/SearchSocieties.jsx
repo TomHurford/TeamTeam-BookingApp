@@ -13,7 +13,8 @@ class SearchSocieties extends Component {
       societiesList: [],
       currentPage: 1,
       pageSize: 5,
-      searchQuery: " ",
+      selectedCategory: null,
+      searchQuery: "",
     };
   }
 
@@ -29,29 +30,51 @@ class SearchSocieties extends Component {
   };
 
   handleSearch = (query) => {
-    this.setState({ searchQuery: query, currentPage: 1 });
+    this.setState({
+      searchQuery: query,
+      currentPage: 1,
+      selectedCategory: null,
+    });
   };
 
   handleCategorySelect = (category) => {
-    this.setState({ selectedCategory: category, currentPage: 1 });
+    this.setState({
+      selectedCategory: category,
+      currentPage: 1,
+      searchQuery: "",
+    });
   };
 
   render() {
     const { pageSize, currentPage, selectedCategory } = this.state;
 
-    const filtered =
-      selectedCategory && selectedCategory !== "All"
-        ? this.state.societiesList.filter(
-            (society) => society.category === selectedCategory
-          )
-        : this.state.societiesList;
+    let filtered = this.state.societiesList;
+
+    // Filter societies by search query
+    if (this.state.searchQuery) {
+      filtered = this.state.societiesList.filter((society) =>
+        society.name
+          .toLowerCase()
+          .startsWith(this.state.searchQuery.toLowerCase())
+      );
+      // Filter societies by category
+    } else if (selectedCategory && selectedCategory !== "All") {
+      filtered = this.state.societiesList.filter(
+        (society) => society.category === selectedCategory
+      );
+    } else {
+      filtered = this.state.societiesList;
+    }
 
     const societies = paginate(filtered, currentPage, pageSize);
 
     return (
       <React.Fragment>
         <h2>Societies</h2>
-        <SearchBar onChange={this.handleSearch} />
+        <SearchBar
+          value={this.state.searchQuery}
+          onChange={this.handleSearch}
+        />
 
         <div className="row">
           <div className="col-2">

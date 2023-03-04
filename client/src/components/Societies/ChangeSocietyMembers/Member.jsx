@@ -2,7 +2,11 @@ import React from "react";
 
 const Member = (props) => {
   return (
-    <div>
+    <div
+      style={{
+        marginLeft: "8px",
+      }}
+    >
       <span>
         <button
           className="btn btn-danger"

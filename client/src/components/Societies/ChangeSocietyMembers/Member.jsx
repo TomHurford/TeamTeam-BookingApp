@@ -12,7 +12,6 @@ const Member = (props) => {
           Remove
         </button>
         {props.email}
-        <h3></h3>
       </span>
     </div>
   );

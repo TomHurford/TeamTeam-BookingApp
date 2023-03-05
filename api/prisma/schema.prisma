@@ -89,12 +89,6 @@ model Members {
   society    Society @relation(references: [id], fields: [societyId])
   isArchived Boolean @default(false)
 
-  userId     Int
-  societyId  Int
-  user       User    @relation(references: [id], fields: [userId])
-  society    Society @relation(references: [id], fields: [societyId])
-  isArchived Boolean @default(false)
-
   @@id([userId, societyId])
 }
 

@@ -8,13 +8,23 @@ import basket from '../utils/basket.png';
 
 function Navbar(props) {
 
-    const [notMenuClass, setNotMenuClass] = useState(false);
-    const [menuActive, setMenuActive] = useState(false);
+    const [notMenuClass, setNotMenuClass] = useState("menu");
+    const [menuActive, setMenuActive] = useState("");
     const [menuClass, setMenuClass] = useState('');
 
     const toggleMenu = () => {
         menuActive ? setMenuClass("") : setMenuClass("menu");
         notMenuClass ? setNotMenuClass("menu") : setNotMenuClass("");
+        setMenuActive(!menuActive);
+    }
+    const closeMenu = () => {
+        setMenuClass("");
+        setNotMenuClass("menu");
+        setMenuActive(!menuActive);
+    }
+    const openMenu = () => {
+        setMenuClass("menu");
+        setNotMenuClass("");
         setMenuActive(!menuActive);
     }
 
@@ -40,12 +50,12 @@ function Navbar(props) {
             </nav>
             <nav className = "mobile-navbar">
                 <ul className='left'>
-                    <Link to = "/" onClick={() => {toggleMenu()}}><li className='left'><img src = {logo} alt = "Logo"></img></li></Link>
+                    <Link to = "/"><li className='left'><img src = {logo} alt = "Logo"></img></li></Link>
                 </ul>
                 <ul className='right'>
-                    <a onClick={() => {toggleMenu()}}><li><img src = {basket} alt = "Basket"></img></li></a>
+                    <a onClick={() => {openMenu()}}><li><img src = {basket} alt = "Basket"></img></li></a>
                 </ul>
-                <div id='notMenu' className={notMenuClass} onClick={() => {toggleMenu()}}></div>
+                <div id='notMenu' className={notMenuClass} onClick={() => {closeMenu()}}></div>
                 <div id='menu' className={menuClass}>
                     <ul className='top'>                    
                         <a onClick={() => {toggleMenu()}}><li>Close</li></a>

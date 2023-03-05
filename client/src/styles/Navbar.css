@@ -124,7 +124,7 @@
     font-weight: bold;
     float: right;
     padding: 15px;
-    height: 60px;
+    height: 30px;
     min-width: fit-content;
 }
 .mobile-navbar > ul > a > li:hover{

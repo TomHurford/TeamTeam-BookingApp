@@ -1,5 +1,4 @@
 import Home from "./Home";
-import "../styles/App.css";
 import React, {useEffect} from "react";
 import Contact from "./Contact";
 import Login from './Login';
@@ -47,7 +46,11 @@ function App() {
       total += tickets[ticketType.id] * ticketType.price;
     });
 
-    return total;
+    if (isNaN(total)) {
+      return 0;
+    } else {
+      return total;
+    }
   }
 
   useEffect(() => {

@@ -61,7 +61,7 @@ async function seedUsers() {
     data: {
       name: "Admin",
       email: "admin@admin.com",
-      password: "admin",
+      password: "admin123",
       type: {
         connect: {
           id: 1,

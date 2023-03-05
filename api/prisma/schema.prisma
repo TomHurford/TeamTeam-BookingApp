@@ -13,11 +13,23 @@ datasource db {
 //------------------//
 model UserType {
   id    Int    @id @unique @default(autoincrement())
+  id    Int    @id @unique @default(autoincrement())
   type  String
   users User[]
 }
 
 model User {
+  id            Int             @id @default(autoincrement())
+  name          String
+  email         String          @unique
+  password      String
+  userType      Int
+  type          UserType        @relation(references: [id], fields: [userType])
+  committee     Committee[]
+  members       Members[]
+  ticket        Ticket[]
+  Purchase      Purchase[]
+  verifications Verifications[]
   id            Int             @id @default(autoincrement())
   name          String
   email         String          @unique
@@ -35,7 +47,10 @@ model Society {
   id          Int            @id @default(autoincrement())
   name        String         @unique
   email       String         @unique
+  email       String         @unique
   description String
+  category    SocietyCategories @default(Other)
+  isArchived  Boolean        @default(false)
   links       SocietyLinks[]
   // A society can have many committee members and a committee member can be in many societies
   committee   Committee[]
@@ -56,12 +71,13 @@ model SocietyLinks {
 }
 
 model Committee {
-  role       String
-  userId     Int
-  societyId  Int
-  user       User    @relation(references: [id], fields: [userId])
-  society    Society @relation(references: [id], fields: [societyId])
-  isArchived Boolean @default(false)
+  role        String
+  userId      Int
+  societyId   Int
+  isPresident Boolean @default(false)
+  user        User    @relation(references: [id], fields: [userId])
+  society     Society @relation(references: [id], fields: [societyId])
+  isArchived  Boolean @default(false)
 
   @@id([userId, societyId])
 }
@@ -73,10 +89,17 @@ model Members {
   society    Society @relation(references: [id], fields: [societyId])
   isArchived Boolean @default(false)
 
+  userId     Int
+  societyId  Int
+  user       User    @relation(references: [id], fields: [userId])
+  society    Society @relation(references: [id], fields: [societyId])
+  isArchived Boolean @default(false)
+
   @@id([userId, societyId])
 }
 
 model Event {
+  id          Int          @id @default(autoincrement())
   id          Int          @id @default(autoincrement())
   name        String
   description String
@@ -86,19 +109,26 @@ model Event {
   societyId   Int
   isArchived  Boolean      @default(false)
   society     Society      @relation(references: [id], fields: [societyId])
+  isArchived  Boolean      @default(false)
+  society     Society      @relation(references: [id], fields: [societyId])
   ticket      Ticket[]
+  ticketTypes TicketType[]
   ticketTypes TicketType[]
   purchase    Purchase[]
 }
 
 model TicketType {
   id         Int      @id @unique @default(autoincrement())
+  id         Int      @id @unique @default(autoincrement())
   ticketType String
   price      Int
   quantity   Int
   eventId    Int
   event      Event    @relation(references: [id], fields: [eventId])
+  eventId    Int
+  event      Event    @relation(references: [id], fields: [eventId])
   tickets    Ticket[]
+  isArchived Boolean  @default(false)
   isArchived Boolean  @default(false)
 }
 
@@ -133,6 +163,7 @@ model Purchase {
 
 model Verifications {
   id               Int    @id @default(autoincrement())
+  id               Int    @id @default(autoincrement())
   verificationType String
   verificationCode String
   userId           Int
@@ -149,3 +180,11 @@ enum PURCHASE_STATUS {
   PAID
   REFUNDED
 }
+
+enum SocietyCategories {
+  Sports
+  Academic
+  Social
+  Other
+}
+// I know bad style, will sort this later with the enum

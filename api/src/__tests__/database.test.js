@@ -2,8 +2,7 @@ const prisma = require("../../prisma/prisma.js");
 
 // I want to test the database by testing the constraints on the database
 
-test("UserType type must be unique", // Attempt to create a user type with the id 1 and type 'ADMIN'
-// This should throw an error because the id 1 is already taken
+test("UserType type must be unique", // This should throw an error because the id 1 is already taken // Attempt to create a user type with the id 1 and type 'ADMIN'
 async () => {
   await expect(
     prisma.userType.create({

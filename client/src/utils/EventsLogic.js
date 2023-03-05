@@ -1,6 +1,6 @@
 // This file contains functions that make API calls to the backend
 
-import axios from 'axios';
+const axios = require('axios');
 //const axios = require('axios').default;
 
 // This function gets all events from the backend

@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import '../styles/Login.css';
-const axios = require('axios').default;
+const axios = require('axios');
 const jwtController = require('../utils/jwt.js');
 
 
@@ -10,10 +10,15 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            email: '',
-            password: '',
-            confirmPassword: '',
+            loginEmail: '',
+            loginPassword: '',
+
+            signupName: '',
+            signupEmail: '',
+            signupPassword: '',
+            signupConfirmPassword: '',
+
+            forgotEmail: '',
 
             //block of state variables relating to showing forms
             disableLoginForm: false,
@@ -34,14 +39,14 @@ class Login extends Component {
 
     // Submit login to backend to receive token for use
     handleSubmitLogin = (event) => {
-        if (this.state.username === '' || this.state.password === '') {
+        if (this.state.loginEmail === '' || this.state.loginPassword === '') {
             console.log('Empty Fields');
             this.showMessage('You have left a field empty');
             return false;
         } 
         event.preventDefault();
         
-        axios.post('http://localhost:5001/user/login', { email: this.state.email, password: this.state.password })
+        axios.post('http://localhost:5001/user/login', { email: this.state.loginEmail, password: this.state.loginPassword })
             .then(response => {
                 if (response.data.token) {
                     jwtController.setToken(response.data.token);
@@ -59,7 +64,7 @@ class Login extends Component {
 
     // Submit signup to backend to receive successful sign up
     handleSubmitSignUp = (event) => {
-        if (this.state.confirmPassword === this.state.password) {
+        if (this.state.signupConfirmPassword === this.state.signupPassword) {
             console.log('Passwords Do Not Match');
             this.showMessage('You have left a field empty');
             this.signupToggle();
@@ -69,7 +74,7 @@ class Login extends Component {
 
         event.preventDefault();
         
-        axios.post('http://localhost:5001/user/signup', { name: this.state.name, email: this.state.email, password: this.state.password })
+        axios.post('http://localhost:5001/user/signup', { name: this.state.signupName, email: this.state.signupEmail, password: this.state.signupPassword })
             .then(response => {
                 if (response.data.success) {
                     this.showMessage('Signed Up. Check Email for Verification.');
@@ -89,7 +94,7 @@ class Login extends Component {
     handleSubmitForgot = (event) => {
         event.preventDefault();
         
-        axios.post('http://localhost:5001/user/forgotPassword', { email: this.state.email })
+        axios.post('http://localhost:5001/user/forgotPassword', { email: this.state.forgotEmail })
             .then(response => {
                 if (response.data.success) {
                     this.showMessage('Forgot Password Email Sent If Email Exists.');
@@ -196,16 +201,16 @@ class Login extends Component {
                         </div>
                         <div className='field'>
                             <label htmlFor="email">Email</label><br />
-                            <input type="email" name="login-email" onChange={this.handleChange} required />
+                            <input type="email" name="loginEmail" onChange={this.handleChange} required />
                         </div>
                         <div className='field'>
                             <label htmlFor="password">Password</label><br />
-                            <input type="password" name="login-password" minLength="8" onChange={this.handleChange} required />
+                            <input type="password" name="loginPassword" minLength="8" onChange={this.handleChange} required />
                         </div>
                         <div className='field' style={{textAlign: 'right', height: '0.9em', marginTop: 0, marginBottom: '10px'}}>
                             <label className='buttonLabel' onClick={this.forgotToggle}>Forgot Your Password?</label><br />
                         </div>
-                        <button name="login-button" type="submit">Login</button>
+                        <button name="loginbutton" type="submit">Login</button>
                     </form>
                 </div>
 
@@ -217,7 +222,7 @@ class Login extends Component {
                         </div>
                         <div className='field'>
                             <label htmlFor="text">Name</label><br />
-                            <input type="text" name="signup-name" minLength="3" onChange={this.handleChange} required />
+                            <input type="text" name="signupName" minLength="3" onChange={this.handleChange} required />
                         </div>
                         <div className='field'>
                             <label htmlFor="email">Email</label><br />

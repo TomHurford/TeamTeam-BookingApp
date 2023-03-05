@@ -4,7 +4,7 @@ import { paginate } from "../../utils/paginate";
 import SearchBar from "../common/Searchbar";
 import { Link } from "react-router-dom";
 import ListFilter from "../common/ListFilter";
-import axios from "axios";
+const axios = require('axios');
 
 class SearchSocieties extends Component {
   constructor(props) {

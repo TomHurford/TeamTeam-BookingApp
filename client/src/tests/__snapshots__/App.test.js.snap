@@ -106,15 +106,24 @@ exports[`App snapshot test 1`] = `
           Welcome to Ticketopia!
         </h1>
       </div>
-      <input
-        className="searchBar"
-        data-testid="search-bar"
-        onChange={[Function]}
-        onKeyDown={[Function]}
-        placeholder="Search for events..."
-        type="text"
-        value=""
-      />
+      <div
+        className="searchBarContainer"
+      >
+        <img
+          alt="search icon"
+          className="searchIcon"
+          src="search.png"
+        />
+        <input
+          className="searchBar"
+          data-testid="search-bar"
+          onChange={[Function]}
+          onKeyDown={[Function]}
+          placeholder="Search for events..."
+          type="text"
+          value=""
+        />
+      </div>
       <div
         className="events"
         data-testid="events-list"

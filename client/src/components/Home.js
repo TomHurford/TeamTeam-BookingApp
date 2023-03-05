@@ -3,6 +3,9 @@ import '../styles/Events.css';
 import Event from './Events/Event';
 import '../styles/Home.css';
 import {getEvents} from "../utils/EventsLogic"
+import search from '../utils/search.png';
+import '../styles/SearchBar.css'
+ 
 
 //Fetching events from the database and displaying them on the home page
 
@@ -33,6 +36,8 @@ class Home extends Component {
 
     searchBar(){
         return(
+            <div className="searchBarContainer">
+            <img src = {search} className="searchIcon" alt="search icon" />
             <input 
             className="searchBar"
             data-testid="search-bar"
@@ -42,6 +47,7 @@ class Home extends Component {
             onChange={this.handleChange}
             onKeyDown = {(e) => { if (e.key === 'Enter') { this.newSearch(this.state.query) }}}
             />
+            </div>
         )
 
     }

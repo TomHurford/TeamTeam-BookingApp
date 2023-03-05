@@ -117,9 +117,8 @@
     line-height: 1.1em;
     position: absolute;
     bottom: 0.5em;
-    width: 100%;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+    width: calc( 100% - 0.5em );
+    margin-right: 0.5em;
     color: #f5f5f5;
     text-shadow: 1px 1px 1px #000;
     text-align: right;

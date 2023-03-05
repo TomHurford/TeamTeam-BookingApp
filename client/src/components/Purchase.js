@@ -28,7 +28,7 @@ const FutureTickets = () => {
         <div className="underlay"></div>
        <hr></hr><hr></hr> 
       <h1>Upcoming Tickets</h1>
-      <table>
+      <table className="purchase">
         <thead>
           <tr>
             <th>Event Name</th>

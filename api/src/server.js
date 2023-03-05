@@ -15,6 +15,7 @@ var loginRouter = require('./routes/login');
 var eventsRouter = require('./routes/events');
 var societiesRouter = require('./routes/societies');
 var purchaseRouter = require('./routes/purchase');
+var ticketsRouter = require('./routes/tickets');
 var swaggerDocument = require('./swagger.json');
 
 
@@ -37,6 +38,7 @@ app.use('/', indexRouter);
 app.use('/user', loginRouter);
 app.use('/events', eventsRouter);
 app.use('/societies', societiesRouter);
+app.use('/tickets', ticketsRouter)
 app.use('/purchase', purchaseRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

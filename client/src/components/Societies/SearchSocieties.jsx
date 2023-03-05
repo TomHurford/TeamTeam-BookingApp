@@ -32,7 +32,7 @@ class SearchSocieties extends Component {
       <React.Fragment>
         <div className='page-container'>
           <div className='underlay'></div>
-          <div className="societyPage-container">
+          <div className="searchSocietiesPage-container">
             <h2>Societies</h2>
             <SearchBar onChange={this.handleSearch} />
 

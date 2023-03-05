@@ -21,7 +21,7 @@ class Home extends Component {
     welcome() {
         return(
         <div className="welcome" data-testid = "welcome-message">
-            <h1>Welcome to Ticketopia!</h1>
+            <h1>Perfect Tickets? Perfect Time.</h1>
         </div>
         )
     }

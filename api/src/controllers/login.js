@@ -221,15 +221,24 @@ async function verify(req, res) {
 }
 
 async function checkUserLoggedIn(req, res) {
+    if (!req.headers.authorization) {
+        return res.status(401).send();
+    }
 
-    try {
-        const decoded = jwt.authenticate(req);
-        if (Date.now() >= exp * 1000) {
+    const token = req.headers.authorization.split(" ")[1];
+
+    if (token == '' || token == null || token == 'null') {
+        return res.status(401).send();
+    } else {
+        try {
+            const decoded = await auth.authenticate(req);
+            if (Date.now() >= decoded.exp * 1000) {
+                return res.status(401).send();
+            }
+            return res.status(200).send();
+        } catch (err) {
             return res.status(401).send();
         }
-        return res.status(200).send();
-    } catch (err) {
-        return res.status(401).send();
     }
 }
 

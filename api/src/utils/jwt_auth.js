@@ -3,6 +3,7 @@
 const jwt = require("jsonwebtoken");
 
 async function authenticate(req) {
+  
   // Decode the JWT token
   // The JWT token is sent in the Authorization header, it is prefixed with 'Bearer '
   if (!req.headers.authorization) {
@@ -10,13 +11,14 @@ async function authenticate(req) {
       reject("Unauthorized");
     });
   }
+  
   const token = req.headers.authorization.split(" ")[1];
+  
   // try to decode the token if error return false
   let decoded = null;
   try {
     decoded = jwt.verify(token, process.env.TOKEN_SECRET);
   } catch (e) {
-    console.log(e);
     decoded = false;
   }
   return new Promise((resolve, reject) => {

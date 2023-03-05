@@ -20,20 +20,50 @@ const getPastPurchases = async (req, res) => {
     const userId = req.body.userId// decoded.id
 
     console.log("userId: ", userId)
-    // use the user id to get the user's past purchases
+    // use the user id to get the user's past purchases for events that have already happened
     const purchases = await prisma.purchase.findMany({
       where: {
-        userId: userId
+        userId: userId,
+        
+        isArchived: false
       }
     })
 
-    console.log("purchases: ", purchases)
-    res.status(200).send({ purchases: purchases});
+
+    // Retreive tickets using purchase id and add the tickets to purchase json
+
+    const pastTickets = await Promise.all(purchases.map(async (purchase) => {
+      const tickets = await prisma.ticket.findMany({
+        where: {
+          purchaseId: purchase.id
+        }
+      })
+      return {
+        ...purchase,
+        tickets: tickets
+      }
+    }))
+
+    //Retreive event using event id and add the event to purchase json for a past ticket
+    const pastTicketWithEvent = await Promise.all(pastTickets.map(async (ticket) => {
+      const event = await prisma.event.findUnique({
+        where: {
+          id: ticket.eventId
+        }
+      })
+      return {
+        ...ticket,
+        event: event
+      }
+    }))
+    console.log("pastTickets: ", pastTicketWithEvent)
+    res.status(200).send({ pastTickets: pastTicketWithEvent});
   } catch (err) {
     console.log(err)
     res.status(401).send({ token: null, error: "Unauthorized" });
   }
 }
+
 
 const getFutureTickets = async (req, res) => {
   try {
@@ -71,10 +101,23 @@ const getFutureTickets = async (req, res) => {
       }
     }))
 
-
+    //Retreive event using event id and add the event to purchase json
+    const futureTicketWithEvent = await Promise.all(futureTickets.map(async (ticket) => {
+      const event = await prisma.event.findUnique({
+        where: {
+          id: ticket.eventId
+        }
+      })
+      return {
+        ...ticket,
+        event: event
+      }
+    }))
+    console.log("purchases: ", purchases)
+    
 
     console.log("futureTickets: ", futureTickets)
-    res.status(200).send({ futureTickets: futureTickets });
+    res.status(200).send({ futureTickets:futureTicketWithEvent });
   } catch (err) {
     console.log(err)
     res.status(401).send({ token: null, error: "Unauthorized" });

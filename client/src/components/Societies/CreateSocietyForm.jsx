@@ -72,7 +72,7 @@ class CreateSocietyForm extends Component {
               ></textarea>
             </div>
 
-            <button className="btn btn-primary">Create Society</button>
+            <button name="create-society-button" className="btn btn-primary">Create Society</button>
           </form>
         </div>
       </div>

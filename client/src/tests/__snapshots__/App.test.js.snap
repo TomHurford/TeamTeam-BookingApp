@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`App snapshot test 1`] = `
-<div
-  className="root-container"
->
+<div>
   <div
     className="nav-container"
   >
@@ -43,11 +41,19 @@ exports[`App snapshot test 1`] = `
           </li>
         </a>
         <a
-          href="/login"
+          href="/logout"
           onClick={[Function]}
         >
           <li>
-            Login / SignUp
+            Logout
+          </li>
+        </a>
+        <a
+          href="/profile"
+          onClick={[Function]}
+        >
+          <li>
+            Profile
           </li>
         </a>
         <a
@@ -59,10 +65,20 @@ exports[`App snapshot test 1`] = `
           </li>
         </a>
         <a
-          href="/basket"
+          href="/purchase/future"
           onClick={[Function]}
         >
           <li>
+            Purchase
+          </li>
+        </a>
+        <a
+          href="/basket"
+          onClick={[Function]}
+        >
+          <li
+            data-testid="basket-icon"
+          >
             <img
               alt="Basket"
               src="basket.png"
@@ -99,7 +115,7 @@ exports[`App snapshot test 1`] = `
           type="text"
         />
       </form>
-      <ul
+      <div
         className="events"
         data-testid="events-list"
       />

@@ -2,20 +2,27 @@
 
 exports[`Paypal snapshot test 1`] = `
 <div
-  style={
-    Object {
-      "alignItems": "center",
-      "display": "flex",
-      "justifyContent": "center",
-    }
-  }
+  className="page-container"
 >
+  <div
+    className="underlay"
+  />
   <div
     style={
       Object {
-        "maxWidth": "500px",
+        "alignItems": "center",
+        "display": "flex",
+        "justifyContent": "center",
       }
     }
-  />
+  >
+    <div
+      style={
+        Object {
+          "maxWidth": "500px",
+        }
+      }
+    />
+  </div>
 </div>
 `;

@@ -196,16 +196,16 @@ class Login extends Component {
                         </div>
                         <div className='field'>
                             <label htmlFor="email">Email</label><br />
-                            <input type="email" name="email" onChange={this.handleChange} required />
+                            <input type="email" name="login-email" onChange={this.handleChange} required />
                         </div>
                         <div className='field'>
                             <label htmlFor="password">Password</label><br />
-                            <input type="password" name="password" minLength="4" onChange={this.handleChange} required />
+                            <input type="password" name="login-password" minLength="8" onChange={this.handleChange} required />
                         </div>
                         <div className='field' style={{textAlign: 'right', height: '0.9em', marginTop: 0, marginBottom: '10px'}}>
                             <label className='buttonLabel' onClick={this.forgotToggle}>Forgot Your Password?</label><br />
                         </div>
-                        <button type="submit">Login</button>
+                        <button name="login-button" type="submit">Login</button>
                     </form>
                 </div>
 
@@ -217,21 +217,21 @@ class Login extends Component {
                         </div>
                         <div className='field'>
                             <label htmlFor="text">Name</label><br />
-                            <input type="text" name="name" minLength="3" onChange={this.handleChange} required />
+                            <input type="text" name="signup-name" minLength="3" onChange={this.handleChange} required />
                         </div>
                         <div className='field'>
                             <label htmlFor="email">Email</label><br />
-                            <input type="email" name="email" onChange={this.handleChange} required />
+                            <input type="email" name="signup-email" onChange={this.handleChange} required />
                         </div>
                         <div className='field'>
                             <label htmlFor="password">Password</label><br />
-                            <input type="password" name="password" minLength="8" onChange={this.handleChange} required />
+                            <input type="password" name="signup-password" minLength="8" onChange={this.handleChange} required />
                         </div>
                         <div className='field'>
                             <label htmlFor="confirmPassword">Confirm Password</label><br />
-                            <input type="password" name="confirmPassword" onChange={this.handleChange} required />
+                            <input type="password" name="signup-confirmPassword" onChange={this.handleChange} required />
                         </div>
-                        <button type="submit">Sign Up</button>
+                        <button name="signup-button" type="submit">Sign Up</button>
                     </form>
                 </div>
 
@@ -240,12 +240,12 @@ class Login extends Component {
                     <form onSubmit={this.handleSubmitForgot} action="#">
                         <div className='field'>
                             <label htmlFor="email">Email</label><br />
-                            <input type="email" name="email" onChange={this.handleChange} required />
+                            <input type="email" name="forgot-email" onChange={this.handleChange} required />
                         </div>
                         <div className='field' style={{textAlign: 'right', height: '0.9em', marginTop: 0, marginBottom: '10px'}}>
                             <label className='buttonLabel' onClick={this.forgotToggle}>Remember Your Password?</label><br />
                         </div>
-                        <button type="submit">Send Reset Password Email</button>
+                        <button name="forgot-button" type="submit">Send Reset Password Email</button>
                     </form>
                 </div>
 

@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import logo from '../utils/logo.png';
 import basket from '../utils/basket.png';
 
+
 //Create a navbar component
 
 function Navbar(props) {

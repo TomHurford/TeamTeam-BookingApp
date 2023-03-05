@@ -16,6 +16,7 @@ const jwtController = require('../utils/jwt.js');
 
 const sessionStorage = require('sessionstorage');
 
+
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
 function App() {

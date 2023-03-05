@@ -99,12 +99,15 @@ async function seedUsers() {
   }
 }
 
+const randomCategory = ["Sports", "Academic", "Social", "Other"];
+
 async function seedSocieties() {
   await prisma.society.create({
     data: {
       name: "Society 1",
       email: "society@societymail.com",
       description: "Society 1 description",
+      category: "Other",
       links: {
         create: {
           facebook: "https://www.facebook.com/",
@@ -118,12 +121,13 @@ async function seedSocieties() {
     },
   });
   // use faker to generate 10 random societies
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 20; i++) {
     await prisma.society.create({
       data: {
         name: faker.company.name(),
         email: faker.internet.email(),
         description: faker.lorem.paragraph(),
+        category: randomCategory[faker.datatype.number(3)],
         links: {
           create: {
             facebook: faker.internet.url(),
@@ -154,6 +158,7 @@ async function seedCommittee() {
         },
       },
       role: "President",
+      isPresident: true,
     },
   });
   const societies = await prisma.society.findMany();
@@ -181,15 +186,15 @@ async function seedCommittee() {
             },
           },
           role: faker.name.jobTitle(),
+          isPresident: true,
         },
       });
     }
-
   }
 }
 
 async function seedMembers() {
-  // For each society, add 20 members, one user could be in multiple societies or none
+  // For each society, add between 5 to 30 members, one user could be in multiple societies or none
   await prisma.members.create({
     data: {
       society: {
@@ -208,7 +213,7 @@ async function seedMembers() {
   const societies = await prisma.society.findMany();
   for (let i = 0; i < societies.length; i++) {
     const society = societies[i];
-    for (let j = 0; j < 20; j++) {
+    for (let j = 0; j < Math.floor(Math.random() * 30) + 5; j++) {
       // We need to make sure that the user is not already a member of the society
       var userID = faker.datatype.number({ min: 1, max: 50 });
       var present = true;
@@ -297,9 +302,9 @@ async function seedTicketTypes() {
         quantity: 100,
         event: {
           connect: {
-            id: event.id
-          }
-        }
+            id: event.id,
+          },
+        },
       },
     });
     await prisma.ticketType.create({
@@ -309,9 +314,9 @@ async function seedTicketTypes() {
         quantity: 100,
         event: {
           connect: {
-            id: event.id
-          }
-        }
+            id: event.id,
+          },
+        },
       },
     });
   }
@@ -325,15 +330,15 @@ async function seedPurchasesandTickets() {
       paymentMethod: "paypal",
       user: {
         connect: {
-          id: 1
-        }
+          id: 1,
+        },
       },
       event: {
         connect: {
           id: 1,
         },
       },
-    }
+    },
   });
 
   await prisma.ticket.create({
@@ -341,75 +346,77 @@ async function seedPurchasesandTickets() {
       ticketData: "sdgsgbsfgbsumfin",
       purchase: {
         connect: {
-          id: setPurchase.id
-        }
+          id: setPurchase.id,
+        },
       },
       ticketType: {
         connect: {
-          id: 1
-        }
+          id: 1,
+        },
       },
       event: {
         connect: {
-          id: 1
-        }
+          id: 1,
+        },
       },
       user: {
         connect: {
-          id: 1
-        }
-      }
-    }
+          id: 1,
+        },
+      },
+    },
   });
 
   const events = await prisma.event.findMany();
   for (let i = 0; i < events.length; i++) {
-    const offset = faker.datatype.number({ min: 1, max: 44 })
-    for (let j = offset; j < offset+5; j++) {
-      const qoftickets = faker.datatype.number({ min: 1, max: 10 })
-      const ticketTypes = await prisma.ticketType.findMany({where:{eventId: i + 1}})
-      const ticketType = ticketTypes[faker.datatype.number({ min: 0, max: 1 })]
+    const offset = faker.datatype.number({ min: 1, max: 44 });
+    for (let j = offset; j < offset + 5; j++) {
+      const qoftickets = faker.datatype.number({ min: 1, max: 10 });
+      const ticketTypes = await prisma.ticketType.findMany({
+        where: { eventId: i + 1 },
+      });
+      const ticketType = ticketTypes[faker.datatype.number({ min: 0, max: 1 })];
       let purchase = await prisma.purchase.create({
         data: {
           total: ticketType.price * qoftickets,
           paymentMethod: "paypal",
           user: {
             connect: {
-              id: j + 1
-            }
+              id: j + 1,
+            },
           },
           event: {
             connect: {
-              id: i + 1
-            }
-          }
-        }
+              id: i + 1,
+            },
+          },
+        },
       });
       for (let k = 0; k < qoftickets; k++) {
         await prisma.ticket.create({
           data: {
-            ticketData: '' + (i + 4 * 3) * (j * 2 + 6) * (k * 7 * 8 + 5 * 6) ,
+            ticketData: "" + (i + 4 * 3) * (j * 2 + 6) * (k * 7 * 8 + 5 * 6),
             purchase: {
               connect: {
-                id: purchase.id
-              }
+                id: purchase.id,
+              },
             },
             ticketType: {
               connect: {
-                id: ticketType.id
-              }
+                id: ticketType.id,
+              },
             },
             event: {
               connect: {
-                id: i + 1
-              }
+                id: i + 1,
+              },
             },
             user: {
               connect: {
-                id: j + 1
-              }
-            }
-          }
+                id: j + 1,
+              },
+            },
+          },
         });
       }
     }

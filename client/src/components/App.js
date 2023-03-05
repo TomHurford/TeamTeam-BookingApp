@@ -26,9 +26,9 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   useEffect(() => {
-    console.log(jwtController.getToken());
+    //console.log(jwtController.getToken());
       jwtController.checkIsLoggedIn().then((res) => {
-          res ? console.log('Logged In!') : console.log('Not Logged In!');
+          //res ? console.log('Logged In!') : console.log('Not Logged In!');
           setIsLoggedIn(res);
       });
   }, []);
@@ -68,7 +68,7 @@ function App() {
   const addTicket = (callData, ticketType) => {
 
     var event = callData.event;
-    console.log(callData);
+    //console.log(callData);
 
     if (!basketEvent.event) {
       
@@ -113,10 +113,10 @@ function App() {
     sessionStorage.setItem('availableTicketTypes', JSON.stringify(availableTicketTypes));
     sessionStorage.setItem('tickets', JSON.stringify(tickets));
 
-    console.log(basketEvent);
-    console.log(availableTicketTypes);
-    console.log(tickets);
-    console.log(totalPrice());
+    //console.log(basketEvent);
+    //console.log(availableTicketTypes);
+    //console.log(tickets);
+    //console.log(totalPrice());
   }
 
   const emptyBasket = () => {

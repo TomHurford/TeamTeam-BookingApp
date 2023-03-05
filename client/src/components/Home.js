@@ -9,13 +9,17 @@ import {getEvents} from "../utils/EventsLogic"
 class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = {data: []}
+        this.state = {eventCardList: []}
+    }
+
+    componentDidMount() {
         this.fetchData();
     }
     
     async fetchData() {
         const events = await getEvents();
-        this.setState({data: events})
+        console.log(events);
+        this.setState({eventCardList: this.eventsCardList(events)})
     }
 
     welcome() {
@@ -35,6 +39,18 @@ class Home extends Component {
 
     }
 
+    eventsCardList(events) {
+        return (
+            <div className="events" data-testid="events-list">
+                {events.map(event => (    
+                    <div className="eventCard" key={event.id} onClick={()=>this.handleClick(event.id)} >
+                    <Event details={event.id} specificEvent = {event}/>
+                    </div>
+                ))}
+            </div>
+        );
+    }
+
     render(){
         return(
             <div className='page-container'>
@@ -42,14 +58,7 @@ class Home extends Component {
                 <div className="homePage" data-testid = "home-component">
                     {this.welcome()}
                     {this.searchBar()}
-                    <div className="events" data-testid="events-list">
-                        {console.log(this.state.data)}
-                        {this.state.data.map(event => (    
-                            <div className="eventCard" key={event.id} onClick={()=>this.handleClick(event.id)} >
-                            <Event details={event.id} specificEvent = {event}/>
-                            </div>
-                        ))}
-                    </div>
+                    {this.state.eventCardList}
                 </div>
             </div>
         )

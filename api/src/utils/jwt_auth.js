@@ -65,7 +65,7 @@ async function generateToken(user) {
       reject("User not found");
     }
     // If user type is 1, the user is an admin and the admin flag is set to true
-    const admin = user.type === 1;
+    const admin = user.userType === 1;
     const token = jwt.sign(
       { id: user.id, admin: admin },
       process.env.TOKEN_SECRET,

@@ -15,12 +15,12 @@ function Navbar(props) {
 
     const toggleMenu = () => {
         menuActive ? setMenuClass("") : setMenuClass("menu");
-        notMenuClass ? setNotMenuClass("menu") : setNotMenuClass("");
+        menuActive ? setNotMenuClass("dead") : setNotMenuClass("");
         setMenuActive(!menuActive);
     }
     const closeMenu = () => {
         setMenuClass("");
-        setNotMenuClass("menu");
+        setNotMenuClass("dead");
         setMenuActive(!menuActive);
     }
     const openMenu = () => {

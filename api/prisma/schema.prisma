@@ -13,7 +13,6 @@ datasource db {
 //------------------//
 model UserType {
   id    Int    @id @unique @default(autoincrement())
-  id    Int    @id @unique @default(autoincrement())
   type  String
   users User[]
 }
@@ -30,23 +29,11 @@ model User {
   ticket        Ticket[]
   Purchase      Purchase[]
   verifications Verifications[]
-  id            Int             @id @default(autoincrement())
-  name          String
-  email         String          @unique
-  password      String
-  userType      Int
-  type          UserType        @relation(references: [id], fields: [userType])
-  committee     Committee[]
-  members       Members[]
-  ticket        Ticket[]
-  Purchase      Purchase[]
-  verifications Verifications[]
 }
 
 model Society {
   id          Int            @id @default(autoincrement())
   name        String         @unique
-  email       String         @unique
   email       String         @unique
   description String
   category    SocietyCategories @default(Other)
@@ -94,7 +81,6 @@ model Members {
 
 model Event {
   id          Int          @id @default(autoincrement())
-  id          Int          @id @default(autoincrement())
   name        String
   description String
   date        DateTime
@@ -103,26 +89,19 @@ model Event {
   societyId   Int
   isArchived  Boolean      @default(false)
   society     Society      @relation(references: [id], fields: [societyId])
-  isArchived  Boolean      @default(false)
-  society     Society      @relation(references: [id], fields: [societyId])
   ticket      Ticket[]
-  ticketTypes TicketType[]
   ticketTypes TicketType[]
   purchase    Purchase[]
 }
 
 model TicketType {
   id         Int      @id @unique @default(autoincrement())
-  id         Int      @id @unique @default(autoincrement())
   ticketType String
   price      Int
   quantity   Int
   eventId    Int
   event      Event    @relation(references: [id], fields: [eventId])
-  eventId    Int
-  event      Event    @relation(references: [id], fields: [eventId])
   tickets    Ticket[]
-  isArchived Boolean  @default(false)
   isArchived Boolean  @default(false)
 }
 
@@ -156,7 +135,6 @@ model Purchase {
 }
 
 model Verifications {
-  id               Int    @id @default(autoincrement())
   id               Int    @id @default(autoincrement())
   verificationType String
   verificationCode String

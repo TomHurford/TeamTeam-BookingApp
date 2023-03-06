@@ -5,13 +5,11 @@ on:
   push:
     branches: 
     - main 
-    - dev/client/client_main
     - dev/api/api_main
     - dev/dev_main
   pull_request:
     branches:
-    - "main" 
-    - dev/client/client_main
+    - main
     - dev/api/api_main
     - dev/dev_main
 jobs:

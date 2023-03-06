@@ -18,7 +18,7 @@ class Home extends Component {
     
     async fetchData() {
         const events = await getEvents();
-        console.log(events);
+        // console.log(events);
         this.setState({eventCardList: this.eventsCardList(events)})
     }
 

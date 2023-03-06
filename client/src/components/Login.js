@@ -42,7 +42,6 @@ class Login extends Component {
         if (this.state.loginEmail === '' || this.state.loginPassword === '') {
             console.log('Empty Fields');
             this.showMessage('You have left a field empty');
-            return false;
         } 
         event.preventDefault();
         
@@ -59,16 +58,15 @@ class Login extends Component {
                 console.log(error.message);
                 this.showMessage('Local Client Error: ' + error.message);
             });
-        return false;
     }
 
     // Submit signup to backend to receive successful sign up
     handleSubmitSignUp = (event) => {
+        console.log(this.state.signupConfirmPassword)
+        console.log(this.state.signupPassword)
         if (this.state.signupConfirmPassword === this.state.signupPassword) {
             console.log('Passwords Do Not Match');
-            this.showMessage('You have left a field empty');
-            this.signupToggle();
-            return false;
+            this.showMessage('Passwords Do Not Match');
         } 
 
 
@@ -83,11 +81,10 @@ class Login extends Component {
                 }
             })
             .catch(error => {
-                console.log(error.message);
-                this.showMessage('Local Client Error: ' + error.message);
+                console.log(error);
+                this.showMessage('Error: ' + error.message);
             });
         
-        return false;
     }
 
     // Submit forgot password to backend to receive successful forgot password email
@@ -107,7 +104,6 @@ class Login extends Component {
                 this.showMessage('Local Client Error: ' + error.message);
             });
         
-        return false;
     }
 
     // Submit a new password to be set
@@ -118,7 +114,6 @@ class Login extends Component {
     //         console.log('Passwords Do Not Match');
     //         this.showMessage('You have left a field empty');
     //         signupToggle();
-    //         return false;
     //     } 
     //     event.preventDefault();
         
@@ -135,7 +130,6 @@ class Login extends Component {
     //             this.showMessage('Local Client Error: ' + error.message);
     //         });
         
-    //     return false;
     }
 
 
@@ -179,7 +173,6 @@ class Login extends Component {
             disableForgotPassword: true,
             disableSignUp: true
         });
-        return false;
     }
 
     loginNewUser = () => {
@@ -195,7 +188,6 @@ class Login extends Component {
 
                 <div className="container" id='LoginForm' disabled={this.state.disableLoginForm}>
                     <h1>Log In</h1>
-                    <form onSubmit={this.handleSubmitLogin} action="#">
                         <div className='field' style={{height: '0.9em'}}>
                             <label className='buttonLabel' onClick={this.signupToggle}>Not A User? Sign Up</label><br />
                         </div>
@@ -210,13 +202,11 @@ class Login extends Component {
                         <div className='field' style={{textAlign: 'right', height: '0.9em', marginTop: 0, marginBottom: '10px'}}>
                             <label className='buttonLabel' onClick={this.forgotToggle}>Forgot Your Password?</label><br />
                         </div>
-                        <button name="loginbutton" type="submit">Login</button>
-                    </form>
+                        <button name="loginbutton" onClick={this.handleSubmitLogin}>Login</button>
                 </div>
 
                 <div className="container" id='SignUpForm' disabled={this.state.disableSignUp}>
                     <h1>Sign Up</h1>
-                    <form onSubmit={this.handleSubmitSignUp} action="#">
                         <div className='field' style={{height: '0.9em'}}>
                             <label className='buttonLabel' onClick={this.signupToggle}>Already a User? Log In</label><br />
                         </div>
@@ -226,32 +216,29 @@ class Login extends Component {
                         </div>
                         <div className='field'>
                             <label htmlFor="email">Email</label><br />
-                            <input type="email" name="signup-email" onChange={this.handleChange} required />
+                            <input type="email" name="signupEmail" onChange={this.handleChange} required />
                         </div>
                         <div className='field'>
                             <label htmlFor="password">Password</label><br />
-                            <input type="password" name="signup-password" minLength="8" onChange={this.handleChange} required />
+                            <input type="password" name="signupPassword" minLength="8" onChange={this.handleChange} required />
                         </div>
                         <div className='field'>
                             <label htmlFor="confirmPassword">Confirm Password</label><br />
-                            <input type="password" name="signup-confirmPassword" onChange={this.handleChange} required />
+                            <input type="password" name="signupConfirmPassword" onChange={this.handleChange} required />
                         </div>
-                        <button name="signup-button" type="submit">Sign Up</button>
-                    </form>
+                        <button name="signup-button" onClick={this.handleSubmitSignUp}>Sign Up</button>
                 </div>
 
                 <div className="container" id='forgotForm' disabled={this.state.disableForgotPassword}>
                     <h1>Forgot Password</h1>
-                    <form onSubmit={this.handleSubmitForgot} action="#">
                         <div className='field'>
                             <label htmlFor="email">Email</label><br />
-                            <input type="email" name="forgot-email" onChange={this.handleChange} required />
+                            <input type="email" name="forgotEmail" onChange={this.handleChange} required />
                         </div>
                         <div className='field' style={{textAlign: 'right', height: '0.9em', marginTop: 0, marginBottom: '10px'}}>
                             <label className='buttonLabel' onClick={this.forgotToggle}>Remember Your Password?</label><br />
                         </div>
-                        <button name="forgot-button" type="submit">Send Reset Password Email</button>
-                    </form>
+                        <button name="forgot-button" onClick={this.handleSubmitForgot}>Send Reset Password Email</button>
                 </div>
 
                 <div className="container" id='resetPasswordForm' disabled={this.state.disableResetPassword}>

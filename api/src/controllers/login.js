@@ -169,7 +169,7 @@ async function signup(req, res) {
       name: req.body.name,
       type: {
         connect: {
-          id: 1,
+          id: 2,
         },
       },
     },
@@ -188,6 +188,7 @@ async function signup(req, res) {
   // Mail the verification code
 
   // Send the JWT token in the response
+  console.log(user, verification);
   res.status(200).send();
 }
 

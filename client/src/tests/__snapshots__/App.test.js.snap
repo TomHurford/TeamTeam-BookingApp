@@ -109,11 +109,6 @@ exports[`App snapshot test 1`] = `
       <div
         className="searchBarContainer"
       >
-        <img
-          alt="search icon"
-          className="searchIcon"
-          src="search.png"
-        />
         <input
           className="searchBar"
           data-testid="search-bar"

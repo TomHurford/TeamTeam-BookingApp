@@ -37,7 +37,7 @@ class Home extends Component {
     searchBar(){
         return(
             <div className="searchBarContainer">
-            <img src = {search} className="searchIcon" alt="search icon" />
+            {/* <img src = {search} className="searchIcon" alt="search icon" /> */}
             <input 
             className="searchBar"
             data-testid="search-bar"

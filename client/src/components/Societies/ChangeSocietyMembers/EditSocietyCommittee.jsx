@@ -1,4 +1,4 @@
-import React  from "react";
+import React from "react";
 
 import Member from "./Member";
 import AddCommitteeMember from "./AddCommitteeMember";
@@ -29,8 +29,24 @@ const EditSocietyCommittee = () => {
   };
 
   return (
-    <div className="">
-      <h1>Committee Members</h1>
+    <div
+      style={{
+        marginTop: "20px",
+        marginBottom: "20px",
+        borderColor: "gray",
+        width: "28%",
+        borderWidth: 2,
+        borderRadius: 20,
+        backgroundColor: "#abc4ff",
+      }}
+    >
+      <h1
+        style={{
+          marginLeft: "8px",
+        }}
+      >
+        Committee Members
+      </h1>
       {members.map((member) => (
         <Member
           email={member.email}

@@ -1,14 +1,14 @@
-table {
+table.purchase {
   border-collapse: collapse;
   width: 100%;
 }
 
-table td, table th {
+table.purchase td, table.purchase th {
   border: 1px solid #ddd;
   padding: 8px;
 }
 
-table th {
+table.purchase th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
@@ -16,15 +16,15 @@ table th {
   color: white;
 }
 
-table tr:nth-child(even) {
+table.purchase tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-table tr:hover {
+table.purchase tr:hover {
   background-color: #ddd;
 }
 
-button {
+button.purchase {
   background-color: #4CAF50;
   color: white;
   padding: 8px 16px;
@@ -33,6 +33,6 @@ button {
   cursor: pointer;
 }
 
-button:hover {
+button.purchase:hover {
   background-color: #3e8e41;
 }

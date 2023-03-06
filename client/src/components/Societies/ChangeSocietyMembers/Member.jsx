@@ -2,17 +2,20 @@ import React from "react";
 
 const Member = (props) => {
   return (
-    <div>
+    <div
+      style={{
+        marginLeft: "8px",
+      }}
+    >
       <span>
         <button
           className="btn btn-danger"
           onClick={() => props.removeMember(props.id)}
-          style={{ marginRight: "8px" }}
+          style={{ marginBottom: "8px" }}
         >
           Remove
         </button>
-        {props.email}
-        <h3></h3>
+        {`   ${props.email}`}
       </span>
     </div>
   );

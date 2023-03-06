@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 //Event society name needs to be fixed
 
 class Event extends Component { 
+
+  d = new Date(this.props.specificEvent.date);
   
   render() {
     return (
@@ -15,13 +17,10 @@ class Event extends Component {
           <div className="eventName" data-testid = "eventNameID">{this.props.specificEvent.name}</div>
           <div className="hiddenUntilHover">
           <div className="imageOverlay"></div>
-            <div className="eventDesc" data-testid = "eventDescriptionID">{this.props.specificEvent.description}</div>
-            <div className="locationTime" data-testid = "eventLocationTimeID">{this.props.specificEvent.location} {this.props.specificEvent.date}</div>
+            <div className="societyName">Society Name</div>
+            <div className="eventDesc">{this.props.specificEvent.description}</div>
+            <div className="locationTime">{this.props.specificEvent.location}<br />{this.d.toDateString()}</div>
           </div>
-        </div>
-        <div className="society">
-          <div className="societyName" data-testid = "eventSocietyNameID">Society Name</div> 
-          <div className="iconNext"><div className="icon"></div></div>
         </div>
       </div>
     );

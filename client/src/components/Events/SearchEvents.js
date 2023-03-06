@@ -46,7 +46,7 @@ getEventsByName  = async (eventName) => {
 
   render() {
     return (
-      <div className="title">
+      <div className="page-container">
           <input
             className="searchBar"
             data-testid="search-bar"

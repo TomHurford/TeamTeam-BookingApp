@@ -1,70 +1,93 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import '../../styles/Society.css';
+const axios = require('axios');
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebook,
+  faInstagram,
+  faTwitter,
+} from "@fortawesome/free-brands-svg-icons";
+import ContactSocietyForm from "./ContactSocietyForm";
 
-const ViewSociety = () => {
-  const { name } = useParams();
+function ViewSociety() {
+  const [society, setSociety] = useState({});
+  const [societyLinks, setSocietyLinks] = useState({});
+  const { id: societyId } = useParams();
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:5001/societies/getSociety", {
+        societyId: societyId,
+      })
+      .then((response) => {
+        setSociety(response.data.society);
+        setSocietyLinks(response.data.society.links[0]);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [societyId]);
 
   return (
-    <React.Fragment>
-      <div className='page-container'>
-        <div className='underlay'></div>
-        <div className="societyPage-container">
-          <div className="header">
-            <h1>Society: {name}</h1>
+    <div>
+      <div
+        style={{
+          borderColor: "gray",
+          borderWidth: 2,
+          marginTop: "20px",
+          marginBottom: "20px",
+          borderRadius: 20,
+          backgroundColor: "#abc4ff",
+        }}
+      >
+        <div style={{ marginLeft: "8px" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <h2>{society.name}</h2>
+            <button className="btn btn-primary" style={{ marginLeft: "15px" }}>
+              Follow
+            </button>
           </div>
-
-          <div className="row">
-            <div className="leftcolumn">
-              <div className="card">
-                <h2>TITLE HEADING</h2>
-                <h5>Title description, Dec 7, 2017</h5>
-                <div className="fakeimg" style={{ height: "200px" }}>
-                  Image
-                </div>
-                <p>Some text..</p>
-              </div>
-              <div className="card">
-                <h2>TITLE HEADING</h2>
-                <h5>Title description, Sep 2, 2017</h5>
-                <div className="fakeimg" style={{ height: "200px" }}>
-                  Image
-                </div>
-                <p>Some text..</p>
-              </div>
-            </div>
-            <div className="rightcolumn">
-              <div className="card">
-                <h2>About Me</h2>
-                <div className="fakeimg" style={{ height: "100px" }}>
-                  Image
-                </div>
-                <p>
-                  Some text about me in culpa qui officia deserunt mollit anim..
-                </p>
-              </div>
-              <div className="card">
-                <h3>Popular Post</h3>
-                <div className="fakeimg">Image</div>
-                <br />
-                <div className="fakeimg">Image</div>
-                <br />
-                <div className="fakeimg">Image</div>
-              </div>
-              <div className="card">
-                <h3>Follow Me</h3>
-                <p>Some text..</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="footer">
-            <h2>Footer</h2>
-          </div>
+          <img src={societyLinks.logo} alt="Society Logo" />
+          <p>{society.description}</p>
+          <p>
+            <strong>Category:</strong> {society.category}
+          </p>
+          <p>
+            <strong>Followers:</strong> {society.members}
+          </p>
+          <h3>Social Links:</h3>
+          <p>
+            <strong> Website:</strong>{" "}
+            <a href={societyLinks.website}>{societyLinks.website}</a>
+          </p>
+          <a href={societyLinks.instagram}>
+            <FontAwesomeIcon
+              icon={faInstagram}
+              size="3x"
+              style={{ marginBottom: "7px" }}
+            />
+          </a>
+          <a href={societyLinks.twitter}>
+            <FontAwesomeIcon
+              icon={faTwitter}
+              size="3x"
+              style={{ marginLeft: "10px", marginBottom: "7px" }}
+            />
+          </a>
+          <a href={societyLinks.facebook}>
+            <FontAwesomeIcon
+              icon={faFacebook}
+              size="3x"
+              style={{ marginLeft: "10px", marginBottom: "7px" }}
+            />
+          </a>
+          <h2>Events:</h2>
         </div>
       </div>
-    </React.Fragment>
+
+      <ContactSocietyForm societyName={society.name} />
+    </div>
   );
-};
+}
 
 export default ViewSociety;

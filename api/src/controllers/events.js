@@ -35,16 +35,16 @@ async function getEventById(req, res) {
     });
 
     const ticket_types = await prisma.ticketType.findMany({
-        where: {
-            event : event
-        }
-    })
+      where: {
+        event: event,
+      },
+    });
 
     const society = await prisma.society.findUnique({
-        where: {
-            id: event.societyId 
-        }
-    })
+      where: {
+        id: event.societyId,
+      },
+    });
 
     const societyLinks = await prisma.societyLinks.findUnique({
       where: {

@@ -73,9 +73,9 @@ async function seedUserTypes() {
 async function seedUsers() {
   await prisma.user.create({
     data: {
-      name: 'Admin',
-      email: 'admin@admin.com',
-      password: 'admin',
+      name: "Admin",
+      email: "admin@admin.com",
+      password: "admin123",
       type: {
         connect: {
           id: 1,
@@ -113,16 +113,15 @@ async function seedUsers() {
   }
 }
 
-/**
- * Seed the societies
- */
+const randomCategory = ["SPORTS", "ACADEMIC", "SOCIAL", "OTHER"];
+
 async function seedSocieties() {
   await prisma.society.create({
     data: {
       name: 'Society 1',
       email: 'society@societymail.com',
       description: 'Society 1 description',
-      category: faker.random.word(),
+      category: "OTHER",
       links: {
         create: {
           facebook: 'https://www.facebook.com/',
@@ -136,13 +135,13 @@ async function seedSocieties() {
     },
   });
   // use faker to generate 10 random societies
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 20; i++) {
     await prisma.society.create({
       data: {
         name: faker.company.name(),
         email: faker.internet.email(),
         description: faker.lorem.paragraph(),
-        category: faker.random.word(),
+        category: randomCategory[faker.datatype.number(3)],
         links: {
           create: {
             facebook: faker.internet.url(),
@@ -236,11 +235,10 @@ async function seedMembers() {
   const societies = await prisma.society.findMany();
   for (let i = 0; i < societies.length; i++) {
     const society = societies[i];
-    for (let j = 0; j < 20; j++) {
-      // We need to make sure that the user is not already a member
-      // of the society
-      let userID = faker.datatype.number({min: 1, max: 50});
-      let present = true;
+    for (let j = 0; j < Math.floor(Math.random() * 30) + 5; j++) {
+      // We need to make sure that the user is not already a member of the society
+      var userID = faker.datatype.number({ min: 1, max: 50 });
+      var present = true;
       while (present) {
         const members = await prisma.members.findMany({
           where: {

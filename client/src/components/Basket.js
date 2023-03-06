@@ -1,63 +1,93 @@
-import React, {Component} from 'react';
+import React, { useState, useEffect } from 'react';
 import TicketHolderTicket from './Events/TicketHolder';
 import PropTypes from 'prop-types';
 import { generateTickets } from '../utils/ticketGenerator';
+import '../styles/Basket.css';
+import {Link} from 'react-router-dom';
 
-class Basket extends Component {
-  constructor(props){
-    super(props);
-    this.state = {tickets: this.props.tickets, totalPrice: this.props.totalPrice()}
-  }
+function Basket(props) {
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [emActive, setEmActive] = useState("active");
+  const [baActive, setBaActive] = useState("");
 
-  componentDidMount() {
-    this.setState({totalPrice: this.props.totalPrice()})
-  }
+  useEffect(() => {
+    setTotalPrice(props.totalPrice())
+  }, [])
 
-  componentDidUpdate() {
-    this.props.totalPrice();
-    console.log('state change')
-  }
+  useEffect(() => {
+    setTotalPrice(props.totalPrice());
+    if (props.basketEvent['a'] === 'b') {
+      setEmActive("active");
+      setBaActive("");
+    } else {
+      setEmActive("");
+      setBaActive("active");
+    }
+    console.log(props.basketEvent)
+  }, [props.tickets])
 
-  ticketsChange() {
-    console.log('tickets change')
-    this.setState({ totalPrice: this.props.totalPrice() })
-  }
-
-  async checkout() {
-    if (!this.props.isLoggedIn) {
+  async function checkout() {
+    if (!props.isLoggedIn) {
       window.location = '/login';
     }
 
-    const res = await generateTickets(this.props.basketEvent, this.props.availableTicketTypes, this.props.tickets, this.props.totalPrice());
+    props.emptyBasket();
+    // const res = await generateTickets(props.basketEvent, props.availableTicketTypes, props.tickets, props.totalPrice());
 
-    if (res) {
-      this.props.emptyBasket();
-    } else {
-      // refund payment and call help lol displat error
-    }
+    // if (res) {
+    //   props.emptyBasket();
+    //   //window.location = '/tickets';
+    // } else {
+    //   // refund payment and call help lol displat error
+    // }
   }
 
-  render() {
-    var totalPrice = this.state.totalPrice;
-    return (
-      <div className='page-container'>
-          <div className='underlay'></div>
-      <h1 className='title'> Basket </h1>
-      <ol className="basket">
-        {
-          this.props.availableTicketTypes.map((ticketType) => {
-            return <TicketHolderTicket extraChanges={this.ticketsChange} key={ticketType.id} event={this.props.basketEvent} tickets={this.props.tickets} ticketType={ticketType} addTicket={this.props.addTicket} removeTicket={this.props.removeTicket}/>
-          })
-        }
-      </ol>
-      <h1>Total: £{totalPrice}</h1>
-      {this.props.isLoggedIn ? <button onClick={() => {this.checkout()}}>Checkout</button> : <div>You Need To Be Signed In <button onClick={() => {window.location = '/login'}}>Log In</button> </div>}
-    </div>
-    );
-  }
+  return (
+    <div className='page-container'>
+      <div className='underlay'></div>
+
+      <div className='basket-container' id={baActive}>
+        <div className='header'>
+          <h1 className='title'> Basket </h1>
+        </div>
+        <div className='body'>
+          <div className='left'>
+            <div className='event'>
+
+            </div>
+            <ol className="basket">
+              {
+                props.availableTicketTypes.map((ticketType) => {
+                  return <TicketHolderTicket key={ticketType.id} event={props.basketEvent} tickets={props.tickets} ticketType={ticketType} addTicket={props.addTicket} removeTicket={props.removeTicket}/>
+                })
+              }
+            </ol>
+          </div>
+          <div className='right'>
+            {props.isLoggedIn ? <button onClick={() => {checkout()}}>Checkout</button> : <div>You Need To Be Signed In <button onClick={() => {window.location = '/login'}}>Log In</button> </div>}
+            <h1>Total: £{totalPrice}</h1>
+          </div>
+        </div>
+        <div className='footer'>
+        </div>
+      </div>
+      <div className='empty-basket basket-container' id={emActive}>
+        <div className='header'>
+          <h1 className='title'> Basket </h1>
+        </div>
+        <div className='body'>
+          <p>
+            <b>Your bag is empty</b><br />
+            Check out <Link to="/">events</Link> and come back here to checkout!
+          </p>
+        </div>
+        <div className='footer'></div>
+      </div>
+  </div>
+  );
 }
 
-//<Paypal totalPrice={this.props.totalPrice} event={this.props.basketEvent} tickets={this.props.tickets} />
+//<Paypal totalPrice={props.totalPrice} event={props.basketEvent} tickets={props.tickets} />
 
 Basket.propTypes = {
   basketEvent: PropTypes.object,

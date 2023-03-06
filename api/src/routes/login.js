@@ -1,6 +1,6 @@
 // LOGIN ROUTE
 const express = require('express');
-// eslint-disable-next-line new-cap
+/* eslint-disable-next-line */
 const router = express.Router();
 const loginController = require('../controllers/login.js');
 

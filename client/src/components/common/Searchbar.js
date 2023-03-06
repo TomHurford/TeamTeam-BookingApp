@@ -9,7 +9,7 @@ const SearchBar = ({ value, onChange }) => {
       className="form-control my-4"
       placeholder="Search for society..."
       value={value}
-      onChange={(e) => onChange(e.currentTarget.value)}
+      onChange={(event) => onChange(event.currentTarget.value)}
     />
   );
 };

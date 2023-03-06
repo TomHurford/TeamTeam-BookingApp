@@ -1,5 +1,4 @@
 import Home from "./Home";
-import "../styles/App.css";
 import React, {useEffect} from "react";
 import Contact from "./Contact";
 import Login from './Login';
@@ -17,6 +16,7 @@ const jwtController = require('../utils/jwt.js');
 
 const sessionStorage = require('sessionstorage');
 
+
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
 function App() {
@@ -26,9 +26,8 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   useEffect(() => {
-    console.log(jwtController.getToken());
       jwtController.checkIsLoggedIn().then((res) => {
-          res ? console.log('Logged In!') : console.log('Not Logged In!');
+          //res ? console.log('Logged In!') : console.log('Not Logged In!');
           setIsLoggedIn(res);
       });
   }, []);
@@ -47,7 +46,11 @@ function App() {
       total += tickets[ticketType.id] * ticketType.price;
     });
 
-    return total;
+    if (isNaN(total)) {
+      return 0;
+    } else {
+      return total;
+    }
   }
 
   useEffect(() => {
@@ -64,7 +67,7 @@ function App() {
   const addTicket = (callData, ticketType) => {
 
     var event = callData.event;
-    console.log(callData);
+    //console.log(callData);
 
     if (!basketEvent.event) {
       
@@ -120,7 +123,9 @@ function App() {
     setAvailableTicketTypes([])
     setTickets({})
 
-    updateTicketSessionStorage();
+    sessionStorage.setItem('basketEvent', JSON.stringify({'a': 'b'}));
+    sessionStorage.setItem('availableTicketTypes', JSON.stringify([]));
+    sessionStorage.setItem('tickets', JSON.stringify({}));
   }
 
   /* NORMAL ROUTE FUNCTIONALITY VIA ROUTER DOM */
@@ -133,7 +138,7 @@ function App() {
         <Route path = "/login" element={<Login isLoggedIn={isLoggedIn}/>}></Route>
         <Route path = "/logout" element={<Logout isLoggedIn={isLoggedIn}/>}></Route>
         <Route path="/contact" element={<Contact />}></Route>
-        <Route path="/purchase" element={<Purchase />}></Route>
+        <Route path="/tickets" element={<Purchase />}></Route>
 
         <Route
           path="/event-details"

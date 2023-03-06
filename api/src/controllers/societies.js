@@ -190,26 +190,10 @@ async function getSocietyById(req, res) {
       where: {
         id: parseInt(req.body.societyId),
       },
-      select: {
-        id: true,
-        name: true,
-        category: true,
-        description: true,
-        members: {
-          select: {
-            userId: true,
-          },
-        },
-        links: {
-          select: {
-            instagram: true,
-            facebook: true,
-            twitter: true,
-            website: true,
-            logo: true,
-            banner: true,
-          },
-        },
+      include: {
+        members: true,
+        links: true,
+        events: true,
       },
     });
 
@@ -663,7 +647,6 @@ async function unfollowSociety(req, res) {
     res.status(500).send({message: 'Internal Server Error'});
   }
 }
-
 
 module.exports = {
   signup,

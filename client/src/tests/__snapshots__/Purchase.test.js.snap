@@ -2,21 +2,35 @@
 
 exports[`Purchase snapshot test 1`] = `
 <div
-  className="purchase"
+  className="page-container"
+  data-testid="Purchase"
 >
-  <h1>
-    Future Tickets
-  </h1>
   <div
-    className="purchase__container"
-  >
-    <div
-      className="purchase__wrapper"
-    >
-      <ul
-        className="purchase__items"
-      />
-    </div>
-  </div>
+    className="underlay"
+  />
+  <hr />
+  <hr />
+  <h1>
+    Upcoming Tickets
+  </h1>
+  <table>
+    <thead>
+      <tr>
+        <th>
+          Event Name
+        </th>
+        <th>
+          Event Date
+        </th>
+        <th>
+          Status
+        </th>
+        <th>
+          Payment Method
+        </th>
+      </tr>
+    </thead>
+    <tbody />
+  </table>
 </div>
 `;

@@ -2,23 +2,59 @@
 
 exports[`Event snapshot test 1`] = `
 <div
-  className="eventCard"
+  className="innerEventCard"
+  data-testid="eventCardID"
 >
-  <h3
-    className="eventName"
-  />
-  <p
-    className="eventDescription"
-  />
-  <b>
-    <span
-      className="eventDate"
+  <div
+    className="imageCard"
+  >
+    <div
+      className="image"
+      data-testid="eventImageID"
+      style={
+        Object {
+          "backgroundImage": "url(undefined)",
+        }
+      }
     />
-  </b>
-  <b>
-    <span
-      className="eventLocation"
+    <div
+      className="eventName"
+      data-testid="eventNameID"
     />
-  </b>
+    <div
+      className="hiddenUntilHover"
+    >
+      <div
+        className="imageOverlay"
+      />
+      <div
+        className="eventDesc"
+        data-testid="eventDescriptionID"
+      />
+      <div
+        className="locationTime"
+        data-testid="eventLocationTimeID"
+      >
+         
+      </div>
+    </div>
+  </div>
+  <div
+    className="society"
+  >
+    <div
+      className="societyName"
+      data-testid="eventSocietyNameID"
+    >
+      Society Name
+    </div>
+    <div
+      className="iconNext"
+    >
+      <div
+        className="icon"
+      />
+    </div>
+  </div>
 </div>
 `;

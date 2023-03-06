@@ -32,12 +32,12 @@ model User {
 }
 
 model Society {
-  id          Int            @id @default(autoincrement())
-  name        String         @unique
-  email       String         @unique
+  id          Int               @id @default(autoincrement())
+  name        String            @unique
+  email       String            @unique
   description String
-  category    String
-  isArchived  Boolean        @default(false)
+  category    SocietyCategories @default(OTHER)
+  isArchived  Boolean           @default(false)
   links       SocietyLinks[]
   // A society can have many committee members and a committee member can be in many societies
   committee   Committee[]
@@ -152,3 +152,12 @@ enum PURCHASE_STATUS {
   PAID
   REFUNDED
 }
+
+enum SocietyCategories {
+  SPORTS
+  ACADEMIC
+  SOCIAL
+  OTHER
+}
+
+// I know bad style, will sort this later with the enum

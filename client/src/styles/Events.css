@@ -1,13 +1,13 @@
 /*Styling for the home page and events grid below*/
 
-.header {
+.page-container > .header {
     width: 100%;
     height: 300px;
     overflow: hidden;
     position: relative;
     padding: 0 !important;
 }
-.header > .image {
+.page-container > .header > .image {
     width: 100%;
     height: 100%;
     position: relative;
@@ -15,7 +15,7 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
-.header > .title {
+.page-container > .header > .title {
     position: absolute;
     bottom: 15px;
     left: 15px;

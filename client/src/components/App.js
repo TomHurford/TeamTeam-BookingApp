@@ -163,8 +163,7 @@ function App() {
             />
           }
         ></Route>
-        
-        <Route path="/societies/:id/:name?" element={<ViewSociety />} />
+        <Route path="/society/:id" element={<ViewSociety />} />
         <Route path="/societies" element={<SearchSocieties />} />
         <Route path="/create-society" element={<CreateSocietyForm />} />
         <Route path="/edit-society" element={<EditSocietyForm />} />

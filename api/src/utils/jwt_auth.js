@@ -1,19 +1,26 @@
 // This is the util that is used to Authenticate a user using a JWT token
 
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
+/**
+ * Authenticate a user using a JWT token
+ * @param {Request} req The request object
+ * @return {Promise} The decoded token
+ */
 async function authenticate(req) {
-  
   // Decode the JWT token
-  // The JWT token is sent in the Authorization header, it is prefixed with 'Bearer '
+  // The JWT token is sent in the Authorization header, it is prefixed with
+  // 'Bearer '
   if (!req.headers.authorization) {
     return new Promise((resolve, reject) => {
-      reject("Unauthorized");
+      // Reject with an error if the token is not present
+      // Create a new error object and set the status to 401
+      reject(new Error('Unauthorized'));
     });
   }
-  
-  const token = req.headers.authorization.split(" ")[1];
-  
+
+  const token = req.headers.authorization.split(' ')[1];
+
   // try to decode the token if error return false
   let decoded = null;
   try {
@@ -26,61 +33,76 @@ async function authenticate(req) {
     if (decoded) {
       resolve(decoded);
     } else {
-      reject("Unauthorized");
+      reject(new Error('Unauthorized'));
     }
   });
 }
 
-// Special authentication function for admin users
+/**
+ * Authenticate an admin using a JWT token
+ * @param {Request} req The request object
+ * @return {Promise} The decoded token
+ * @throws {Error} If the user is not an admin
+ * @throws {Error} If the token is invalid
+ * @return {Promise} The decoded token
+ */
 async function authenticateAdmin(req) {
   return new Promise((resolve, reject) => {
-    // The JWT token is sent in the Authorization header, it is prefixed with 'Bearer '
+    // The JWT token is sent in the Authorization header, it is prefixed with
+    // 'Bearer '
     if (!req.headers.authorization) {
-      reject("Unauthorized");
+      reject(new Error('Unauthorized'));
     }
-    const token = req.headers.authorization.split(" ")[1];
+    const token = req.headers.authorization.split(' ')[1];
     jwt.verify(
-      token,
-      process.env.TOKEN_SECRET,
-      (err, decoded) => {
-        if (err) {
+        token,
+        process.env.TOKEN_SECRET,
+        (err, decoded) => {
+          if (err) {
+            reject(err);
+          }
+          if (decoded.admin) {
+            resolve(decoded);
+          } else {
+            reject(new Error('Unauthorized'));
+          }
+        },
+        (err) => {
           reject(err);
-        }
-        if (decoded.admin) {
-          resolve(decoded);
-        } else {
-          reject("Unauthorized");
-        }
-      },
-      (err) => {
-        reject(err);
-      }
+        },
     );
   });
 }
 
+/**
+ * Generate a JWT token
+ * @param {user} user User object
+ * @return {Promise} The generated token
+ */
 async function generateToken(user) {
   return new Promise((resolve, reject) => {
     if (!user) {
-      reject("User not found");
+      reject(new Error('User not found'));
     }
     // If user type is 1, the user is an admin and the admin flag is set to true
     const admin = user.userType === 1;
     const token = jwt.sign(
-      { id: user.id, admin: admin },
-      process.env.TOKEN_SECRET,
-      {
-        expiresIn: 86400, // expires in 24 hours
-      }
+        {id: user.id, admin: admin},
+        process.env.TOKEN_SECRET,
+        {
+          expiresIn: 86400, // expires in 24 hours
+        },
     );
     resolve(token);
   });
   // if (!user) {
   //     throw new Error('User not found')
   // }
-  // // If user type is 1, the user is an admin and the admin flag is set to true
+  // // If user type is 1, the user is an admin and the admin flag is set to
+  // true
   // const admin = user.type === 1
-  // const token = jwt.sign({ id: user.id, admin: admin }, process.env.TOKEN_SECRET, {
+  // const token = jwt.sign({ id: user.id, admin: admin },
+  // process.env.TOKEN_SECRET, {
   //     expiresIn: 86400 // expires in 24 hours
   // })
   // return token

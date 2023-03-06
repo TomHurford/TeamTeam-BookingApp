@@ -24,9 +24,9 @@ class SearchSocieties extends Component {
     );
     this.setState({ societiesList });
   }
-
+  
   handlePageChange = (page) => {
-    this.setState({ currentPage: page });
+    this.setState({currentPage: page });
   };
 
   handleSearch = (query) => {
@@ -79,7 +79,7 @@ class SearchSocieties extends Component {
         <div className="row">
           <div className="col-2">
             <ListFilter
-              categories={["All", "Sports", "Academic", "Social", "Other"]}
+              categories={["All", "SPORTS", "ACADEMIC", "SOCIAL", "OTHER"]}
               selectedCategory={this.state.selectedCategory}
               onCategorySelect={this.handleCategorySelect}
             />

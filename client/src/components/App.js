@@ -1,8 +1,8 @@
 import Home from "./Home";
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import Contact from "./Contact";
-import Login from './Login';
-import Purchase from './Purchase';
+import Login from "./Login";
+import Purchase from "./Purchase";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import EventDetails from "./Events/EventDetails";
@@ -12,30 +12,29 @@ import CreateSocietyForm from "./Societies/CreateSocietyForm";
 import SearchSocieties from "./Societies/SearchSocieties";
 import EditSocietyForm from "./Societies/EditSocietyForm";
 import Logout from "./Logout";
-const jwtController = require('../utils/jwt.js');
+const jwtController = require("../utils/jwt.js");
 
-const sessionStorage = require('sessionstorage');
-
+const sessionStorage = require("sessionstorage");
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
 function App() {
-
   /* LOG IN FUNCTIONALITY */
 
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   useEffect(() => {
+
       jwtController.checkIsLoggedIn().then((res) => {
           //res ? console.log('Logged In!') : console.log('Not Logged In!');
           setIsLoggedIn(res);
       });
+
   }, []);
 
   /* BASKET FUNCTIONALITY */
 
-
-  const [basketEvent, setBasketEvent] = React.useState({'a': 'b'});
+  const [basketEvent, setBasketEvent] = React.useState({ a: "b" });
   const [availableTicketTypes, setAvailableTicketTypes] = React.useState([]);
   const [tickets, setTickets] = React.useState({});
 
@@ -51,66 +50,67 @@ function App() {
     } else {
       return total;
     }
-  }
+  };
 
   useEffect(() => {
-    const storedBasketEvent = sessionStorage.getItem('basketEvent');
-    const storedAvailableTicketTypes = sessionStorage.getItem('availableTicketTypes');
-    const storedTickets = sessionStorage.getItem('tickets');
-    
-    if(storedBasketEvent) setBasketEvent(JSON.parse(storedBasketEvent));
-    if(storedAvailableTicketTypes) setAvailableTicketTypes(JSON.parse(storedAvailableTicketTypes));
-    if(storedTickets) setTickets(JSON.parse(storedTickets));
+    const storedBasketEvent = sessionStorage.getItem("basketEvent");
+    const storedAvailableTicketTypes = sessionStorage.getItem(
+      "availableTicketTypes"
+    );
+    const storedTickets = sessionStorage.getItem("tickets");
 
+    if (storedBasketEvent) setBasketEvent(JSON.parse(storedBasketEvent));
+    if (storedAvailableTicketTypes)
+      setAvailableTicketTypes(JSON.parse(storedAvailableTicketTypes));
+    if (storedTickets) setTickets(JSON.parse(storedTickets));
   }, []);
 
   const addTicket = (callData, ticketType) => {
-
     var event = callData.event;
     //console.log(callData);
 
     if (!basketEvent.event) {
-      
       setBasketEvent(callData);
       setAvailableTicketTypes(callData.ticket_types);
-
     } else if (basketEvent.event.id != event.id) {
       // WARN USER TO CLEAR BASKET, ON YES WE PUSH NEW TICKET
 
       setBasketEvent(callData);
       setAvailableTicketTypes(callData.ticket_types);
       setTickets({});
-
-    } else if (!availableTicketTypes.find(tt => tt.id === ticketType.id)) {
-      return
+    } else if (!availableTicketTypes.find((tt) => tt.id === ticketType.id)) {
+      return;
     }
 
     var temptickets = tickets;
     if (!tickets[ticketType.id]) temptickets[ticketType.id] = 1;
     else temptickets[ticketType.id] += 1;
-    
+
     setTickets(temptickets);
 
     updateTicketSessionStorage();
   };
 
   const removeTicket = (callData, ticketType) => {
-    if (basketEvent == {}) return
-
+    if (basketEvent == {}) return;
 
     var temptickets = tickets;
     if (!tickets[ticketType.id]) temptickets[ticketType.id] = 0;
     else temptickets[ticketType.id] -= 1;
-    
+
     setTickets(temptickets);
 
     updateTicketSessionStorage();
   };
 
   const updateTicketSessionStorage = () => {
-    sessionStorage.setItem('basketEvent', JSON.stringify(basketEvent));
-    sessionStorage.setItem('availableTicketTypes', JSON.stringify(availableTicketTypes));
-    sessionStorage.setItem('tickets', JSON.stringify(tickets));
+    sessionStorage.setItem("basketEvent", JSON.stringify(basketEvent));
+    sessionStorage.setItem(
+      "availableTicketTypes",
+      JSON.stringify(availableTicketTypes)
+    );
+    sessionStorage.setItem("tickets", JSON.stringify(tickets));
+
 
     console.log(basketEvent);
     console.log(availableTicketTypes);
@@ -118,35 +118,46 @@ function App() {
     console.log(totalPrice());
   }
 
+
   const emptyBasket = () => {
-    setBasketEvent({'a': 'b'})
-    setAvailableTicketTypes([])
-    setTickets({})
+    setBasketEvent({ a: "b" });
+    setAvailableTicketTypes([]);
+    setTickets({});
+
 
     sessionStorage.setItem('basketEvent', JSON.stringify({'a': 'b'}));
     sessionStorage.setItem('availableTicketTypes', JSON.stringify([]));
     sessionStorage.setItem('tickets', JSON.stringify({}));
   }
 
+
   /* NORMAL ROUTE FUNCTIONALITY VIA ROUTER DOM */
 
   return (
     <div>
-      <Navbar isLoggedIn={isLoggedIn}/>
+      <Navbar isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path="/" element={<Home />}></Route>
-        <Route path = "/login" element={<Login isLoggedIn={isLoggedIn}/>}></Route>
-        <Route path = "/logout" element={<Logout isLoggedIn={isLoggedIn}/>}></Route>
+        <Route
+          path="/login"
+          element={<Login isLoggedIn={isLoggedIn} />}
+        ></Route>
+        <Route
+          path="/logout"
+          element={<Logout isLoggedIn={isLoggedIn} />}
+        ></Route>
         <Route path="/contact" element={<Contact />}></Route>
         <Route path="/tickets" element={<Purchase />}></Route>
 
         <Route
           path="/event-details"
-          element={<EventDetails
-            addTicket={addTicket}
-            tickets={tickets}
-            removeTicket={removeTicket}
-        />}
+          element={
+            <EventDetails
+              addTicket={addTicket}
+              tickets={tickets}
+              removeTicket={removeTicket}
+            />
+          }
         ></Route>
         <Route
           path="/basket"
@@ -163,6 +174,7 @@ function App() {
             />
           }
         ></Route>
+
         <Route path="/society/:id" element={<ViewSociety />} />
         <Route path="/societies" element={<SearchSocieties />} />
         <Route path="/create-society" element={<CreateSocietyForm />} />

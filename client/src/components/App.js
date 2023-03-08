@@ -24,11 +24,12 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   useEffect(() => {
-    //console.log(jwtController.getToken());
-    jwtController.checkIsLoggedIn().then((res) => {
-      //res ? console.log('Logged In!') : console.log('Not Logged In!');
-      setIsLoggedIn(res);
-    });
+
+      jwtController.checkIsLoggedIn().then((res) => {
+          //res ? console.log('Logged In!') : console.log('Not Logged In!');
+          setIsLoggedIn(res);
+      });
+
   }, []);
 
   /* BASKET FUNCTIONALITY */
@@ -110,19 +111,25 @@ function App() {
     );
     sessionStorage.setItem("tickets", JSON.stringify(tickets));
 
-    //console.log(basketEvent);
-    //console.log(availableTicketTypes);
-    //console.log(tickets);
-    //console.log(totalPrice());
-  };
+
+    console.log(basketEvent);
+    console.log(availableTicketTypes);
+    console.log(tickets);
+    console.log(totalPrice());
+  }
+
 
   const emptyBasket = () => {
     setBasketEvent({ a: "b" });
     setAvailableTicketTypes([]);
     setTickets({});
 
-    updateTicketSessionStorage();
-  };
+
+    sessionStorage.setItem('basketEvent', JSON.stringify({'a': 'b'}));
+    sessionStorage.setItem('availableTicketTypes', JSON.stringify([]));
+    sessionStorage.setItem('tickets', JSON.stringify({}));
+  }
+
 
   /* NORMAL ROUTE FUNCTIONALITY VIA ROUTER DOM */
 

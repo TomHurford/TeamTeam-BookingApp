@@ -300,10 +300,47 @@ async function deleteEvent(req, res) {
   }
 }
 
+async function searchEvents(req, res) {
+  try {
+    const event = await prisma.event.findMany({
+      where: {
+        name: {
+          contains: req.body.name,
+          mode: "insensitive"
+        }
+      },
+    });
+  
+    res.status(200).send({ event: event });
+  } catch (err) {
+    console.log(err);
+    res.status(401).send({token: null, error: 'Unauthorized'});
+  }
+}
+
+async function searchEvents(req, res) {
+  try {
+    const event = await prisma.event.findMany({
+      where: {
+        name: {
+          contains: req.body.name,
+          mode: "insensitive"
+        }
+      },
+    });
+  
+    res.status(200).send({ event: event });
+  } catch (err) {
+    console.log(err);
+    res.status(401).send({ token: null, error: "Unauthorized" });
+  }
+}
+
 module.exports = {
   getEvents,
   getEventById,
   createEvent,
   updateEvent,
   deleteEvent,
+  searchEvents,
 };

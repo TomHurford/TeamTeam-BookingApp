@@ -14,6 +14,7 @@ import ViewSociety from "./Societies/ViewSociety";
 import CreateSocietyForm from "./Societies/CreateSocietyForm";
 import SearchSocieties from "./Societies/SearchSocieties";
 import EditSocietyForm from "./Societies/EditSocietyForm";
+import SearchEvents from "./Events/SearchEvents";
 import Logout from "./Logout";
 const jwtController = require("../utils/jwt.js");
 
@@ -179,6 +180,7 @@ function App() {
         <Route path="/societies" element={<SearchSocieties />} />
         <Route path="/create-society" element={<CreateSocietyForm />} />
         <Route path="/edit-society" element={<EditSocietyForm />} />
+        <Route path="/search-events" element={<SearchEvents />} />
       </Routes>
       <Footer />
     </div>

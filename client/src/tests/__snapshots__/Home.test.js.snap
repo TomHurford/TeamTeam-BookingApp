@@ -19,15 +19,19 @@ exports[`Home snapshot test 1`] = `
         Welcome to Ticketopia!
       </h1>
     </div>
-    <form
-      className="searchBar"
-      data-testid="search-bar"
+    <div
+      className="searchBarContainer"
     >
       <input
+        className="searchBar"
+        data-testid="search-bar"
+        onChange={[Function]}
+        onKeyDown={[Function]}
         placeholder="Search for events..."
         type="text"
+        value=""
       />
-    </form>
+    </div>
     <div
       className="events"
       data-testid="events-list"

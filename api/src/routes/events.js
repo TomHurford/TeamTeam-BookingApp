@@ -13,6 +13,10 @@ router.post('/', (req, res) => {
   eventsController.getEventById(req, res);
 });
 
+router.post("/search", (req, res) => {
+  eventsController.searchEvents(req, res);
+});
+
 // When a POST request is made to the /events/create, it should include a JSON object with the following properties:
 // { "name": [event_name] }
 // { "description": [event_description] }

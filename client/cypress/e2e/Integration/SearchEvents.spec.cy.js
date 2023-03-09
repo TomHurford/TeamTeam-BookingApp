@@ -3,7 +3,7 @@ describe('Test Search Events', () => {
     cy.visit('/');
     cy.get('[data-testid="search-bar"]').trigger('keydown', { keyCode: 13, which: 13 });
     cy.url().should('include', '?name=');
-    cy.get('[data-testid="search-bar"]').type('Event 1').trigger('keydown', { keyCode: 13, which: 13 });
+    cy.get('[data-testid="search-bar"]').type('Event 1',{force:true}).trigger('keydown', { keyCode: 13, which: 13, force: true});
     cy.url().should('include', '?name=Event%201');
     cy.contains('Event 1').click({force: true});
   })

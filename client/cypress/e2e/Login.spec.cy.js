@@ -30,24 +30,24 @@ describe('Login', () => {
   describe('Test Login', () => {
     it('Login form can be filled', () => {
       cy.visit('/login');
-      cy.get('input[name="login-email"]').type('john.doe@kcl.ac.uk')
-      cy.get('input[name="login-email"]').should('have.value', 'john.doe@kcl.ac.uk')
-      cy.get('input[name="login-password"]').type('password')
-      cy.get('input[name="login-password"]').should('have.value', 'password')
+      cy.get('input[name="loginEmail"]').type('john.doe@kcl.ac.uk')
+      cy.get('input[name="loginEmail"]').should('have.value', 'john.doe@kcl.ac.uk')
+      cy.get('input[name="loginPassword"]').type('password')
+      cy.get('input[name="loginPassword"]').should('have.value', 'password')
     })
     it('Login form submits', () => {
       cy.visit('/login');
-      cy.get('input[name="login-email"]').type('john.doe@kcl.ac.uk')
-      cy.get('input[name="login-password"]').type('password')
-      cy.get('button[name="login-button"]').click();
+      cy.get('input[name="loginEmail"]').type('john.doe@kcl.ac.uk')
+      cy.get('input[name="loginPassword"]').type('password')
+      cy.get('button[name="loginbutton"]').click();
     })
   })
   describe('Test Sign Up', () => {
     it('Sign Up form can be filled', () => {
       cy.visit('/login');
       cy.contains('Not A User? Sign Up').click();
-      cy.get('input[name="signup-name"]').type('John Doe')
-      cy.get('input[name="signup-name"]').should('have.value','John Doe')
+      cy.get('input[name="signupName"]').type('John Doe')
+      cy.get('input[name="signupName"]').should('have.value','John Doe')
       cy.get('input[name="signup-email"]').type('john.doe@kcl.ac.uk')
       cy.get('input[name="signup-email"]').should('have.value','john.doe@kcl.ac.uk')
       cy.get('input[name="signup-password"]').type('password')
@@ -58,7 +58,7 @@ describe('Login', () => {
     it('Sign Up form submits', () => {
       cy.visit('/login');
       cy.contains('Not A User? Sign Up').click();
-      cy.get('input[name="signup-name"]').type('John Doe')
+      cy.get('input[name="signupName"]').type('John Doe')
       cy.get('input[name="signup-email"]').type('john.doe@kcl.ac.uk')
       cy.get('input[name="signup-password"]').type('password')
       cy.get('input[name="signup-confirmPassword"]').type('password')

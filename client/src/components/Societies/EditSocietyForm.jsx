@@ -37,12 +37,7 @@ function EditSocietyForm() {
   });
 
   return (
-    <div
-      style={{
-        marginTop: "75px",
-        marginLeft: "15px",
-      }}
-    >
+    <div style={{ marginTop: "60px", marginLeft: "8px" }}>
       <h1>Edit Society</h1>
 
       <form onSubmit={formik.handleSubmit}>

@@ -4,7 +4,7 @@ import { paginate } from "../../utils/paginate";
 import SearchBar from "../common/Searchbar";
 import { Link } from "react-router-dom";
 import ListFilter from "../common/ListFilter";
-const axios = require('axios');
+import axios from "axios";
 
 class SearchSocieties extends Component {
   constructor(props) {
@@ -24,9 +24,9 @@ class SearchSocieties extends Component {
     );
     this.setState({ societiesList });
   }
-  
+
   handlePageChange = (page) => {
-    this.setState({currentPage: page });
+    this.setState({ currentPage: page });
   };
 
   handleSearch = (query) => {
@@ -69,12 +69,7 @@ class SearchSocieties extends Component {
     const societies = paginate(filtered, currentPage, pageSize);
 
     return (
-      <div
-        style={{
-          marginTop: "75px",
-          marginLeft: "15px",
-        }}
-      >
+      <div style={{ marginTop: "60px", marginLeft: "8px" }}>
         <h1>Societies</h1>
         <SearchBar
           value={this.state.searchQuery}
@@ -84,7 +79,7 @@ class SearchSocieties extends Component {
         <div className="row">
           <div className="col-2">
             <ListFilter
-              categories={["All", "SPORTS", "ACADEMIC", "SOCIAL", "OTHER"]}
+              categories={["All", "Sports", "Academic", "Social", "Other"]}
               selectedCategory={this.state.selectedCategory}
               onCategorySelect={this.handleCategorySelect}
             />

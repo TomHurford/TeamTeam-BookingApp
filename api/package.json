@@ -9,7 +9,6 @@
   },
   "dependencies": {
     "@prisma/client": "^4.9.0",
-    "aws-sdk": "^2.1328.0",
     "bcrypt": "^5.1.0",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
@@ -29,8 +28,6 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
-    "eslint": "^8.35.0",
-    "eslint-config-google": "^0.14.0",
     "jest": "^27.5.1",
     "jest-mock-extended": "^2.0.4",
     "nodemon": "^2.0.20",

@@ -24,12 +24,10 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
   useEffect(() => {
-
-      jwtController.checkIsLoggedIn().then((res) => {
-          //res ? console.log('Logged In!') : console.log('Not Logged In!');
-          setIsLoggedIn(res);
-      });
-
+    jwtController.checkIsLoggedIn().then((res) => {
+      //res ? console.log('Logged In!') : console.log('Not Logged In!');
+      setIsLoggedIn(res);
+    });
   }, []);
 
   /* BASKET FUNCTIONALITY */
@@ -111,25 +109,19 @@ function App() {
     );
     sessionStorage.setItem("tickets", JSON.stringify(tickets));
 
-
-    console.log(basketEvent);
-    console.log(availableTicketTypes);
-    console.log(tickets);
-    console.log(totalPrice());
-  }
-
+    //console.log(basketEvent);
+    //console.log(availableTicketTypes);
+    //console.log(tickets);
+    //console.log(totalPrice());
+  };
 
   const emptyBasket = () => {
     setBasketEvent({ a: "b" });
     setAvailableTicketTypes([]);
     setTickets({});
 
-
-    sessionStorage.setItem('basketEvent', JSON.stringify({'a': 'b'}));
-    sessionStorage.setItem('availableTicketTypes', JSON.stringify([]));
-    sessionStorage.setItem('tickets', JSON.stringify({}));
-  }
-
+    updateTicketSessionStorage();
+  };
 
   /* NORMAL ROUTE FUNCTIONALITY VIA ROUTER DOM */
 
@@ -174,7 +166,6 @@ function App() {
             />
           }
         ></Route>
-
         <Route path="/society/:id" element={<ViewSociety />} />
         <Route path="/societies" element={<SearchSocieties />} />
         <Route path="/create-society" element={<CreateSocietyForm />} />

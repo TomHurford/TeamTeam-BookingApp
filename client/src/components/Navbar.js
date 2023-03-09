@@ -41,8 +41,8 @@ function Navbar(props) {
                 { props.isLoggedIn ? 
                 <ul className='right'>
                     <Link to = "/basket"><li><img src = {basket} alt = "Basket"></img></li></Link>
+                    <Link to = "/profile"><li>Tickets</li></Link>
                     <Link to = "/logout"><li>Logout</li></Link>
-                    <Link to = "/tickets"><li>Tickets</li></Link>
                 </ul> : 
                 <ul className='right'>
                     <Link to = "/basket"><li><img src = {basket} alt = "Basket"></img></li></Link>
@@ -67,9 +67,9 @@ function Navbar(props) {
                     <div className='menuSpacing'></div>
                     { props.isLoggedIn ? 
                     <ul className='bottom'>
-                        <Link onClick={() => {toggleMenu()}} to = "/tickets"><li>Tickets</li></Link>
-                        <Link onClick={() => {toggleMenu()}} to = "/basket"><li>Basket</li></Link>
+                        <Link onClick={() => {toggleMenu()}} to = "/profile"><li>Tickets</li></Link>
                         <Link onClick={() => {toggleMenu()}} to = "/logout"><li>Logout</li></Link>
+                        <Link onClick={() => {toggleMenu()}} to = "/basket"><li>Basket</li></Link>
                     </ul> : 
                     <ul className='bottom'>
                         <Link onClick={() => {toggleMenu()}} to = "/login"><li>Login / SignUp</li></Link>

@@ -1,7 +1,7 @@
 // SOCIETY CONTROLLER
-const { user } = require("../../prisma/prisma.js");
-const prisma = require("../../prisma/prisma.js");
-const auth = require("../utils/jwt_auth.js");
+const {user} = require('../../prisma/prisma.js');
+const prisma = require('../../prisma/prisma.js');
+const auth = require('../utils/jwt_auth.js');
 
 // This function is used to create a new society
 async function signup(req, res) {
@@ -12,19 +12,19 @@ async function signup(req, res) {
     req.body.userId === undefined
   ) {
     return res
-      .status(409)
-      .send({ token: null, message: "Request body cannot be empty" });
+        .status(409)
+        .send({token: null, message: 'Request body cannot be empty'});
   }
 
   // Check if the user exists
-  let user = await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: {
       userId: req.body.userId,
     },
   });
 
   if (!user) {
-    return res.status(409).send({ token: null, message: "User Not Found" });
+    return res.status(409).send({token: null, message: 'User Not Found'});
   }
   // Check if the society already exists
   let society = await prisma.society.findUnique({
@@ -35,15 +35,15 @@ async function signup(req, res) {
 
   if (society) {
     return res
-      .status(409)
-      .send({ token: null, message: "Society already exists" });
+        .status(409)
+        .send({token: null, message: 'Society already exists'});
   }
 
   // Check that name, email and password are not empty
-  if (req.body.name === "") {
+  if (req.body.name === '') {
     return res
-      .status(409)
-      .send({ token: null, message: "Name cannot be empty" });
+        .status(409)
+        .send({token: null, message: 'Name cannot be empty'});
   }
 
   // Create a new user
@@ -91,7 +91,7 @@ async function getSocieties(req, res) {
   societies.forEach((society) => {
     society.members = society.members.length;
     if (society.description.length > 50) {
-      society.description = society.description.substring(0, 50) + "...";
+      society.description = society.description.substring(0, 50) + '...';
     }
   });
 
@@ -171,7 +171,7 @@ async function getSocietyById(req, res) {
     });
   } catch (err) {
     console.log(err);
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({message: 'Internal Server Error'});
   }
 }
 
@@ -189,17 +189,17 @@ async function deleteSociety(req, res) {
     });
     console.log(decoded);
     if (!commitee.isPresident && !isAdmin) {
-      res.status(401).send({ message: "Unauthorized" });
+      res.status(401).send({message: 'Unauthorized'});
       return;
     }
     const archiveSociety = await prisma.society.update({
-      where: { id: req.body.societyId },
-      data: { isArchived: true },
+      where: {id: req.body.societyId},
+      data: {isArchived: true},
     });
-    res.status(200).send({ message: "Society Updated" });
+    res.status(200).send({message: 'Society Updated'});
   } catch (err) {
     console.log(err);
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({message: 'Internal Server Error'});
   }
 }
 
@@ -217,7 +217,7 @@ async function updateSociety(req, res) {
     });
 
     if (!committee) {
-      res.status(401).send({ message: "Unauthorized" });
+      res.status(401).send({message: 'Unauthorized'});
       return;
     }
 
@@ -229,7 +229,7 @@ async function updateSociety(req, res) {
     });
 
     if (!society) {
-      res.status(404).send({ message: "Society Not Found" });
+      res.status(404).send({message: 'Society Not Found'});
       return;
     }
 
@@ -243,9 +243,9 @@ async function updateSociety(req, res) {
         name: req.body.name ? req.body.name : society.name,
         category: req.body.category ? req.body.category : society.category,
         email: req.body.email ? req.body.email : society.email,
-        description: req.body.description
-          ? req.body.description
-          : society.description,
+        description: req.body.description ?
+          req.body.description :
+          society.description,
       },
     });
 
@@ -259,37 +259,37 @@ async function updateSociety(req, res) {
     // Update the society links if they exist in the request body
     console.log(req.body.links);
     if (req.body.links) {
-      console.log("here");
+      console.log('here');
       const updateSocietyLinks = await prisma.societyLinks.update({
         where: {
           societyId: req.body.societyId,
         },
         data: {
-          website: req.body.links.website
-            ? req.body.links.website
-            : societyLinks.website,
-          instagram: req.body.links.instagram
-            ? req.body.links.instagram
-            : societyLinks.instagram,
-          twitter: req.body.links.twitter
-            ? req.body.links.twitter
-            : societyLinks.twitter,
-          facebook: req.body.links.facebook
-            ? req.body.links.facebook
-            : societyLinks.facebook,
+          website: req.body.links.website ?
+            req.body.links.website :
+            societyLinks.website,
+          instagram: req.body.links.instagram ?
+            req.body.links.instagram :
+            societyLinks.instagram,
+          twitter: req.body.links.twitter ?
+            req.body.links.twitter :
+            societyLinks.twitter,
+          facebook: req.body.links.facebook ?
+            req.body.links.facebook :
+            societyLinks.facebook,
           logo: req.body.links.logo ? req.body.links.logo : societyLinks.logo,
-          banner: req.body.links.banner
-            ? req.body.links.banner
-            : societyLinks.banner,
+          banner: req.body.links.banner ?
+            req.body.links.banner :
+            societyLinks.banner,
         },
       });
       console.log(updateSocietyLinks);
     }
 
-    res.status(200).send({ message: "Society Updated" });
+    res.status(200).send({message: 'Society Updated'});
   } catch (err) {
     console.log(err);
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({message: 'Internal Server Error'});
   }
 }
 
@@ -311,7 +311,7 @@ async function addCommitteeMember(req, res) {
     });
 
     if (!committee) {
-      res.status(401).send({ message: "Unauthorized" });
+      res.status(401).send({message: 'Unauthorized'});
       return;
     }
 
@@ -323,7 +323,7 @@ async function addCommitteeMember(req, res) {
     });
 
     if (!user) {
-      res.status(404).send({ message: "User Not Found" });
+      res.status(404).send({message: 'User Not Found'});
       return;
     }
 
@@ -336,7 +336,7 @@ async function addCommitteeMember(req, res) {
     });
 
     if (isCommitteeMember) {
-      res.status(400).send({ message: "User is already a committee member" });
+      res.status(400).send({message: 'User is already a committee member'});
       return;
     }
 
@@ -350,10 +350,10 @@ async function addCommitteeMember(req, res) {
       },
     });
 
-    res.status(200).send({ message: "User added to committee" });
+    res.status(200).send({message: 'User added to committee'});
   } catch (err) {
     console.log(err);
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({message: 'Internal Server Error'});
   }
 }
 
@@ -375,7 +375,7 @@ async function removeCommitteeMember(req, res) {
     });
 
     if (!committee) {
-      res.status(401).send({ message: "Unauthorized" });
+      res.status(401).send({message: 'Unauthorized'});
       return;
     }
 
@@ -388,7 +388,7 @@ async function removeCommitteeMember(req, res) {
     });
 
     if (!isCommitteeMember) {
-      res.status(400).send({ message: "User is not a committee member" });
+      res.status(400).send({message: 'User is not a committee member'});
       return;
     }
 
@@ -399,10 +399,10 @@ async function removeCommitteeMember(req, res) {
       },
     });
 
-    res.status(200).send({ message: "User removed from committee" });
+    res.status(200).send({message: 'User removed from committee'});
   } catch (err) {
     console.log(err);
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({message: 'Internal Server Error'});
   }
 }
 
@@ -424,7 +424,7 @@ async function updateCommitteeMember(req, res) {
     });
 
     if (!committee) {
-      res.status(401).send({ message: "Unauthorized" });
+      res.status(401).send({message: 'Unauthorized'});
       return;
     }
 
@@ -437,7 +437,7 @@ async function updateCommitteeMember(req, res) {
     });
 
     if (!isCommitteeMember) {
-      res.status(400).send({ message: "User is not a committee member" });
+      res.status(400).send({message: 'User is not a committee member'});
       return;
     }
 
@@ -474,10 +474,10 @@ async function updateCommitteeMember(req, res) {
       });
     }
 
-    res.status(200).send({ message: "User updated in committee" });
+    res.status(200).send({message: 'User updated in committee'});
   } catch (err) {
     console.log(err);
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({message: 'Internal Server Error'});
   }
 }
 

@@ -39,10 +39,7 @@ function CreateEvents() {
         })
         .then((response) => {
           response.json().then((data) => {
-            console.log(data);
-            console.log(data.event);
             const event = data.event;
-            console.log(event.id);
             window.location.href = '/event-details?eventId=' + event.id;
           });
         })
@@ -70,7 +67,7 @@ function CreateEvents() {
     }
 
     const removeRow = (index) => {
-      let data = [...ticketInfo];
+      var data = [...ticketInfo];
       data.splice(index, 1);
       setTicketInfo(data);
     }

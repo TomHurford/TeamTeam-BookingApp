@@ -7,7 +7,10 @@ describe('Create Events', () => {
     cy.get('button[name="loginbutton"]').click()
 
     //fill in form
-    cy.visit('http://localhost:3000/create-event')
+    // cy.visit('http://localhost:3000/create-event')
+    cy.contains('Create Event').click()
+    cy.url().should('include', 'create-event')
+
     cy.get('input[name="eventName"]').type('DevOps Event')
     cy.get('textarea[name="eventDescription"]').type('DevOps Event Description')
     cy.get('input[name="eventDate"]').type('2023-12-12')
@@ -34,5 +37,7 @@ describe('Create Events', () => {
     cy.get('button[data-testid="removeRow3"]').click()
 
     cy.get('button[type="submit"]').click()
+
+    cy.url().should('include', 'event-details?eventId=')
   })
 })

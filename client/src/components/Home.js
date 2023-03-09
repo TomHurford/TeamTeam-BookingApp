@@ -3,7 +3,7 @@ import '../styles/Events.css';
 import Event from './Events/Event';
 import '../styles/Home.css';
 import {getEvents} from "../utils/EventsLogic"
-import search from '../utils/search.png';
+// import search from '../utils/search.png';
 import '../styles/SearchBar.css'
  
 
@@ -12,7 +12,7 @@ import '../styles/SearchBar.css'
 class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = {eventCardList: [],  query: ""}
+        this.state = {eventCardList: [], data: [],  query: ""}
     }
 
     componentDidMount() {
@@ -26,7 +26,6 @@ class Home extends Component {
     
     async fetchData() {
         const events = await getEvents();
-        console.log(events);
         this.setState({eventCardList: this.eventsCardList(events)})
     }
 
@@ -59,7 +58,7 @@ class Home extends Component {
     eventsCardList(events) {
         return (
             <div className="events" data-testid="events-list">
-                {events.map(event => (    
+                {events.map(event => (
                     <div className="eventCard" key={event.id} onClick={()=>this.handleClick(event.id)} >
                     <Event details={event.id} specificEvent = {event}/>
                     </div>
@@ -75,13 +74,7 @@ class Home extends Component {
                 <div className="homePage" data-testid = "home-component">
                     {this.welcome()}
                     {this.searchBar()}
-                    <div className="events" data-testid="events-list">
-                        {this.state.data.map(event => (    
-                            <div className="eventCard" key={event.id} onClick={()=>this.handleClick(event.id)} >
-                            <Event details={event.id} specificEvent = {event}/>
-                            </div>
-                        ))}
-                    </div>
+                    {this.state.eventCardList}
                 </div>
             </div>
         )

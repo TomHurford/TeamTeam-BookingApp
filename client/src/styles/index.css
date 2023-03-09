@@ -22,23 +22,23 @@ code {
   z-index: 0;
   min-height: 300px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .page-container {
   width: 100vw;
-  height: calc( 100vh - 60px );
-  position: fixed;
+  min-height: fit-content;
+  position: absolute;
   top: 60px;
   left: 0;
   z-index: 5;
   overflow-x: hidden;
-  overflow-y: auto;
 }
 
 .nav-container {
   width: 100vw;
   height: 60px;
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   z-index: 1000;
@@ -69,4 +69,16 @@ code {
   width: 200px;
   height: 100px;
   overflow: hidden;
+}
+
+.footer{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: black;
+  text-align: right;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  z-index: 100;
 }

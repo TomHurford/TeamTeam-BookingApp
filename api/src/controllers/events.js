@@ -12,13 +12,23 @@ async function getEvents(req, res) {
     // Authenticate the user
     // const decoded = await auth.authenticate(req);
     // Get all events
-    const events = await prisma.event.findMany();
-    const arr = [];
-    events.map(async (event) => {
-      event.society = await prisma.society.findFirst(event.societyId);
-      arr.push(event);
+    // const events = await prisma.event.findMany();
+    // I want to add the society name to each event
+    const events = await prisma.event.findMany({
+      where: {
+        isArchived: false,
+      },
     });
-    console.log(arr);
+
+    // For each event get the society name and add it to the event object
+    for (let i = 0; i < events.length; i++) {
+      const society = await prisma.society.findUnique({
+        where: {
+          id: events[i].societyId,
+        },
+      });
+      events[i].societyName = society.name;
+    }
     res.status(200).send({events: events});
   } catch (err) {
     res.status(401).send({token: null, error: 'Unauthorized'});

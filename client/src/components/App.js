@@ -133,7 +133,7 @@ function App() {
   /* NORMAL ROUTE FUNCTIONALITY VIA ROUTER DOM */
 
   return (
-    <div>
+    <div className="root-container">
       <Navbar isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path="/" element={<Home />}></Route>

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import "../styles/CreateEvents.css";
 import "../styles/TitleOfPage.css"
 const jwtController = require('../utils/jwt.js');
@@ -11,6 +10,8 @@ function CreateEvents() {
     const [description, setDescription] = useState("");
     const [date, setDate] = useState("");
     const [location, setLocation] = useState("");
+    const [societyId, setSocietyId] = useState("");
+    const [time, setTime] = useState("");
 
     
     const handleSubmit = (e) => {
@@ -18,9 +19,9 @@ function CreateEvents() {
         const event = {
           "name": title,
           "description": description,
-          "date": "2023-12-02T00:00:00.000Z",
+          "date": date + "T" + time + ":00.000Z",
           "location": location,
-          "societyId": 1,
+          "societyId": parseInt(societyId),
           // "id": 1
     
         };
@@ -40,22 +41,6 @@ function CreateEvents() {
         .catch((error) => {
           console.log(error);
         });
-      //   axios
-      // .post("http://localhost:5001/events/create", 
-      //  {headers : {
-      //   'Content-Type': 'application/json',
-      //   Authorization: 'Bearer ' + jwtController.getToken()
-      // }},
-      // event
-      // )
-      // .then((response) => {
-      //   console.log(response.data);
-      //   // TODO: handle success
-      // })
-      // .catch((error) => {
-      //   console.log(error);
-      //   // TODO: handle error
-      // });
     };
     
     return (
@@ -83,12 +68,27 @@ function CreateEvents() {
             value={date}
             onChange={(e) => setDate(e.target.value)}
             />
+            <label>Event Time:</label>
+            <input
+            type="time"
+            required
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            />
             <label>Event Location:</label>
             <input
             type="text"
             required
             value={location}
             onChange={(e) => setLocation(e.target.value)}
+            />
+
+            <label>Society ID:</label>
+            <input
+            type="text"
+            required
+            value={societyId}
+            onChange={(e) => setSocietyId(e.target.value)}
             />
            
             <button>Add Event</button>

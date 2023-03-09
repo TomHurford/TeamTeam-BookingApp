@@ -1,0 +1,21 @@
+.title1{
+    margin-top: 60px;
+    text-align:left;
+}
+
+.data{
+    text-align:center;
+    align-self: right;
+
+}
+
+.title2{
+    text-align: left;
+    font-size: large;
+}
+
+.title3{
+    text-align: left;
+    font-size: large;
+    text-decoration: underline;
+}

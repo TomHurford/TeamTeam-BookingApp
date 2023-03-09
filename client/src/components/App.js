@@ -3,6 +3,9 @@ import React, { useEffect } from "react";
 import Contact from "./Contact";
 import Login from "./Login";
 import Purchase from "./Purchase";
+import About from "./About";
+import Privacy from "./Privacy";
+import Terms from "./Terms";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import EventDetails from "./Events/EventDetails";
@@ -15,6 +18,9 @@ import Logout from "./Logout";
 const jwtController = require("../utils/jwt.js");
 
 const sessionStorage = require("sessionstorage");
+import Footer from "./Footer";
+
+
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
@@ -139,6 +145,9 @@ function App() {
           element={<Logout isLoggedIn={isLoggedIn} />}
         ></Route>
         <Route path="/contact" element={<Contact />}></Route>
+        <Route path="/about" element={<About />}></Route>
+        <Route path="/terms" element={<Terms />}></Route>
+        <Route path="/privacy" element={<Privacy />}></Route>
         <Route path="/tickets" element={<Purchase />}></Route>
 
         <Route
@@ -171,6 +180,7 @@ function App() {
         <Route path="/create-society" element={<CreateSocietyForm />} />
         <Route path="/edit-society" element={<EditSocietyForm />} />
       </Routes>
+      <Footer />
     </div>
   );
 }

@@ -45,7 +45,7 @@ exports[`Login snapshot test 1`] = `
         </label>
         <br />
         <input
-          name="login-email"
+          name="loginEmail"
           onChange={[Function]}
           required={true}
           type="email"
@@ -62,7 +62,7 @@ exports[`Login snapshot test 1`] = `
         <br />
         <input
           minLength="8"
-          name="login-password"
+          name="loginPassword"
           onChange={[Function]}
           required={true}
           type="password"
@@ -88,7 +88,7 @@ exports[`Login snapshot test 1`] = `
         <br />
       </div>
       <button
-        name="login-button"
+        name="loginbutton"
         type="submit"
       >
         Login
@@ -134,7 +134,7 @@ exports[`Login snapshot test 1`] = `
         <br />
         <input
           minLength="3"
-          name="signup-name"
+          name="signupName"
           onChange={[Function]}
           required={true}
           type="text"

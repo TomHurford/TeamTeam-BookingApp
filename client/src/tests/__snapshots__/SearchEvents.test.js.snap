@@ -2,7 +2,7 @@
 
 exports[`SearchEvents snapshot test 1`] = `
 <div
-  className="title"
+  className="page-container"
 >
   <input
     className="searchBar"

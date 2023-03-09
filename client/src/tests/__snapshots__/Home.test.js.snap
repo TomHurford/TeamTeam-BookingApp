@@ -16,7 +16,7 @@ exports[`Home snapshot test 1`] = `
       data-testid="welcome-message"
     >
       <h1>
-        Welcome to Ticketopia!
+        Perfect Tickets? Perfect Time.
       </h1>
     </div>
     <div
@@ -32,10 +32,6 @@ exports[`Home snapshot test 1`] = `
         value=""
       />
     </div>
-    <div
-      className="events"
-      data-testid="events-list"
-    />
   </div>
 </div>
 `;

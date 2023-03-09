@@ -9,7 +9,7 @@ exports[`App snapshot test 1`] = `
       className="navbar"
     >
       <ul
-        className="navbarElements"
+        className="left"
       >
         <a
           href="/"
@@ -29,7 +29,7 @@ exports[`App snapshot test 1`] = `
           onClick={[Function]}
         >
           <li>
-            Home
+            Events
           </li>
         </a>
         <a
@@ -41,22 +41,6 @@ exports[`App snapshot test 1`] = `
           </li>
         </a>
         <a
-          href="/logout"
-          onClick={[Function]}
-        >
-          <li>
-            Logout
-          </li>
-        </a>
-        <a
-          href="/profile"
-          onClick={[Function]}
-        >
-          <li>
-            Profile
-          </li>
-        </a>
-        <a
           href="/contact"
           onClick={[Function]}
         >
@@ -64,21 +48,58 @@ exports[`App snapshot test 1`] = `
             Contact
           </li>
         </a>
-        <a
-          href="/purchase/future"
-          onClick={[Function]}
-        >
-          <li>
-            Purchase
-          </li>
-        </a>
+      </ul>
+      <ul
+        className="right"
+      >
         <a
           href="/basket"
           onClick={[Function]}
         >
+          <li>
+            <img
+              alt="Basket"
+              src="basket.png"
+            />
+          </li>
+        </a>
+        <a
+          href="/login"
+          onClick={[Function]}
+        >
+          <li>
+            Login / SignUp
+          </li>
+        </a>
+      </ul>
+    </nav>
+    <nav
+      className="mobile-navbar"
+    >
+      <ul
+        className="left"
+      >
+        <a
+          href="/"
+          onClick={[Function]}
+        >
           <li
-            data-testid="basket-icon"
+            className="left"
           >
+            <img
+              alt="Logo"
+              src="logo.png"
+            />
+          </li>
+        </a>
+      </ul>
+      <ul
+        className="right"
+      >
+        <a
+          onClick={[Function]}
+        >
+          <li>
             <img
               alt="Basket"
               src="basket.png"
@@ -86,6 +107,74 @@ exports[`App snapshot test 1`] = `
           </li>
         </a>
       </ul>
+      <div
+        className="menu"
+        id="notMenu"
+        onClick={[Function]}
+      />
+      <div
+        className=""
+        id="menu"
+      >
+        <ul
+          className="top"
+        >
+          <a
+            onClick={[Function]}
+          >
+            <li>
+              Close
+            </li>
+          </a>
+          <a
+            href="/"
+            onClick={[Function]}
+          >
+            <li>
+              Events
+            </li>
+          </a>
+          <a
+            href="/societies"
+            onClick={[Function]}
+          >
+            <li>
+              Societies
+            </li>
+          </a>
+          <a
+            href="/contact"
+            onClick={[Function]}
+          >
+            <li>
+              Contact
+            </li>
+          </a>
+        </ul>
+        <div
+          className="menuSpacing"
+        />
+        <ul
+          className="bottom"
+        >
+          <a
+            href="/login"
+            onClick={[Function]}
+          >
+            <li>
+              Login / SignUp
+            </li>
+          </a>
+          <a
+            href="/basket"
+            onClick={[Function]}
+          >
+            <li>
+              Basket
+            </li>
+          </a>
+        </ul>
+      </div>
     </nav>
   </div>
   <div
@@ -103,7 +192,7 @@ exports[`App snapshot test 1`] = `
         data-testid="welcome-message"
       >
         <h1>
-          Welcome to Ticketopia!
+          Perfect Tickets? Perfect Time.
         </h1>
       </div>
       <div
@@ -119,10 +208,6 @@ exports[`App snapshot test 1`] = `
           value=""
         />
       </div>
-      <div
-        className="events"
-        data-testid="events-list"
-      />
     </div>
   </div>
 </div>

@@ -1,10 +1,9 @@
-const express = require('express');
-// eslint-disable-next-line new-cap
-const router = express.Router();
+var express = require("express");
+var router = express.Router();
 
 /* GET home page. */
-router.get('/', async (req, res, next) => {
-  res.send('Hello!');
+router.get("/", async (req, res, next) => {
+  res.send("Hello!");
 });
 
 module.exports = router;

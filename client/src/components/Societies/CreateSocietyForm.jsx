@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-const axios = require('axios');
+import axios from "axios";
 
 function CreateSocietyForm() {
   const formik = useFormik({

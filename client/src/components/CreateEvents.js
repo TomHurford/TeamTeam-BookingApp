@@ -12,9 +12,13 @@ function CreateEvents() {
     const [location, setLocation] = useState("");
     const [societyId, setSocietyId] = useState("");
     const [time, setTime] = useState("");
+    const [ticketInfo, setTicketInfo] = useState([
+      {name: '', price: 0, quantity: 0}
+  ])
 
     
     const handleSubmit = (e) => {
+      // var eventId
         e.preventDefault();
         const event = {
           "name": title,
@@ -22,11 +26,10 @@ function CreateEvents() {
           "date": date + "T" + time + ":00.000Z",
           "location": location,
           "societyId": parseInt(societyId),
-          // "id": 1
-    
+          "ticketType": ticketInfo
         };
         console.log(jwtController.getToken());
-        console.log(event);
+        console.log(JSON.stringify(event));
         fetch("http://localhost:5001/events/create", {
           method: "POST",
           headers: {
@@ -36,20 +39,45 @@ function CreateEvents() {
           body: JSON.stringify(event)
         })
         .then((response) => {
-          console.log(response);
+          console.log(response.json());
         })
         .catch((error) => {
           console.log(error);
         });
     };
+
+    const handleFieldChange = (index, event) => {
+      var data = [...ticketInfo];
+      console.log(event.target.name);
+      if(event.target.name === "price" || event.target.name === "quantity"){
+        data[index][event.target.name] = parseInt(event.target.value);
+        setTicketInfo(data);
+        return;
+      }
+      data[index][event.target.name] = event.target.value;
+      setTicketInfo(data);
+    }
+
+    const addRow = () => {
+      var newInfo = {name: '', price: 0, quantity: 0 }
+      setTicketInfo([...ticketInfo, newInfo])
+
+    }
+
+    const removeRow = (index) => {
+      let data = [...ticketInfo];
+      data.splice(index, 1);
+      setTicketInfo(data);
+    }
     
     return (
       <div className="page-container">
         <div className="create">
         <h2>Create Event</h2>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} >
             <label>Event Title:</label>
             <input
+            name = "eventName"
             type="text"
             required
             value={title}
@@ -57,12 +85,14 @@ function CreateEvents() {
             />
             <label>Event Description:</label>
             <textarea
+            name= "eventDescription"
             required
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             ></textarea>
             <label>Event Date:</label>
             <input
+            name="eventDate"
             type="date"
             required
             value={date}
@@ -70,6 +100,7 @@ function CreateEvents() {
             />
             <label>Event Time:</label>
             <input
+            name="eventTime"
             type="time"
             required
             value={time}
@@ -77,6 +108,7 @@ function CreateEvents() {
             />
             <label>Event Location:</label>
             <input
+            name="eventLocation"
             type="text"
             required
             value={location}
@@ -85,17 +117,54 @@ function CreateEvents() {
 
             <label>Society ID:</label>
             <input
-            type="text"
+            name="societyId"
+            type="number"
             required
             value={societyId}
             onChange={(e) => setSocietyId(e.target.value)}
             />
-           
-            <button>Add Event</button>
+          <div>
+            {ticketInfo.map((input, index) => {
+              return(
+              <div key={index}>
+                <label>Ticket Name:</label>
+                <input
+                name="name"
+                data-testid= {"ticketName" + index}
+                type="text"
+                required
+                value={input.name}
+                onChange={event => handleFieldChange(index, event)}
+                />
+                <label>Ticket Price:</label>
+                <input
+                name="price"
+                data-testid= {"ticketPrice" + index}
+                type="number"
+                required
+                value={input.price}
+                onChange={event => handleFieldChange(index, event)}
+                />
+                <label>Ticket Quantity:</label>
+                <input
+                name="quantity"
+                data-testid= {"ticketQuantity" + index}
+                type="number"
+                required
+                value={input.quantity}
+                onChange={event => handleFieldChange(index, event)}
+                />
+                <button data-testid={"removeRow" + index} onClick={() => removeRow(index)}>Remove</button>
+              </div>
+              )
+            })}
+            <button type="button" data-testid="addMore" onClick={addRow} >Add More</button> 
+          </div>
+            <button type="submit">Add Event</button>
         </form>
         </div>
       </div>
     );
-    }
+}
 
 export default CreateEvents;

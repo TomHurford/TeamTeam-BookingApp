@@ -69,10 +69,28 @@ async function createEvent(req, res) {
       !req.body.description ||
       !req.body.date ||
       !req.body.location ||
-      !req.body.societyId
+      !req.body.societyId||
+      !req.body.ticketType
     ) {
       res.status(400).send({ error: "Missing Event Details" });
       return;
+    }
+
+    if(req.body.ticketType.length === 0){
+      res.status(400).send({ error: "Missing Ticket Type" });
+      return;
+    }
+
+    if(req.body.ticketType.length > 0){
+      console.log(!req.body.ticketType[0].price)
+      for(let i = 0; i < req.body.ticketType.length; i++){
+        if(!req.body.ticketType[i].name || !req.body.ticketType[i].price || !req.body.ticketType[i].quantity){
+          if(req.body.ticketType[i].price !== 0){
+          res.status(400).send({ error: "Missing Ticket Type Details" });
+          return;
+          }
+        }
+      }
     }
 
     // Get the society
@@ -119,7 +137,26 @@ async function createEvent(req, res) {
       },
     });
 
-    res.status(200).send({ event: event });
+    var ticket_types = [];
+
+    if(req.body.ticketType.length > 0){
+      for(let i = 0; i < req.body.ticketType.length; i++){
+        ticket_types[i] = await prisma.ticketType.create({
+          data: {  
+            ticketType: req.body.ticketType[i].name,
+            price: req.body.ticketType[i].price,
+            quantity: req.body.ticketType[i].quantity,
+            eventId: event.id,
+          },  
+        });
+      }
+    }
+
+    for(let i = 0; i < ticket_types.length; i++){
+      console.log(ticket_types[i])
+    }
+
+    res.status(200).send({ event: event, ticket_types: ticket_types });
   } catch (err) {
     console.log(err);
     res.status(401).send({ token: null, error: "Unauthorized" });

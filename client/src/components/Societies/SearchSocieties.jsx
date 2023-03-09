@@ -69,7 +69,7 @@ class SearchSocieties extends Component {
     const societies = paginate(filtered, currentPage, pageSize);
 
     return (
-      <React.Fragment>
+      <div style={{ marginTop: "60px", marginLeft: "8px" }}>
         <h1>Societies</h1>
         <SearchBar
           value={this.state.searchQuery}
@@ -127,7 +127,7 @@ class SearchSocieties extends Component {
             {/* TODO: Use destructuring */}
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

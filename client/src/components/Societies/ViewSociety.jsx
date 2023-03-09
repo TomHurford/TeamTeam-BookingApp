@@ -29,7 +29,7 @@ function ViewSociety() {
   }, [societyId]);
 
   return (
-    <div>
+    <div style={{ marginTop: "65px", marginLeft: "8px" }}>
       <div
         style={{
           borderColor: "gray",

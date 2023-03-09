@@ -200,6 +200,7 @@ exports[`CreateSocietyForm snapshot test 1`] = `
       </div>
       <button
         className="btn btn-primary"
+        name="create-society-button"
       >
         Create Society
       </button>

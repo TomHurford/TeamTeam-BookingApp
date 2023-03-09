@@ -24,11 +24,11 @@ const FutureTickets = () => {
   }, []);
 
   return (
-    <div className="page-container">
+    <div data-testid='Purchase' className="page-container">
         <div className="underlay"></div>
        <hr></hr><hr></hr> 
       <h1>Upcoming Tickets</h1>
-      <table>
+      <table className="purchase">
         <thead>
           <tr>
             <th>Event Name</th>
@@ -39,7 +39,7 @@ const FutureTickets = () => {
         </thead>
         <tbody>
           {futureTickets.map((ticket) => (
-            <tr key={ticket.id}>
+            <tr data-testid={ticket.id} key={ticket.id}>
               <td>{ticket.event.name}</td>
               <td>{new Date(ticket.event.date).toLocaleDateString()}</td>
               <td>{ticket.status}</td>

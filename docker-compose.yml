@@ -1,5 +1,5 @@
 # Create a docker compose for a postgres database
-version: '3.7'
+version: "3.7"
 
 services:
   postgres:
@@ -29,7 +29,7 @@ services:
       - ./client/package-lock.json:/usr/src/app/package-lock.json
     working_dir: /usr/src/app
     command: bash -c "npm install && npm start"
-    
+
   express:
     image: node:18.13.0
     container_name: express
@@ -43,5 +43,6 @@ services:
       - ./api/node_modules:/usr/src/app/node_modules
       - ./api/package.json:/usr/src/app/package.json
       - ./api/package-lock.json:/usr/src/app/package-lock.json
+      - ./api/.docker.env:/usr/src/app/.env
     working_dir: /usr/src/app
     command: bash -c "npm install && npm start"

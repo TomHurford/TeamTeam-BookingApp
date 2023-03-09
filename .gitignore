@@ -12,6 +12,12 @@ combined-coverage
 
 ### database ###
 database/*
+.docker.env
+client/combined-coverage/
+client/cypress-coverage/
+client/jest-coverage/
+
+
 
 ### react ###
 .DS_*

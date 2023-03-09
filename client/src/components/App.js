@@ -13,6 +13,7 @@ import ViewSociety from "./Societies/ViewSociety";
 import CreateSocietyForm from "./Societies/CreateSocietyForm";
 import SearchSocieties from "./Societies/SearchSocieties";
 import EditSocietyForm from "./Societies/EditSocietyForm";
+import Footer from "./Footer";
 
 
 
@@ -62,6 +63,7 @@ function App() {
         <Route path="/create-society" element={<CreateSocietyForm />} />
         <Route path="/edit-society" element={<EditSocietyForm />} />
       </Routes>
+      <Footer />
     </div>
   );
 }

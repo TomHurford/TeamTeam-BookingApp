@@ -18,7 +18,6 @@ function CreateEvents() {
 
     
     const handleSubmit = (e) => {
-      // var eventId
         e.preventDefault();
         const event = {
           "name": title,
@@ -39,7 +38,13 @@ function CreateEvents() {
           body: JSON.stringify(event)
         })
         .then((response) => {
-          console.log(response.json());
+          response.json().then((data) => {
+            console.log(data);
+            console.log(data.event);
+            const event = data.event;
+            console.log(event.id);
+            window.location.href = '/event-details?eventId=' + event.id;
+          });
         })
         .catch((error) => {
           console.log(error);

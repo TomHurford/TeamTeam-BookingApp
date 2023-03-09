@@ -1,0 +1,168 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchSocieties snapshot test 1`] = `
+<div
+  className="page-container"
+>
+  <div
+    className="underlay"
+  />
+  <div
+    className="societyPage-container"
+  >
+    <h2>
+      Societies
+    </h2>
+    <input
+      className="form-control my-4"
+      name="query"
+      onChange={[Function]}
+      placeholder="Search for society..."
+      type="text"
+    />
+    <table
+      className="table"
+    >
+      <thead>
+        <tr>
+          <th>
+            Name
+          </th>
+          <th>
+            Category
+          </th>
+          <th>
+            Followers
+          </th>
+          <th>
+            Number of Events
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            Cricket
+          </td>
+          <td>
+            Sport
+          </td>
+          <td>
+            888
+          </td>
+          <td>
+            2
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Basketball
+          </td>
+          <td>
+            Sport
+          </td>
+          <td>
+            2
+          </td>
+          <td>
+            1
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Nerds
+          </td>
+          <td>
+            Social
+          </td>
+          <td>
+            9999
+          </td>
+          <td>
+            42
+          </td>
+        </tr>
+        <tr>
+          <td>
+            AI
+          </td>
+          <td>
+            Academic
+          </td>
+          <td>
+            888
+          </td>
+          <td>
+            2
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Karate
+          </td>
+          <td>
+            Sport
+          </td>
+          <td>
+            222
+          </td>
+          <td>
+            12
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <nav>
+      <ul
+        className="pagination"
+      >
+        <li
+          className="page-item active"
+        >
+          <a
+            className="page-link"
+            onClick={[Function]}
+          >
+            1
+          </a>
+        </li>
+        <li
+          className="page-item"
+        >
+          <a
+            className="page-link"
+            onClick={[Function]}
+          >
+            2
+          </a>
+        </li>
+      </ul>
+    </nav>
+    <a
+      href="/create-society"
+      onClick={[Function]}
+    >
+      <button
+        className="btn btn-primary"
+        style={
+          Object {
+            "marginRight": "15px",
+          }
+        }
+      >
+        Create Society
+      </button>
+    </a>
+    <a
+      href="/edit-society"
+      onClick={[Function]}
+    >
+      <button
+        className="btn btn-primary"
+      >
+        Edit Society
+      </button>
+    </a>
+  </div>
+</div>
+`;

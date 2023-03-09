@@ -1,0 +1,340 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login snapshot test 1`] = `
+<div
+  className="page-container"
+>
+  <div
+    className="underlay"
+  />
+  <div
+    className="container"
+    disabled={false}
+    id="LoginForm"
+  >
+    <h1>
+      Log In
+    </h1>
+    <form
+      action="#"
+      onSubmit={[Function]}
+    >
+      <div
+        className="field"
+        style={
+          Object {
+            "height": "0.9em",
+          }
+        }
+      >
+        <label
+          className="buttonLabel"
+          onClick={[Function]}
+        >
+          Not A User? Sign Up
+        </label>
+        <br />
+      </div>
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="email"
+        >
+          Email
+        </label>
+        <br />
+        <input
+          name="login-email"
+          onChange={[Function]}
+          required={true}
+          type="email"
+        />
+      </div>
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="password"
+        >
+          Password
+        </label>
+        <br />
+        <input
+          minLength="8"
+          name="login-password"
+          onChange={[Function]}
+          required={true}
+          type="password"
+        />
+      </div>
+      <div
+        className="field"
+        style={
+          Object {
+            "height": "0.9em",
+            "marginBottom": "10px",
+            "marginTop": 0,
+            "textAlign": "right",
+          }
+        }
+      >
+        <label
+          className="buttonLabel"
+          onClick={[Function]}
+        >
+          Forgot Your Password?
+        </label>
+        <br />
+      </div>
+      <button
+        name="login-button"
+        type="submit"
+      >
+        Login
+      </button>
+    </form>
+  </div>
+  <div
+    className="container"
+    disabled={true}
+    id="SignUpForm"
+  >
+    <h1>
+      Sign Up
+    </h1>
+    <form
+      action="#"
+      onSubmit={[Function]}
+    >
+      <div
+        className="field"
+        style={
+          Object {
+            "height": "0.9em",
+          }
+        }
+      >
+        <label
+          className="buttonLabel"
+          onClick={[Function]}
+        >
+          Already a User? Log In
+        </label>
+        <br />
+      </div>
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="text"
+        >
+          Name
+        </label>
+        <br />
+        <input
+          minLength="3"
+          name="signup-name"
+          onChange={[Function]}
+          required={true}
+          type="text"
+        />
+      </div>
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="email"
+        >
+          Email
+        </label>
+        <br />
+        <input
+          name="signup-email"
+          onChange={[Function]}
+          required={true}
+          type="email"
+        />
+      </div>
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="password"
+        >
+          Password
+        </label>
+        <br />
+        <input
+          minLength="8"
+          name="signup-password"
+          onChange={[Function]}
+          required={true}
+          type="password"
+        />
+      </div>
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="confirmPassword"
+        >
+          Confirm Password
+        </label>
+        <br />
+        <input
+          name="signup-confirmPassword"
+          onChange={[Function]}
+          required={true}
+          type="password"
+        />
+      </div>
+      <button
+        name="signup-button"
+        type="submit"
+      >
+        Sign Up
+      </button>
+    </form>
+  </div>
+  <div
+    className="container"
+    disabled={true}
+    id="forgotForm"
+  >
+    <h1>
+      Forgot Password
+    </h1>
+    <form
+      action="#"
+      onSubmit={[Function]}
+    >
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="email"
+        >
+          Email
+        </label>
+        <br />
+        <input
+          name="forgot-email"
+          onChange={[Function]}
+          required={true}
+          type="email"
+        />
+      </div>
+      <div
+        className="field"
+        style={
+          Object {
+            "height": "0.9em",
+            "marginBottom": "10px",
+            "marginTop": 0,
+            "textAlign": "right",
+          }
+        }
+      >
+        <label
+          className="buttonLabel"
+          onClick={[Function]}
+        >
+          Remember Your Password?
+        </label>
+        <br />
+      </div>
+      <button
+        name="forgot-button"
+        type="submit"
+      >
+        Send Reset Password Email
+      </button>
+    </form>
+  </div>
+  <div
+    className="container"
+    disabled={true}
+    id="resetPasswordForm"
+  >
+    <h1>
+      Reset Password
+    </h1>
+    <form
+      action="#"
+      onSubmit={[Function]}
+    >
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="password"
+        >
+          Password
+        </label>
+        <br />
+        <input
+          minLength="8"
+          name="password"
+          onChange={[Function]}
+          required={true}
+          type="password"
+        />
+      </div>
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="confirmPassword"
+        >
+          Confirm Password
+        </label>
+        <br />
+        <input
+          name="confirmPassword"
+          onChange={[Function]}
+          required={true}
+          type="password"
+        />
+      </div>
+      <button
+        type="submit"
+      >
+        Reset Password
+      </button>
+    </form>
+  </div>
+  <div
+    className="overlay"
+    disabled={true}
+  >
+    <div
+      className="container"
+      id="popupForm"
+    >
+      <form
+        action="#"
+        onSubmit={[Function]}
+      >
+        <div
+          className="field"
+        >
+          <label
+            style={
+              Object {
+                "textAlign": "center",
+              }
+            }
+          />
+          <br />
+        </div>
+        <button
+          type="submit"
+        >
+          Close
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+`;

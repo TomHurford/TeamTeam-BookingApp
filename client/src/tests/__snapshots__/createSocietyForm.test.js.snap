@@ -1,0 +1,210 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreateSocietyForm snapshot test 1`] = `
+<div
+  className="page-container"
+>
+  <div
+    className="underlay"
+  />
+  <div
+    className="societyPage-container"
+  >
+    <h1>
+      Create Society
+    </h1>
+    <form
+      onSubmit={[Function]}
+    >
+      <div
+        className="form-group"
+      >
+        <label
+          htmlFor="props.name"
+        >
+          Society Name
+        </label>
+        <input
+          autoFocus={true}
+          className="form-control"
+          id="societyName"
+          onChange=" "
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          htmlFor="categorySelect"
+        >
+          Select a category
+        </label>
+        <select
+          className="form-select"
+          id="categorySelect"
+        >
+          <option
+            defaultValue={true}
+            value="1"
+          >
+            Sport
+          </option>
+          <option
+            value="2"
+          >
+            Social
+          </option>
+          <option
+            value="3"
+          >
+            Academic
+          </option>
+        </select>
+      </div>
+      <h5>
+        Socials
+      </h5>
+      <div
+        className="form-group"
+      >
+        <label
+          htmlFor="props.name"
+        >
+          Website
+        </label>
+        <input
+          autoFocus={true}
+          className="form-control"
+          id="website"
+          onChange=" "
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          htmlFor="props.name"
+        >
+          Instagram
+        </label>
+        <input
+          autoFocus={true}
+          className="form-control"
+          id="instagram"
+          onChange=" "
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          htmlFor="props.name"
+        >
+          Twitter
+        </label>
+        <input
+          autoFocus={true}
+          className="form-control"
+          id="twitter"
+          onChange=" "
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          htmlFor="props.name"
+        >
+          Facebook
+        </label>
+        <input
+          autoFocus={true}
+          className="form-control"
+          id="facebook"
+          onChange=" "
+          type="text"
+          value=""
+        />
+      </div>
+      <h5>
+        Images
+      </h5>
+      <small
+        className="form-text text-muted"
+        id="imageHelp"
+      >
+        You must enter a link to the images
+      </small>
+      <div
+        className="form-group"
+      >
+        <label
+          htmlFor="props.name"
+        >
+          Logo
+        </label>
+        <input
+          autoFocus={true}
+          className="form-control"
+          id="logo"
+          onChange=" "
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          htmlFor="props.name"
+        >
+          Banner
+        </label>
+        <input
+          autoFocus={true}
+          className="form-control"
+          id="banner"
+          onChange="  "
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          htmlFor=""
+        >
+          Society Description
+        </label>
+        <textarea
+          className="form-control"
+          cols="173"
+          id="societyDescription"
+          name="societyDescription"
+          rows="8"
+          style={
+            Object {
+              "marginBottom": "8px",
+            }
+          }
+        />
+      </div>
+      <button
+        className="btn btn-primary"
+        name="create-society-button"
+      >
+        Create Society
+      </button>
+    </form>
+  </div>
+</div>
+`;

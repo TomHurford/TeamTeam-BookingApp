@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import '../styles/Login.css';
-import axios from 'axios';
+const axios = require('axios').default;
 const jwtController = require('../utils/jwt.js');
 
 
@@ -43,10 +43,9 @@ class Login extends Component {
         
         axios.post('http://localhost:5001/user/login', { email: this.state.email, password: this.state.password })
             .then(response => {
-                console.log(response.data.token);
                 if (response.data.token) {
                     jwtController.setToken(response.data.token);
-                    window.location = '/profile';
+                    window.location = '/';
                 } else {
                     this.showMessage('Error: ' + response.data.message);
                 }
@@ -107,7 +106,7 @@ class Login extends Component {
     }
 
     // Submit a new password to be set
-    handleSubmitResetPassword = (event) => {
+    handleSubmitResetPassword = () => {
 
 
     //     if (this.state.confirmPassword === this.state.password) {
@@ -136,7 +135,7 @@ class Login extends Component {
 
 
     // Toggle the signup Form Viewable
-    signupToggle = (event) => {
+    signupToggle = () => {
         this.setState({
             disableLoginForm: !this.state.disableLoginForm,
             disableSignUp: !this.state.disableSignUp
@@ -144,7 +143,7 @@ class Login extends Component {
     }
 
     // Toggle the Forgot Password Form Viewable
-    forgotToggle = (event) => {
+    forgotToggle = () => {
         this.setState({
             disableLoginForm: !this.state.disableLoginForm,
             disableForgotPassword: !this.state.disableForgotPassword
@@ -152,7 +151,7 @@ class Login extends Component {
     }
 
     // Toggle the Reset Password Form Viewable
-    resetPasswordToggle = (event) => {
+    resetPasswordToggle = () => {
         this.setState({
             disableLoginForm: !this.state.disableLoginForm,
             disableResetPassword: !this.state.disableResetPassword
@@ -168,7 +167,7 @@ class Login extends Component {
     }
     
     // Close the Message Overlay
-    closeMessage = (event) => {
+    closeMessage = () => {
         this.setState({
             disablePopUpMessage: true,
             disableLoginForm: false,
@@ -178,7 +177,7 @@ class Login extends Component {
         return false;
     }
 
-    loginNewUser = (code) => {
+    loginNewUser = () => {
 
     }
     
@@ -186,7 +185,7 @@ class Login extends Component {
     
     render() {
         return (
-            <div>
+            <div className='page-container'>
                 <div className='underlay'></div>
 
                 <div className="container" id='LoginForm' disabled={this.state.disableLoginForm}>
@@ -197,16 +196,16 @@ class Login extends Component {
                         </div>
                         <div className='field'>
                             <label htmlFor="email">Email</label><br />
-                            <input type="email" name="email" onChange={this.handleChange} required />
+                            <input type="email" name="login-email" onChange={this.handleChange} required />
                         </div>
                         <div className='field'>
                             <label htmlFor="password">Password</label><br />
-                            <input type="password" name="password" minLength="8" onChange={this.handleChange} required />
+                            <input type="password" name="login-password" minLength="8" onChange={this.handleChange} required />
                         </div>
                         <div className='field' style={{textAlign: 'right', height: '0.9em', marginTop: 0, marginBottom: '10px'}}>
                             <label className='buttonLabel' onClick={this.forgotToggle}>Forgot Your Password?</label><br />
                         </div>
-                        <button type="submit">Login</button>
+                        <button name="login-button" type="submit">Login</button>
                     </form>
                 </div>
 
@@ -218,21 +217,21 @@ class Login extends Component {
                         </div>
                         <div className='field'>
                             <label htmlFor="text">Name</label><br />
-                            <input type="text" name="name" minLength="3" onChange={this.handleChange} required />
+                            <input type="text" name="signup-name" minLength="3" onChange={this.handleChange} required />
                         </div>
                         <div className='field'>
                             <label htmlFor="email">Email</label><br />
-                            <input type="email" name="email" onChange={this.handleChange} required />
+                            <input type="email" name="signup-email" onChange={this.handleChange} required />
                         </div>
                         <div className='field'>
                             <label htmlFor="password">Password</label><br />
-                            <input type="password" name="password" minLength="8" onChange={this.handleChange} required />
+                            <input type="password" name="signup-password" minLength="8" onChange={this.handleChange} required />
                         </div>
                         <div className='field'>
                             <label htmlFor="confirmPassword">Confirm Password</label><br />
-                            <input type="password" name="confirmPassword" onChange={this.handleChange} required />
+                            <input type="password" name="signup-confirmPassword" onChange={this.handleChange} required />
                         </div>
-                        <button type="submit">Sign Up</button>
+                        <button name="signup-button" type="submit">Sign Up</button>
                     </form>
                 </div>
 
@@ -241,12 +240,12 @@ class Login extends Component {
                     <form onSubmit={this.handleSubmitForgot} action="#">
                         <div className='field'>
                             <label htmlFor="email">Email</label><br />
-                            <input type="email" name="email" onChange={this.handleChange} required />
+                            <input type="email" name="forgot-email" onChange={this.handleChange} required />
                         </div>
                         <div className='field' style={{textAlign: 'right', height: '0.9em', marginTop: 0, marginBottom: '10px'}}>
                             <label className='buttonLabel' onClick={this.forgotToggle}>Remember Your Password?</label><br />
                         </div>
-                        <button type="submit">Send Reset Password Email</button>
+                        <button name="forgot-button" type="submit">Send Reset Password Email</button>
                     </form>
                 </div>
 

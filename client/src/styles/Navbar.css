@@ -1,0 +1,252 @@
+/*Styling for the navbar and logo below*/
+
+.navbar{
+    width: 100%;
+    height: 60px;
+    background-color: #000E;
+    position: fixed;
+    top: 0;
+    min-width: 700px;
+    padding: 0 !important;
+}
+
+.navbar > .left {
+    float: left;
+    min-width: fit-content;
+}
+.navbar > .right {
+    float: right;
+    min-width: fit-content;
+}
+.navbar > .left > a {
+    float: left;
+}
+.navbar > .right > a {
+    float: right;
+}
+.navbar > ul {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar > ul > a {
+    display: block;
+    margin: 0px;
+    padding: 0;
+    list-style: none;
+    justify-content: flex-end;
+    height: 60px;
+    max-width: fit-content;
+}
+.navbar > ul > a > li > img {
+    width: 30px;
+    height: 30px;
+}
+.navbar > ul > a > li {
+    list-style: none;
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    float: right;
+    padding: 15px;
+    height: 60px;
+    min-width: fit-content;
+}
+.navbar > ul > a > li:hover{
+    cursor: pointer;
+    opacity: 0.8;
+    transform: scale(1.05);
+    transition: 0.3s;
+}
+
+.navbar > ul > a > li:active{
+    transform: scale(1.02);
+    transition: 0.3s;
+}
+
+.navbar > ul > a > li > img{
+    width: 30px;
+    height: 30px;
+}
+
+
+
+
+.mobile-navbar{
+    width: 100%;
+    height: 60px;
+    background-color: #000E;
+    position: fixed;
+    top: 0;
+    max-width: 50em;
+    padding: 0 !important;
+    display: none;
+}
+
+.mobile-navbar > .left {
+    float: left;
+    min-width: fit-content;
+}
+.mobile-navbar > .right {
+    float: right;
+    min-width: fit-content;
+}
+.mobile-navbar > .left > a {
+    float: left;
+}
+.navbar > .right > a {
+    float: right;
+}
+.mobile-navbar > ul {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.mobile-navbar > ul > a {
+    display: block;
+    margin: 0px;
+    padding: 0;
+    list-style: none;
+    justify-content: flex-end;
+    height: 60px;
+    max-width: fit-content;
+}
+.mobile-navbar > ul > a > li > img {
+    width: 30px;
+    height: 30px;
+}
+.mobile-navbar > ul > a > li {
+    list-style: none;
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    float: right;
+    padding: 15px;
+    height: 30px;
+    min-width: fit-content;
+}
+.mobile-navbar > ul > a > li:hover{
+    cursor: pointer;
+    opacity: 0.8;
+    transform: scale(1.05);
+    transition: 0.3s;
+}
+
+.mobile-navbar > ul > a > li:active{
+    transform: scale(1.02);
+    transition: 0.3s;
+}
+
+.mobile-navbar > ul > a > li > img{
+    width: 30px;
+    height: 30px;
+}
+.mobile-navbar > div#menu {
+    width: 300px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    right: -300px;
+    background-color: #000E;
+    transition: 0.5s;
+}
+.mobile-navbar > div#notMenu {
+    width: calc( 100vw - 300px);
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    transition: 0.5s;
+}
+.mobile-navbar > div.menu {
+    transition: 0.5s;
+    transform: translateX(-300px);
+    width: 100%;
+    height: 100%;
+    min-height: fit-content;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+.mobile-navba > div#menu > ul {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.mobile-navbar > div#menu > ul > a {
+    display: block;
+    margin: 0px;
+    padding: 0;
+    list-style: none;
+    justify-content: flex-end;
+    height: 60px;
+    max-width: fit-content;
+}
+.mobile-navbar > div#menu > ul > a > li > img {
+    width: 30px;
+    height: 30px;
+}
+.mobile-navbar > div#menu > ul > a > li {
+    list-style: none;
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    float: right;
+    padding: 15px;
+    height: 60px;
+    min-width: fit-content;
+}
+.mobile-navbar > div#menu > ul > a > li:hover{
+    cursor: pointer;
+    opacity: 0.8;
+    transform: scale(1.05);
+    transition: 0.3s;
+}
+
+.mobile-navbar > div#menu > ul > a > li:active{
+    transform: scale(1.02);
+    transition: 0.3s;
+}
+
+.mobile-navbar > div#menu > ul > a > li > img{
+    width: 30px;
+    height: 30px;
+}
+.mobile-navbar > div#menu > ul.top {
+    position: relative;
+    top: 0;
+    width: 100%;
+    min-height: fit-content;
+}
+.mobile-navbar > div#menu > ul.bottom {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    min-height: fit-content;
+    vertical-align: bottom;
+}
+.mobile-navbar > div#menu > .menuSpacing {
+    width: 100%;
+    height: 20px;
+}
+.dead {
+    display: none;
+    opacity: 0;
+}
+
+@media (max-height: 400px) {
+    .mobile-navbar > div#menu > ul.bottom {
+        position: relative;
+    }
+}
+
+@media (max-width: 50em) {
+    .navbar {
+        display: none;
+    }
+    .mobile-navbar {
+        display: block;
+    }
+}

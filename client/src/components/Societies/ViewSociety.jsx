@@ -34,8 +34,7 @@ function ViewSociety() {
         style={{
           borderColor: "gray",
           borderWidth: 2,
-          marginTop: "75px",
-          marginLeft: "2px",
+          marginTop: "20px",
           marginBottom: "20px",
           borderRadius: 20,
           backgroundColor: "#abc4ff",

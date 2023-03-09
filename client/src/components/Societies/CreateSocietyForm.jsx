@@ -42,12 +42,7 @@ function CreateSocietyForm() {
   });
 
   return (
-    <div
-      style={{
-        marginTop: "75px",
-        marginLeft: "15px",
-      }}
-    >
+    <div>
       <h1>Create Society</h1>
 
       <form onSubmit={formik.handleSubmit}>

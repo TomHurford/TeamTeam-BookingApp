@@ -12,7 +12,10 @@ import '../styles/SearchBar.css'
 class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = {data: [],  query: ""}
+        this.state = {eventCardList: [],  query: ""}
+    }
+
+    componentDidMount() {
         this.fetchData();
         this.handleChange = this.handleChange.bind(this);
     }
@@ -23,13 +26,14 @@ class Home extends Component {
     
     async fetchData() {
         const events = await getEvents();
-        this.setState({data: events})
+        console.log(events);
+        this.setState({eventCardList: this.eventsCardList(events)})
     }
 
     welcome() {
         return(
         <div className="welcome" data-testid = "welcome-message">
-            <h1>Welcome to Ticketopia!</h1>
+            <h1>Perfect Tickets? Perfect Time.</h1>
         </div>
         )
     }
@@ -50,6 +54,18 @@ class Home extends Component {
             </div>
         )
 
+    }
+
+    eventsCardList(events) {
+        return (
+            <div className="events" data-testid="events-list">
+                {events.map(event => (    
+                    <div className="eventCard" key={event.id} onClick={()=>this.handleClick(event.id)} >
+                    <Event details={event.id} specificEvent = {event}/>
+                    </div>
+                ))}
+            </div>
+        );
     }
 
     render(){

@@ -1,14 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
 
-export default function PayPal() {
+export default function Paypal(props) {
   const paypal = useRef();
   const [hasRendered, setHasRendered] = useState(false);
 
   useEffect(() => {
+    var totalPrice = props.totalPrice(); 
+    console.log(hasRendered);
     if (!hasRendered) {
       window.paypal
         .Buttons({
-          createOrder: ( actions ) => {
+          createOrder: (data, actions, err) => {
+            err;
             return actions.order.create({
               intent: "CAPTURE",
               purchase_units: [
@@ -16,7 +19,7 @@ export default function PayPal() {
                   description: "Event Ticket",
                   amount: {
                     currency_code: "GBP",
-                    value: 650.0,
+                    value: totalPrice,
                   },
                 },
               ],
@@ -36,11 +39,8 @@ export default function PayPal() {
   }, [hasRendered]);
 
   return (
-    <div className='page-container'>
-        <div className='underlay'></div>
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-          <div ref={paypal} style={{ maxWidth: "500px" }}></div>
-        </div>
+    <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+      <div ref={paypal} style={{ maxWidth: "500px" }}></div>
     </div>
   );
 }

@@ -3,16 +3,16 @@ import '../../styles/Events.css';
 import '../../styles/Home.css';
 import '../../styles/TitleOfPage.css'
 import {getEventById} from "../../utils/EventsLogic"
+import TicketHolderTicket from "./TicketHolder";
 import PropTypes from 'prop-types';
 
 class EventDetails extends Component{
   constructor(props){
     super(props);
-    this.state = {data: null}
+    this.state = {data: null, tickets: null}
     this.fetchData();
   }
-
-
+  
   async fetchData() {
     const searchParams = new URLSearchParams(window.location.search);
     const eventId = parseInt(searchParams.get('eventId'));
@@ -64,19 +64,10 @@ class EventDetails extends Component{
             <h2>Tickets</h2>
             {
               event.ticket_types.map((ticketType) => {
-                return <div className="ticket"  key={ticketType.id}>
-                  <div className="ticketHeader">{ticketType.ticketType}</div>
-                  <div className="price">Price: {ticketType.price}</div>
-                  <div className="spacesBar"><div className="innerBar" data-free={ticketType.quantity}></div></div>
-                  <button name={ticketType.ticketType} className="addToCart" onClick={() => 
-                    this.props.addTicket({
-                      "name":event.event.name,
-                      "type":ticketType.ticketType,
-                      "price":ticketType.price
-                      })}>Add To Cart</button>
-                </div>
+                return <TicketHolderTicket extraChanges={(a) => {a}} key={ticketType.id} event={event} tickets={this.props.tickets} ticketType={ticketType} addTicket={this.props.addTicket} removeTicket={this.props.removeTicket}/>
               })
             }
+            <button className="addToCart" onClick={() => {window.location = '/basket'}}>Go To Basket</button>
           </div>
 
           <div className="spacer"></div>
@@ -89,7 +80,9 @@ class EventDetails extends Component{
 }
 
 EventDetails.propTypes = {
-  addTicket: PropTypes.func
+  addTicket: PropTypes.func,
+  tickets: PropTypes.object,
+  removeTicket: PropTypes.func
 };
 
 export default EventDetails;

@@ -12,9 +12,10 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.4);
     background-color: rgba(255, 255, 255, 0.6);
     border-radius: 5px;
-    box-shadow: 2px 2px 4px black;
+    box-shadow: 2px 2px 2px #0005;
     cursor: pointer;
     position: relative;
+    overflow: hidden;
 }
 @media (max-width: 1050px) {
     .eventCard {
@@ -39,7 +40,7 @@
     left: 0;
 }
 .innerEventCard > .imageCard {
-    height: calc( 100% - 1.5em );
+    height: 100%;
     width: 100%;
     position: absolute;
     top: 0;
@@ -81,6 +82,21 @@
     left: 0;
     background-color: #000000a5;
 }
+.innerEventCard > .imageCard > .hiddenUntilHover > .societyName {
+    font-size: 0.7em;
+    line-height: 1em;
+    position: relative;
+    width: 100%;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    color: #f5f5f599;
+    text-shadow: 1px 1px 1px #000;
+    max-height: 4.4em;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow: hidden;
+    padding-bottom: 0.5em;
+}
 .innerEventCard > .imageCard > .hiddenUntilHover > .eventDesc {
     font-size: 0.8em;
     line-height: 1.1em;
@@ -100,33 +116,12 @@
     font-size: 0.8em;
     line-height: 1.1em;
     position: absolute;
-    bottom: 0;
-    width: 100%;
-    padding-left: 0.5em;
-    padding-right: 0.5em;
+    bottom: 0.5em;
+    width: calc( 100% - 0.5em );
+    margin-right: 0.5em;
     color: #f5f5f5;
     text-shadow: 1px 1px 1px #000;
     text-align: right;
 }
-.innerEventCard > .society {
-    height: 1.5em;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    padding: 0.25em;
-}
-.innerEventCard > .society > .societyName {
-    font-size: 1em;
-    line-height: 1em;
-    font-weight: bold;
-}
-.innerEventCard > .society > .iconNext {
-
-}
-.innerEventCard > .society > .iconNext > .icon {
-
-}
-
-
 
 

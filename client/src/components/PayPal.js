@@ -1,14 +1,17 @@
 import React, { useRef, useState, useEffect } from "react";
 
-export default function Paypal() {
+export default function Paypal(props) {
   const paypal = useRef();
   const [hasRendered, setHasRendered] = useState(false);
 
   useEffect(() => {
+    var totalPrice = props.totalPrice(); 
+    console.log(hasRendered);
     if (!hasRendered) {
       window.paypal
         .Buttons({
           createOrder: (data, actions, err) => {
+            err;
             return actions.order.create({
               intent: "CAPTURE",
               purchase_units: [
@@ -16,7 +19,7 @@ export default function Paypal() {
                   description: "Event Ticket",
                   amount: {
                     currency_code: "GBP",
-                    value: 650.0,
+                    value: totalPrice,
                   },
                 },
               ],

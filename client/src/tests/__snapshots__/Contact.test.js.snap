@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Contact snapshot test 1`] = `
+<div
+  className="page-container"
+>
+  <div
+    className="underlay"
+  />
+  <h1
+    className="title"
+  >
+    Who are we
+  </h1>
+  <p
+    className="data"
+  >
+    we are an event booking application with the aim to help consumers have access to events avaiable 
+  </p>
+  <p
+    className="data"
+  >
+    contact email:ticketopiacontact@gmail.com
+  </p>
+</div>
+`;

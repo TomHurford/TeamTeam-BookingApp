@@ -2,6 +2,7 @@
 
 const axios = require('axios');
 //const axios = require('axios').default;
+const jwtController = require('./jwt.js');
 
 // This function gets all events from the backend
 export const getEvents = async () => {
@@ -25,4 +26,24 @@ export const getEventById = async (eventId) => {
   } catch (error) {
     return null;
   }
+}
+
+export const checkPrivileges = async () => {
+  fetch('http://localhost:5001/events/auth', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + jwtController.getToken()
+    }
+  })
+  .then(response => {
+    console.log(response);
+    if (response.status == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  })
+  .catch(error => {
+    console.log(error);
+  })
 }

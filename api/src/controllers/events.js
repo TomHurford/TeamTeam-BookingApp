@@ -266,10 +266,36 @@ async function deleteEvent(req, res) {
   }
 }
 
+async function checkPrivileges(req, res) {
+  try {
+    // Authenticate the user
+    const decoded = await auth.authenticate(req);
+
+    // Check that the user is a member of the society
+    const isMember = await prisma.committee.findMany({
+      where: {
+        userId: decoded.id,
+      },
+    });
+
+    // If the user is not a member of the society committee, return an error
+    if (isMember.length === 0) {
+      res.status(401).send({ error: "Unauthorized" });
+      return;
+    }
+
+    res.status(200).send({ message: "Authorized" });
+  } catch (err) {
+    console.log(err);
+    res.status(401).send({ token: null, error: "Unauthorized" });
+  }
+}
+
 module.exports = {
   getEvents,
   getEventById,
   createEvent,
   updateEvent,
   deleteEvent,
+  checkPrivileges,
 };

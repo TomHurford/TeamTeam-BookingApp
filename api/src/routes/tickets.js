@@ -1,7 +1,7 @@
 const express = require('express');
+/* eslint-disable-next-line */
 const router = express.Router();
 
-const {checkIsLoggedIn} = require('../utils/jwt_auth.js');
 const ticketController = require('../controllers/tickets.js');
 
 // GET /tickets

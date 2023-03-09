@@ -1,6 +1,8 @@
-// Create routers for the past events page for a user to display on the past events page for a user on the front end
+// Create routers for the past events page for a user to display on the past
+// events page for a user on the front end
 // Path: api/src/routes/past.js
 const express = require('express');
+/* eslint-disable-next-line */
 const router = express.Router();
 const purchaseController = require('../controllers/purchase.js');
 

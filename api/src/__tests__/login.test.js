@@ -14,7 +14,7 @@ beforeAll(async () => {
 beforeEach(async () => {
   const response = await request(app).post('/user/login').send({
     email: 'admin@admin.com',
-    password: 'admin',
+    password: 'admin123',
   });
   token = response.body.token;
 });
@@ -24,7 +24,7 @@ describe('Login', () => {
   test('Login with valid credentials', async () => {
     const response = await request(app).post('/user/login').send({
       email: 'admin@admin.com',
-      password: 'admin',
+      password: 'admin123',
     });
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('token');
@@ -98,7 +98,7 @@ describe('Reset', () => {
         email: 'admin@admin.com',
       },
       data: {
-        password: 'admin',
+        password: 'admin123',
       },
     });
   });
@@ -170,12 +170,29 @@ describe('Reset', () => {
 // Here I am testing the signup function from the login controller
 describe('Signup', () => {
   test('Signup with valid credentials', async () => {
-    await request(app).post('/user/signup').send({
+    const response = await request(app).post('/user/signup').send({
       name: 'admin1',
       email: 'admin1@admin.com',
-      password: 'admin1',
+      password: 'admin123',
     });
-    // expect(response.statusCode).toBe(200)
+    expect(response.statusCode).toBe(200);
+
+    const user = await prisma.user.findUnique({
+      where: {
+        email: 'admin1@admin.com',
+      },
+    });
+    // Expect the user to not be null
+    expect(user).not.toBeNull();
+    expect(user).toHaveProperty('name');
+    expect(user).toHaveProperty('email');
+    expect(user).toHaveProperty('password');
+
+    await prisma.verifications.deleteMany({
+      where: {
+        user: user,
+      },
+    });
 
     await prisma.user.delete({
       where: {

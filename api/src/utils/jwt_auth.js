@@ -2,12 +2,18 @@
 
 const jwt = require('jsonwebtoken');
 
+/**
+ * Authenticate a user using a JWT token
+ * @param {Request} req The request object
+ * @return {Promise} Promise
+ */
 async function authenticate(req) {
   // Decode the JWT token
-  // The JWT token is sent in the Authorization header, it is prefixed with 'Bearer '
+  // The JWT token is sent in the Authorization header, it is prefixed with
+  // 'Bearer '
   if (!req.headers.authorization) {
     return new Promise((resolve, reject) => {
-      reject('Unauthorized');
+      reject(new Error('Unauthorized'));
     });
   }
 
@@ -25,17 +31,22 @@ async function authenticate(req) {
     if (decoded) {
       resolve(decoded);
     } else {
-      reject('Unauthorized');
+      reject(new Error('Unauthorized'));
     }
   });
 }
 
-// Special authentication function for admin users
+/**
+ * Authenticate an admin using a JWT token
+ * @param {Request} req The request object
+ * @return {Promise} Promise
+ */
 async function authenticateAdmin(req) {
   return new Promise((resolve, reject) => {
-    // The JWT token is sent in the Authorization header, it is prefixed with 'Bearer '
+    // The JWT token is sent in the Authorization header, it is prefixed with
+    // 'Bearer '
     if (!req.headers.authorization) {
-      reject('Unauthorized');
+      reject(new Error('Unauthorized'));
     }
     const token = req.headers.authorization.split(' ')[1];
     jwt.verify(
@@ -48,7 +59,7 @@ async function authenticateAdmin(req) {
           if (decoded.admin) {
             resolve(decoded);
           } else {
-            reject('Unauthorized');
+            reject(new Error('Unauthorized'));
           }
         },
         (err) => {
@@ -58,10 +69,15 @@ async function authenticateAdmin(req) {
   });
 }
 
+/**
+ * Generate a JWT token
+ * @param {User} user User object
+ * @return {Promise} Promise
+ */
 async function generateToken(user) {
   return new Promise((resolve, reject) => {
     if (!user) {
-      reject('User not found');
+      reject(new Error('User not found'));
     }
     // If user type is 1, the user is an admin and the admin flag is set to true
     const admin = user.userType === 1;
@@ -77,9 +93,11 @@ async function generateToken(user) {
   // if (!user) {
   //     throw new Error('User not found')
   // }
-  // // If user type is 1, the user is an admin and the admin flag is set to true
+  // // If user type is 1, the user is an admin and the admin flag is set to
+  // true
   // const admin = user.type === 1
-  // const token = jwt.sign({ id: user.id, admin: admin }, process.env.TOKEN_SECRET, {
+  // const token = jwt.sign({ id: user.id, admin: admin }, process.env.
+  // TOKEN_SECRET, {
   //     expiresIn: 86400 // expires in 24 hours
   // })
   // return token

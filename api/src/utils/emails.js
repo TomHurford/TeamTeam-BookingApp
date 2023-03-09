@@ -34,7 +34,21 @@ const header = (subject) => {
 };
 const footer = '<br/><br/><footer>Ticketopia</footer>';
 
-async function mail(to = 'junkbox@ticketopia.armtech.dev', subject = 'test', body = 'test', qrYes = false, qrcodes) {
+/**
+ * Send an email
+ * @param {String} to The email address to send to
+ * @param {String} subject The subject of the email
+ * @param {String} body The body of the email
+ * @param {boolean} qrYes If there are QR codes to send
+ * @param {String} qrcodes The QR codes to send
+ */
+async function mail(
+    to = 'junkbox@ticketopia.armtech.dev',
+    subject = 'test',
+    body = 'test',
+    qrYes = false,
+    qrcodes,
+) {
   const qrattachments = [];
   // If do this it passes
   if (qrYes) {

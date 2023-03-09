@@ -107,17 +107,18 @@ const getFutureTickets = async (req, res) => {
     );
 
     // Retreive event using event id and add the event to purchase json
-    const futureTicketWithEvent = await Promise.all(futureTickets.map(async (ticket) => {
-      const event = await prisma.event.findUnique({
-        where: {
-          id: ticket.eventId,
-        },
-      });
-      return {
-        ...ticket,
-        event: event,
-      };
-    }));
+    const futureTicketWithEvent =
+      await Promise.all(futureTickets.map(async (ticket) => {
+        const event = await prisma.event.findUnique({
+          where: {
+            id: ticket.eventId,
+          },
+        });
+        return {
+          ...ticket,
+          event: event,
+        };
+      }));
     console.log('purchases: ', purchases);
 
 
@@ -138,7 +139,14 @@ const createPurchase = async (req, res) => {
     return res.status(401).send({message: 'Unauthorised'});
   }
 
-  if (req.body === undefined || req.body.status === undefined || req.body.total === undefined || req.body.method === undefined || req.body.ticket_quantities === undefined || req.body.eventId === undefined) {
+  if (
+    req.body === undefined ||
+    req.body.status === undefined ||
+    req.body.total === undefined ||
+    req.body.method === undefined ||
+    req.body.ticket_quantities === undefined ||
+    req.body.eventId === undefined
+  ) {
     return res.status(400).send({message: 'Missing Body'});
   }
 
@@ -194,8 +202,12 @@ const createPurchase = async (req, res) => {
           purchaseID: payment.id,
           ticketSecret: randomString(),
         };
-        const tickettext = Buffer.from(JSON.stringify(ticketEncode)).toString('base64');
-        tickets.push({'qrData': tickettext, 'String': ticketType.ticketType + ' ' + event.name + quantity});
+        const tickettext = Buffer.from(
+            JSON.stringify(ticketEncode)).toString('base64');
+        tickets.push({
+          'qrData': tickettext,
+          'String': ticketType.ticketType + ' ' + event.name + quantity,
+        });
 
         await prisma.ticket.create({
           data: {

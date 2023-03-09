@@ -2,6 +2,12 @@
 const prisma = require('../../prisma/prisma.js');
 const auth = require('../utils/jwt_auth.js');
 
+/**
+ * Get all tickets for a user
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ * @return {Response} response
+ */
 async function getTickets(req, res) {
   // (user token)
 
@@ -36,7 +42,8 @@ async function getTickets(req, res) {
 }
 
 /**
- * Create tickets function for a user, the request should contain a JSON object with the following properties:
+ * Create tickets function for a user, the request should contain a JSON object
+ *  with the following properties:
  * { "ticketTypeId": [ticket_type_id] }
  * { "quantity": [quantity] }
  *
@@ -44,21 +51,26 @@ async function getTickets(req, res) {
  *
  * @param {Request} req
  * @param {Response} res
- * @return response
+ * @return {Response} response
  */
 async function createTickets(req, res) {
   // (user token, ticket type ID, quantity)
-  let decoded = null;
   try {
-    decoded = await auth.authenticate(req);
+    await auth.authenticate(req);
   } catch (err) {
     return res.status(401).send({message: 'Unauthorised'});
   }
 
-  if (req.body === undefined || req.body.ticketTypeId === undefined || req.body.quantity === undefined) {
+  if (
+    req.body === undefined ||
+    req.body.ticketTypeId === undefined ||
+    req.body.quantity === undefined
+  ) {
     return res.status(400).send({message: 'Missing Body'});
   }
-  if (req.body.quantity < 1) return res.status(400).send({message: 'Invalid Quantity'});
+  if (req.body.quantity < 1) {
+    return res.status(400).send({message: 'Invalid Quantity'});
+  }
 
   ticketType = await prisma.ticketType.findFirst({
     where: {
@@ -66,7 +78,9 @@ async function createTickets(req, res) {
     },
   });
 
-  if (!ticketType) return res.status(400).send({message: 'Invalid Ticket Type'});
+  if (!ticketType) {
+    return res.status(400).send({message: 'Invalid Ticket Type'});
+  }
 
   for (let i = 0; i < req.body.quantity; i++) {
     prisma.create();
@@ -75,6 +89,12 @@ async function createTickets(req, res) {
   res.status(200).send();
 }
 
+/**
+ * Mark a ticket as used
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ * @return {Response} response
+ */
 async function useTicket(req, res) {
   let decoded = null;
 
@@ -84,7 +104,9 @@ async function useTicket(req, res) {
     return res.status(401).send({message: 'Unauthorised'});
   }
 
-  // In order for a user to mark a ticket as used, the request should come from a user who is a member of the committee of the society that the event belongs to
+  // In order for a user to mark a ticket as used, the request should come from
+  // a user who is a member of the committee of the society that the event
+  // belongs to
 
   const user = await prisma.user.findFirst({
     where: {
@@ -117,7 +139,8 @@ async function useTicket(req, res) {
 
   const committee = ticket.event.society.committee;
 
-  // For each member of the committee, check if the user is a member of the committee
+  // For each member of the committee, check if the user is a member of the
+  // committee
   let isMember = false;
 
   for (let i = 0; i < committee.length; i++) {

@@ -1,11 +1,16 @@
 // SOCIETY CONTROLLER
-const {user} = require('../../prisma/prisma.js');
 const prisma = require('../../prisma/prisma.js');
 const auth = require('../utils/jwt_auth.js');
 
-// This function is used to create a new society
+/**
+ * Sign up a new society
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ * @return {Response} The response object
+ */
 async function signup(req, res) {
-  // Check that the request body is not empty and contains the correct properties
+  // Check that the request body is not empty and contains the correct
+  // properties
   if (
     req.body === undefined ||
     req.body.name === undefined ||
@@ -67,8 +72,14 @@ async function signup(req, res) {
   res.status(200).send();
 }
 
+/**
+ * Get a list of all societies
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ */
 async function getSocieties(req, res) {
-  // Return a list of all societies, their names, number of members and an abbreviated description
+  // Return a list of all societies, their names, number of members and an
+  // abbreviated description
   const societies = await prisma.society.findMany({
     select: {
       id: true,
@@ -98,8 +109,15 @@ async function getSocieties(req, res) {
   res.status(200).send(societies);
 }
 
+/**
+ * Get a society by id
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ * @return {Response} The response object
+ */
 async function getSocietyById(req, res) {
-  // we should check if the user that made the request is a committee member of the society
+  // we should check if the user that made the request is a committee member of
+  // the society
   try {
     let committee = null;
 
@@ -175,6 +193,12 @@ async function getSocietyById(req, res) {
   }
 }
 
+/**
+ * Delete a society
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ * @return {Response} The response object
+ */
 async function deleteSociety(req, res) {
   try {
     const decoded = await auth.authenticate(req);
@@ -192,7 +216,7 @@ async function deleteSociety(req, res) {
       res.status(401).send({message: 'Unauthorized'});
       return;
     }
-    const archiveSociety = await prisma.society.update({
+    await prisma.society.update({
       where: {id: req.body.societyId},
       data: {isArchived: true},
     });
@@ -203,6 +227,12 @@ async function deleteSociety(req, res) {
   }
 }
 
+/**
+ * Update a society
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ * @return {Response} The response object
+ */
 async function updateSociety(req, res) {
   try {
     // Authenticate the user
@@ -235,7 +265,7 @@ async function updateSociety(req, res) {
 
     // Update the society
     // Only update the fields that are not empty in the request body
-    const updateSociety = await prisma.society.update({
+    await prisma.society.update({
       where: {
         id: req.body.societyId,
       },
@@ -293,7 +323,12 @@ async function updateSociety(req, res) {
   }
 }
 
-// Controller function to add a user to the committee of a society
+/**
+ * Add a committee member to a society
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ * @return {Response} The response object
+ */
 async function addCommitteeMember(req, res) {
   try {
     // Authenticate the user
@@ -341,7 +376,7 @@ async function addCommitteeMember(req, res) {
     }
 
     // Add the user to the committee
-    const addCommitteeMember = await prisma.committee.create({
+    await prisma.committee.create({
       data: {
         userId: user.id,
         societyId: req.body.societyId,
@@ -357,7 +392,12 @@ async function addCommitteeMember(req, res) {
   }
 }
 
-// Controller function to remove a user from the committee of a society
+/**
+ * Remove a committee member from a society
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ * @return {Response} The response object
+ */
 async function removeCommitteeMember(req, res) {
   try {
     // Authenticate the user
@@ -393,7 +433,7 @@ async function removeCommitteeMember(req, res) {
     }
 
     // Remove the user from the committee
-    const removeCommitteeMember = await prisma.committee.delete({
+    await prisma.committee.delete({
       where: {
         id: req.body.committeeId,
       },
@@ -406,7 +446,12 @@ async function removeCommitteeMember(req, res) {
   }
 }
 
-// Controller function to update a user's role in the committee of a society
+/**
+ * Update a committee member's role
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ * @return {Response} The response object
+ */
 async function updateCommitteeMember(req, res) {
   try {
     // Authenticate the user
@@ -442,7 +487,7 @@ async function updateCommitteeMember(req, res) {
     }
 
     // Update the user's role in the committee
-    const updateCommitteeMember = await prisma.committee.update({
+    await prisma.committee.update({
       where: {
         userId: req.body.userId,
         societyId: req.body.societyId,
@@ -463,7 +508,7 @@ async function updateCommitteeMember(req, res) {
 
     // If there are multiple presidents, set the first one to false
     if (presidents.length > 1) {
-      const updatePresident = await prisma.committee.update({
+      await prisma.committee.update({
         where: {
           userId: userId,
           societyId: req.body.societyId,

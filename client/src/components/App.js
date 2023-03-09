@@ -17,6 +17,8 @@ const jwtController = require('../utils/jwt.js');
 
 const sessionStorage = require('sessionstorage');
 
+import CreateEvents from "./CreateEvents";
+
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
@@ -170,6 +172,7 @@ function App() {
         <Route path="/create-society" element={<CreateSocietyForm />} />
         <Route path="/edit-society" element={<EditSocietyForm />} />
         <Route path="/search-events" element={<SearchEvents />} />
+        <Route path="/create-event" element={<CreateEvents />} />
       </Routes>
     </div>
   );

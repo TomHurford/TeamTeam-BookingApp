@@ -24,7 +24,7 @@ function Logout() {
             <div className='underlay'></div>
 
             <h2 className='logout'>{headerText}</h2>
-            <a className='logout' onClick={() => {window.location = '/login'}}><button className='logout'>Log In</button></a>
+            {/* <a className='logout' onClick={() => {window.location = '/login'}}><button className='logout'>Log In</button></a> */}
         </div>
     );
 }

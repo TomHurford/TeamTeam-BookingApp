@@ -1,10 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SearchSocieties snapshot test 1`] = `
-Array [
+<div
+  style={
+    Object {
+      "marginLeft": "8px",
+      "marginTop": "60px",
+    }
+  }
+>
   <h1>
     Societies
-  </h1>,
+  </h1>
   <div
     data-testid="searchbar"
   >
@@ -16,7 +23,7 @@ Array [
       type="text"
       value=""
     />
-  </div>,
+  </div>
   <div
     className="row"
   >
@@ -117,6 +124,6 @@ Array [
         </button>
       </a>
     </div>
-  </div>,
-]
+  </div>
+</div>
 `;

@@ -1,7 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`EditSocietyForm snapshot test 1`] = `
-<div>
+<div
+  style={
+    Object {
+      "marginLeft": "8px",
+      "marginTop": "60px",
+    }
+  }
+>
   <h1>
     Edit Society
   </h1>

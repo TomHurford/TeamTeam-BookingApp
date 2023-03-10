@@ -1,7 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ViewSociety snapshot test 1`] = `
-<div>
+<div
+  style={
+    Object {
+      "marginLeft": "8px",
+      "marginTop": "65px",
+    }
+  }
+>
   <div
     style={
       Object {

@@ -1,23 +1,52 @@
 import React, { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import "../styles/CreateEvents.css";
 import "../styles/TitleOfPage.css"
 const jwtController = require('../utils/jwt.js');
 
 
-
 function CreateEvents() {
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [date, setDate] = useState("");
-    const [location, setLocation] = useState("");
-    const [societyId, setSocietyId] = useState("");
-    const [time, setTime] = useState("");
-    const [ticketInfo, setTicketInfo] = useState([
-      {name: '', price: 0, quantity: 0}
-  ])
+  const formik = useFormik({
+    initialValues: {
+      title: "",
+      description: "",
+      date: "",
+      location: "",
+      societyId: "",
+      time: "",
+      ticketInfo: [
+        {name: '', price: 0, quantity: 0}
+    ]
+    },
+    validationSchema : Yup.object().shape({
+      eventName: Yup.string().required("Event title is required"),
+      eventDescription: Yup.string().required("Event description is required"),
+      eventDate: Yup.date()
+        .required("Event date is required")
+        .min(new Date(), "Event date cannot be in the past"),
+      //eventtime is not in past
+      eventTime: Yup.time().required("Event time is required").test("is-in-past", "Event time cannot be in the past", value => {
+        const eventDate = formik.values.eventDate;
+        const eventTime = value;
+        const eventDateTime = new Date(eventDate + "T" + eventTime + ":00.000Z");
+        const now = new Date();
+        return eventDateTime > now;
+      }),
+      eventLocation: Yup.string().required("Event location is required"),
+      societyId: Yup.number().min(1, "Society ID must be greater than 0").required("Society ID is required"),
+      ticketType: Yup.array().of(
+        Yup.object().shape({
+          name: Yup.string().required("Ticket name is required"),
+          price: Yup.number().min(0, "Ticket price cannot be negative").required("Ticket price is required"),
+          quantity: Yup.number().min(1, "Ticket quantity must be greater than 0").required("Ticket quantity is required"),
+        })
 
-    
-    const handleSubmit = (e) => {
+      )}),
+
+
+    onSubmit: (values) => {
+      console.log(values);
         e.preventDefault();
         const event = {
           "name": title,
@@ -48,7 +77,7 @@ function CreateEvents() {
         });
     };
 
-    const handleFieldChange = (index, event) => {
+    handleFieldChange = (index, event) => {
       var data = [...ticketInfo];
       console.log(event.target.name);
       if(event.target.name === "price" || event.target.name === "quantity"){
@@ -168,5 +197,7 @@ function CreateEvents() {
       </div>
     );
 }
+
+
 
 export default CreateEvents;

@@ -5,14 +5,18 @@ Array [
   <h1>
     Societies
   </h1>,
-  <input
-    className="form-control my-4"
-    name="query"
-    onChange={[Function]}
-    placeholder="Search for society..."
-    type="text"
-    value=""
-  />,
+  <div
+    data-testid="searchbar"
+  >
+    <input
+      className="form-control my-4"
+      name="query"
+      onChange={[Function]}
+      placeholder="Search for society..."
+      type="text"
+      value=""
+    />
+  </div>,
   <div
     className="row"
   >
@@ -78,11 +82,15 @@ Array [
         </thead>
         <tbody />
       </table>
-      <nav>
-        <ul
-          className="pagination"
-        />
-      </nav>
+      <div
+        data-testid="pagination"
+      >
+        <nav>
+          <ul
+            className="pagination"
+          />
+        </nav>
+      </div>
       <a
         href="/create-society"
         onClick={[Function]}

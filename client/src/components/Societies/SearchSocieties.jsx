@@ -71,10 +71,12 @@ class SearchSocieties extends Component {
     return (
       <React.Fragment>
         <h1>Societies</h1>
+        <div data-testid="searchbar">
         <SearchBar
           value={this.state.searchQuery}
           onChange={this.handleSearch}
         />
+        </div>
 
         <div className="row">
           <div className="col-2">
@@ -107,12 +109,14 @@ class SearchSocieties extends Component {
                 ))}
               </tbody>
             </table>
+            <div data-testid="pagination">
             <Pagination
               itemsCount={filtered.length}
               pageSize={this.state.pageSize}
               currentPage={this.state.currentPage}
               onPageChange={this.handlePageChange}
             />
+            </div>
             <Link to="/create-society">
               <button
                 className="btn btn-primary"

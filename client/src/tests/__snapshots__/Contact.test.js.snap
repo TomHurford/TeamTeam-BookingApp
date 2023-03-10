@@ -15,7 +15,123 @@ exports[`Contact snapshot test 1`] = `
   <p
     className="data"
   >
-    we are an even contact@tiketopia.armtech.dev
+    Ticketopia is...
   </p>
+  <div
+    style={
+      Object {
+        "backgroundColor": "#abc4ff",
+        "borderColor": "gray",
+        "borderRadius": 20,
+        "borderWidth": 2,
+      }
+    }
+  >
+    <h3>
+      <center>
+        Contact Us
+      </center>
+    </h3>
+    <form
+      onSubmit={[Function]}
+      style={
+        Object {
+          "marginLeft": 38,
+          "width": "95%",
+        }
+      }
+    >
+      <div
+        className="form-group"
+      >
+        <label
+          className="form-label "
+          htmlFor="customerName"
+        >
+          Your Name
+        </label>
+        <input
+          className="form-control"
+          name="customerName"
+          onBlur={[Function]}
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="form-label "
+          htmlFor="customerEmail"
+        >
+          Your Email
+        </label>
+        <input
+          className="form-control"
+          name="customerEmail"
+          onBlur={[Function]}
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="form-label "
+          htmlFor="messageSubject"
+        >
+          Subject of your query
+        </label>
+        <input
+          className="form-control"
+          name="messageSubject"
+          onBlur={[Function]}
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="form-group"
+      >
+        <label
+          className="form-label "
+          htmlFor="message"
+        >
+          Your query
+        </label>
+        <textarea
+          className="form-control"
+          cols="173"
+          id="message"
+          name="message"
+          onBlur={[Function]}
+          onChange={[Function]}
+          rows="8"
+          style={
+            Object {
+              "marginBottom": "8px",
+            }
+          }
+          type="text"
+          value=""
+        />
+      </div>
+      <button
+        className="btn btn-primary"
+        style={
+          Object {
+            "marginBottom": "8px",
+          }
+        }
+      >
+        Submit query
+      </button>
+    </form>
+  </div>
 </div>
 `;

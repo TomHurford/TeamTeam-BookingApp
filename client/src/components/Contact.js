@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/Contact.css';
+import ContactForm from './ContactForm';
 //A component for Contact page to be added
 
 function Contact(){
@@ -7,7 +8,9 @@ function Contact(){
         <div className='page-container'>
             <div className='underlay'></div>
             <h1 className='title'>Who are we</h1>
-            <p className='data'>we are an even contact@tiketopia.armtech.dev</p>
+            <p className="data">Ticketopia is...</p>
+
+        <ContactForm />
         </div>
     )
 }

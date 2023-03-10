@@ -44,12 +44,12 @@ exports[`CreateSocietyForm snapshot test 1`] = `
         id="category"
         name="category"
         onChange={[Function]}
-        value="Sports"
+        value="Other"
       >
         <option
           defaultValue={true}
         >
-          Sports
+          Other
         </option>
         <option>
           Academic
@@ -58,9 +58,27 @@ exports[`CreateSocietyForm snapshot test 1`] = `
           Social
         </option>
         <option>
-          Other
+          Sports
         </option>
       </select>
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        className="form-label "
+        htmlFor="email"
+      >
+        Society Email
+      </label>
+      <input
+        className="form-control"
+        name="email"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
     </div>
     <h5>
       Socials

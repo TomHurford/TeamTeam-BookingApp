@@ -36,7 +36,8 @@ function App() {
   };
 
   return (
-    <div>
+    <div className = "container-page">
+      <div className ="content">
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />}></Route>
@@ -63,6 +64,7 @@ function App() {
         <Route path="/create-society" element={<CreateSocietyForm />} />
         <Route path="/edit-society" element={<EditSocietyForm />} />
       </Routes>
+      </div>
       <Footer />
     </div>
   );

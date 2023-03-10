@@ -182,7 +182,7 @@ function App() {
         <Route path="/edit-society" element={<EditSocietyForm />} />
         <Route path="/search-events" element={<SearchEvents />} />
       </Routes>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

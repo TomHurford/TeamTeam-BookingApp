@@ -1,7 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-const axios = require('axios');
+import axios from "axios";
 
 function CreateSocietyForm() {
   const formik = useFormik({
@@ -42,7 +42,7 @@ function CreateSocietyForm() {
   });
 
   return (
-    <div>
+    <div style={{ marginTop: "60px", marginLeft: "8px" }}>
       <h1>Create Society</h1>
 
       <form onSubmit={formik.handleSubmit}>

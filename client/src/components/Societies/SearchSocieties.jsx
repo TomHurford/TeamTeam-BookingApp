@@ -4,7 +4,7 @@ import { paginate } from "../../utils/paginate";
 import SearchBar from "../common/Searchbar";
 import { Link } from "react-router-dom";
 import ListFilter from "../common/ListFilter";
-const axios = require('axios');
+import axios from "axios";
 
 class SearchSocieties extends Component {
   constructor(props) {
@@ -69,7 +69,7 @@ class SearchSocieties extends Component {
     const societies = paginate(filtered, currentPage, pageSize);
 
     return (
-      <React.Fragment>
+      <div style={{ marginTop: "60px", marginLeft: "8px" }}>
         <h1>Societies</h1>
         <div data-testid="searchbar">
         <SearchBar
@@ -131,7 +131,7 @@ class SearchSocieties extends Component {
             {/* TODO: Use destructuring */}
           </div>
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

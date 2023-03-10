@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-const axios = require('axios');
+import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFacebook,
@@ -29,7 +29,7 @@ function ViewSociety() {
   }, [societyId]);
 
   return (
-    <div>
+    <div style={{ marginTop: "65px", marginLeft: "8px" }}>
       <div
         style={{
           borderColor: "gray",

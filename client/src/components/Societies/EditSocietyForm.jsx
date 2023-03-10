@@ -3,7 +3,7 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import EditSocietyCommittee from "./ChangeSocietyMembers/EditSocietyCommittee";
-import '../../styles/Society.css';
+import "../../styles/Society.css";
 
 function EditSocietyForm() {
   const formik = useFormik({
@@ -37,7 +37,7 @@ function EditSocietyForm() {
   });
 
   return (
-    <div>
+    <div style={{ marginTop: "60px", marginLeft: "8px" }}>
       <h1>Edit Society</h1>
 
       <form onSubmit={formik.handleSubmit}>

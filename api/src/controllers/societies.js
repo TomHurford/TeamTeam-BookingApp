@@ -369,7 +369,9 @@ async function updateSociety(req, res) {
       console.log(updateSocietyLinks);
     }
 
-    res.status(200).send({ message: "Society Updated" });
+    // res.status(200).send({ message: "Society Updated" /*, society: updateSociety, links: updateSocietyLinks*/ });
+    // res.status(200).send({ message: "Society Updated", society: updateSociety/*, links: updateSocietyLinks*/ });
+    res.status(200).send({ message: "Society Updated"});
   } catch (err) {
     console.log(err);
     res.status(500).send({ message: "Internal Server Error" });
@@ -418,7 +420,7 @@ async function addCommitteeMember(req, res) {
       },
     });
 
-    if (isCommitteeMember) {
+    if (isCommitteeMember.length > 0) {
       res.status(400).send({ message: "User is already a committee member" });
       return;
     }
@@ -470,7 +472,7 @@ async function removeCommitteeMember(req, res) {
       },
     });
 
-    if (!isCommitteeMember) {
+    if (isCommitteeMember == 0) {
       res.status(400).send({ message: "User is not a committee member" });
       return;
     }
@@ -478,7 +480,10 @@ async function removeCommitteeMember(req, res) {
     // Remove the user from the committee
     const removeCommitteeMember = await prisma.committee.delete({
       where: {
-        id: req.body.committeeId,
+        userId_societyId: {
+          userId: req.body.userId,
+          societyId: req.body.societyId,
+        }
       },
     });
 
@@ -518,6 +523,7 @@ async function updateCommitteeMember(req, res) {
         societyId: req.body.societyId,
       },
     });
+    console.log(isCommitteeMember);
 
     if (!isCommitteeMember) {
       res.status(400).send({ message: "User is not a committee member" });
@@ -527,8 +533,10 @@ async function updateCommitteeMember(req, res) {
     // Update the user's role in the committee
     const updateCommitteeMember = await prisma.committee.update({
       where: {
-        userId: req.body.userId,
-        societyId: req.body.societyId,
+        userId_societyId: {
+          userId: req.body.userId,
+          societyId: req.body.societyId,
+        }
       },
       data: {
         role: req.body.role,

@@ -28,6 +28,7 @@ export const getEventById = async (eventId) => {
   }
 }
 
+/*
 export const checkPrivileges = async () => {
   fetch('http://localhost:5001/events/auth', {
     method: 'POST',
@@ -47,3 +48,4 @@ export const checkPrivileges = async () => {
     console.log(error);
   })
 }
+*/

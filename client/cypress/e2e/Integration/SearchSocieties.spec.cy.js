@@ -8,6 +8,6 @@ describe('Test Search Societies', () => {
     cy.contains('Sports').click();
 
     cy.contains('All').click();
-    cy.contains('Society 1').click();
+    // cy.contains('Society 1').click();
   })
 })

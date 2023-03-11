@@ -17,37 +17,32 @@ function CreateEvents() {
       time: "",
       ticketInfo: [
         {name: '', price: 0, quantity: 0}
-    ]
+    ],
+  
     },
-    validationSchema : Yup.object().shape({
-      eventName: Yup.string().required("Event title is required"),
-      eventDescription: Yup.string().required("Event description is required"),
-      eventDate: Yup.date()
+
+    validationSchema : Yup.object()({
+      title: Yup.string().required("Event title is required"),
+      description: Yup.string().required("Event description is required"),
+      date: Yup.date()
         .required("Event date is required")
         .min(new Date(), "Event date cannot be in the past"),
-      //eventtime is not in past
-      eventTime: Yup.time().required("Event time is required").test("is-in-past", "Event time cannot be in the past", value => {
-        const eventDate = formik.values.eventDate;
-        const eventTime = value;
-        const eventDateTime = new Date(eventDate + "T" + eventTime + ":00.000Z");
-        const now = new Date();
-        return eventDateTime > now;
-      }),
-      eventLocation: Yup.string().required("Event location is required"),
+      //time: Yup.time().required("Event time is required"),
+      location: Yup.string().required("Event location is required"),
       societyId: Yup.number().min(1, "Society ID must be greater than 0").required("Society ID is required"),
-      ticketType: Yup.array().of(
-        Yup.object().shape({
-          name: Yup.string().required("Ticket name is required"),
-          price: Yup.number().min(0, "Ticket price cannot be negative").required("Ticket price is required"),
-          quantity: Yup.number().min(1, "Ticket quantity must be greater than 0").required("Ticket quantity is required"),
-        })
+      // ticketType: Yup.array().of(
+      //   Yup.object().shape({
+      //     name: Yup.string().required("Ticket name is required"),
+      //     price: Yup.number().min(0, "Ticket price cannot be negative").required("Ticket price is required"),
+      //     quantity: Yup.number().min(1, "Ticket quantity must be greater than 0").required("Ticket quantity is required"),
+      //   })
 
-      )}),
+    }),
 
 
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log(values);
-        e.preventDefault();
+        //e.preventDefault();
         const event = {
           "name": title,
           "description": description,
@@ -75,7 +70,8 @@ function CreateEvents() {
         .catch((error) => {
           console.log(error);
         });
-    };
+    },
+  });
 
     handleFieldChange = (index, event) => {
       var data = [...ticketInfo];

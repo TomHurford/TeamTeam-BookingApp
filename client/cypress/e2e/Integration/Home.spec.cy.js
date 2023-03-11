@@ -10,6 +10,7 @@ describe('Home', () => {
     cy.get("div[data-testid='right10']").click()
     cy.get("div[data-testid='right10']").click()
     cy.get("div[data-testid='right10']").click()
+    cy.get("div[data-testid='left10']").click()
 
     // cy.get('[data-testid="basket-icon"]').click()
     cy.visit('/basket')

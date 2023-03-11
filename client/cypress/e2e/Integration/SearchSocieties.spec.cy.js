@@ -6,5 +6,8 @@ describe('Test Search Societies', () => {
     cy.contains('All').click();
     cy.get('div[data-testid="pagination"]').contains('2').click();
     cy.contains('Sports').click();
+
+    cy.contains('All').click();
+    cy.contains('Society 1').click();
   })
 })

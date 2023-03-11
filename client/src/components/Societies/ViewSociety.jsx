@@ -13,6 +13,7 @@ import ContactSocietyForm from "./ContactSocietyForm";
 function ViewSociety() {
   const [society, setSociety] = useState({});
   const [societyLinks, setSocietyLinks] = useState({});
+  const [events, setEvents] = useState([]);
   const { id: societyId } = useParams();
 
   useEffect(() => {
@@ -23,6 +24,8 @@ function ViewSociety() {
       .then((response) => {
         setSociety(response.data.society);
         setSocietyLinks(response.data.society.links[0]);
+        setEvents(response.data.society.events);
+        console.log(response.data.society.events);
       })
       .catch((error) => {
         console.log(error);
@@ -95,13 +98,13 @@ function ViewSociety() {
               style={{ marginLeft: "10px", marginBottom: "7px" }}
             />
           </a>
-          <h2>Events:</h2>
-          {eventsCardList(society.events)}
-          
-          <div>
-            
-          </div>
         </div>
+        
+        <div>
+          <h2>Events:</h2>
+          {eventsCardList(events)}
+        </div>
+
       </div>
 
       <ContactSocietyForm societyName={society.name} />

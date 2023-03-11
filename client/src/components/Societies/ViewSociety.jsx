@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Event from "../Events/Event";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -28,6 +29,19 @@ function ViewSociety() {
       });
   }, [societyId]);
 
+  function eventsCardList(events){
+    return (
+      <div className="events" data-testid="events-list">
+          {events.map(event => (    
+              <div className="eventCard" key={event.id} onClick={()=>this.handleClick(event.id)} >
+              <Event details={event.id} specificEvent = {event}/>
+              </div>
+          ))}
+      </div>
+    );
+  }
+
+  
   return (
     <div style={{ marginTop: "65px", marginLeft: "8px" }}>
       <div
@@ -82,6 +96,11 @@ function ViewSociety() {
             />
           </a>
           <h2>Events:</h2>
+          {eventsCardList(society.events)}
+          
+          <div>
+            
+          </div>
         </div>
       </div>
 
@@ -89,5 +108,7 @@ function ViewSociety() {
     </div>
   );
 }
+
+
 
 export default ViewSociety;

@@ -1,203 +1,207 @@
-import React, { useState } from "react";
-import { useFormik } from "formik";
+import React from "react";
+import { Formik, FieldArray, Field } from "formik";
 import * as Yup from "yup";
-import "../styles/CreateEvents.css";
-import "../styles/TitleOfPage.css"
-const jwtController = require('../utils/jwt.js');
-
 
 function CreateEvents() {
-  const formik = useFormik({
-    initialValues: {
-      title: "",
-      description: "",
-      date: "",
-      location: "",
-      societyId: "",
-      time: "",
-      ticketInfo: [
-        {name: '', price: 0, quantity: 0}
-    ]
-    },
-    validationSchema : Yup.object().shape({
-      eventName: Yup.string().required("Event title is required"),
-      eventDescription: Yup.string().required("Event description is required"),
-      eventDate: Yup.date()
-        .required("Event date is required")
-        .min(new Date(), "Event date cannot be in the past"),
-      //eventtime is not in past
-      eventTime: Yup.time().required("Event time is required").test("is-in-past", "Event time cannot be in the past", value => {
-        const eventDate = formik.values.eventDate;
-        const eventTime = value;
-        const eventDateTime = new Date(eventDate + "T" + eventTime + ":00.000Z");
-        const now = new Date();
-        return eventDateTime > now;
-      }),
-      eventLocation: Yup.string().required("Event location is required"),
-      societyId: Yup.number().min(1, "Society ID must be greater than 0").required("Society ID is required"),
-      ticketType: Yup.array().of(
-        Yup.object().shape({
-          name: Yup.string().required("Ticket name is required"),
-          price: Yup.number().min(0, "Ticket price cannot be negative").required("Ticket price is required"),
-          quantity: Yup.number().min(1, "Ticket quantity must be greater than 0").required("Ticket quantity is required"),
-        })
-
-      )}),
-
-
-    onSubmit: (values) => {
-      console.log(values);
-        e.preventDefault();
-        const event = {
-          "name": title,
-          "description": description,
-          "date": date + "T" + time + ":00.000Z",
-          "location": location,
-          "societyId": parseInt(societyId),
-          "ticketType": ticketInfo
-        };
-        console.log(jwtController.getToken());
-        console.log(JSON.stringify(event));
-        fetch("http://localhost:5001/events/create", {
-          method: "POST",
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + jwtController.getToken()
-          },
-          body: JSON.stringify(event)
-        })
-        .then((response) => {
-          response.json().then((data) => {
-            const event = data.event;
-            window.location.href = '/event-details?eventId=' + event.id;
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-
-    handleFieldChange = (index, event) => {
-      var data = [...ticketInfo];
-      console.log(event.target.name);
-      if(event.target.name === "price" || event.target.name === "quantity"){
-        data[index][event.target.name] = parseInt(event.target.value);
-        setTicketInfo(data);
-        return;
-      }
-      data[index][event.target.name] = event.target.value;
-      setTicketInfo(data);
-    }
-
-    const addRow = () => {
-      var newInfo = {name: '', price: 0, quantity: 0 }
-      setTicketInfo([...ticketInfo, newInfo])
-
-    }
-
-    const removeRow = (index) => {
-      var data = [...ticketInfo];
-      data.splice(index, 1);
-      setTicketInfo(data);
-    }
-    
-    return (
-      <div className="page-container">
-        <div className="create">
-        <h2>Create Event</h2>
-        <form onSubmit={handleSubmit} >
-            <label>Event Title:</label>
-            <input
-            name = "eventName"
-            type="text"
-            required
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            />
-            <label>Event Description:</label>
-            <textarea
-            name= "eventDescription"
-            required
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            ></textarea>
-            <label>Event Date:</label>
-            <input
-            name="eventDate"
-            type="date"
-            required
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            />
-            <label>Event Time:</label>
-            <input
-            name="eventTime"
-            type="time"
-            required
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
-            />
-            <label>Event Location:</label>
-            <input
-            name="eventLocation"
-            type="text"
-            required
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            />
-
-            <label>Society ID:</label>
-            <input
-            name="societyId"
-            type="number"
-            required
-            value={societyId}
-            onChange={(e) => setSocietyId(e.target.value)}
-            />
-          <div>
-            {ticketInfo.map((input, index) => {
-              return(
-              <div key={index}>
-                <label>Ticket Name:</label>
-                <input
-                name="name"
-                data-testid= {"ticketName" + index}
+  return (
+    <div style={{ marginTop: "60px", marginLeft: "8px" }}>
+      <h1>Create Events</h1>
+      <Formik
+        initialValues={{
+          eventName: "",
+          description: "",
+          date: "",
+          location: "",
+          societyId: "",
+          time: "",
+          ticketInfo: [{ ticketName: "", price: "", quantity: "" }],
+        }}
+        validationSchema={Yup.object({
+          eventName: Yup.string().required("Event name is required"),
+          description: Yup.string()
+            .min(30, "Event description must be at least 30 characters.")
+            .required("Event description is required"),
+          date: Yup.date().required("Event date is required"),
+          location: Yup.string().required("Event location is required"),
+          societyId: Yup.string().required("Society ID is required"),
+          time: Yup.string().required("Event time is required"),
+          ticketInfo: Yup.array().of(
+            Yup.object({
+              ticketName: Yup.string().required("Ticket name is required"),
+              price: Yup.number().required("Ticket price is required"),
+              quantity: Yup.number().required("Ticket quantity is required"),
+            })
+          ),
+        })}
+        onSubmit={(value) => {
+          console.log(value);
+        }}
+      >
+        {(formikProps) => (
+          <form onSubmit={formikProps.handleSubmit}>
+            <div className="form-group">
+              <label
+                className={`form-label ${
+                  formikProps.eventName && formikProps.errors.eventName
+                    ? " text-danger"
+                    : ""
+                }`}
+                htmlFor="eventName"
+              >
+                Event Name:
+              </label>
+              <input
+                name="eventName"
+                value={formikProps.values.eventName}
+                onChange={formikProps.handleChange}
                 type="text"
-                required
-                value={input.name}
-                onChange={event => handleFieldChange(index, event)}
-                />
-                <label>Ticket Price:</label>
-                <input
-                name="price"
-                data-testid= {"ticketPrice" + index}
-                type="number"
-                required
-                value={input.price}
-                onChange={event => handleFieldChange(index, event)}
-                />
-                <label>Ticket Quantity:</label>
-                <input
-                name="quantity"
-                data-testid= {"ticketQuantity" + index}
-                type="number"
-                required
-                value={input.quantity}
-                onChange={event => handleFieldChange(index, event)}
-                />
-                <button data-testid={"removeRow" + index} onClick={() => removeRow(index)}>Remove</button>
-              </div>
-              )
-            })}
-            <button type="button" data-testid="addMore" onClick={addRow} >Add More</button> 
-          </div>
-            <button type="submit">Add Event</button>
-        </form>
-        </div>
-      </div>
-    );
+                className="form-control"
+                onBlur={formikProps.handleBlur}
+              />
+            </div>
+            <div className="form-group">
+              <label>Event Description:</label>
+              <textarea
+                name="description"
+                value={formikProps.values.description}
+                onChange={formikProps.handleChange}
+                type="text"
+                className="form-control"
+              ></textarea>
+            </div>
+            <div className="form-group">
+              <label>Event Date:</label>
+              <input
+                name="date"
+                value={formikProps.values.date}
+                onChange={formikProps.handleChange}
+                type="date"
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label>Event Time:</label>
+              <input
+                name="time"
+                value={formikProps.values.time}
+                onChange={formikProps.handleChange}
+                type="time"
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label>Event Location:</label>
+              <input
+                name="location"
+                value={formikProps.values.location}
+                onChange={formikProps.handleChange}
+                type="text"
+                className="form-control"
+              />
+            </div>
+            <div className="form-group">
+              <label>Society ID:</label>
+              <input
+                name="societyId"
+                value={formikProps.values.societyId}
+                onChange={formikProps.handleChange}
+                type="text"
+                className="form-control"
+              />
+            </div>
+
+            <FieldArray name="ticketInfo">
+              {(fieldArrayProps) => (
+                <>
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        fieldArrayProps.push({
+                          ticketName: "",
+                          price: "",
+                          quantity: "",
+                        })
+                      }
+                      className="btn btn-primary"
+                      style={{ marginTop: "15px" }}
+                    >
+                      Add Ticket Type
+                    </button>
+                  </div>
+
+                  {formikProps.values.ticketInfo.map((ticket, index) => (
+                    <div key={`ticketInfo.${index}.ticketName`}>
+                      <Field name={`ticketInfo.${index}.ticketName`}>
+                        {(fieldProps) => (
+                          <div className="form-group">
+                            <label>Ticket Type Name:</label>
+                            <input
+                              name="ticketName"
+                              onChange={formikProps.handleChange}
+                              type="text"
+                              className="form-control"
+                              {...fieldProps.field}
+                            ></input>
+                          </div>
+                        )}
+                      </Field>
+
+                      <Field name={`ticketInfo.${index}.price`}>
+                        {(fieldProps) => (
+                          <div className="form-group">
+                            <label>Ticket Price:</label>
+                            <input
+                              name="price"
+                              onChange={formikProps.handleChange}
+                              type="number"
+                              className="form-control"
+                              {...fieldProps.field}
+                            ></input>
+                          </div>
+                        )}
+                      </Field>
+
+                      <Field name={`ticketInfo.${index}.quantity`}>
+                        {(fieldProps) => (
+                          <div className="form-group">
+                            <label>Ticket Quantity Available:</label>
+                            <input
+                              name="quantity"
+                              onChange={formikProps.handleChange}
+                              type="number"
+                              className="form-control"
+                              {...fieldProps.field}
+                            ></input>
+
+                            <button
+                              type="button"
+                              onClick={() => fieldArrayProps.remove(index)}
+                              className="btn btn-danger"
+                              style={{ marginTop: "15px" }}
+                            >
+                              Remove Ticket Type
+                            </button>
+                          </div>
+                        )}
+                      </Field>
+                    </div>
+                  ))}
+                </>
+              )}
+            </FieldArray>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{ marginTop: "15px" }}
+            >
+              Create Event
+            </button>
+          </form>
+        )}
+      </Formik>
+    </div>
+  );
 }
-
-
 
 export default CreateEvents;

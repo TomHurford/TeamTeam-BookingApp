@@ -42,41 +42,43 @@ describe('Login', () => {
       cy.get('button[name="loginbutton"]').click();
     })
   })
-  describe('Test Sign Up', () => {
+  // describe('Test Sign Up', () => {
+    // cy.wait(1000)
     it('Sign Up form can be filled', () => {
+      // cy.wait(1000)
       cy.visit('/login');
       cy.contains('Not A User? Sign Up').click();
       cy.get('input[name="signupName"]').type('John Doe')
       cy.get('input[name="signupName"]').should('have.value','John Doe')
-      cy.get('input[name="signup-email"]').type('john.doe@kcl.ac.uk')
-      cy.get('input[name="signup-email"]').should('have.value','john.doe@kcl.ac.uk')
-      cy.get('input[name="signup-password"]').type('password')
-      cy.get('input[name="signup-password"]').should('have.value','password')
-      cy.get('input[name="signup-confirmPassword"]').type('password')
-      cy.get('input[name="signup-confirmPassword"]').should('have.value','password')
+      cy.get('input[name="signupEmail"]').type('john.doe@kcl.ac.uk')
+      cy.get('input[name="signupEmail"]').should('have.value','john.doe@kcl.ac.uk')
+      cy.get('input[name="signupPassword"]').type('password')
+      cy.get('input[name="signupPassword"]').should('have.value','password')
+      cy.get('input[name="signupConfirmPassword"]').type('password')
+      cy.get('input[name="signupConfirmPassword"]').should('have.value','password')
     })
     it('Sign Up form submits', () => {
       cy.visit('/login');
       cy.contains('Not A User? Sign Up').click();
       cy.get('input[name="signupName"]').type('John Doe')
-      cy.get('input[name="signup-email"]').type('john.doe@kcl.ac.uk')
-      cy.get('input[name="signup-password"]').type('password')
-      cy.get('input[name="signup-confirmPassword"]').type('password')
+      cy.get('input[name="signupEmail"]').type('john.doe@kcl.ac.uk')
+      cy.get('input[name="signupPassword"]').type('password')
+      cy.get('input[name="signupConfirmPassword"]').type('password')
       cy.get('button[name="signup-button"]').click();
     })
-  })
-  describe('Test Forgot Password', () => {
+  // })
+  // describe('Test Forgot Password', () => {
     it('Forgot Password form can be filled', () => {
       cy.visit('/login');
       cy.contains('Forgot Your Password?').click();
-      cy.get('input[name="forgot-email"]').type('john.doe@kcl.ac.uk')
-      cy.get('input[name="forgot-email"]').should('have.value','john.doe@kcl.ac.uk')
+      cy.get('input[name="forgotEmail"]').type('john.doe@kcl.ac.uk')
+      cy.get('input[name="forgotEmail"]').should('have.value','john.doe@kcl.ac.uk')
     })
     it('Forgot Password form submits', () => {
       cy.visit('/login');
       cy.contains('Forgot Your Password?').click();
-      cy.get('input[name="forgot-email"]').type('john.doe@kcl.ac.uk')
+      cy.get('input[name="forgotEmail"]').type('john.doe@kcl.ac.uk')
       cy.get('button[name="forgot-button"]').click();
     })
-  })
+  // })
 })

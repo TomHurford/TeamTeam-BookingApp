@@ -12,11 +12,12 @@ class Home extends Component {
     constructor(props) {
         super(props);
         this.state = {eventCardList: [], data: [],  query: ""}
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
         this.fetchData();
-        this.handleChange = this.handleChange.bind(this);
+        // this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(event) {

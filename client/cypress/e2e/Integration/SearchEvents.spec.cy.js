@@ -14,7 +14,7 @@ describe('Test Search Events', () => {
     // cy.get('[data-testid="search-bar"]').type('Event 1').trigger('keydown', { keyCode: 13, which: 13 });
     // cy.get('[data-testid="search-bar"]').type('Event 1');
     // cy.get('[data-testid="search-bar"]').type('Event',{force:true}).trigger('keydown', { keyCode: 13, which: 13, force: true})
-    cy.get('[data-testid="search-bar"]').type('Event 1').wait(1000).trigger('keydown', { keyCode: 13, which: 13 });
+    cy.get('[data-testid="search-bar"]').type('Event 1',{force:true}).wait(1000).trigger('keydown', { keyCode: 13, which: 13 });
     cy.url().should('include', '?name=Event%201');
   })
 })

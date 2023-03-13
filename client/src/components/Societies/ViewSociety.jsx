@@ -32,7 +32,7 @@ function ViewSociety() {
       });
   }, [societyId]);
 
-  const handleClick = (eventId) => {
+  function societyEventClick(eventId){
     window.location.href = '/event-details?eventId=' + eventId;
   }
 
@@ -40,15 +40,15 @@ function ViewSociety() {
     return (
       <div className="events" data-testid="events-list">
           {events.map(event => (    
-              <div data-testid={"event" + event.id} className="eventCard" key={event.id} onClick={()=>handleClick(event.id)} >
+              <div data-testid={"event" + event.id} className="eventCard" key={event.id} onClick={()=> societyEventClick(event.id)} >
               <Event details={event.id} specificEvent = {event}/>
               </div>
           ))}
       </div>
     );
+
   }
 
-  
   return (
     <div style={{ marginTop: "65px", marginLeft: "8px" }}>
       <div

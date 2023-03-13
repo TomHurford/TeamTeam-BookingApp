@@ -29,9 +29,7 @@ exports[`Event snapshot test 1`] = `
       />
       <div
         className="societyName"
-      >
-        Society Name
-      </div>
+      />
       <div
         className="eventDesc"
       />

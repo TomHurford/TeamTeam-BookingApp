@@ -4,18 +4,25 @@ exports[`SearchEvents snapshot test 1`] = `
 <div
   className="page-container"
 >
-  <input
-    className="searchBar"
-    data-testid="search-bar"
-    onChange={[Function]}
-    onKeyDown={[Function]}
-    placeholder="Search for events..."
-    type="text"
-    value=""
+  <div
+    className="underlay"
   />
   <div
-    className="events"
-    data-testid="events-list"
-  />
+    className="title"
+  >
+    <input
+      className="searchBar"
+      data-testid="search-bar"
+      onChange={[Function]}
+      onKeyDown={[Function]}
+      placeholder="Search for events..."
+      type="text"
+      value=""
+    />
+    <div
+      className="events"
+      data-testid="events-list"
+    />
+  </div>
 </div>
 `;

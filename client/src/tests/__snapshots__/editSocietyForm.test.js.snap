@@ -15,56 +15,89 @@ exports[`EditSocietyForm snapshot test 1`] = `
   <form
     onSubmit={[Function]}
   >
-    <fieldset
-      disabled={true}
+    <div
+      className="form-group"
     >
-      <div
-        className="form-group"
+      <label
+        className="form-label"
+        htmlFor="societyName"
       >
-        <label
-          className="form-label"
-          htmlFor="societyName"
-        >
-          Society Name
-        </label>
-        <input
-          className="form-control"
-          name="societyName"
-          onChange={[Function]}
-          type="text"
-          value=""
+        Society Name
+      </label>
+      <input
+        className="form-control"
+        name="societyName"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label>
+        Select a category
+      </label>
+      <select
+        className="form-select"
+        id="category"
+        name="category"
+        onChange={[Function]}
+        value=""
+      >
+        <option
+          defaultValue={true}
         />
-      </div>
-      <div
-        className="form-group"
+        <option>
+          Academic
+        </option>
+        <option>
+          Social
+        </option>
+        <option>
+          Other
+        </option>
+        <option>
+          Sports
+        </option>
+      </select>
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        className="form-label "
+        htmlFor="societyId"
       >
-        <label>
-          Select a category
-        </label>
-        <select
-          className="form-select"
-          id="category"
-          name="category"
-          onChange={[Function]}
-          value="Sports"
-        >
-          <option
-            defaultValue={true}
-          >
-            Sports
-          </option>
-          <option>
-            Academic
-          </option>
-          <option>
-            Social
-          </option>
-          <option>
-            Other
-          </option>
-        </select>
-      </div>
-    </fieldset>
+        Society ID
+      </label>
+      <input
+        className="form-control"
+        name="societyId"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="number"
+        value={0}
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        className="form-label "
+        htmlFor="societyEmail"
+      >
+        Society Email
+      </label>
+      <input
+        className="form-control"
+        name="societyEmail"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
     <h5>
       Socials
     </h5>

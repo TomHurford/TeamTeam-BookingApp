@@ -298,8 +298,9 @@ async function updateSociety(req, res) {
         societyId: req.body.societyId,
       },
     });
+    console.log(committee);
 
-    if (!committee) {
+    if (committee.length === 0) {
       res.status(401).send({ message: "Unauthorized" });
       return;
     }
@@ -311,7 +312,7 @@ async function updateSociety(req, res) {
       },
     });
 
-    if (!society) {
+    if (society.length === 0) {
       res.status(404).send({ message: "Society Not Found" });
       return;
     }
@@ -395,7 +396,7 @@ async function addCommitteeMember(req, res) {
       },
     });
 
-    if (!committee) {
+    if (committee.length === 0) {
       res.status(401).send({ message: "Unauthorized" });
       return;
     }
@@ -459,7 +460,7 @@ async function removeCommitteeMember(req, res) {
       },
     });
 
-    if (!committee) {
+    if (committee.length === 0) {
       res.status(401).send({ message: "Unauthorized" });
       return;
     }
@@ -511,7 +512,7 @@ async function updateCommitteeMember(req, res) {
       },
     });
 
-    if (!committee) {
+    if (committee.length === 0) {
       res.status(401).send({ message: "Unauthorized" });
       return;
     }
@@ -525,7 +526,7 @@ async function updateCommitteeMember(req, res) {
     });
     console.log(isCommitteeMember);
 
-    if (!isCommitteeMember) {
+    if (isCommitteeMember.length == 0) {
       res.status(400).send({ message: "User is not a committee member" });
       return;
     }

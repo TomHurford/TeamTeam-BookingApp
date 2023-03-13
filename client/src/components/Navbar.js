@@ -43,6 +43,7 @@ function Navbar(props) {
                     <Link to = "/basket"><li><img src = {basket} alt = "Basket"></img></li></Link>
                     <Link to = "/logout"><li>Logout</li></Link>
                     <Link to = "/tickets"><li>Tickets</li></Link>
+                    <Link to = "/create-event"><li>Create Event</li></Link>
                 </ul> : 
                 <ul className='right'>
                     <Link to = "/basket"><li><img src = {basket} alt = "Basket"></img></li></Link>

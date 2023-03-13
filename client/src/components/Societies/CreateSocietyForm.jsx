@@ -30,14 +30,14 @@ function CreateSocietyForm() {
       banner: Yup.string().url("Must be a valid URL"),
     }),
 
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
       console.log(values);
 
-      await axios
-        .post("http://localhost:5001/societies/signup", values)
-        .then((res) => {
-          console.log(res);
-        });
+      // await axios
+      //   .post("http://localhost:5001/societies/signup", values)
+      //   .then((res) => {
+      //     console.log(res);
+      //   });
     },
   });
 
@@ -256,7 +256,7 @@ function CreateSocietyForm() {
           ></textarea>
         </div>
 
-        <button className="btn btn-primary">Create Society</button>
+        <button className="btn btn-primary" type="submit">Create Society</button>
       </form>
     </div>
   );

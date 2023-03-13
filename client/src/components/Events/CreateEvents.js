@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik, FieldArray, Field } from "formik";
+import { Formik, FieldArray, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 function CreateEvents() {
@@ -228,20 +228,7 @@ function CreateEvents() {
                       <Field name={`ticketInfo.${index}.ticketName`}>
                         {(fieldProps) => (
                           <div className="form-group">
-                            <label
-                              className={`form-label ${
-                                formikProps.errors.ticketName &&
-                                formikProps.touched.ticketName
-                                  ? " text-danger"
-                                  : ""
-                              }`}
-                              htmlFor="ticketName"
-                            >
-                              {formikProps.touched.ticketName &&
-                              formikProps.errors.ticketName
-                                ? formikProps.errors.ticketName
-                                : "Ticket Type Name"}
-                            </label>
+                            <label>Ticket Type Name</label>
                             <input
                               name="ticketName"
                               onChange={formikProps.handleChange}
@@ -254,6 +241,12 @@ function CreateEvents() {
                         )}
                       </Field>
 
+                      <ErrorMessage name={`ticketInfo.${index}.ticketName`}>
+                        {(errorMsg) => (
+                          <div className="text-danger">{errorMsg}</div>
+                        )}
+                      </ErrorMessage>
+
                       <Field name={`ticketInfo.${index}.price`}>
                         {(fieldProps) => (
                           <div className="form-group">
@@ -261,7 +254,7 @@ function CreateEvents() {
                               className={`form-label ${
                                 formikProps.errors.price &&
                                 formikProps.touched.price
-                                  ? " text-danger"
+                                  ? "text-danger"
                                   : ""
                               }`}
                               htmlFor="price"
@@ -283,6 +276,12 @@ function CreateEvents() {
                         )}
                       </Field>
 
+                      <ErrorMessage name={`ticketInfo.${index}.price`}>
+                        {(errorMsg) => (
+                          <div className="text-danger">{errorMsg}</div>
+                        )}
+                      </ErrorMessage>
+
                       <Field name={`ticketInfo.${index}.quantity`}>
                         {(fieldProps) => (
                           <div className="form-group">
@@ -290,7 +289,7 @@ function CreateEvents() {
                               className={`form-label ${
                                 formikProps.errors.quantity &&
                                 formikProps.touched.quantity
-                                  ? " text-danger"
+                                  ? "text-danger"
                                   : ""
                               }`}
                               htmlFor="quantity"
@@ -308,6 +307,12 @@ function CreateEvents() {
                               onBlur={formikProps.handleBlur}
                               {...fieldProps.field}
                             ></input>
+
+                            <ErrorMessage name={`ticketInfo.${index}.quantity`}>
+                              {(errorMsg) => (
+                                <div className="text-danger">{errorMsg}</div>
+                              )}
+                            </ErrorMessage>
 
                             <button
                               type="button"

@@ -15,9 +15,7 @@ import Logout from "./Logout";
 const jwtController = require("../utils/jwt.js");
 
 const sessionStorage = require("sessionstorage");
-
-import CreateEvents3 from "./CreateEvents3";
-
+import CreateEvents from "./Events/CreateEvents";
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
 function App() {
@@ -171,11 +169,11 @@ function App() {
           }
         ></Route>
 
-        <Route path="/societies/:id/:name?" element={<ViewSociety />} />
+        <Route path="/society/:id" element={<ViewSociety />} />
         <Route path="/societies" element={<SearchSocieties />} />
         <Route path="/create-society" element={<CreateSocietyForm />} />
         <Route path="/edit-society" element={<EditSocietyForm />} />
-        <Route path="/create-event" element={<CreateEvents3 />} />
+        <Route path="/create-event" element={<CreateEvents />} />
       </Routes>
     </div>
   );

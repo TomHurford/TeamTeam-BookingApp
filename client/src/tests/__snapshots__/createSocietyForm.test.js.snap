@@ -2,209 +2,235 @@
 
 exports[`CreateSocietyForm snapshot test 1`] = `
 <div
-  className="page-container"
+  style={
+    Object {
+      "marginLeft": "8px",
+      "marginTop": "60px",
+    }
+  }
 >
-  <div
-    className="underlay"
-  />
-  <div
-    className="societyPage-container"
+  <h1>
+    Create Society
+  </h1>
+  <form
+    onSubmit={[Function]}
   >
-    <h1>
-      Create Society
-    </h1>
-    <form
-      onSubmit={[Function]}
+    <div
+      className="form-group"
     >
-      <div
-        className="form-group"
+      <label
+        className="form-label "
+        htmlFor="societyName"
       >
-        <label
-          htmlFor="props.name"
-        >
-          Society Name
-        </label>
-        <input
-          autoFocus={true}
-          className="form-control"
-          id="societyName"
-          onChange=" "
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group"
+        Society Name
+      </label>
+      <input
+        className="form-control"
+        name="societyName"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label>
+        Select a category
+      </label>
+      <select
+        className="form-select"
+        id="category"
+        name="category"
+        onChange={[Function]}
+        value="Other"
       >
-        <label
-          htmlFor="categorySelect"
+        <option
+          defaultValue={true}
         >
-          Select a category
-        </label>
-        <select
-          className="form-select"
-          id="categorySelect"
-        >
-          <option
-            defaultValue={true}
-            value="1"
-          >
-            Sport
-          </option>
-          <option
-            value="2"
-          >
-            Social
-          </option>
-          <option
-            value="3"
-          >
-            Academic
-          </option>
-        </select>
-      </div>
-      <h5>
-        Socials
-      </h5>
-      <div
-        className="form-group"
+          Other
+        </option>
+        <option>
+          Academic
+        </option>
+        <option>
+          Social
+        </option>
+        <option>
+          Sports
+        </option>
+      </select>
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        className="form-label "
+        htmlFor="email"
       >
-        <label
-          htmlFor="props.name"
-        >
-          Website
-        </label>
-        <input
-          autoFocus={true}
-          className="form-control"
-          id="website"
-          onChange=" "
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group"
+        Society Email
+      </label>
+      <input
+        className="form-control"
+        name="email"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <h5>
+      Socials
+    </h5>
+    <div
+      className="form-group"
+    >
+      <label
+        className="form-label "
+        htmlFor="website"
       >
-        <label
-          htmlFor="props.name"
-        >
-          Instagram
-        </label>
-        <input
-          autoFocus={true}
-          className="form-control"
-          id="instagram"
-          onChange=" "
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group"
+        Website
+      </label>
+      <input
+        className="form-control"
+        name="website"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        className="form-label "
+        htmlFor="instagram"
       >
-        <label
-          htmlFor="props.name"
-        >
-          Twitter
-        </label>
-        <input
-          autoFocus={true}
-          className="form-control"
-          id="twitter"
-          onChange=" "
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group"
+        Instagram
+      </label>
+      <input
+        className="form-control"
+        name="instagram"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        className="form-label "
+        htmlFor="twitter"
       >
-        <label
-          htmlFor="props.name"
-        >
-          Facebook
-        </label>
-        <input
-          autoFocus={true}
-          className="form-control"
-          id="facebook"
-          onChange=" "
-          type="text"
-          value=""
-        />
-      </div>
-      <h5>
-        Images
-      </h5>
-      <small
-        className="form-text text-muted"
-        id="imageHelp"
+        Twitter
+      </label>
+      <input
+        className="form-control"
+        name="twitter"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        className="form-label "
+        htmlFor="facebook"
       >
-        You must enter a link to the images
-      </small>
-      <div
-        className="form-group"
+        Facebook
+      </label>
+      <input
+        className="form-control"
+        name="facebook"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <h5>
+      Images
+    </h5>
+    <small
+      className="form-text text-muted"
+      id="imageHelp"
+    >
+      You must enter a link to the images
+    </small>
+    <div
+      className="form-group"
+    >
+      <label
+        className="form-label "
+        htmlFor="logo"
       >
-        <label
-          htmlFor="props.name"
-        >
-          Logo
-        </label>
-        <input
-          autoFocus={true}
-          className="form-control"
-          id="logo"
-          onChange=" "
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group"
+        Society Logo
+      </label>
+      <input
+        className="form-control"
+        name="logo"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        className="form-label "
+        htmlFor="banner"
       >
-        <label
-          htmlFor="props.name"
-        >
-          Banner
-        </label>
-        <input
-          autoFocus={true}
-          className="form-control"
-          id="banner"
-          onChange="  "
-          type="text"
-          value=""
-        />
-      </div>
-      <div
-        className="form-group"
+        Society Banner
+      </label>
+      <input
+        className="form-control"
+        name="banner"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        className="form-label "
+        htmlFor="description"
       >
-        <label
-          htmlFor=""
-        >
-          Society Description
-        </label>
-        <textarea
-          className="form-control"
-          cols="173"
-          id="societyDescription"
-          name="societyDescription"
-          rows="8"
-          style={
-            Object {
-              "marginBottom": "8px",
-            }
+        Society Description
+      </label>
+      <textarea
+        className="form-control"
+        cols="173"
+        id="description"
+        name="description"
+        onBlur={[Function]}
+        onChange={[Function]}
+        rows="8"
+        style={
+          Object {
+            "marginBottom": "8px",
           }
-        />
-      </div>
-      <button
-        className="btn btn-primary"
-        name="create-society-button"
-      >
-        Create Society
-      </button>
-    </form>
-  </div>
+        }
+        type="text"
+        value=""
+      />
+    </div>
+    <button
+      className="btn btn-primary"
+    >
+      Create Society
+    </button>
+  </form>
 </div>
 `;

@@ -4,7 +4,7 @@ import { paginate } from "../../utils/paginate";
 import SearchBar from "../common/Searchbar";
 import { Link } from "react-router-dom";
 import ListFilter from "../common/ListFilter";
-const axios = require('axios');
+import axios from "axios";
 
 class SearchSocieties extends Component {
   constructor(props) {
@@ -69,65 +69,60 @@ class SearchSocieties extends Component {
     const societies = paginate(filtered, currentPage, pageSize);
 
     return (
-      <React.Fragment>
-        <h1>Societies</h1>
-        <SearchBar
-          value={this.state.searchQuery}
-          onChange={this.handleSearch}
-        />
+      <div className="page-container">
+        <div className="underlay"></div>
+        <div className="searchSocietiesPage-container">
+          <h1>Societies</h1>
+          <div data-testid="searchbar">
+          <SearchBar
+            value={this.state.searchQuery}
+            onChange={this.handleSearch}
+          />
+          </div>
+          <ListFilter
+            categories={["All", "Sports", "Academic", "Social", "Other"]}
+            selectedCategory={this.state.selectedCategory}
+            onCategorySelect={this.handleCategorySelect}
+          />
 
-        <div className="row">
-          <div className="col-2">
-            <ListFilter
-              categories={["All", "Sports", "Academic", "Social", "Other"]}
-              selectedCategory={this.state.selectedCategory}
-              onCategorySelect={this.handleCategorySelect}
-            />
-          </div>
-          <div className="col">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Category</th>
-                  <th>Followers</th>
-                  <th>Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                {societies.map((society) => (
+          <table className="societyListTable">
+            <tbody>
+              {societies.map((society) => (
+                <Link to={`/society/${society.id}`}>
                   <tr key={society.id}>
-                    <td>
-                      <Link to={`/society/${society.id}`}>{society.name}</Link>
-                    </td>
-                    <td>{society.category}</td>
-                    <td>{society.members}</td>
-                    <td>{society.description}</td>
+                    <div className="icon"><div className="logo"></div></div>
+                    <div className="name">{society.name}</div>
+                    <div className="category">{society.members} Following - {society.category}</div>
+                    <div className="description">{society.description}</div>
+                    <div className="followers"></div>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-            <Pagination
-              itemsCount={filtered.length}
-              pageSize={this.state.pageSize}
-              currentPage={this.state.currentPage}
-              onPageChange={this.handlePageChange}
-            />
-            <Link to="/create-society">
-              <button
-                className="btn btn-primary"
-                style={{ marginRight: "15px" }}
-              >
-                Create Society
-              </button>
-            </Link>
-            <Link to="/edit-society">
-              <button className="btn btn-primary">Edit Society</button>
-            </Link>
-            {/* TODO: Use destructuring */}
+                </Link>
+              ))}
+            </tbody>
+          </table>
+          
+          <div data-testid="pagination">
+          <Pagination
+            itemsCount={filtered.length}
+            pageSize={this.state.pageSize}
+            currentPage={this.state.currentPage}
+            onPageChange={this.handlePageChange}
+          />
           </div>
+          <Link to="/create-society">
+            <button
+              className="btn btn-primary"
+              style={{ marginRight: "15px" }}
+            >
+              Create Society
+            </button>
+          </Link>
+          <Link to="/edit-society">
+            <button className="btn btn-primary">Edit Society</button>
+          </Link>
+          {/* TODO: Use destructuring */}
         </div>
-      </React.Fragment>
+      </div>
     );
   }
 }

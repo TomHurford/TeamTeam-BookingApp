@@ -1,13 +1,14 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-const axios = require('axios');
+import axios from "axios";
+const jwtController = require('../../utils/jwt.js');
 
 function CreateSocietyForm() {
   const formik = useFormik({
     initialValues: {
       societyName: "",
-      category: "Sports",
+      category: "Other",
       description: "",
       website: "",
       instagram: "",
@@ -15,6 +16,7 @@ function CreateSocietyForm() {
       facebook: "",
       logo: "",
       banner: "",
+      email: "",
     },
 
     validationSchema: Yup.object({
@@ -28,10 +30,31 @@ function CreateSocietyForm() {
       facebook: Yup.string().url("Must be a valid URL"),
       logo: Yup.string().url("Must be a valid URL"),
       banner: Yup.string().url("Must be a valid URL"),
+      email: Yup.string().email().required("Must be a valid email address"),
     }),
 
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log(values);
+
+      await fetch("http://localhost:5001/societies/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${jwtController.getToken()}`
+        },
+        body: JSON.stringify(values),
+      })
+        .then((res) => {
+          console.log(res);
+          res.json().then((data) => {
+            console.log(data);
+            const societyId = data.society.id;
+            window.location.href = `/society/${societyId}`;
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
 
       // await axios
       //   .post("http://localhost:5001/societies/signup", values)
@@ -42,7 +65,7 @@ function CreateSocietyForm() {
   });
 
   return (
-    <div>
+    <div style={{ marginTop: "60px", marginLeft: "8px" }}>
       <h1>Create Society</h1>
 
       <form onSubmit={formik.handleSubmit}>
@@ -78,12 +101,37 @@ function CreateSocietyForm() {
             onChange={formik.handleChange}
             className="form-select"
           >
-            <option defaultValue>Sports</option>
+            <option defaultValue>Other</option>
             <option>Academic</option>
             <option>Social</option>
-            <option>Other</option>
+            <option>Sports</option>
           </select>
         </div>
+
+        {/*Email below*/}
+        <div className="form-group">
+          <label
+            className={`form-label ${
+              formik.touched.email && formik.errors.email
+                ? " text-danger"
+                : ""
+            }`}
+            htmlFor="email"
+          >
+            {formik.touched.email && formik.errors.email
+              ? formik.errors.email
+              : "Society Email"}
+          </label>
+          <input
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            type="text"
+            className="form-control"
+            onBlur={formik.handleBlur}
+          />
+        </div>
+        {/*Email Above */}
 
         {/* Socials below*/}
         <h5>Socials</h5>
@@ -256,7 +304,7 @@ function CreateSocietyForm() {
           ></textarea>
         </div>
 
-        <button className="btn btn-primary" type="submit">Create Society</button>
+        <button className="btn btn-primary">Create Society</button>
       </form>
     </div>
   );

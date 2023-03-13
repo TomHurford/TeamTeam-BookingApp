@@ -1,6 +1,6 @@
 describe('Purchase', () => {
   it('Purchase', () => {
-    cy.visit('/purchase/future')
+    cy.visit('/tickets')
 
     cy.get('[data-testid="1"]')
   })

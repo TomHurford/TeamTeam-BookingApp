@@ -28,6 +28,8 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^7.6.0",
+    "eslint": "^8.35.0",
+    "eslint-config-google": "^0.14.0",
     "jest": "^27.5.1",
     "jest-mock-extended": "^2.0.4",
     "nodemon": "^2.0.20",

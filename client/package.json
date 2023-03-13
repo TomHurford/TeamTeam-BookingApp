@@ -40,8 +40,6 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "check-code-coverage": "^1.10.4",
     "cypress": "^12.6.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-react": "^7.32.2",
     "flow-bin": "^0.200.0",
     "istanbul-merge": "^1.1.1",
     "istanbul-reports": "^3.1.5",
@@ -58,13 +56,8 @@
     "eject": "react-scripts eject",
     "cypress:open": "cypress open",
     "merge": "istanbul-merge cypress-coverage/coverage-final.json jest-coverage/coverage-final.json --out combined-coverage/coverage-final.json",
-    "report:combined": "npx nyc report --reporter html --reporter text -t combined-coverage --report-dir combined-coverage/summary"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "report:combined": "npx nyc report --reporter html --reporter text -t combined-coverage --report-dir combined-coverage/summary",
+    "test:all": "npm run test:jest && npx cypress run && npm run merge && npm run report:combined"
   },
   "browserslist": {
     "production": [

@@ -16,22 +16,22 @@ exports[`Home snapshot test 1`] = `
       data-testid="welcome-message"
     >
       <h1>
-        Welcome to Ticketopia!
+        Perfect Tickets? Perfect Time.
       </h1>
     </div>
-    <form
-      className="searchBar"
-      data-testid="search-bar"
+    <div
+      className="searchBarContainer"
     >
       <input
+        className="searchBar"
+        data-testid="search-bar"
+        onChange={[Function]}
+        onKeyDown={[Function]}
         placeholder="Search for events..."
         type="text"
+        value=""
       />
-    </form>
-    <div
-      className="events"
-      data-testid="events-list"
-    />
+    </div>
   </div>
 </div>
 `;

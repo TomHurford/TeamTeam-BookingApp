@@ -1,0 +1,27 @@
+.searchBarContainer{
+    position: relative;
+    display: inline-block;
+    justify-content: center;
+    width: 1000px;
+    left: 20%;
+}
+
+input{
+    display: flex;
+    font-size: 25px;
+    border-radius: 40px;
+    border: #999;
+    height: 30px;
+    padding: 20px;
+    padding-left: 50px;
+    width: 200px;
+    
+}
+
+.searchIcon{
+    position: fixed;
+    right: 955px;
+    width: 35px;
+    height: 30px;
+    margin-top: 5px;
+}

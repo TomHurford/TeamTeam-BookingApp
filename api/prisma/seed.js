@@ -1,33 +1,41 @@
-const prisma = require("./prisma.js");
-const { faker } = require("@faker-js/faker");
+const prisma = require('./prisma.js');
+const {faker} = require('@faker-js/faker');
 
+/**
+ * This file is used to seed the database with fake data
+ */
 async function main() {
   await clearDatabase();
   seedDatabase();
 }
 
+/**
+ * This function is used to seed the database with fake data
+ */
 async function seedDatabase() {
-  console.log("Seeding the database...");
+  console.log('Seeding the database...');
   await seedUserTypes();
-  console.log("User types seeded!");
+  console.log('User types seeded!');
   await seedUsers();
-  console.log("Users seeded!");
+  console.log('Users seeded!');
   await seedSocieties();
-  console.log("Societies seeded!");
+  console.log('Societies seeded!');
   await seedCommittee();
-  console.log("Committees seeded!");
+  console.log('Committees seeded!');
   await seedMembers();
-  console.log("Members seeded!");
+  console.log('Members seeded!');
   await seedEvents();
-  console.log("Events seeded!");
+  console.log('Events seeded!');
   await seedTicketTypes();
-  console.log("Ticket types seeded!");
+  console.log('Ticket types seeded!');
   await seedPurchasesandTickets();
-  console.log("Tickets and Purchases seeded!");
-  console.log("Database seeded!");
+  console.log('Tickets and Purchases seeded!');
+  console.log('Database seeded!');
 }
 
-// I want all other functions to wait for this function to finish before continuing,
+/**
+ * This function is used to clear the database
+ */
 async function clearDatabase() {
   await prisma.$executeRaw`TRUNCATE TABLE "User" CASCADE;`;
   await prisma.$executeRaw`TRUNCATE TABLE "Society" CASCADE;`;
@@ -38,24 +46,30 @@ async function clearDatabase() {
   await prisma.$executeRaw`TRUNCATE TABLE "Ticket" CASCADE;`;
   await prisma.$executeRaw`TRUNCATE TABLE "Purchase" CASCADE;`;
   await prisma.$executeRaw`TRUNCATE TABLE "UserType" CASCADE;`;
-  console.log("Database cleared!");
+  console.log('Database cleared!');
 }
 
+/**
+ * This function is used to seed the user types
+ */
 async function seedUserTypes() {
   await prisma.userType.create({
     data: {
       id: 1,
-      type: "ADMIN",
+      type: 'ADMIN',
     },
   });
   await prisma.userType.create({
     data: {
       id: 2,
-      type: "STUDENT",
+      type: 'STUDENT',
     },
   });
 }
 
+/**
+ * This function is used to seed the users
+ */
 async function seedUsers() {
   await prisma.user.create({
     data: {
@@ -72,9 +86,9 @@ async function seedUsers() {
 
   await prisma.user.create({
     data: {
-      name: "Student",
-      email: "student@kcl.ac.uk",
-      password: "student",
+      name: 'Student',
+      email: 'student@kcl.ac.uk',
+      password: 'student',
       type: {
         connect: {
           id: 2,
@@ -99,23 +113,26 @@ async function seedUsers() {
   }
 }
 
-const randomCategory = ["Sports", "Academic", "Social", "Other"];
+const randomCategory = ['Sports', 'Academic', 'Social', 'Other'];
 
+/**
+ * This function is used to seed the societies
+ */
 async function seedSocieties() {
   await prisma.society.create({
     data: {
-      name: "Society 1",
-      email: "society@societymail.com",
-      description: "Society 1 description",
-      category: "Other",
+      name: 'Society 1',
+      email: 'society@societymail.com',
+      description: 'Society 1 description',
+      category: 'Other',
       links: {
         create: {
-          facebook: "https://www.facebook.com/",
-          instagram: "https://www.instagram.com/",
-          twitter: "https://twitter.com/",
-          website: "https://www.google.com/",
-          logo: "https://picsum.photos/200",
-          banner: "https://picsum.photos/200",
+          facebook: 'https://www.facebook.com/',
+          instagram: 'https://www.instagram.com/',
+          twitter: 'https://twitter.com/',
+          website: 'https://www.google.com/',
+          logo: faker.image.abstract(200, 200),
+          banner: faker.image.abstract(200, 200),
         },
       },
     },
@@ -134,8 +151,8 @@ async function seedSocieties() {
             instagram: faker.internet.url(),
             twitter: faker.internet.url(),
             website: faker.internet.url(),
-            logo: faker.image.imageUrl(),
-            banner: faker.image.imageUrl(),
+            logo: faker.image.abstract(200),
+            banner: faker.image.abstract(200),
           },
         },
       },
@@ -143,8 +160,12 @@ async function seedSocieties() {
   }
 }
 
+/**
+ * This function is used to seed the committee
+ */
 async function seedCommittee() {
-  // For each society, add 3 committee members, one user could be in multiple committees or none
+  // For each society, add 3 committee members, one user could be in multiple
+  // committees or none
   await prisma.committee.create({
     data: {
       society: {
@@ -157,14 +178,14 @@ async function seedCommittee() {
           id: 1,
         },
       },
-      role: "President",
+      role: 'President',
       isPresident: true,
     },
   });
   const societies = await prisma.society.findMany();
   for (let i = 0; i < societies.length; i++) {
     const society = societies[i];
-    const userId = faker.datatype.number({ min: 1, max: 50 });
+    const userId = faker.datatype.number({min: 1, max: 50});
     // Make sure the user is not already in the committee
     const userInCommittee = await prisma.committee.findMany({
       where: {
@@ -193,8 +214,12 @@ async function seedCommittee() {
   }
 }
 
+/**
+ * This function is used to seed the members
+ */
 async function seedMembers() {
-  // For each society, add between 5 to 30 members, one user could be in multiple societies or none
+  // For each society, add between 5 to 30 members, one user could be in
+  // multiple societies or none
   await prisma.members.create({
     data: {
       society: {
@@ -214,9 +239,10 @@ async function seedMembers() {
   for (let i = 0; i < societies.length; i++) {
     const society = societies[i];
     for (let j = 0; j < Math.floor(Math.random() * 30) + 5; j++) {
-      // We need to make sure that the user is not already a member of the society
-      var userID = faker.datatype.number({ min: 1, max: 50 });
-      var present = true;
+      // We need to make sure that the user is not already a member of the
+      // society
+      let userID = faker.datatype.number({min: 1, max: 50});
+      let present = true;
       while (present) {
         const members = await prisma.members.findMany({
           where: {
@@ -231,7 +257,7 @@ async function seedMembers() {
         if (members.length == 0) {
           present = false;
         } else {
-          userID = faker.datatype.number({ min: 1, max: 50 });
+          userID = faker.datatype.number({min: 1, max: 50});
         }
       }
 
@@ -253,6 +279,9 @@ async function seedMembers() {
   }
 }
 
+/**
+ * This function is used to seed the events
+ */
 async function seedEvents() {
   await prisma.event.create({
     data: {
@@ -261,10 +290,10 @@ async function seedEvents() {
           id: 1,
         },
       },
-      name: "Event 1",
-      description: "Event 1 description",
-      location: "Event 1 location",
-      date: new Date("2023-12-2"),
+      name: 'Event 1',
+      description: 'Event 1 description',
+      location: 'Event 1 location',
+      date: new Date('2023-12-2'),
       isArchived: false,
     },
   });
@@ -273,7 +302,7 @@ async function seedEvents() {
   for (let i = 0; i < societies.length; i++) {
     const society = societies[i];
     for (let j = 0; j < 3; j++) {
-      const event = await prisma.event.create({
+      await prisma.event.create({
         data: {
           society: {
             connect: {
@@ -285,19 +314,23 @@ async function seedEvents() {
           location: faker.address.streetAddress(),
           date: faker.date.future(),
           isArchived: false,
+          banner: faker.image.city(1600, 400, randomize=true),
         },
       });
     }
   }
 }
 
+/**
+ * This function is used to seed the ticket types
+ */
 async function seedTicketTypes() {
   const events = await prisma.event.findMany();
   for (let i = 0; i < events.length; i++) {
     const event = events[i];
     await prisma.ticketType.create({
       data: {
-        ticketType: "FREE",
+        ticketType: 'FREE',
         price: 0,
         quantity: 100,
         event: {
@@ -309,7 +342,7 @@ async function seedTicketTypes() {
     });
     await prisma.ticketType.create({
       data: {
-        ticketType: "PAID",
+        ticketType: 'PAID',
         price: 10,
         quantity: 100,
         event: {
@@ -322,12 +355,15 @@ async function seedTicketTypes() {
   }
 }
 
+/**
+ * This function is used to seed the purchases and tickets
+ */
 async function seedPurchasesandTickets() {
   // For each event, sell tickets of each type to different users
-  let setPurchase = await prisma.purchase.create({
+  const setPurchase = await prisma.purchase.create({
     data: {
       total: 0,
-      paymentMethod: "paypal",
+      paymentMethod: 'paypal',
       user: {
         connect: {
           id: 1,
@@ -343,7 +379,7 @@ async function seedPurchasesandTickets() {
 
   await prisma.ticket.create({
     data: {
-      ticketData: "sdgsgbsfgbsumfin",
+      ticketData: 'sdgsgbsfgbsumfin',
       purchase: {
         connect: {
           id: setPurchase.id,
@@ -369,17 +405,17 @@ async function seedPurchasesandTickets() {
 
   const events = await prisma.event.findMany();
   for (let i = 0; i < events.length; i++) {
-    const offset = faker.datatype.number({ min: 1, max: 44 });
+    const offset = faker.datatype.number({min: 1, max: 44});
     for (let j = offset; j < offset + 5; j++) {
-      const qoftickets = faker.datatype.number({ min: 1, max: 10 });
+      const qoftickets = faker.datatype.number({min: 1, max: 10});
       const ticketTypes = await prisma.ticketType.findMany({
-        where: { eventId: i + 1 },
+        where: {eventId: i + 1},
       });
-      const ticketType = ticketTypes[faker.datatype.number({ min: 0, max: 1 })];
-      let purchase = await prisma.purchase.create({
+      const ticketType = ticketTypes[faker.datatype.number({min: 0, max: 1})];
+      const purchase = await prisma.purchase.create({
         data: {
           total: ticketType.price * qoftickets,
-          paymentMethod: "paypal",
+          paymentMethod: 'paypal',
           user: {
             connect: {
               id: j + 1,
@@ -395,7 +431,7 @@ async function seedPurchasesandTickets() {
       for (let k = 0; k < qoftickets; k++) {
         await prisma.ticket.create({
           data: {
-            ticketData: "" + (i + 4 * 3) * (j * 2 + 6) * (k * 7 * 8 + 5 * 6),
+            ticketData: '' + (i + 4 * 3) * (j * 2 + 6) * (k * 7 * 8 + 5 * 6),
             purchase: {
               connect: {
                 id: purchase.id,
@@ -424,17 +460,17 @@ async function seedPurchasesandTickets() {
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
-    console.error(e);
-    console.log("Error seeding database");
-    await prisma.$disconnect();
-    process.exit(1);
-  });
+    .then(async () => {
+      await prisma.$disconnect();
+    })
+    .catch(async (e) => {
+      console.error(e);
+      console.log('Error seeding database');
+      await prisma.$disconnect();
+      process.exit(1);
+    });
 
-//make the functions available to other modules
+// make the functions available to other modules
 module.exports = {
   seedUsers,
   seedSocieties,

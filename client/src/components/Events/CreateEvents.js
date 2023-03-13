@@ -2,6 +2,8 @@ import React from "react";
 import { Formik, FieldArray, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
+const jwtController = require('../../utils/jwt.js');
+
 function CreateEvents() {
   return (
     <div style={{ marginTop: "60px", marginLeft: "8px" }}>
@@ -14,7 +16,7 @@ function CreateEvents() {
           location: "",
           societyId: "",
           time: "",
-          ticketInfo: [{ ticketName: "", price: "", quantity: "" }],
+          ticketInfo: [{ name: "", price: "", quantity: "" }],
         }}
         validationSchema={Yup.object({
           eventName: Yup.string().required("Event name is required"),
@@ -23,25 +25,25 @@ function CreateEvents() {
             .required("Event description is required"),
           date: Yup.date().required("Event date is required"),
           location: Yup.string().required("Event location is required"),
-          societyId: Yup.string()
-            .required("Society ID is required")
+          societyId: Yup.number("Society ID must be a number")
             .positive("Society ID must be positive")
-            .integer("Society ID must be an integer"),
+            .required("Society ID is required"),
           time: Yup.string().required("Event time is required"),
           ticketInfo: Yup.array().of(
             Yup.object({
-              ticketName: Yup.string().required("Ticket name is required"),
+              name: Yup.string().required("Ticket name is required"),
               price: Yup.number()
-                .required("Ticket price is required")
-                .positive("Ticket price must be positive"),
+                .positive("Ticket price must be positive")
+                .required("Ticket price is required"),
               quantity: Yup.number()
-                .required("Ticket quantity is required")
                 .positive("Ticket quantity must be positive")
-                .integer("Ticket quantity must be an integer"),
+                .required("Ticket quantity is required")
             })
           ),
         })}
         onSubmit={(value) => {
+          console.log("Form data")
+          console.log(value);
           const event = {
             name: value.eventName,
             description: value.description,
@@ -219,7 +221,7 @@ function CreateEvents() {
                       type="button"
                       onClick={() =>
                         fieldArrayProps.push({
-                          ticketName: "",
+                          name: "",
                           price: "",
                           quantity: "",
                         })
@@ -232,13 +234,14 @@ function CreateEvents() {
                   </div>
 
                   {formikProps.values.ticketInfo.map((ticket, index) => (
-                    <div key={`ticketInfo.${index}.ticketName`}>
-                      <Field name={`ticketInfo.${index}.ticketName`}>
+                    <div key={`ticketInfo.${index}.name`} data-testid={`ticketInfo.${index}.name`}>
+                      console.log({`ticketInfo.${index}.name`})
+                      <Field name={`ticketInfo.${index}.name`}>
                         {(fieldProps) => (
                           <div className="form-group">
                             <label>Ticket Type Name</label>
                             <input
-                              name="ticketName"
+                              name="name"
                               onChange={formikProps.handleChange}
                               type="text"
                               className="form-control"
@@ -249,7 +252,7 @@ function CreateEvents() {
                         )}
                       </Field>
 
-                      <ErrorMessage name={`ticketInfo.${index}.ticketName`}>
+                      <ErrorMessage name={`ticketInfo.${index}.name`}>
                         {(errorMsg) => (
                           <div className="text-danger">{errorMsg}</div>
                         )}
@@ -316,6 +319,7 @@ function CreateEvents() {
               type="submit"
               className="btn btn-primary"
               style={{ marginTop: "15px" }}
+              onClick={() => {console.log("button press")}}
             >
               Create Event
             </button>

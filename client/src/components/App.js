@@ -3,6 +3,9 @@ import React, { useEffect } from "react";
 import Contact from "./Contact";
 import Login from "./Login";
 import Purchase from "./Purchase";
+import About from "./About";
+import Privacy from "./Privacy";
+import Terms from "./Terms";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import EventDetails from "./Events/EventDetails";
@@ -11,11 +14,17 @@ import ViewSociety from "./Societies/ViewSociety";
 import CreateSocietyForm from "./Societies/CreateSocietyForm";
 import SearchSocieties from "./Societies/SearchSocieties";
 import EditSocietyForm from "./Societies/EditSocietyForm";
+import SearchEvents from "./Events/SearchEvents";
 import Logout from "./Logout";
 const jwtController = require("../utils/jwt.js");
 
-const sessionStorage = require("sessionstorage");
 import CreateEvents from "./Events/CreateEvents";
+
+const sessionStorage = require("sessionstorage");
+import Footer from "./Footer";
+
+
+
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
 function App() {
@@ -109,10 +118,10 @@ function App() {
     );
     sessionStorage.setItem("tickets", JSON.stringify(tickets));
 
-    console.log(basketEvent);
-    console.log(availableTicketTypes);
-    console.log(tickets);
-    console.log(totalPrice());
+    //console.log(basketEvent);
+    //console.log(availableTicketTypes);
+    //console.log(tickets);
+    //console.log(totalPrice());
   };
 
   const emptyBasket = () => {
@@ -120,15 +129,13 @@ function App() {
     setAvailableTicketTypes([]);
     setTickets({});
 
-    sessionStorage.setItem("basketEvent", JSON.stringify({ a: "b" }));
-    sessionStorage.setItem("availableTicketTypes", JSON.stringify([]));
-    sessionStorage.setItem("tickets", JSON.stringify({}));
+    updateTicketSessionStorage();
   };
 
   /* NORMAL ROUTE FUNCTIONALITY VIA ROUTER DOM */
 
   return (
-    <div>
+    <div className="root-container">
       <Navbar isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path="/" element={<Home />}></Route>
@@ -141,6 +148,9 @@ function App() {
           element={<Logout isLoggedIn={isLoggedIn} />}
         ></Route>
         <Route path="/contact" element={<Contact />}></Route>
+        <Route path="/about" element={<About />}></Route>
+        <Route path="/terms" element={<Terms />}></Route>
+        <Route path="/privacy" element={<Privacy />}></Route>
         <Route path="/tickets" element={<Purchase />}></Route>
 
         <Route
@@ -168,13 +178,14 @@ function App() {
             />
           }
         ></Route>
-
         <Route path="/society/:id" element={<ViewSociety />} />
         <Route path="/societies" element={<SearchSocieties />} />
         <Route path="/create-society" element={<CreateSocietyForm />} />
         <Route path="/edit-society" element={<EditSocietyForm />} />
+        <Route path="/search-events" element={<SearchEvents />} />
         <Route path="/create-event" element={<CreateEvents />} />
       </Routes>
+      {/* <Footer /> */}
     </div>
   );
 }

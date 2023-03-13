@@ -1,20 +1,20 @@
 const express = require('express');
+/* eslint-disable-next-line */
 const router = express.Router();
 
-const { checkIsLoggedIn } = require('../utils/jwt_auth.js');
 const ticketController = require('../controllers/tickets.js');
 
 // GET /tickets
 router.get('/', (req, res) => {
-    ticketController.getTickets(req, res);
+  ticketController.getTickets(req, res);
 });
 
 router.post('/create', (req, res) => {
-    ticketController.createTicketsForUser(req, res);
+  ticketController.createTicketsForUser(req, res);
 });
 
 router.post('/use', (req, res) => {
-    ticketController.useTicket(req, res);
+  ticketController.useTicket(req, res);
 });
 
 module.exports = router;

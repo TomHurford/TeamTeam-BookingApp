@@ -23,13 +23,21 @@ function CreateEvents() {
             .required("Event description is required"),
           date: Yup.date().required("Event date is required"),
           location: Yup.string().required("Event location is required"),
-          societyId: Yup.string().required("Society ID is required"),
+          societyId: Yup.string()
+            .required("Society ID is required")
+            .positive("Society ID must be positive")
+            .integer("Society ID must be an integer"),
           time: Yup.string().required("Event time is required"),
           ticketInfo: Yup.array().of(
             Yup.object({
               ticketName: Yup.string().required("Ticket name is required"),
-              price: Yup.number().required("Ticket price is required"),
-              quantity: Yup.number().required("Ticket quantity is required"),
+              price: Yup.number()
+                .required("Ticket price is required")
+                .positive("Ticket price must be positive"),
+              quantity: Yup.number()
+                .required("Ticket quantity is required")
+                .positive("Ticket quantity must be positive")
+                .integer("Ticket quantity must be an integer"),
             })
           ),
         })}
@@ -250,20 +258,7 @@ function CreateEvents() {
                       <Field name={`ticketInfo.${index}.price`}>
                         {(fieldProps) => (
                           <div className="form-group">
-                            <label
-                              className={`form-label ${
-                                formikProps.errors.price &&
-                                formikProps.touched.price
-                                  ? "text-danger"
-                                  : ""
-                              }`}
-                              htmlFor="price"
-                            >
-                              {formikProps.touched.price &&
-                              formikProps.errors.price
-                                ? formikProps.errors.price
-                                : "Ticket Price"}
-                            </label>
+                            <label>Ticket Price</label>
                             <input
                               name="price"
                               onChange={formikProps.handleChange}
@@ -285,20 +280,7 @@ function CreateEvents() {
                       <Field name={`ticketInfo.${index}.quantity`}>
                         {(fieldProps) => (
                           <div className="form-group">
-                            <label
-                              className={`form-label ${
-                                formikProps.errors.quantity &&
-                                formikProps.touched.quantity
-                                  ? "text-danger"
-                                  : ""
-                              }`}
-                              htmlFor="quantity"
-                            >
-                              {formikProps.touched.quantity &&
-                              formikProps.errors.quantity
-                                ? formikProps.errors.quantity
-                                : "Ticket Quantity Available"}
-                            </label>
+                            <label>Ticket Quantity Available</label>
                             <input
                               name="quantity"
                               onChange={formikProps.handleChange}

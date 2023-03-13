@@ -4,7 +4,6 @@ import Event from './Events/Event';
 import '../styles/Home.css';
 import {getEvents} from "../utils/EventsLogic"
 // import search from '../utils/search.png';
-import '../styles/SearchBar.css'
  
 
 //Fetching events from the database and displaying them on the home page
@@ -26,7 +25,7 @@ class Home extends Component {
     
     async fetchData() {
         const events = await getEvents();
-        console.log(events);
+        // console.log(events);
         this.setState({eventCardList: this.eventsCardList(events)})
     }
 
@@ -59,7 +58,7 @@ class Home extends Component {
     eventsCardList(events) {
         return (
             <div className="events" data-testid="events-list">
-                {events.map(event => (    
+                {events.map(event => (
                     <div className="eventCard" key={event.id} onClick={()=>this.handleClick(event.id)} >
                     <Event details={event.id} specificEvent = {event}/>
                     </div>

@@ -3,6 +3,9 @@ import React, { useEffect } from "react";
 import Contact from "./Contact";
 import Login from "./Login";
 import Purchase from "./Purchase";
+import About from "./About";
+import Privacy from "./Privacy";
+import Terms from "./Terms";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./Navbar";
 import EventDetails from "./Events/EventDetails";
@@ -18,6 +21,9 @@ const jwtController = require("../utils/jwt.js");
 import CreateEvents from "./CreateEvents";
 
 const sessionStorage = require("sessionstorage");
+import Footer from "./Footer";
+
+
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
@@ -129,7 +135,7 @@ function App() {
   /* NORMAL ROUTE FUNCTIONALITY VIA ROUTER DOM */
 
   return (
-    <div>
+    <div className="root-container">
       <Navbar isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path="/" element={<Home />}></Route>
@@ -142,6 +148,9 @@ function App() {
           element={<Logout isLoggedIn={isLoggedIn} />}
         ></Route>
         <Route path="/contact" element={<Contact />}></Route>
+        <Route path="/about" element={<About />}></Route>
+        <Route path="/terms" element={<Terms />}></Route>
+        <Route path="/privacy" element={<Privacy />}></Route>
         <Route path="/tickets" element={<Purchase />}></Route>
 
         <Route
@@ -176,6 +185,7 @@ function App() {
         <Route path="/search-events" element={<SearchEvents />} />
         <Route path="/create-event" element={<CreateEvents />} />
       </Routes>
+      {/* <Footer /> */}
     </div>
   );
 }

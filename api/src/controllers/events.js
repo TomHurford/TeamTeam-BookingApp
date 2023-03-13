@@ -1,27 +1,47 @@
 // EVENTS CONTROLLER
-const prisma = require("../../prisma/prisma.js");
-const auth = require("../utils/jwt_auth.js");
+const prisma = require('../../prisma/prisma.js');
+const auth = require('../utils/jwt_auth.js');
 
+/**
+ * Get all events
+ * @param {Request} req The request object
+ * @param {Respon} res The response object
+ */
 async function getEvents(req, res) {
   try {
     // Authenticate the user
     // const decoded = await auth.authenticate(req);
     // Get all events
-    const events = await prisma.event.findMany();
-    var arr = [];
-    events.map(async (event) => {
-      event.society = await prisma.society.findFirst(event.societyId);
-      arr.push(event);
+    // const events = await prisma.event.findMany();
+    // I want to add the society name to each event
+    const events = await prisma.event.findMany({
+      where: {
+        isArchived: false,
+      },
     });
-    console.log(arr);
-    res.status(200).send({ events: events });
+
+    // For each event get the society name and add it to the event object
+    for (let i = 0; i < events.length; i++) {
+      const society = await prisma.society.findUnique({
+        where: {
+          id: events[i].societyId,
+        },
+      });
+      events[i].societyName = society.name;
+    }
+    res.status(200).send({events: events});
   } catch (err) {
-    res.status(401).send({ token: null, error: "Unauthorized" });
+    res.status(401).send({token: null, error: 'Unauthorized'});
   }
   // const events = await prisma.event.findMany()
   // res.status(200).send({events: events})
 }
 
+/**
+ * Get an event by id
+ * @param {Request} req The request object
+ * @param {Respon} res The response object
+ */
 async function getEventById(req, res) {
   try {
     // Authenticate the user
@@ -34,7 +54,7 @@ async function getEventById(req, res) {
       },
     });
 
-    const ticket_types = await prisma.ticketType.findMany({
+    const ticketTypes = await prisma.ticketType.findMany({
       where: {
         event: event,
       },
@@ -48,22 +68,33 @@ async function getEventById(req, res) {
 
     const societyLinks = await prisma.societyLinks.findUnique({
       where: {
-          societyId: event.societyId 
-      }
-  })
+        societyId: event.societyId,
+      },
+    });
 
-  res.status(200).send({event: event, ticket_types: ticket_types, society: society, societyLinks: societyLinks})
+    res.status(200).send({
+      event: event,
+      ticket_types: ticketTypes,
+      society: society,
+      societyLinks: societyLinks,
+    });
   } catch (err) {
-    res.status(401).send({ token: null, error: "Unauthorized" });
+    res.status(401).send({token: null, error: 'Unauthorized'});
   }
 }
 
+/**
+ * Create an event
+ * @param {Request} req The request object
+ * @param {Respon} res The response object
+ */
 async function createEvent(req, res) {
   try {
     // Authenticate the user
     const decoded = await auth.authenticate(req);
 
-    // Check that the request body is valid i.e. has all the required fields name, description, date, location, societyId
+    // Check that the request body is valid i.e. has all the required fields
+    // name, description, date, location, societyId
     if (
       !req.body.name ||
       !req.body.description ||
@@ -72,7 +103,7 @@ async function createEvent(req, res) {
       !req.body.societyId||
       !req.body.ticketType
     ) {
-      res.status(400).send({ error: "Missing Event Details" });
+      res.status(400).send({error: 'Missing Event Details'});
       return;
     }
 
@@ -102,7 +133,7 @@ async function createEvent(req, res) {
 
     // If the society does not exist, return an error
     if (!society) {
-      res.status(400).send({ error: "Invalid societyId" });
+      res.status(400).send({error: 'Invalid societyId'});
       return;
     }
 
@@ -116,13 +147,13 @@ async function createEvent(req, res) {
 
     // If the user is not a member of the society committee, return an error
     if (isMember.length === 0) {
-      res.status(401).send({ error: "Unauthorized" });
+      res.status(401).send({error: 'Unauthorized'});
       return;
     }
 
     // Check that the date is in the future and is valid
     if (new Date(req.body.date) < new Date()) {
-      res.status(400).send({ error: "Invalid Date" });
+      res.status(400).send({error: 'Invalid Date'});
       return;
     }
 
@@ -159,10 +190,15 @@ async function createEvent(req, res) {
     res.status(200).send({ event: event, ticket_types: ticket_types });
   } catch (err) {
     console.log(err);
-    res.status(401).send({ token: null, error: "Unauthorized" });
+    res.status(401).send({token: null, error: 'Unauthorized'});
   }
 }
 
+/**
+ * Update an event
+ * @param {Request} req The request object
+ * @param {Respon} res The response object
+ */
 async function updateEvent(req, res) {
   try {
     // Authenticate the user
@@ -176,7 +212,7 @@ async function updateEvent(req, res) {
         !req.body.date &&
         !req.body.location)
     ) {
-      res.status(400).send({ error: "Missing Event Details" });
+      res.status(400).send({error: 'Missing Event Details'});
       return;
     }
 
@@ -189,7 +225,7 @@ async function updateEvent(req, res) {
 
     // If the event does not exist, return an error
     if (!event) {
-      res.status(400).send({ error: "Invalid eventId" });
+      res.status(400).send({error: 'Invalid eventId'});
       return;
     }
 
@@ -202,7 +238,7 @@ async function updateEvent(req, res) {
 
     // If the society does not exist, return an error
     if (!society) {
-      res.status(400).send({ error: "Invalid societyId" });
+      res.status(400).send({error: 'Invalid societyId'});
       return;
     }
 
@@ -216,37 +252,45 @@ async function updateEvent(req, res) {
 
     // If the user is not a member of the society committee, return an error
     if (isMember.length === 0) {
-      res.status(401).send({ error: "Unauthorized" });
+      res.status(401).send({error: 'Unauthorized'});
       return;
     }
 
-    // If the date is in the request body, check that it is in the future and is valid
+    // If the date is in the request body, check that it is in the future and
+    // is valid
     if (req.body.date && new Date(req.body.date) < new Date()) {
-      res.status(400).send({ error: "Invalid Date" });
+      res.status(400).send({error: 'Invalid Date'});
       return;
     }
 
-    // Update the event with the details from the request body not all the fields are required to be updated so we only update the ones that are present
+    // Update the event with the details from the request body not all the
+    //  fields are required to be updated so we only update the ones that are
+    // present
     const updatedEvent = await prisma.event.update({
       where: {
         id: req.body.eventId,
       },
       data: {
         name: req.body.name ? req.body.name : event.name,
-        description: req.body.description
-          ? req.body.description
-          : event.description,
+        description: req.body.description ?
+          req.body.description :
+          event.description,
         date: req.body.date ? req.body.date : event.date,
         location: req.body.location ? req.body.location : event.location,
       },
     });
 
-    res.status(200).send({ event: updatedEvent });
+    res.status(200).send({event: updatedEvent});
   } catch (err) {
-    res.status(401).send({ token: null, error: "Unauthorized" });
+    res.status(401).send({token: null, error: 'Unauthorized'});
   }
 }
 
+/**
+ * Delete an event
+ * @param {Request} req The request object
+ * @param {Respon} res The response object
+ */
 async function deleteEvent(req, res) {
   try {
     // Authenticate the user
@@ -254,7 +298,7 @@ async function deleteEvent(req, res) {
 
     // The delete request must contain the eventId
     if (!req.body.eventId) {
-      res.status(400).send({ error: "Missing Event Details" });
+      res.status(400).send({error: 'Missing Event Details'});
       return;
     }
 
@@ -267,7 +311,7 @@ async function deleteEvent(req, res) {
 
     // If the event does not exist, return an error
     if (!event) {
-      res.status(400).send({ error: "Invalid eventId" });
+      res.status(400).send({error: 'Invalid eventId'});
       return;
     }
 
@@ -281,7 +325,7 @@ async function deleteEvent(req, res) {
 
     // If the user is not a member of the society committee, return an error
     if (isMember.length === 0) {
-      res.status(401).send({ error: "Unauthorized" });
+      res.status(401).send({error: 'Unauthorized'});
       return;
     }
 
@@ -296,28 +340,32 @@ async function deleteEvent(req, res) {
       },
     });
 
-    res.status(200).send({ message: "Event Archived" });
+    res.status(200).send({message: 'Event Archived'});
   } catch (err) {
     console.log(err);
-    res.status(401).send({ token: null, error: "Unauthorized" });
+    res.status(401).send({token: null, error: 'Unauthorized'});
   }
 }
 
+/**
+ * Search for events
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ */
 async function searchEvents(req, res) {
   try {
     const event = await prisma.event.findMany({
       where: {
         name: {
           contains: req.body.name,
-          mode: "insensitive"
-        }
+          mode: 'insensitive',
+        },
       },
     });
-  
-    res.status(200).send({ event: event });
+    res.status(200).send({event: event});
   } catch (err) {
     console.log(err);
-    res.status(401).send({ token: null, error: "Unauthorized" });
+    res.status(401).send({token: null, error: 'Unauthorized'});
   }
 }
 

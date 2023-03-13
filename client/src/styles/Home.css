@@ -21,20 +21,18 @@
     margin-top: 50px;
     color: black;
 }
-
 .searchBar {
-    width: 60%;
-    max-width: 400px;
-}
-
-.searchBar > input {
     width: 100%;
+    max-width: 400px;
+    padding: 5px 15px;
+    aspect-ratio: 10;
+    box-shadow: 1px 1px 3px rgba(135, 135, 135, 0.452);
+    border-radius: 40px;
+    border: 1px;
+    outline: 5px;
     font-size: 1.3em;
     line-height: 1.5em;
-    padding: 5px 15px 5px 15px;
-    outline: 0;
-    border: 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.6);
+}
+.searchBar:active {
+    border: 2px;
 }

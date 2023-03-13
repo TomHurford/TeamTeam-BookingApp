@@ -3,7 +3,7 @@
 .searchSocietiesPage-container {
     margin: 15px;
 }
-.searchSocietiesPage-container > h2 {
+.searchSocietiesPage-container > h1 {
 
 }
 .searchSocietiesPage-container > .table {
@@ -43,14 +43,18 @@
 
 /* View Society Page */
 
-
-.viewSocietyPage > .societyInfo {
-    width: 40%;
-    float: left;
-    justify-content: center;
-    align-content: center;
+#societyPage .identity {
+    padding: 10px;
 }
-.viewSocietyPage > .societyInfo > .icon {
+#societyPage .header > .image > .bannerOverlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #00000055;
+}
+#societyPage .identity > .icon {
     width: 90px;
     height: 90px;
     position: relative;
@@ -63,7 +67,7 @@
     overflow: hidden;
     box-shadow: 1px 1px 1px #000;
 }
-.viewSocietyPage > .societyInfo > .icon > .logo {
+#societyPage .identity > .icon > .logo {
     width: 90px;
     height: 90px;
     position: relative;
@@ -71,40 +75,67 @@
     background-position: center;
     background-repeat: no-repeat;
 }
-.viewSocietyPage > .societyInfo > .name {
-    font-size: 1.5em;
-    justify-content: center;
-    align-content: center;
-    margin: auto;
+#societyPage .identity > .name {
+    position: relative;
     text-align: center;
-    font-weight: bold;
+    width: 100%;
+    color: white;
+    font-size: 3em;
+    text-shadow: 0 0 3px #000;
+    margin-bottom: 20px;
 }
-.viewSocietyPage > .societyInfo > .description {
-    font-size: 1em;
-    justify-content: center;
-    align-content: center;
-    margin: auto;
-    text-align: center;
-    margin-bottom: 15px;
-}
-.viewSocietyPage > .societyInfo > .socials {
+#societyPage .identity > .socials {
     width: 220px;
     height: 90px;
     justify-content: center;
     align-content: center;
     margin: auto;
+    position: relative;
+    text-align: center;
+    width: 100%;
+
 }
-.viewSocietyPage > .societyInfo > .socials > .socialCircle{
+#societyPage .identity > .socials > .socialCircle{
     margin: 0 10px;
     border-radius: 100%;
 }
-.viewSocietyPage > .societyInfo > .socials > .socialCircle > img:hover {
+#societyPage .identity > .socials > .socialCircle > img:hover {
     transform: scale(1.05);
     transition: 0.5s;
     cursor: pointer;
 }
-.viewSocietyPage > .societyInfo > .socials > .socialCircle > img{
+#societyPage .identity > .socials > .socialCircle > img{
     width: 2em;
     height: 2em;
 }
-
+@media (min-width: 666px) {
+    #societyPage .identity {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+    }
+    #societyPage .identity > .icon {
+        float: left;
+        position: relative;
+        margin: 0;
+        margin-right: 15px;
+    }
+    #societyPage .identity > .name {
+        float: left;
+        position: relative;
+        margin: 0;
+        width: fit-content;
+        height: 90px;
+        line-height: 90px;
+        overflow: hidden;
+        
+    }
+    #societyPage .identity > .socials {
+        position: absolute;
+        width: fit-content;
+        bottom: 6px;
+        right: 20px;
+        height: fit-content;
+    }
+}

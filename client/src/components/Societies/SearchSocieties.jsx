@@ -69,62 +69,65 @@ class SearchSocieties extends Component {
     const societies = paginate(filtered, currentPage, pageSize);
 
     return (
-      <div style={{ marginTop: "60px", marginLeft: "8px" }}>
-        <h1>Societies</h1>
-        <SearchBar
-          value={this.state.searchQuery}
-          onChange={this.handleSearch}
-        />
+      <div className="page-container">
+        <div className="underlay"></div>
+        <div className="searchSocietiesPage-container">
+          <h1>Societies</h1>
+          <SearchBar
+            value={this.state.searchQuery}
+            onChange={this.handleSearch}
+          />
 
-        <div className="row">
-          <div className="col-2">
-            <ListFilter
-              categories={["All", "Sports", "Academic", "Social", "Other"]}
-              selectedCategory={this.state.selectedCategory}
-              onCategorySelect={this.handleCategorySelect}
-            />
-          </div>
-          <div className="col">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Category</th>
-                  <th>Followers</th>
-                  <th>Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                {societies.map((society) => (
-                  <tr key={society.id}>
-                    <td>
-                      <Link to={`/society/${society.id}`}>{society.name}</Link>
-                    </td>
-                    <td>{society.category}</td>
-                    <td>{society.members}</td>
-                    <td>{society.description}</td>
+          <div className="row">
+            <div className="col-2">
+              <ListFilter
+                categories={["All", "Sports", "Academic", "Social", "Other"]}
+                selectedCategory={this.state.selectedCategory}
+                onCategorySelect={this.handleCategorySelect}
+              />
+            </div>
+            <div className="col">
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Followers</th>
+                    <th>Description</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-            <Pagination
-              itemsCount={filtered.length}
-              pageSize={this.state.pageSize}
-              currentPage={this.state.currentPage}
-              onPageChange={this.handlePageChange}
-            />
-            <Link to="/create-society">
-              <button
-                className="btn btn-primary"
-                style={{ marginRight: "15px" }}
-              >
-                Create Society
-              </button>
-            </Link>
-            <Link to="/edit-society">
-              <button className="btn btn-primary">Edit Society</button>
-            </Link>
-            {/* TODO: Use destructuring */}
+                </thead>
+                <tbody>
+                  {societies.map((society) => (
+                    <tr key={society.id}>
+                      <td>
+                        <Link to={`/society/${society.id}`}>{society.name}</Link>
+                      </td>
+                      <td>{society.category}</td>
+                      <td>{society.members}</td>
+                      <td>{society.description}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <Pagination
+                itemsCount={filtered.length}
+                pageSize={this.state.pageSize}
+                currentPage={this.state.currentPage}
+                onPageChange={this.handlePageChange}
+              />
+              <Link to="/create-society">
+                <button
+                  className="btn btn-primary"
+                  style={{ marginRight: "15px" }}
+                >
+                  Create Society
+                </button>
+              </Link>
+              <Link to="/edit-society">
+                <button className="btn btn-primary">Edit Society</button>
+              </Link>
+              {/* TODO: Use destructuring */}
+            </div>
           </div>
         </div>
       </div>

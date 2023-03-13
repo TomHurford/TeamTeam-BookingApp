@@ -28,6 +28,7 @@ code {
 .page-container {
   width: 100vw;
   min-height: fit-content;
+  min-width: 400px;
   position: absolute;
   top: 60px;
   left: 0;
@@ -42,10 +43,12 @@ code {
   top: 0;
   left: 0;
   z-index: 1000;
+  min-width: 400px;
 }
 
 .underlay {
     width: 100vw;
+    min-width: 400px;
     height: 100vh;
     position: fixed;
     top: 0;

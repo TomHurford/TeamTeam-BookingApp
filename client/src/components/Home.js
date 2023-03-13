@@ -4,7 +4,7 @@ import Event from './Events/Event';
 import '../styles/Home.css';
 import {getEvents} from "../utils/EventsLogic"
 // import search from '../utils/search.png';
-import '../styles/SearchBar.css'
+
  
 
 //Fetching events from the database and displaying them on the home page

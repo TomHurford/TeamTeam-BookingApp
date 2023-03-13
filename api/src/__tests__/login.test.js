@@ -199,6 +199,8 @@ describe('Signup', () => {
         email: 'admin1@admin.com',
       },
     });
+
+    expect(response.statusCode).toBe(200)
   });
 
   test('Signup with invalid credentials (empty email)', async () => {

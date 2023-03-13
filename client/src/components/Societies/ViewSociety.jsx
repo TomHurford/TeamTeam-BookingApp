@@ -32,16 +32,22 @@ function ViewSociety() {
       });
   }, [societyId]);
 
-  function eventsCardList(events){
+  function eventsCardList(events) {
+    {societyEventClick}
     return (
       <div className="events" data-testid="events-list">
           {events.map(event => (    
-              <div className="eventCard" key={event.id} onClick={()=>this.handleClick(event.id)} >
+              <div className="eventCard" key={event.id} onClick={()=> societyEventClick(event.id)}>
               <Event details={event.id} specificEvent = {event}/>
               </div>
           ))}
       </div>
     );
+
+  }
+
+  function societyEventClick(eventId){
+    window.location.href = '/event-details?eventId=' + eventId;
   }
 
   

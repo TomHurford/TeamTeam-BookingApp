@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import '../styles/Login.css';
 const axios = require('axios');
 const jwtController = require('../utils/jwt.js');
+import { useSearchParams } from 'react-router-dom';
+
 
 
 // Create a login component that prints the input email and password to the console
@@ -19,6 +21,9 @@ class Login extends Component {
             signupConfirmPassword: '',
 
             forgotEmail: '',
+
+            resetPassword: '',
+            resetConfirmPassword: '',
 
             //block of state variables relating to showing forms
             disableLoginForm: false,
@@ -64,9 +69,11 @@ class Login extends Component {
     handleSubmitSignUp = (event) => {
         console.log(this.state.signupConfirmPassword)
         console.log(this.state.signupPassword)
-        if (this.state.signupConfirmPassword === this.state.signupPassword) {
+        if (this.state.signupConfirmPassword !== this.state.signupPassword) {
             console.log('Passwords Do Not Match');
             this.showMessage('Passwords Do Not Match');
+            this.signupToggle();
+            return;
         } 
 
 
@@ -74,15 +81,12 @@ class Login extends Component {
         
         axios.post('http://localhost:5001/user/signup', { name: this.state.signupName, email: this.state.signupEmail, password: this.state.signupPassword })
             .then(response => {
-                if (response.data.success) {
-                    this.showMessage('Signed Up. Check Email for Verification.');
-                } else {
-                    this.showMessage('Error: ' + response.data.message);
-                }
+                this.showMessage('Signed Up. Check Email for Verification.');
             })
             .catch(error => {
                 console.log(error);
                 this.showMessage('Error: ' + error.message);
+                this.signupToggle();
             });
         
     }
@@ -93,11 +97,7 @@ class Login extends Component {
         
         axios.post('http://localhost:5001/user/forgotPassword', { email: this.state.forgotEmail })
             .then(response => {
-                if (response.data.success) {
-                    this.showMessage('Forgot Password Email Sent If Email Exists.');
-                } else {
-                    this.showMessage('Error: ' + response.data.message);
-                }
+                this.showMessage('Forgot Password Email Sent If Email Account Exists.');
             })
             .catch(error => {
                 console.log(error.message);
@@ -107,28 +107,26 @@ class Login extends Component {
     }
 
     // Submit a new password to be set
-    handleSubmitResetPassword = () => {
-
-
-    //     if (this.state.confirmPassword === this.state.password) {
-    //         console.log('Passwords Do Not Match');
-    //         this.showMessage('You have left a field empty');
-    //         signupToggle();
-    //     } 
-    //     event.preventDefault();
+    handleSubmitResetPassword = (event) => {
+        if (this.state.resetConfirmPassword !== this.state.resetPassword) {
+            console.log('Passwords Do Not Match');
+            this.showMessage('Passwords Do Not Match');
+            this.resetPasswordToggle();
+            return;
+        } 
         
-    //     axios.post('http://localhost:5001/user/reset', { verificationCode: password: this.state.password })
-    //         .then(response => {
-    //             if (response.data.success) {
-    //                 this.showMessage('Password Reset');
-    //             } else {
-    //                 showMessage('Error: ' + response.data.message);
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.log(error.message);
-    //             this.showMessage('Local Client Error: ' + error.message);
-    //         });
+        event.preventDefault();
+
+        const params = this.getPARAMS();
+        
+        axios.post('http://localhost:5001/user/reset', { verificationCode: params.get('forgot'), verificationType: 'forgotPassword', userId: parseInt(params.get('userId')), new_password: this.state.resetPassword })
+            .then(response => {
+                this.showMessage('Password Reset');
+            })
+            .catch(error => {
+                console.log(error.message);
+                this.showMessage('Local Client Error: ' + error.message);
+            });
         
     }
 
@@ -171,12 +169,40 @@ class Login extends Component {
             disablePopUpMessage: true,
             disableLoginForm: false,
             disableForgotPassword: true,
-            disableSignUp: true
+            disableSignUp: true,
+            disableResetPassword: true
         });
     }
 
-    loginNewUser = () => {
+    loginNewUser = (param) => {
+        axios.post('http://localhost:5001/user/verify', {verificationCode: param.get('verify'), verificationType: param.get('type'), userId: parseInt(param.get('userId'))})
+        .then(res => {
+            this.showMessage('Verified! Use Your Credentials To Log In!');
+        })
+        .catch(err => {
+            console.log(err);
+            this.showMessage('Error: ' + err);
+        });
+    }
 
+    getPARAMS = () => {
+        const params = new Map();
+        window.location.search.substring(1).split('&').map(paramString => {
+            let param = paramString.split('=');
+            params.set(param[0], param[1]);
+
+        });
+
+        return params;
+    }
+
+    componentDidMount() {
+        const params = this.getPARAMS();
+        if (params.get('verify')) {
+            this.loginNewUser(params);
+        } else if (params.get('forgot')) {
+            this.resetPasswordToggle();
+        }
     }
     
     //Run On Render to check if link holds extra data
@@ -243,27 +269,23 @@ class Login extends Component {
 
                 <div className="container" id='resetPasswordForm' disabled={this.state.disableResetPassword}>
                     <h1>Reset Password</h1>
-                    <form onSubmit={this.handleSubmitResetPassword} action="#">
-                        <div className='field'>
-                            <label htmlFor="password">Password</label><br />
-                            <input type="password" name="password" minLength="8" onChange={this.handleChange} required />
-                        </div>
-                        <div className='field'>
-                            <label htmlFor="confirmPassword">Confirm Password</label><br />
-                            <input type="password" name="confirmPassword" onChange={this.handleChange} required />
-                        </div>
-                        <button type="submit">Reset Password</button>
-                    </form>
+                    <div className='field'>
+                        <label htmlFor="password">Password</label><br />
+                        <input type="password" name="resetPassword" minLength="8" onChange={this.handleChange} required />
+                    </div>
+                    <div className='field'>
+                        <label htmlFor="confirmPassword">Confirm Password</label><br />
+                        <input type="password" name="resetConfirmPassword" onChange={this.handleChange} required />
+                    </div>
+                    <button onClick={this.handleSubmitResetPassword} type="submit">Reset Password</button>
                 </div>
 
                 <div className='overlay' disabled={this.state.disablePopUpMessage}>
                     <div className='container' id='popupForm'>
-                        <form onSubmit={this.closeMessage} action="#">
-                            <div className='field'>
-                                <label style={{textAlign: 'center'}}>{this.state.popUpMessage}</label><br />
-                            </div>
-                            <button type="submit">Close</button>
-                        </form>
+                        <div className='field'>
+                            <label style={{textAlign: 'center'}}>{this.state.popUpMessage}</label><br />
+                        </div>
+                        <button onClick={this.closeMessage} type="submit">Close</button>
                     </div>
                 </div>
             </div>

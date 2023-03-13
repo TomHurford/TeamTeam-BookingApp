@@ -34,7 +34,34 @@ function CreateEvents() {
           ),
         })}
         onSubmit={(value) => {
-          console.log(value);
+          const event = {
+            name: value.eventName,
+            description: value.description,
+            date: value.date + "T" + value.time + ":00.000Z",
+            location: value.location,
+            societyId: parseInt(value.societyId),
+            ticketType: value.ticketInfo,
+          };
+
+          console.log(jwtController.getToken());
+          console.log(JSON.stringify(event));
+          fetch("http://localhost:5001/events/create", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + jwtController.getToken(),
+            },
+            body: JSON.stringify(event),
+          })
+            .then((response) => {
+              response.json().then((data) => {
+                const event = data.event;
+                window.location.href = "/event-details?eventId=" + event.id;
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         }}
       >
         {(formikProps) => (

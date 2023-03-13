@@ -77,58 +77,46 @@ class SearchSocieties extends Component {
             value={this.state.searchQuery}
             onChange={this.handleSearch}
           />
+          <ListFilter
+            categories={["All", "Sports", "Academic", "Social", "Other"]}
+            selectedCategory={this.state.selectedCategory}
+            onCategorySelect={this.handleCategorySelect}
+          />
 
-          <div className="row">
-            <div className="col-2">
-              <ListFilter
-                categories={["All", "Sports", "Academic", "Social", "Other"]}
-                selectedCategory={this.state.selectedCategory}
-                onCategorySelect={this.handleCategorySelect}
-              />
-            </div>
-            <div className="col">
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Followers</th>
-                    <th>Description</th>
+          <table className="societyListTable">
+            <tbody>
+              {societies.map((society) => (
+                <Link to={`/society/${society.id}`}>
+                  <tr key={society.id}>
+                    <div className="icon"><div className="logo"></div></div>
+                    <div className="name">{society.name}</div>
+                    <div className="category">{society.members} Following - {society.category}</div>
+                    <div className="description">{society.description}</div>
+                    <div className="followers"></div>
                   </tr>
-                </thead>
-                <tbody>
-                  {societies.map((society) => (
-                    <tr key={society.id}>
-                      <td>
-                        <Link to={`/society/${society.id}`}>{society.name}</Link>
-                      </td>
-                      <td>{society.category}</td>
-                      <td>{society.members}</td>
-                      <td>{society.description}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-              <Pagination
-                itemsCount={filtered.length}
-                pageSize={this.state.pageSize}
-                currentPage={this.state.currentPage}
-                onPageChange={this.handlePageChange}
-              />
-              <Link to="/create-society">
-                <button
-                  className="btn btn-primary"
-                  style={{ marginRight: "15px" }}
-                >
-                  Create Society
-                </button>
-              </Link>
-              <Link to="/edit-society">
-                <button className="btn btn-primary">Edit Society</button>
-              </Link>
-              {/* TODO: Use destructuring */}
-            </div>
-          </div>
+                </Link>
+              ))}
+            </tbody>
+          </table>
+          
+          <Pagination
+            itemsCount={filtered.length}
+            pageSize={this.state.pageSize}
+            currentPage={this.state.currentPage}
+            onPageChange={this.handlePageChange}
+          />
+          <Link to="/create-society">
+            <button
+              className="btn btn-primary"
+              style={{ marginRight: "15px" }}
+            >
+              Create Society
+            </button>
+          </Link>
+          <Link to="/edit-society">
+            <button className="btn btn-primary">Edit Society</button>
+          </Link>
+          {/* TODO: Use destructuring */}
         </div>
       </div>
     );

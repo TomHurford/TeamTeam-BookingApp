@@ -14,24 +14,22 @@ const Pagination = (props) => {
   const pages = _.range(1, pageCount + 1);
 
   return (
-    <nav>
-      <ul className="pagination">
-        {pages.map((page) => (
+    <ul className="pagination">
+      {pages.map((page) => (
+        <a
+          href="#/"
+          className="page-link"
+          onClick={() => onPageChange(page)}
+        >
           <li
             key={page}
             className={page === currentPage ? "page-item active" : "page-item"}
           >
-            <a
-              href="#/"
-              className="page-link"
-              onClick={() => onPageChange(page)}
-            >
-              {page}
-            </a>
+            {page}
           </li>
-        ))}
-      </ul>
-    </nav>
+        </a>
+      ))}
+    </ul>
   );
 };
 

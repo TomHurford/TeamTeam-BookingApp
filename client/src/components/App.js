@@ -18,7 +18,7 @@ import SearchEvents from "./Events/SearchEvents";
 import Logout from "./Logout";
 const jwtController = require("../utils/jwt.js");
 
-import CreateEvents from "./CreateEvents";
+import CreateEvents from "./Events/CreateEvents";
 
 const sessionStorage = require("sessionstorage");
 import Footer from "./Footer";

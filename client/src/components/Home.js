@@ -3,22 +3,30 @@ import '../styles/Events.css';
 import Event from './Events/Event';
 import '../styles/Home.css';
 import {getEvents} from "../utils/EventsLogic"
+// import search from '../utils/search.png';
+ 
 
 //Fetching events from the database and displaying them on the home page
 
 class Home extends Component {
     constructor(props) {
         super(props);
-        this.state = {eventCardList: []}
+        this.state = {eventCardList: [], data: [],  query: ""}
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
         this.fetchData();
+        // this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({ query: event.target.value });
     }
     
     async fetchData() {
         const events = await getEvents();
-        console.log(events);
+        // console.log(events);
         this.setState({eventCardList: this.eventsCardList(events)})
     }
 
@@ -32,9 +40,18 @@ class Home extends Component {
 
     searchBar(){
         return(
-           <form className="searchBar" data-testid = "search-bar">
-                <input type="text" placeholder = "Search for events..."/>
-           </form>
+            <div className="searchBarContainer">
+            {/* <img src = {search} className="searchIcon" alt="search icon" /> */}
+            <input 
+            className="searchBar"
+            data-testid="search-bar"
+            type="text" 
+            placeholder = "Search for events..."
+            value={this.state.query}
+            onChange={this.handleChange}
+            onKeyDown = {(e) => { if (e.key === 'Enter') { this.newSearch(this.state.query) }}}
+            />
+            </div>
         )
 
     }
@@ -42,7 +59,7 @@ class Home extends Component {
     eventsCardList(events) {
         return (
             <div className="events" data-testid="events-list">
-                {events.map(event => (    
+                {events.map(event => (
                     <div className="eventCard" key={event.id} onClick={()=>this.handleClick(event.id)} >
                     <Event details={event.id} specificEvent = {event}/>
                     </div>
@@ -66,6 +83,10 @@ class Home extends Component {
 
     handleClick= (eventId) => {
         window.location.href = '/event-details?eventId=' + eventId;
+    }
+
+    newSearch = (eventName) => {
+        window.location.href = '/search-events?name=' + eventName;
     }
 }
 export default Home

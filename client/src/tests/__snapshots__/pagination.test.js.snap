@@ -1,20 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Pagination snapshot test 1`] = `
-<nav>
-  <ul
-    className="pagination"
+<ul
+  className="pagination"
+>
+  <a
+    className="page-link"
+    href="#/"
+    onClick={[Function]}
   >
     <li
       className="page-item"
     >
-      <a
-        className="page-link"
-        onClick={[Function]}
-      >
-        1
-      </a>
+      1
     </li>
-  </ul>
-</nav>
+  </a>
+</ul>
 `;

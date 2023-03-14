@@ -28,7 +28,7 @@ function Basket(props) {
 
   async function checkout() {
     if (!props.isLoggedIn) {
-      window.location = '/login';
+      // window.location = '/login';
     }
 
     props.emptyBasket();

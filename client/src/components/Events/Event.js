@@ -17,7 +17,7 @@ class Event extends Component {
           <div className="eventName" data-testid = "eventNameID">{this.props.specificEvent.name}</div>
           <div className="hiddenUntilHover">
           <div className="imageOverlay"></div>
-            <div className="societyName">Society Name</div>
+            <div className="societyName">{this.props.specificEvent.societyName}</div>
             <div className="eventDesc">{this.props.specificEvent.description}</div>
             <div className="locationTime">{this.props.specificEvent.location}<br />{this.d.toDateString()}</div>
           </div>

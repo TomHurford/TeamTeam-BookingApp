@@ -2,7 +2,7 @@ import React from "react";
 import { Formik, FieldArray, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 //import "../styles/EditEvent.css";
-import "../styles/TitleOfPage.css";
+//import "../styles/TitleOfPage.css";
 //import jwtController from "../utils/jwt";
 
 function EditEvents() {
@@ -20,32 +20,32 @@ function EditEvents() {
         onSubmit={(value) => {
           console.log(value);
 
-          // const event = {
-          //   name: value.eventName,
-          //   description: value.description,
-          //   date: value.date + "T" + value.time + ":00.000Z",
-          //   location: value.location,
-          // };
+          const event = {
+            name: value.eventName,
+            description: value.description,
+            date: value.date + "T" + value.time + ":00.000Z",
+            location: value.location,
+          };
 
-          // console.log(jwtController.getToken());
-          // console.log(JSON.stringify(event));
+          console.log(jwtController.getToken());
+          console.log(JSON.stringify(event));
 
-          // fetch("http://localhost:5001/events/update", {
-          //   method: "PUT",
-          //   headers: {
-          //     "Content-Type": "application/json",
-          //     Authorization: "Bearer " + jwtController.getToken(),
-          //   },
-          //   body: JSON.stringify(event),
-          // })
-          //   .then((response) => {
-          //     response.json().then((data) => {
-          //       console.log(data);
-          //     });
-          //   })
-          //   .catch((error) => {
-          //     console.log(error);
-          //   });
+          fetch("http://localhost:5001/events/update", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: "Bearer " + jwtController.getToken(),
+            },
+            body: JSON.stringify(event),
+          })
+            .then((response) => {
+              response.json().then((data) => {
+                console.log(data);
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         }}
       >
         {(formikProps) => (
@@ -90,7 +90,16 @@ function EditEvents() {
                 onChange={formikProps.handleChange}
               />
             </div>
-            <button type="submit">Update Event</button>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              style={{ marginTop: "15px" }}
+              onClick={() => {
+                console.log("button press");
+              }}
+            >
+              Update Event
+            </button>
           </form>
         )}
       </Formik>

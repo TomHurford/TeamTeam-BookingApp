@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,7 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-//------------------//
 model UserType {
   id    Int    @id @unique @default(autoincrement())
   type  String
@@ -23,11 +19,11 @@ model User {
   email         String          @unique
   password      String
   userType      Int
-  type          UserType        @relation(references: [id], fields: [userType])
   committee     Committee[]
   members       Members[]
-  ticket        Ticket[]
   Purchase      Purchase[]
+  ticket        Ticket[]
+  type          UserType        @relation(fields: [userType], references: [id])
   verifications Verifications[]
 }
 
@@ -36,13 +32,12 @@ model Society {
   name        String            @unique
   email       String            @unique
   description String
-  category    SocietyCategories @default(Other)
   isArchived  Boolean           @default(false)
-  links       SocietyLinks[]
-  // A society can have many committee members and a committee member can be in many societies
+  category    SocietyCategories @default(Other)
   committee   Committee[]
-  members     Members[]
   events      Event[]
+  members     Members[]
+  links       SocietyLinks?
 }
 
 model SocietyLinks {
@@ -54,17 +49,17 @@ model SocietyLinks {
   logo      String?
   banner    String?
   societyId Int     @unique
-  society   Society @relation(references: [id], fields: [societyId])
+  society   Society @relation(fields: [societyId], references: [id])
 }
 
 model Committee {
   role        String
   userId      Int
   societyId   Int
-  isPresident Boolean @default(false)
-  user        User    @relation(references: [id], fields: [userId])
-  society     Society @relation(references: [id], fields: [societyId])
   isArchived  Boolean @default(false)
+  isPresident Boolean @default(false)
+  society     Society @relation(fields: [societyId], references: [id])
+  user        User    @relation(fields: [userId], references: [id])
 
   @@id([userId, societyId])
 }
@@ -72,9 +67,9 @@ model Committee {
 model Members {
   userId     Int
   societyId  Int
-  user       User    @relation(references: [id], fields: [userId])
-  society    Society @relation(references: [id], fields: [societyId])
   isArchived Boolean @default(false)
+  society    Society @relation(fields: [societyId], references: [id])
+  user       User    @relation(fields: [userId], references: [id])
 
   @@id([userId, societyId])
 }
@@ -85,13 +80,13 @@ model Event {
   description String
   date        DateTime
   location    String
-  banner      String       @default("https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80")
   societyId   Int
   isArchived  Boolean      @default(false)
-  society     Society      @relation(references: [id], fields: [societyId])
+  banner      String       @default("https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80")
+  society     Society      @relation(fields: [societyId], references: [id])
+  purchase    Purchase[]
   ticket      Ticket[]
   ticketTypes TicketType[]
-  purchase    Purchase[]
 }
 
 model TicketType {
@@ -100,24 +95,24 @@ model TicketType {
   price      Int
   quantity   Int
   eventId    Int
-  event      Event    @relation(references: [id], fields: [eventId])
-  tickets    Ticket[]
   isArchived Boolean  @default(false)
+  tickets    Ticket[]
+  event      Event    @relation(fields: [eventId], references: [id])
 }
 
 model Ticket {
   id           Int           @id @unique @default(autoincrement())
   ticketData   String
-  status       TICKET_STATUS @default(UNUSED)
   userId       Int
   eventId      Int
   ticketTypeId Int
   purchaseId   Int
-  purchase     Purchase      @relation(references: [id], fields: [purchaseId])
-  user         User          @relation(references: [id], fields: [userId])
-  event        Event         @relation(references: [id], fields: [eventId])
-  ticketType   TicketType    @relation(references: [id], fields: [ticketTypeId])
   isArchived   Boolean       @default(false)
+  status       TICKET_STATUS @default(UNUSED)
+  event        Event         @relation(fields: [eventId], references: [id])
+  purchase     Purchase      @relation(fields: [purchaseId], references: [id])
+  ticketType   TicketType    @relation(fields: [ticketTypeId], references: [id])
+  user         User          @relation(fields: [userId], references: [id])
 }
 
 model Purchase {
@@ -125,13 +120,13 @@ model Purchase {
   date          DateTime        @default(now())
   total         Int
   paymentMethod String
-  status        PURCHASE_STATUS @default(PENDING)
   userId        Int
   eventId       Int
-  user          User            @relation(references: [id], fields: [userId])
-  event         Event           @relation(references: [id], fields: [eventId])
-  tickets       Ticket[]
   isArchived    Boolean         @default(false)
+  status        PURCHASE_STATUS @default(PENDING)
+  event         Event           @relation(fields: [eventId], references: [id])
+  user          User            @relation(fields: [userId], references: [id])
+  tickets       Ticket[]
 }
 
 model Verifications {
@@ -139,7 +134,7 @@ model Verifications {
   verificationType String
   verificationCode String
   userId           Int
-  user             User   @relation(references: [id], fields: [userId])
+  user             User   @relation(fields: [userId], references: [id])
 }
 
 enum TICKET_STATUS {
@@ -159,5 +154,3 @@ enum SocietyCategories {
   Social
   Other
 }
-
-// I know bad style, will sort this later with the enum

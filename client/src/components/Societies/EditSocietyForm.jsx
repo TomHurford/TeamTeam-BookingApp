@@ -23,9 +23,7 @@ function EditSocietyForm() {
     },
 
     validationSchema: Yup.object({
-      societyId: Yup.number()
-        .moreThan(0, "Society ID must be a positive number")
-        .required("Society ID is required"),
+      societyId: Yup.number(),
       societyName: Yup.string(),
       societyEmail: Yup.string().email("Must be a valid email address"),
       description: Yup.string().min(

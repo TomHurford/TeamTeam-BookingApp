@@ -3,7 +3,7 @@ import { Formik, FieldArray, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 //import "../styles/EditEvent.css";
 //import "../styles/TitleOfPage.css";
-//import jwtController from "../utils/jwt";
+const jwtController = require("../../utils/jwt.js");
 
 function EditEvents() {
   return (

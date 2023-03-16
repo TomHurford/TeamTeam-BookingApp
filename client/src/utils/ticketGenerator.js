@@ -60,5 +60,4 @@ const generateTickets = async (event, ticketTypes, tickets, total) => {
 
 module.exports = {
     generateTickets
-  };
-  
+};

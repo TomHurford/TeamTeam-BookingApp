@@ -74,10 +74,10 @@ class SearchSocieties extends Component {
         <div className="searchSocietiesPage-container">
           <h1>Societies</h1>
           <div data-testid="searchbar">
-          <SearchBar
-            value={this.state.searchQuery}
-            onChange={this.handleSearch}
-          />
+            <SearchBar
+              value={this.state.searchQuery}
+              onChange={this.handleSearch}
+            />
           </div>
           <ListFilter
             categories={["All", "Sports", "Academic", "Social", "Other"]}
@@ -90,9 +90,13 @@ class SearchSocieties extends Component {
               {societies.map((society) => (
                 <Link to={`/society/${society.id}`}>
                   <tr key={society.id}>
-                    <div className="icon"><div className="logo"></div></div>
+                    <div className="icon">
+                      <div className="logo"></div>
+                    </div>
                     <div className="name">{society.name}</div>
-                    <div className="category">{society.members} Following - {society.category}</div>
+                    <div className="category">
+                      {society.members} Following - {society.category}
+                    </div>
                     <div className="description">{society.description}</div>
                     <div className="followers"></div>
                   </tr>
@@ -100,20 +104,17 @@ class SearchSocieties extends Component {
               ))}
             </tbody>
           </table>
-          
+
           <div data-testid="pagination">
-          <Pagination
-            itemsCount={filtered.length}
-            pageSize={this.state.pageSize}
-            currentPage={this.state.currentPage}
-            onPageChange={this.handlePageChange}
-          />
+            <Pagination
+              itemsCount={filtered.length}
+              pageSize={this.state.pageSize}
+              currentPage={this.state.currentPage}
+              onPageChange={this.handlePageChange}
+            />
           </div>
           <Link to="/create-society">
-            <button
-              className="btn btn-primary"
-              style={{ marginRight: "15px" }}
-            >
+            <button className="btn btn-primary" style={{ marginRight: "15px" }}>
               Create Society
             </button>
           </Link>

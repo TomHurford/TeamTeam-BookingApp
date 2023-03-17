@@ -18,10 +18,11 @@ import SearchEvents from "./Events/SearchEvents";
 import Logout from "./Logout";
 const jwtController = require("../utils/jwt.js");
 
+import CreateEvents from "./Events/CreateEvents";
+import EditEvents from "./Events/EditEvents";
+
 const sessionStorage = require("sessionstorage");
 import Footer from "./Footer";
-
-
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
@@ -181,6 +182,8 @@ function App() {
         <Route path="/create-society" element={<CreateSocietyForm />} />
         <Route path="/edit-society" element={<EditSocietyForm />} />
         <Route path="/search-events" element={<SearchEvents />} />
+        <Route path="/create-event" element={<CreateEvents />} />
+        <Route path="/edit-event" element={<EditEvents />} />
       </Routes>
       {/* <Footer /> */}
     </div>

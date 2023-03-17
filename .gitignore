@@ -4,6 +4,7 @@
 .docker.env
 
 */cypress/videos
+*/cypress/screenshots
 
 ### Code Coverage Reports ###
 cypress-coverage

@@ -46,18 +46,7 @@ function ContactSocietyForm(props) {
         }}
       >
         <div className="form-group">
-          <label
-            className={`form-label ${
-              formik.touched.customerName && formik.errors.customerName
-                ? " text-danger"
-                : ""
-            }`}
-            htmlFor="customerName"
-          >
-            {formik.touched.customerName && formik.errors.customerName
-              ? formik.errors.customerName
-              : "Your Name"}
-          </label>
+          <label htmlFor="customerName">Your Name</label>
           <input
             name="customerName"
             value={formik.values.customerName}
@@ -66,21 +55,18 @@ function ContactSocietyForm(props) {
             className="form-control"
             onBlur={formik.handleBlur}
           />
+          {formik.touched.customerName && formik.errors.customerName ? (
+            <label className="errortext" htmlFor="customerName">
+              {formik.errors.customerName}
+              <br />
+            </label>
+          ) : (
+            ""
+          )}
         </div>
 
         <div className="form-group">
-          <label
-            className={`form-label ${
-              formik.touched.customerEmail && formik.errors.customerEmail
-                ? " text-danger"
-                : ""
-            }`}
-            htmlFor="customerEmail"
-          >
-            {formik.touched.customerEmail && formik.errors.customerEmail
-              ? formik.errors.customerEmail
-              : "Your Email"}
-          </label>
+          <label htmlFor="customerEmail">Your Email</label>
           <input
             name="customerEmail"
             value={formik.values.customerEmail}
@@ -89,21 +75,18 @@ function ContactSocietyForm(props) {
             className="form-control"
             onBlur={formik.handleBlur}
           />
+          {formik.touched.customerEmail && formik.errors.customerEmail ? (
+            <label className="errortext" htmlFor="customerEmail">
+              {formik.errors.customerEmail}
+              <br />
+            </label>
+          ) : (
+            ""
+          )}
         </div>
 
         <div className="form-group">
-          <label
-            className={`form-label ${
-              formik.touched.messageSubject && formik.errors.messageSubject
-                ? " text-danger"
-                : ""
-            }`}
-            htmlFor="messageSubject"
-          >
-            {formik.touched.messageSubject && formik.errors.messageSubject
-              ? formik.errors.messageSubject
-              : "Subject of your query"}
-          </label>
+          <label htmlFor="messageSubject">Subject of your query</label>
           <input
             name="messageSubject"
             value={formik.values.messageSubject}
@@ -112,21 +95,18 @@ function ContactSocietyForm(props) {
             className="form-control"
             onBlur={formik.handleBlur}
           />
+          {formik.touched.messageSubject && formik.errors.messageSubject ? (
+            <label className="errortext" htmlFor="messageSubject">
+              {formik.errors.messageSubject}
+              <br />
+            </label>
+          ) : (
+            ""
+          )}
         </div>
 
         <div className="form-group">
-          <label
-            className={`form-label ${
-              formik.touched.message && formik.errors.message
-                ? " text-danger"
-                : ""
-            }`}
-            htmlFor="message"
-          >
-            {formik.touched.message && formik.errors.message
-              ? formik.errors.message
-              : "Your query"}
-          </label>
+          <label htmlFor="message">Your query</label>
           <textarea
             id="message"
             name="message"
@@ -139,6 +119,14 @@ function ContactSocietyForm(props) {
             cols="173"
             style={{ marginBottom: "8px" }}
           ></textarea>
+          {formik.touched.message && formik.errors.message ? (
+            <label className="errortext" htmlFor="message">
+              {formik.errors.message}
+              <br />
+            </label>
+          ) : (
+            ""
+          )}
         </div>
 
         <button

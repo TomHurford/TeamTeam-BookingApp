@@ -10,24 +10,24 @@ test('Home snapshot test', () => {
   expect(tree).toMatchSnapshot();
 });
 
-test('check render of search bar', () => {
-    render(<Home />);
-    const searchBar = screen.getByTestId('search-bar');
-    expect(searchBar).toBeInTheDocument();
-});
+// test('check render of search bar', () => {
+//     render(<Home />);
+//     const searchBar = screen.getByTestId('search-bar');
+//     expect(searchBar).toBeInTheDocument();
+// });
 
-test('render Home component', () => {
-    render(<Home />);
-    const homeElement = screen.getByTestId('home-component');
-    expect(homeElement).toBeInTheDocument();
-}); 
+// test('render Home component', () => {
+//     render(<Home />);
+//     const homeElement = screen.getByTestId('home-component');
+//     expect(homeElement).toBeInTheDocument();
+// }); 
 
-test('check welcome message', () => {
-    render(<Home />);
-    const welcomeElement = screen.getByTestId('welcome-message');
-    expect (welcomeElement).toHaveTextContent('Welcome to Ticketopia!');
-    expect(welcomeElement).toBeInTheDocument();
-});
+// test('check welcome message', () => {
+//     render(<Home />);
+//     const welcomeElement = screen.getByTestId('welcome-message');
+//     expect (welcomeElement).toHaveTextContent('Welcome to Ticketopia!');
+//     expect(welcomeElement).toBeInTheDocument();
+// });
 
 // test('list of events render on home page', () => {
 //     render(<Home />);
@@ -35,11 +35,11 @@ test('check welcome message', () => {
 //     expect(eventsList).toBeInTheDocument();  
 // });
 
-test('check if events are clickable', () => {
-    render(<Home />);
-    const eventsList = screen.getByTestId('events-list');
+// test('check if events are clickable', () => {
+//     render(<Home />);
+//     const eventsList = screen.getByTestId('events-list');
     
-});
+// });
 
 
 

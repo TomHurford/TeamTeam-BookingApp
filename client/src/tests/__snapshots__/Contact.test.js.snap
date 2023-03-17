@@ -15,12 +15,95 @@ exports[`Contact snapshot test 1`] = `
   <p
     className="data"
   >
-    we are an event booking application with the aim to help consumers have access to events avaiable 
+    Ticketopia is...
   </p>
-  <p
-    className="data"
+  <div
+    className="container"
   >
-    contact email:ticketopiacontact@gmail.com
-  </p>
+    <h1>
+      Contact Us
+    </h1>
+    <form
+      onSubmit={[Function]}
+    >
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="customerName"
+        >
+          Your Name
+        </label>
+        <br />
+        <input
+          name="customerName"
+          onBlur={[Function]}
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="customerEmail"
+        >
+          Your Email
+        </label>
+        <br />
+        <input
+          name="customerEmail"
+          onBlur={[Function]}
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="messageSubject"
+        >
+          Subject of your query
+        </label>
+        <input
+          name="messageSubject"
+          onBlur={[Function]}
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="message"
+        >
+          Your query
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          onBlur={[Function]}
+          onChange={[Function]}
+          rows="8"
+          type="text"
+          value=""
+        />
+      </div>
+      <button
+        style={
+          Object {
+            "marginBottom": "8px",
+          }
+        }
+      >
+        Submit query
+      </button>
+    </form>
+  </div>
 </div>
 `;

@@ -5,11 +5,12 @@ import * as Yup from "yup";
 import EditSocietyCommittee from "./ChangeSocietyMembers/EditSocietyCommittee";
 import "../../styles/Society.css";
 const jwtController = require("../../utils/jwt.js");
+import { useParams } from "react-router-dom";
 
 function EditSocietyForm() {
   const formik = useFormik({
     initialValues: {
-      societyId: 0,
+      societyId: parseInt(useParams().id),
       societyName: "",
       category: "",
       societyEmail: "",
@@ -54,7 +55,7 @@ function EditSocietyForm() {
         alert("Please fill in at least one field");
       } else {
         const data = {
-          societyId: values.societyId,
+          societyId: parseInt(values.societyId),
           name: values.societyName,
           category: values.category,
           email: values.societyEmail,
@@ -96,43 +97,41 @@ function EditSocietyForm() {
       <h1>Edit Society</h1>
 
       <form onSubmit={formik.handleSubmit}>
-        <fieldset disabled>
-          <div className="form-group">
-            <label htmlFor="societyName">Society Name</label>
-            <input
-              name="societyName"
-              value={formik.values.societyName}
-              onChange={formik.handleChange}
-              type="text"
-              className="form-control"
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.societyName && formik.errors.societyName ? (
-              <label className="errortext" htmlFor="societyName">
-                {formik.errors.societyName}
-                <br />
-              </label>
-            ) : (
-              ""
-            )}
-          </div>
+        <div className="form-group">
+          <label htmlFor="societyName">Society Name</label>
+          <input
+            name="societyName"
+            value={formik.values.societyName}
+            onChange={formik.handleChange}
+            type="text"
+            className="form-control"
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.societyName && formik.errors.societyName ? (
+            <label className="errortext" htmlFor="societyName">
+              {formik.errors.societyName}
+              <br />
+            </label>
+          ) : (
+            ""
+          )}
+        </div>
 
-          <div className="form-group">
-            <label>Select a category</label>
-            <select
-              id="category"
-              name="category"
-              value={formik.values.category}
-              onChange={formik.handleChange}
-              className="form-select"
-            >
-              <option defaultValue>Other</option>
-              <option>Academic</option>
-              <option>Social</option>
-              <option>Sports</option>
-            </select>
-          </div>
-        </fieldset>
+        <div className="form-group">
+          <label>Select a category</label>
+          <select
+            id="category"
+            name="category"
+            value={formik.values.category}
+            onChange={formik.handleChange}
+            className="form-select"
+          >
+            <option defaultValue>Other</option>
+            <option>Academic</option>
+            <option>Social</option>
+            <option>Sports</option>
+          </select>
+        </div>
 
         {/*Email below*/}
         <div className="form-group">
@@ -311,7 +310,7 @@ function EditSocietyForm() {
         <button className="btn btn-primary">Create Society</button>
       </form>
 
-      <EditSocietyCommittee />
+      <EditSocietyCommittee societyId={formik.values.societyId} />
     </div>
   );
 }

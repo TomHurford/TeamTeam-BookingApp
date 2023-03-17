@@ -79,6 +79,14 @@ const EditSocietyCommittee = (props) => {
       .then((status) => {
         if (status === 200) {
           alert("Member added successfully!");
+          setMembers((prevMembers) => [
+            ...prevMembers,
+            {
+              email: email,
+              userId: resUserId,
+              role: "Committee Member",
+            },
+          ]);
         } else if (status === 404) {
           alert("User does not exist");
           return;
@@ -99,14 +107,6 @@ const EditSocietyCommittee = (props) => {
       .then((res) => res.json())
       .then((data) => {
         resUserId = data.userId;
-        setMembers((prevMembers) => [
-          ...prevMembers,
-          {
-            email: email,
-            userId: resUserId,
-            role: "Committee Member",
-          },
-        ]);
       });
   };
 

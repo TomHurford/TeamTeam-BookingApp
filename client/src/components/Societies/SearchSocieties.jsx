@@ -118,10 +118,6 @@ class SearchSocieties extends Component {
               Create Society
             </button>
           </Link>
-          <Link to="/edit-society">
-            <button className="btn btn-primary">Edit Society</button>
-          </Link>
-          {/* TODO: Use destructuring */}
         </div>
       </div>
     );

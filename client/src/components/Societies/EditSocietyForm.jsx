@@ -307,7 +307,7 @@ function EditSocietyForm() {
           )}
         </div>
 
-        <button className="btn btn-primary">Create Society</button>
+        <button className="btn btn-primary">Edit Society</button>
       </form>
 
       <EditSocietyCommittee societyId={formik.values.societyId} />

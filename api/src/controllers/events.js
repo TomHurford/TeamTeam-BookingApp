@@ -18,17 +18,10 @@ async function getEvents(req, res) {
       where: {
         isArchived: false,
       },
+      include: {
+        society: true,
+      },
     });
-
-    // For each event get the society name and add it to the event object
-    for (let i = 0; i < events.length; i++) {
-      const society = await prisma.society.findUnique({
-        where: {
-          id: events[i].societyId,
-        },
-      });
-      events[i].societyName = society.name;
-    }
     res.status(200).send({events: events});
   } catch (err) {
     res.status(401).send({token: null, error: 'Unauthorized'});
@@ -360,6 +353,9 @@ async function searchEvents(req, res) {
           contains: req.body.name,
           mode: 'insensitive',
         },
+      },
+      include: {
+        society: true,
       },
     });
     res.status(200).send({event: event});

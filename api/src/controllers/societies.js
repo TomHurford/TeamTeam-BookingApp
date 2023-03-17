@@ -170,6 +170,7 @@ async function getSocieties(req, res) {
           userId: true,
         },
       },
+      links: true
     },
     where: {
       isArchived: false,
@@ -229,7 +230,11 @@ async function getSocietyById(req, res) {
       include: {
         members: true,
         links: true,
-        events: true,
+        events: {
+          include: {
+            society: true
+          }
+        },
       },
     });
 

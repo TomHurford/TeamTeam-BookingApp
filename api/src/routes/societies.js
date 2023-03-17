@@ -37,4 +37,8 @@ router.post('/updateCommitteeMember', (req, res) => {
   societyController.updateCommitteeMember(req, res);
 });
 
+router.post('/getCommitteeMembers', (req, res) => {
+  societyController.getCommitteeMembers(req, res);
+});
+
 module.exports = router;

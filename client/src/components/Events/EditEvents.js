@@ -11,6 +11,7 @@ function EditEvents() {
       <h1>Edit Event</h1>
       <Formik
         initialValues={{
+          
           eventName: "",
           description: "",
           date: "",

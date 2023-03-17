@@ -111,7 +111,7 @@ code {
   width: 100vw;
   margin: 0;
   padding: 0;
-  height: 60px;
+  height: 80px;
   background-color: black;
   text-align: right;
   z-index: 100;
@@ -127,4 +127,15 @@ code {
   float: left;
   text-align: right;
   margin-left: 20px;
+}
+
+.footer > ul > li > p > a {
+  text-decoration: none;
+  color: white;
+}
+
+.footer > ul > li > p > a:hover {
+  transform: scale(1.03);
+  transition: 0.3s;
+  opacity: 0.8;
 }

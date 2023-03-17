@@ -110,6 +110,27 @@ async function reset(req, res) {
           .send({token: null, message: 'New password cannot be empty'});
     }
 
+    // If the new password is the same as the old password, return an error
+    if (user.password === req.body.new_password) {
+      return res
+          .status(409)
+          .send({
+            token: null,
+            message: 'New password cannot be the same as the old password',
+          });
+    }
+
+    // If the new password does not meet the password requirements, return an
+    // error
+    if (req.body.new_password.length < 8) {
+      return res
+          .status(409)
+          .send({
+            token: null,
+            message: 'New password must be at least 8 characters',
+          });
+    }
+
     // Update the user's password
     user = await prisma.user.update({
       where: {
@@ -217,7 +238,8 @@ async function signup(req, res) {
   <br />
   Click the link to verify your account!<br />
   <br />
-  ` + url + `login?verify=` + verification.verificationCode + `&type=newuser&userId=` + user.id + `<br />
+  ` + url + `login?verify=` +
+    verification.verificationCode + `&type=newuser&userId=` + user.id + `<br />
   <br />
   Don't share this email!
   </p>
@@ -275,7 +297,8 @@ async function forgotPassword(req, res) {
   <br />
   Click the link to change it!<br />
   <br />
-  ` + url + `login?forgot=` + verification.verificationCode + `&type=forgot&userId=` + user.id + `<br />
+  ` + url + `login?forgot=` +
+      verification.verificationCode + `&type=forgot&userId=` + user.id + `<br />
   <br />
   Don't share this email!
   Wasn't you? Reset your password on our site!

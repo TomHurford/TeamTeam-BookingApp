@@ -242,3 +242,13 @@ ul.pagination > a > li.active {
         height: fit-content;
     }
 }
+#societyPage .body {
+    width: 100%;
+}
+#societyPage .body .description {
+    width: 100%;
+}
+#societyPage .body .events {
+    width: 100%;
+    min-height: fit-content;
+}

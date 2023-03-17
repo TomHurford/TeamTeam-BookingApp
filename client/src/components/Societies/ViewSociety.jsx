@@ -9,7 +9,6 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import ContactSocietyForm from "./ContactSocietyForm";
-import { Link } from "react-router-dom";
 
 function ViewSociety() {
   const [society, setSociety] = useState({});
@@ -113,17 +112,13 @@ function ViewSociety() {
           </p>
         </div>
 
-        <div>
+        <div className="events">
           <h2>Events:</h2>
           {eventsCardList(events)}
         </div>
       </div>
 
       <ContactSocietyForm societyName={society.name} />
-
-      <Link to={`/edit-society/${society.id}`}>
-        <button className="btn btn-primary">Edit Society</button>
-      </Link>
     </div>
   );
 }

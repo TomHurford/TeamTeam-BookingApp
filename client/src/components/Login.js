@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import '../styles/Login.css';
 const axios = require('axios');
 const jwtController = require('../utils/jwt.js');
-import { useSearchParams } from 'react-router-dom';
 
 
 

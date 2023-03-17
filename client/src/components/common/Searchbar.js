@@ -8,6 +8,7 @@ const SearchBar = ({ value, onChange }) => {
       name="query"
       className="searchBar"
       placeholder="Search for society..."
+      minLength="1"
       value={value}
       onChange={(event) => onChange(event.currentTarget.value)}
     />

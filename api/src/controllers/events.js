@@ -8,31 +8,43 @@ const auth = require('../utils/jwt_auth.js');
  * @param {Respon} res The response object
  */
 async function getEvents(req, res) {
-  try {
-    // Authenticate the user
-    // const decoded = await auth.authenticate(req);
-    // Get all events
-    // const events = await prisma.event.findMany();
-    // I want to add the society name to each event
-    const events = await prisma.event.findMany({
-      where: {
-        isArchived: false,
-      },
-    });
+  // try {
+  //   // Authenticate the user
+  //   // const decoded = await auth.authenticate(req);
+  //   // Get all events
+  //   // const events = await prisma.event.findMany();
+  //   // I want to add the society name to each event
+  //   const events = await prisma.event.findMany({
+  //     where: {
+  //       isArchived: false,
+  //     },
+  //   });
 
-    // For each event get the society name and add it to the event object
-    for (let i = 0; i < events.length; i++) {
-      const society = await prisma.society.findUnique({
-        where: {
-          id: events[i].societyId,
-        },
-      });
-      events[i].societyName = society.name;
-    }
-    res.status(200).send({events: events});
-  } catch (err) {
-    res.status(401).send({token: null, error: 'Unauthorized'});
-  }
+  //   // For each event get the society name and add it to the event object
+  //   for (let i = 0; i < events.length; i++) {
+  //     const society = await prisma.society.findUnique({
+  //       where: {
+  //         id: events[i].societyId,
+  //       },
+  //     });
+  //     events[i].societyName = society.name;
+  //   }
+  //   res.status(200).send({events: events});
+  // } catch (err) {
+  //   res.status(401).send({token: null, error: 'Unauthorized'});
+  // }
+
+  const events = await prisma.event.findMany({
+    where: {
+      isArchived: false,
+    },
+    include: {
+      society: true,
+    },
+  });
+
+  res.status(200).send({events: events});
+
   // const events = await prisma.event.findMany()
   // res.status(200).send({events: events})
 }

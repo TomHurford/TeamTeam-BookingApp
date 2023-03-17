@@ -10,7 +10,7 @@ const Member = (props) => {
       <span>
         <button
           className="btn btn-danger"
-          onClick={() => props.removeMember(props.id)}
+          onClick={() => props.removeMember(props.userId)}
           style={{ marginBottom: "8px" }}
         >
           Remove

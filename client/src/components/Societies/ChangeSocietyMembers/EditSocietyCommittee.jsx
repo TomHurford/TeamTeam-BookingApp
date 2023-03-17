@@ -7,13 +7,6 @@ const jwtController = require("../../../utils/jwt.js");
 import axios from "axios";
 
 const EditSocietyCommittee = (props) => {
-  // const [members, setMembers] = React.useState([
-  //   {
-  //     email: "nid@nid.com",
-  //     userId: 1,
-  //     role: "admin",
-  //   },
-
   const [members, setMembers] = useState([]);
 
   useEffect(() => {
@@ -37,48 +30,9 @@ const EditSocietyCommittee = (props) => {
     setMembers(members);
   }, [members]);
 
-  const [newMemberId, setNewMemberId] = React.useState(4);
-
-  const handleRemoveMember = (id) => {
-    // if (members.length > 1) {
-    //   setMembers((prevMembers) => prevMembers.filter((m) => m.userId !== id));
-    // } else {
-    //   console.log("Committee must have at least one member");
-    // }
-    // const data = {
-    //   userId: parseInt(members.userId),
-    // };
-    // console.log(members);
-    // console.log(jwtController.getToken());
-    // console.log(data);
-    // fetch("http://localhost:5001/societies/removeCommitteeMember", {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: "Bearer " + jwtController.getToken(),
-    //   },
-    //   body: JSON.stringify(data),
-    // })
-    //   .then((res) => res.status)
-    //   .then((status) => {
-    //     if (status === 200) {
-    //       alert("Member deleted successfully!");
-    //     } else {
-    //       alert("Error removing member");
-    //     }
-    //   });
-  };
-
-  const handleAddMember = (email) => {
-    const data = {
-      email: email,
-      societyId: parseInt(props.societyId),
-      role: "blahblah",
-    };
-    console.log(jwtController.getToken());
-
-    console.log(data);
-    fetch("http://localhost:5001/societies/addCommitteeMember", {
+  const handleRemoveMember = (userId) => {
+    const data = { userId: userId, societyId: props.societyId };
+    fetch("http://localhost:5001/societies/removeCommitteeMember", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -89,21 +43,71 @@ const EditSocietyCommittee = (props) => {
       .then((res) => res.status)
       .then((status) => {
         if (status === 200) {
-          alert("Member added successfully!");
+          alert("Member deleted successfully!");
+          if (members.length > 1) {
+            setMembers((prevMembers) =>
+              prevMembers.filter((m) => m.userId !== userId)
+            );
+          } else {
+            console.log("Committee must have at least one member");
+          }
         } else {
-          alert("Error adding member");
+          alert("Error removing member");
         }
       });
+  };
 
-    setMembers((prevMembers) => [
-      ...prevMembers,
-      {
-        email: email,
-        userId: newMemberId,
-        role: "blahblah",
+  const handleAddMember = (email) => {
+    const data = {
+      email: email,
+      societyId: parseInt(props.societyId),
+      role: "Committee Member",
+    };
+
+    var resUserId = 0;
+
+    fetch("http://localhost:5001/societies/addCommitteeMember", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + jwtController.getToken(),
       },
-    ]);
-    setNewMemberId((prevId) => prevId + 1);
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.status)
+
+      .then((status) => {
+        if (status === 200) {
+          alert("Member added successfully!");
+        } else if (status === 404) {
+          alert("User does not exist");
+          return;
+        } else if (status === 400) {
+          alert("User is already a committee member");
+          return;
+        } else if (status === 401) {
+          alert("You are a not a committee member");
+          return;
+        } else if (status === 402) {
+          alert("Only the president is able to update the committee");
+          return;
+        } else {
+          alert("Error adding member");
+          return;
+        }
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        resUserId = data.userId;
+        setMembers((prevMembers) => [
+          ...prevMembers,
+          {
+            email: email,
+            userId: resUserId,
+            role: "Committee Member",
+          },
+        ]);
+      });
   };
 
   return (
@@ -128,7 +132,7 @@ const EditSocietyCommittee = (props) => {
       {members.map((member) => (
         <Member
           email={member.email}
-          id={member.userId}
+          userId={member.userId}
           key={member.userId.toString()}
           removeMember={handleRemoveMember}
         />

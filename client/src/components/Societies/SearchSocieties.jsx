@@ -96,7 +96,7 @@ class SearchSocieties extends Component {
                     </div>
                     <div className="name">{society.name}</div>
                     <div className="category">
-                      {society.members} Following - {society.category}
+                      {society.members} Followers - {society.category}
                     </div>
                     <div className="description">{society.description}</div>
                     <div className="followers"></div>

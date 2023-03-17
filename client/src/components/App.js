@@ -26,6 +26,8 @@ import Footer from "./Footer";
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
+//TODO: Some variables using var instead of let
+
 function App() {
   /* LOG IN FUNCTIONALITY */
 
@@ -51,7 +53,7 @@ function App() {
       total += tickets[ticketType.id] * ticketType.price;
     });
 
-    if (isNaN(total)) {
+    if (Number.isNaN(total)) {
       return 0;
     } else {
       return total;
@@ -98,7 +100,7 @@ function App() {
   };
 
   const removeTicket = (callData, ticketType) => {
-    if (basketEvent == {}) return;
+    if (basketEvent === {}) return;
 
     var temptickets = tickets;
     if (!tickets[ticketType.id]) temptickets[ticketType.id] = 0;

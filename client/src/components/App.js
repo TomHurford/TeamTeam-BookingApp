@@ -180,7 +180,7 @@ function App() {
         <Route path="/society/:id" element={<ViewSociety />} />
         <Route path="/societies" element={<SearchSocieties />} />
         <Route path="/create-society" element={<CreateSocietyForm />} />
-        <Route path="/edit-society" element={<EditSocietyForm />} />
+        <Route path="/edit-society/:id" element={<EditSocietyForm />} />
         <Route path="/search-events" element={<SearchEvents />} />
         <Route path="/create-event" element={<CreateEvents />} />
         <Route path="/edit-event" element={<EditEvents />} />

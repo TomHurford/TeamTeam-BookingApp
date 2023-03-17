@@ -397,7 +397,7 @@ async function addCommitteeMember(req, res) {
       },
     });
 
-    res.status(200).send({message: 'User added to committee', user: user});
+    res.status(200).send({message: 'User added to committee', userId: user.id});
   } catch (err) {
     console.log(err);
     res.status(500).send({message: 'Internal Server Error'});
@@ -563,13 +563,24 @@ async function getCommitteeMembers(req, res) {
       select: {
         userId: true,
         role: true,
-        isPresident: true,
       },
     });
 
     if (committee.length === 0) {
       res.status(404).send({message: 'No committee members found'});
       return;
+    }
+
+    for (let i = 0; i < committee.length; i++) {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: committee[i].userId,
+        },
+        select: {
+          email: true,
+        },
+      });
+      committee[i].email = user.email;
     }
 
     res.status(200).send({message: 'Committee members found',

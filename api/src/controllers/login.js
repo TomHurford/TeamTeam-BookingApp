@@ -2,7 +2,7 @@
 const prisma = require('../../prisma/prisma.js');
 const auth = require('../utils/jwt_auth.js');
 const {randomString} = require('../utils/random.js');
-const { mail } = require('../utils/emails.js');
+const {mail} = require('../utils/emails.js');
 
 /**
  * Login a user
@@ -72,7 +72,7 @@ async function reset(req, res) {
     req.body.userId === undefined ||
     req.body.new_password === undefined
   ) {
-    console.log(req.body)
+    console.log(req.body);
     return res
         .status(409)
         .send({token: null, message: 'Request body cannot be empty'});
@@ -205,13 +205,13 @@ async function signup(req, res) {
   });
 
   // Mail the verification code
-  
-  url = "http://localhost:3000/" 
 
-  mail(to=user.email,subject="Signup Confirmation", body=`
+  url = 'http://localhost:3000/';
+
+  mail(to=user.email, subject='Signup Confirmation', body=`
   <h2>Sign Up Confirmation</h2><br />
   <br />
-  <h4> Hi ` + user.name +  `</h4><br />
+  <h4> Hi ` + user.name + `</h4><br />
   <p><br />
   Welcome to Ticketopia!<br />
   <br />
@@ -265,11 +265,11 @@ async function forgotPassword(req, res) {
     });
 
     // Mail the verification code
-  
-  url = "http://localhost:3000/" 
 
-  mail(to=user.email,subject="Forgot Password", body=`
-  <h4> Hi ` + user.name +  `</h4><br />
+    url = 'http://localhost:3000/';
+
+    mail(to=user.email, subject='Forgot Password', body=`
+  <h4> Hi ` + user.name + `</h4><br />
   <p><br />
   Forgot Your Password?<br />
   <br />

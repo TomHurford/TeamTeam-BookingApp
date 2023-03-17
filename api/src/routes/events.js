@@ -48,7 +48,7 @@ router.post('/delete', (req, res) => {
   eventsController.deleteEvent(req, res);
 });
 
-router.post("/auth", (req, res) => {
+router.post('/auth', (req, res) => {
   eventsController.checkPrivileges(req, res);
 });
 

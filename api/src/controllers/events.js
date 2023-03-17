@@ -437,6 +437,12 @@ async function searchEvents(req, res) {
   }
 }
 
+/**
+ * Check that the user is a committee member of the society
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ * @return {Response}
+ */
 async function checkPrivileges(req, res) {
   try {
     // Authenticate the user
@@ -451,14 +457,14 @@ async function checkPrivileges(req, res) {
 
     // If the user is not a member of the society committee, return an error
     if (isMember.length === 0) {
-      res.status(401).send({ error: "Unauthorized" });
+      res.status(401).send({error: 'Unauthorized'});
       return;
     }
 
-    res.status(200).send({ message: "Authorized" });
+    res.status(200).send({message: 'Authorized'});
   } catch (err) {
     console.log(err);
-    res.status(401).send({ token: null, error: "Unauthorized" });
+    res.status(401).send({token: null, error: 'Unauthorized'});
   }
 }
 

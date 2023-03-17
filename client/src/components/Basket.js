@@ -28,16 +28,18 @@ function Basket(props) {
 
   async function checkout() {
     if (!props.isLoggedIn) {
-      window.location = '/login';
+      // window.location = '/login';
     }
 
-    const res = await generateTickets(props.basketEvent, props.availableTicketTypes, props.tickets, props.totalPrice());
+    props.emptyBasket();
+    // const res = await generateTickets(props.basketEvent, props.availableTicketTypes, props.tickets, props.totalPrice());
 
-    if (res) {
-      props.emptyBasket();
-    } else {
-      // refund payment and call help lol displat error
-    }
+    // if (res) {
+    //   props.emptyBasket();
+    //   //window.location = '/tickets';
+    // } else {
+    //   // refund payment and call help lol displat error
+    // }
   }
 
   return (

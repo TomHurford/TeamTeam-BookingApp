@@ -44,30 +44,6 @@ getEventsByName  = async (eventName) => {
   }
 
 
-  render() {
-    return (
-      <div className="title">
-          <input
-            className="searchBar"
-            data-testid="search-bar"
-            type="text"
-            placeholder="Search for events..."
-            value={this.state.query}
-            onChange={this.handleChange}
-            onKeyDown = {(e) => { if (e.key === 'Enter') { this.newSearch(this.state.query) }}}
-          />
-
-          <div className="events" data-testid="events-list">
-            {this.state.results.map(event => (    
-                <div className="eventCard" key={event.id} onClick={()=>this.handleClick(event.id)} >
-                <Event details={event.id} specificEvent = {event}/>
-                </div>
-            ))}
-          </div>
-      </div>
-    );
-  }
-
   handleClick= (eventId) => {
     window.location.href = '/event-details?eventId=' + eventId;
 }
@@ -75,6 +51,35 @@ getEventsByName  = async (eventName) => {
  newSearch = (eventName) => {
     window.location.href = '/search-events?name=' + eventName;
   }
+
+
+  render() {
+    return (
+      <div className="page-container">
+        <div className="underlay"></div>
+        <div className="title">
+            <input
+              className="searchBar"
+              data-testid="search-bar"
+              type="text"
+              placeholder="Search for events..."
+              value={this.state.query}
+              onChange={this.handleChange}
+              onKeyDown = {(e) => { if (e.key === 'Enter') { this.newSearch(this.state.query) }}}
+            />
+
+            <div className="events" data-testid="events-list">
+              {this.state.results.map(event => (    
+                  <div className="eventCard" key={event.id} onClick={()=>this.handleClick(event.id)} >
+                  <Event details={event.id} specificEvent = {event}/>
+                  </div>
+              ))}
+            </div>
+        </div>
+      </div>
+    );
+  }
+
 }
 
 export default SearchEvents;

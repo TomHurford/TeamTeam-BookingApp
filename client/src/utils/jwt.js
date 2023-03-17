@@ -1,5 +1,6 @@
 // import jwt from 'jsonwebtoken';
-const axios = require('axios').default;
+
+const axios = require('axios');
 const sessionStorage = require('sessionstorage');
 
 // export const decodeToken = (token) => {
@@ -43,7 +44,7 @@ export const checkIsLoggedIn = async () => {
       }).catch(err => {
         console.log(err);
       })
-    if (res.status == 200) {
+    if (res !== undefined && res.status == 200) {
         return true;
     } else {
         removeToken()

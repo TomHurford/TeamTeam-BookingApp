@@ -28,32 +28,17 @@ exports[`Event snapshot test 1`] = `
         className="imageOverlay"
       />
       <div
+        className="societyName"
+      />
+      <div
         className="eventDesc"
-        data-testid="eventDescriptionID"
       />
       <div
         className="locationTime"
-        data-testid="eventLocationTimeID"
       >
-         
+        <br />
+        Invalid Date
       </div>
-    </div>
-  </div>
-  <div
-    className="society"
-  >
-    <div
-      className="societyName"
-      data-testid="eventSocietyNameID"
-    >
-      Society Name
-    </div>
-    <div
-      className="iconNext"
-    >
-      <div
-        className="icon"
-      />
     </div>
   </div>
 </div>

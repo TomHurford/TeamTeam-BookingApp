@@ -26,123 +26,35 @@ function ContactForm(props) {
   });
 
   return (
-    <div
-      style={{
-        borderColor: "gray",
-        borderWidth: 2,
-        borderRadius: 20,
-        backgroundColor: "#abc4ff",
-      }}
-    >
-      <h3>
-        <center>Contact Us</center>
-      </h3>
+    <div className="container">
+      <h1>Contact Us</h1>
 
-      <form
-        onSubmit={formik.handleSubmit}
-        style={{
-          width: "95%",
-          marginLeft: 38,
-        }}
-      >
-        <div className="form-group">
-          <label
-            className={`form-label ${
-              formik.touched.customerName && formik.errors.customerName
-                ? " text-danger"
-                : ""
-            }`}
-            htmlFor="customerName"
-          >
-            {formik.touched.customerName && formik.errors.customerName
-              ? formik.errors.customerName
-              : "Your Name"}
-          </label>
-          <input
-            name="customerName"
-            value={formik.values.customerName}
-            onChange={formik.handleChange}
-            type="text"
-            className="form-control"
-            onBlur={formik.handleBlur}
-          />
+      <form onSubmit={formik.handleSubmit}>
+        <div className='field'>
+          <label htmlFor="customerName">Your Name</label><br />
+          <input name="customerName" value={formik.values.customerName} onChange={formik.handleChange} type="text" onBlur={formik.handleBlur} />
+          {formik.touched.customerName && formik.errors.customerName ? <label className="errortext" htmlFor="customerName">{formik.errors.customerName}<br /></label> : '' }
         </div>
 
-        <div className="form-group">
-          <label
-            className={`form-label ${
-              formik.touched.customerEmail && formik.errors.customerEmail
-                ? " text-danger"
-                : ""
-            }`}
-            htmlFor="customerEmail"
-          >
-            {formik.touched.customerEmail && formik.errors.customerEmail
-              ? formik.errors.customerEmail
-              : "Your Email"}
-          </label>
-          <input
-            name="customerEmail"
-            value={formik.values.customerEmail}
-            onChange={formik.handleChange}
-            type="text"
-            className="form-control"
-            onBlur={formik.handleBlur}
-          />
+        <div className='field'>
+          <label htmlFor="customerEmail">Your Email</label><br />
+          <input name="customerEmail" value={formik.values.customerEmail} onChange={formik.handleChange} type="text" onBlur={formik.handleBlur} />
+          {formik.touched.customerEmail && formik.errors.customerEmail ? <label className="errortext" htmlFor="customerEmail">{formik.errors.customerEmail}<br /></label> : '' }
         </div>
 
-        <div className="form-group">
-          <label
-            className={`form-label ${
-              formik.touched.messageSubject && formik.errors.messageSubject
-                ? " text-danger"
-                : ""
-            }`}
-            htmlFor="messageSubject"
-          >
-            {formik.touched.messageSubject && formik.errors.messageSubject
-              ? formik.errors.messageSubject
-              : "Subject of your query"}
-          </label>
-          <input
-            name="messageSubject"
-            value={formik.values.messageSubject}
-            onChange={formik.handleChange}
-            type="text"
-            className="form-control"
-            onBlur={formik.handleBlur}
-          />
+        <div className='field'>
+          <label htmlFor="messageSubject">Subject of your query</label>
+          <input name="messageSubject" value={formik.values.messageSubject} onChange={formik.handleChange} type="text" onBlur={formik.handleBlur} />
+          {formik.touched.messageSubject && formik.errors.messageSubject ? <label className="errortext" htmlFor="messageSubject">{formik.errors.messageSubject}<br /></label> : '' }
         </div>
 
-        <div className="form-group">
-          <label
-            className={`form-label ${
-              formik.touched.message && formik.errors.message
-                ? " text-danger"
-                : ""
-            }`}
-            htmlFor="message"
-          >
-            {formik.touched.message && formik.errors.message
-              ? formik.errors.message
-              : "Your query"}
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            value={formik.values.message}
-            onChange={formik.handleChange}
-            type="text"
-            className="form-control"
-            onBlur={formik.handleBlur}
-            rows="8"
-            cols="173"
-            style={{ marginBottom: "8px" }}
-          ></textarea>
+        <div className='field'>
+          <label htmlFor="message">Your query</label>
+          <textarea id="message" name="message" value={formik.values.message} onChange={formik.handleChange} type="text" onBlur={formik.handleBlur} rows="8"></textarea>
+          {formik.touched.message && formik.errors.message ? <label className="errortext" htmlFor="message">{formik.errors.message}<br /></label> : '' }
         </div>
-
+        
         <button
-          className="btn btn-primary"
           style={{
             marginBottom: "8px",
           }}

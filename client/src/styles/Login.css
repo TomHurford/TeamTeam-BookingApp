@@ -30,30 +30,31 @@
 
 .container > form {
     width: 100%;
+    margin-bottom: 20px;
 }
 
-.container > .field {
+.container  .field {
     margin-top: 10px;
     width: 100%;
     aspect-ratio: 4;
     text-align: left;
     font-size: 1.1em;
 }
-.container > .field > label {
+.container  .field > label {
     width: 100%;
     padding: 5px;
 }
-.container > .field > label.buttonLabel {
+.container  .field > label.buttonLabel {
     width: 100%;
     padding: 5px;
     font-size: 0.7em;
     line-height: 0.9em;
 }
-.container > .field > label.buttonLabel:hover {
+.container  .field > label.buttonLabel:hover {
     opacity: 0.8;
     cursor: pointer;
 }
-.container > .field > input {
+.container .field > input {
     padding-left: 15px;
     padding-right: 15px;
     width: calc( 100% - 30px );
@@ -64,11 +65,30 @@
     outline: 5px;
     font-size: 1.1em;
 }
-.container > .field > input:active {
+.container  .field > label.errortext {
+    color: red;
+    font-size: 0.7em;
+    line-height: 0.9em;
+    padding-top: 0;
+}
+.container  .field > input:active {
+    border: 2px;
+}
+.container .field > textarea {
+    padding-left: 15px;
+    padding-right: 15px;
+    width: calc( 100% - 30px );
+    box-shadow: 1px 1px 3px rgba(135, 135, 135, 0.452);
+    border-radius: 10px;
+    border: 1px;
+    outline: 5px;
+    font-size: 1.1em;
+}
+.container  .field > textarea:active {
     border: 2px;
 }
 
-.container > button {
+.container  button {
     padding-left: 15px;
     padding-right: 15px;
     width: 100%;
@@ -82,12 +102,12 @@
     margin: auto;
     margin-top: 10px;
 }
-.container > button:hover {
+.container  button:hover {
     transform: scale(1.1);
     transition: 0.5s;
     cursor: pointer;
 }
-.container > button:active {
+.container  button:active {
     transform: scale(1.05);
     transition: 0.5s;
     opacity: 0.8;
@@ -106,25 +126,4 @@
     background-size: cover;
     background-position: center;
     opacity: 0.5;
-}
-
-.overlay {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10000;
-    /* Unsplash Royalty free License */
-    background: url('https://images.unsplash.com/photo-1567201864585-6baec9110dac?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80');
-    background-repeat:repeat;
-    background-size:cover;
-    background-position: center;
-}
-
-.overlay[disabled] {
-    height: 0;
-    width: 0;
-    overflow: hidden;
-    display: none;
 }

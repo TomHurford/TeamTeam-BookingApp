@@ -57,7 +57,9 @@ code {
     left: 0;
     z-index: -10000;
     /* Unsplash Royalty free License */
-    background: url('https://images.unsplash.com/photo-1567201864585-6baec9110dac?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80');
+    /* background: url('https://images.unsplash.com/photo-1579546928937-641f7ac9bced?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=339&q=80'); */
+    background: rgb(192,231,223);
+    background: linear-gradient(0deg, rgb(166, 239, 225) 0%, rgba(218,234,246,1) 100%);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;

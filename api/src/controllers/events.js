@@ -441,6 +441,9 @@ async function searchEvents(req, res) {
           mode: 'insensitive',
         },
       },
+      include: {
+        society: true,
+      },
     });
     res.status(200).send({event: event});
   } catch (err) {

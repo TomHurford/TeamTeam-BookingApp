@@ -55,3 +55,7 @@ export const generateTickets = async (event, ticketTypes, tickets, total) => {
 
     return 0;
 }
+
+module.exports = {
+    generateTickets
+};

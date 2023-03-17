@@ -9,6 +9,7 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import ContactSocietyForm from "./ContactSocietyForm";
+import { Link } from "react-router-dom";
 
 function ViewSociety() {
   const [society, setSociety] = useState({});
@@ -32,53 +33,76 @@ function ViewSociety() {
       });
   }, [societyId]);
 
-  function societyEventClick(eventId){
-    window.location.href = '/event-details?eventId=' + eventId;
+  function societyEventClick(eventId) {
+    window.location.href = "/event-details?eventId=" + eventId;
   }
 
-  function eventsCardList(events){
+  function eventsCardList(events) {
     return (
       <div className="events" data-testid="events-list">
-          {events.map(event => (    
-              <div data-testid={"event" + event.id} className="eventCard" key={event.id} onClick={()=> societyEventClick(event.id)} >
-              <Event details={event.id} specificEvent = {event}/>
-              </div>
-          ))}
+        {events.map((event) => (
+          <div
+            data-testid={"event" + event.id}
+            className="eventCard"
+            key={event.id}
+            onClick={() => societyEventClick(event.id)}
+          >
+            <Event details={event.id} specificEvent={event} />
+          </div>
+        ))}
       </div>
     );
-
   }
 
   return (
     <div className="page-container" id="societyPage">
       <div className="underlay"></div>
-      
 
       <div className="header">
-        <div className="image" style={{backgroundImage: `url(${societyLinks.banner})`}}><div className="bannerOverlay"></div>        
+        <div
+          className="image"
+          style={{ backgroundImage: `url(${societyLinks.banner})` }}
+        >
+          <div className="bannerOverlay"></div>
         </div>
         <div className="identity">
-          <div className="icon"><div className="logo" style={{backgroundImage: `url(${societyLinks.logo})`}}></div></div>
-          <div className="name" >{society.name}</div>
+          <div className="icon">
+            <div
+              className="logo"
+              style={{ backgroundImage: `url(${societyLinks.logo})` }}
+            ></div>
+          </div>
+          <div className="name">{society.name}</div>
           <div className="socials">
             <a href={societyLinks.facebook} className="socialCircle">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png" alt="facebook" />
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png"
+                alt="facebook"
+              />
             </a>
             <a href={societyLinks.twitter} className="socialCircle">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/2491px-Twitter-logo.svg.png" alt="twitter" />
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/2491px-Twitter-logo.svg.png"
+                alt="twitter"
+              />
             </a>
             <a href={societyLinks.instagram} className="socialCircle">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png" alt="instagram" />
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png"
+                alt="instagram"
+              />
             </a>
             <a href={societyLinks.website} className="socialCircle">
-              <img src="https://w7.pngwing.com/pngs/549/715/png-transparent-web-development-logo-website-web-design-symmetry-internet.png" alt="website" />
+              <img
+                src="https://w7.pngwing.com/pngs/549/715/png-transparent-web-development-logo-website-web-design-symmetry-internet.png"
+                alt="website"
+              />
             </a>
           </div>
         </div>
       </div>
 
       <div className="body">
-
         <div className="description">
           <p>{society.description}</p>
           <p>
@@ -114,19 +138,20 @@ function ViewSociety() {
             />
           </a>
         </div>
-        
+
         <div>
           <h2>Events:</h2>
           {eventsCardList(events)}
         </div>
-
       </div>
 
       <ContactSocietyForm societyName={society.name} />
+
+      <Link to={`/edit-society/${society.id}`}>
+        <button className="btn btn-primary">Edit Society</button>
+      </Link>
     </div>
   );
 }
-
-
 
 export default ViewSociety;

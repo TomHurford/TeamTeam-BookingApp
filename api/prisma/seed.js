@@ -73,9 +73,9 @@ async function seedUserTypes() {
 async function seedUsers() {
   await prisma.user.create({
     data: {
-      name: "Admin",
-      email: "admin@admin.com",
-      password: "admin123",
+      name: 'Admin',
+      email: 'admin@admin.com',
+      password: 'admin123',
       type: {
         connect: {
           id: 1,

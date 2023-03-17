@@ -30,19 +30,20 @@ const EditSocietyCommittee = (props) => {
     setMembers(members);
   }, [members]);
 
-  const handleRemoveMember = (userId) => {
-    const data = { userId: userId, societyId: props.societyId };
-    fetch("http://localhost:5001/societies/removeCommitteeMember", {
+  const handleRemoveMember = async (userId) => {
+    const data = { "userId": userId, "societyId": props.societyId };
+    await fetch("http://localhost:5001/societies/removeCommitteeMember", {
       method: "POST",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + jwtController.getToken(),
+        "Authorization": "Bearer " + jwtController.getToken(),
       },
       body: JSON.stringify(data),
     })
-      .then((res) => res.status)
-      .then((status) => {
-        if (status === 200) {
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === 'User removed from committee') {
           alert("Member deleted successfully!");
           if (members.length > 1) {
             setMembers((prevMembers) =>
@@ -52,12 +53,12 @@ const EditSocietyCommittee = (props) => {
             console.log("Committee must have at least one member");
           }
         } else {
-          alert("Error removing member");
+          alert(data.message);
         }
       });
   };
 
-  const handleAddMember = (email) => {
+  const handleAddMember = async (email) => {
     const data = {
       email: email,
       societyId: parseInt(props.societyId),
@@ -66,38 +67,24 @@ const EditSocietyCommittee = (props) => {
 
     var resUserId = 0;
 
-    fetch("http://localhost:5001/societies/addCommitteeMember", {
+    await fetch("http://localhost:5001/societies/addCommitteeMember", {
       method: "POST",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + jwtController.getToken(),
+        "Authorization": "Bearer " + jwtController.getToken(),
       },
       body: JSON.stringify(data),
     })
-      .then((res) => res.status)
-
-      .then((status) => {
-        if (status === 200) {
-          alert("Member added successfully!");
-        } else if (status === 404) {
-          alert("User does not exist");
-          return;
-        } else if (status === 400) {
-          alert("User is already a committee member");
-          return;
-        } else if (status === 401) {
-          alert("You are a not a committee member");
-          return;
-        } else if (status === 402) {
-          alert("Only the president is able to update the committee");
-          return;
+      .then((res) => (res.json()))
+      .then((data) => {
+        if(data.message === "User added to committee")
+        {
+          alert("Member added successfully!"); 
         } else {
-          alert("Error adding member");
+          alert(data.message)
           return;
         }
-      })
-      .then((res) => res.json())
-      .then((data) => {
         resUserId = data.userId;
         setMembers((prevMembers) => [
           ...prevMembers,
@@ -107,6 +94,8 @@ const EditSocietyCommittee = (props) => {
             role: "Committee Member",
           },
         ]);
+      }).catch((error) => {
+        console.log(error);
       });
   };
 

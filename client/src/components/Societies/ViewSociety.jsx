@@ -1,64 +1,152 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Event from "../Events/Event";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFacebook,
+  faInstagram,
+  faTwitter,
+} from "@fortawesome/free-brands-svg-icons";
+import ContactSocietyForm from "./ContactSocietyForm";
 
-const ViewSociety = () => {
-  const { name } = useParams();
+function ViewSociety() {
+  const [society, setSociety] = useState({});
+  const [societyLinks, setSocietyLinks] = useState({});
+  const [events, setEvents] = useState([]);
+  const { id: societyId } = useParams();
+
+  useEffect(() => {
+    axios
+      .post("http://localhost:5001/societies/getSociety", {
+        societyId: societyId,
+      })
+      .then((response) => {
+        setSociety(response.data.society);
+        setSocietyLinks(response.data.society.links[0]);
+        setEvents(response.data.society.events);
+        console.log(response.data.society.events);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, [societyId]);
+
+  function societyEventClick(eventId) {
+    window.location.href = "/event-details?eventId=" + eventId;
+  }
+
+  function eventsCardList(events) {
+    return (
+      <div className="events" data-testid="events-list">
+        {events.map((event) => (
+          <div
+            data-testid={"event" + event.id}
+            className="eventCard"
+            key={event.id}
+            onClick={() => societyEventClick(event.id)}
+          >
+            <Event details={event.id} specificEvent={event} />
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
-    <React.Fragment>
+    <div className="page-container" id="societyPage">
+      <div className="underlay"></div>
+
       <div className="header">
-        <h1>Society: {name}</h1>
-      </div>
-
-      <div className="row">
-        <div className="leftcolumn">
-          <div className="card">
-            <h2>TITLE HEADING</h2>
-            <h5>Title description, Dec 7, 2017</h5>
-            <div className="fakeimg" style={{ height: "200px" }}>
-              Image
-            </div>
-            <p>Some text..</p>
-          </div>
-          <div className="card">
-            <h2>TITLE HEADING</h2>
-            <h5>Title description, Sep 2, 2017</h5>
-            <div className="fakeimg" style={{ height: "200px" }}>
-              Image
-            </div>
-            <p>Some text..</p>
-          </div>
+        <div
+          className="image"
+          style={{ backgroundImage: `url(${societyLinks.banner})` }}
+        >
+          <div className="bannerOverlay"></div>
         </div>
-        <div className="rightcolumn">
-          <div className="card">
-            <h2>About Me</h2>
-            <div className="fakeimg" style={{ height: "100px" }}>
-              Image
-            </div>
-            <p>
-              Some text about me in culpa qui officia deserunt mollit anim..
-            </p>
+        <div className="identity">
+          <div className="icon">
+            <div
+              className="logo"
+              style={{ backgroundImage: `url(${societyLinks.logo})` }}
+            ></div>
           </div>
-          <div className="card">
-            <h3>Popular Post</h3>
-            <div className="fakeimg">Image</div>
-            <br />
-            <div className="fakeimg">Image</div>
-            <br />
-            <div className="fakeimg">Image</div>
-          </div>
-          <div className="card">
-            <h3>Follow Me</h3>
-            <p>Some text..</p>
+          <div className="name">{society.name}</div>
+          <div className="socials">
+            <a href={societyLinks.facebook} className="socialCircle">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png"
+                alt="facebook"
+              />
+            </a>
+            <a href={societyLinks.twitter} className="socialCircle">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/2491px-Twitter-logo.svg.png"
+                alt="twitter"
+              />
+            </a>
+            <a href={societyLinks.instagram} className="socialCircle">
+              <img
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png"
+                alt="instagram"
+              />
+            </a>
+            <a href={societyLinks.website} className="socialCircle">
+              <img
+                src="https://w7.pngwing.com/pngs/549/715/png-transparent-web-development-logo-website-web-design-symmetry-internet.png"
+                alt="website"
+              />
+            </a>
           </div>
         </div>
       </div>
 
-      <div className="footer">
-        <h2>Footer</h2>
+      <div className="body">
+        <div className="description">
+          <p>{society.description}</p>
+          <p>
+            <strong>Category:</strong> {society.category}
+          </p>
+          <p>
+            <strong>Followers:</strong> {society.members}
+          </p>
+          <h3>Social Links:</h3>
+          <p>
+            <strong> Website:</strong>{" "}
+            <a href={societyLinks.website}>{societyLinks.website}</a>
+          </p>
+          <a href={societyLinks.instagram}>
+            <FontAwesomeIcon
+              icon={faInstagram}
+              size="3x"
+              style={{ marginBottom: "7px" }}
+            />
+          </a>
+          <a href={societyLinks.twitter}>
+            <FontAwesomeIcon
+              icon={faTwitter}
+              size="3x"
+              style={{ marginLeft: "10px", marginBottom: "7px" }}
+            />
+          </a>
+          <a href={societyLinks.facebook}>
+            <FontAwesomeIcon
+              icon={faFacebook}
+              size="3x"
+              style={{ marginLeft: "10px", marginBottom: "7px" }}
+            />
+          </a>
+        </div>
+
+        <div>
+          <h2>Events:</h2>
+          {eventsCardList(events)}
+        </div>
       </div>
-    </React.Fragment>
+
+      <ContactSocietyForm societyName={society.name} />
+    </div>
   );
-};
+}
 
 export default ViewSociety;

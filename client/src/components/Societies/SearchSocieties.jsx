@@ -1,96 +1,129 @@
 import React, { Component } from "react";
 import Pagination from "../common/Pagination";
-
 import { paginate } from "../../utils/paginate";
 import SearchBar from "../common/Searchbar";
 import { Link } from "react-router-dom";
-
+import ListFilter from "../common/ListFilter";
+import axios from "axios";
 
 class SearchSocieties extends Component {
-
-
   constructor(props) {
     super(props);
     this.state = {
-      data : [], // bad implementation, will change later
+      societiesList: [],
       currentPage: 1,
       pageSize: 5,
-      searchQuery: " ",
+      selectedCategory: null,
+      searchQuery: "",
     };
-    this.fetchData();
-}
+  }
 
- 
-  fetchData() {
-    fetch('http://localhost:5001/societies/getSocieties')
-    .then(response => response.json())
-    .then(societiesList => {this.setState({data: societiesList})})
-      .catch(error => console.error(error))
-    
-}
-
-
-
+  async componentDidMount() {
+    const { data: societiesList } = await axios.get(
+      "http://localhost:5001/societies/getSocieties"
+    );
+    this.setState({ societiesList });
+  }
 
   handlePageChange = (page) => {
     this.setState({ currentPage: page });
   };
 
   handleSearch = (query) => {
-    this.setState({ searchQuery: query, currentPage: 1 });
+    this.setState({
+      searchQuery: query,
+      currentPage: 1,
+      selectedCategory: null,
+    });
+  };
+
+  handleCategorySelect = (category) => {
+    this.setState({
+      selectedCategory: category,
+      currentPage: 1,
+      searchQuery: "",
+    });
   };
 
   render() {
-    const { pageSize, currentPage } = this.state;
+    const { pageSize, currentPage, selectedCategory } = this.state;
 
-    const societies = paginate(this.state.data, currentPage, pageSize);
+    let filtered = this.state.societiesList;
+
+    // Filter societies by search query
+    if (this.state.searchQuery) {
+      filtered = this.state.societiesList.filter((society) =>
+        society.name
+          .toLowerCase()
+          .startsWith(this.state.searchQuery.toLowerCase())
+      );
+      // Filter societies by category
+    } else if (selectedCategory && selectedCategory !== "All") {
+      filtered = this.state.societiesList.filter(
+        (society) => society.category === selectedCategory
+      );
+    } else {
+      filtered = this.state.societiesList;
+    }
+
+    const societies = paginate(filtered, currentPage, pageSize);
 
     return (
-      <React.Fragment>
-        <h2>Societies</h2>
-        <SearchBar onChange={this.handleSearch} />
+      <div className="page-container">
+        <div className="underlay"></div>
+        <div className="searchSocietiesPage-container">
+          <h1>Societies</h1>
+          <div data-testid="searchbar">
+            <SearchBar
+              value={this.state.searchQuery}
+              onChange={this.handleSearch}
+            />
+          </div>
+          <ListFilter
+            categories={["All", "Sports", "Academic", "Social", "Other"]}
+            selectedCategory={this.state.selectedCategory}
+            onCategorySelect={this.handleCategorySelect}
+          />
 
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Category</th>
-              <th>Followers</th>
-              <th>Number of Events</th>
-            </tr>
-          </thead>
-          <tbody>
-            {societies.map((society) => (
-              <tr key={society.id}>
-                <td>
-                  <a href={`/societies/${society.id}/${society.name}`}>
-                    {society.name}
-                  </a>
-                  {/* TODO: Use Link */}
-                </td>
-                <td>{society.category}</td>
-                <td>{society.members}</td>
-                <td>{society.description}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        <Pagination
-          itemsCount={this.state.data.length}
-          pageSize={this.state.pageSize}
-          currentPage={this.state.currentPage}
-          onPageChange={this.handlePageChange}
-        />
-        <Link to="/create-society">
-          <button className="btn btn-primary" style={{ marginRight: "15px" }}>
-            Create Society
-          </button>
-        </Link>
-        <Link to="/edit-society">
-          <button className="btn btn-primary">Edit Society</button>
-        </Link>
-        {/* TODO: Use destructuring */}
-      </React.Fragment>
+          <table className="societyListTable">
+            <tbody>
+              {societies.map((society) => (
+                <Link to={`/society/${society.id}`}>
+                  <tr key={society.id}>
+                    <div className="icon">
+                      <div className="logo"></div>
+                    </div>
+                    <div className="name">{society.name}</div>
+                    <div className="category">
+                      {society.members} Following - {society.category}
+                    </div>
+                    <div className="description">{society.description}</div>
+                    <div className="followers"></div>
+                  </tr>
+                </Link>
+              ))}
+            </tbody>
+          </table>
+
+          <div data-testid="pagination">
+            <Pagination
+              itemsCount={filtered.length}
+              pageSize={this.state.pageSize}
+              currentPage={this.state.currentPage}
+              onPageChange={this.handlePageChange}
+            />
+          </div>
+          <Link to="/create-society">
+            <button className="btn btn-primary" style={{ marginRight: "15px" }}>
+              Create Society
+            </button>
+          </Link>
+          <Link to="/edit-society">
+            <button className="btn btn-primary">Edit Society</button>
+          </Link>
+          {/* TODO: Use destructuring */}
+        </div>
+      </div>
     );
   }
 }

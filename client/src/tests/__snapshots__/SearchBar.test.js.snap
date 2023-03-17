@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchBar snapshot test 1`] = `
+<input
+  className="searchBar"
+  name="query"
+  onChange={[Function]}
+  placeholder="Search for society..."
+  type="text"
+/>
+`;

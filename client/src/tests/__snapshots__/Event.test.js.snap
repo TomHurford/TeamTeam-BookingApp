@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Event snapshot test 1`] = `
+<div
+  className="innerEventCard"
+  data-testid="eventCardID"
+>
+  <div
+    className="imageCard"
+  >
+    <div
+      className="image"
+      data-testid="eventImageID"
+      style={
+        Object {
+          "backgroundImage": "url(undefined)",
+        }
+      }
+    />
+    <div
+      className="eventName"
+      data-testid="eventNameID"
+    />
+    <div
+      className="hiddenUntilHover"
+    >
+      <div
+        className="imageOverlay"
+      />
+      <div
+        className="societyName"
+      />
+      <div
+        className="eventDesc"
+      />
+      <div
+        className="locationTime"
+      >
+        <br />
+        Invalid Date
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -4,31 +4,61 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.3.0",
+    "@fortawesome/free-brands-svg-icons": "^6.3.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "axios": "^1.3.2",
+    "axios": "^0.27.2",
+    "babel-plugin-macros": "^3.1.0",
     "bootstrap": "^5.2.3",
     "crypto": "^1.0.1",
+    "font-awesome": "^4.7.0",
+    "formik": "^2.2.9",
     "joi-browser": "^13.4.0",
+    "jsbarcode": "^3.11.5",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",
-    "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4"
+    "react-scripts": "^5.0.1",
+    "sessionstorage": "^0.0.2",
+    "stream": "^0.0.2",
+    "stream-http": "^3.2.0",
+    "web-vitals": "^2.1.4",
+    "yup": "^1.0.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.21.0",
+    "@babel/core": "^7.21.0",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-react": "^7.18.6",
+    "@cypress/code-coverage": "^3.10.0",
+    "@cypress/instrument-cra": "^1.4.0",
+    "babel-jest": "^29.4.3",
+    "babel-plugin-istanbul": "^6.1.1",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "check-code-coverage": "^1.10.4",
+    "cypress": "^12.6.0",
+    "flow-bin": "^0.200.0",
+    "istanbul-merge": "^1.1.1",
+    "istanbul-reports": "^3.1.5",
+    "jest": "^27.5.1",
+    "jest-watch-typeahead": "^2.2.2",
+    "react-test-renderer": "^18.2.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+    "test:jest": "npm run test -- --coverage --watchAll=false --coverageDirectory=jest-coverage",
+    "coverage": "npm run test -- --coverage --watchAll=false",
+    "eject": "react-scripts eject",
+    "cypress:open": "cypress open",
+    "merge": "istanbul-merge cypress-coverage/coverage-final.json jest-coverage/coverage-final.json --out combined-coverage/coverage-final.json",
+    "report:combined": "npx nyc report --reporter html --reporter text -t combined-coverage --report-dir combined-coverage/summary",
+    "test:all": "npm run test:jest && npx cypress run && npm run merge && npm run report:combined"
   },
   "browserslist": {
     "production": [
@@ -41,5 +71,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "nyc": {
+    "report-dir": "cypress-coverage"
   }
 }

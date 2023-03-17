@@ -1,0 +1,109 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Contact snapshot test 1`] = `
+<div
+  className="page-container"
+>
+  <div
+    className="underlay"
+  />
+  <h1
+    className="title"
+  >
+    Who are we
+  </h1>
+  <p
+    className="data"
+  >
+    Ticketopia is...
+  </p>
+  <div
+    className="container"
+  >
+    <h1>
+      Contact Us
+    </h1>
+    <form
+      onSubmit={[Function]}
+    >
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="customerName"
+        >
+          Your Name
+        </label>
+        <br />
+        <input
+          name="customerName"
+          onBlur={[Function]}
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="customerEmail"
+        >
+          Your Email
+        </label>
+        <br />
+        <input
+          name="customerEmail"
+          onBlur={[Function]}
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="messageSubject"
+        >
+          Subject of your query
+        </label>
+        <input
+          name="messageSubject"
+          onBlur={[Function]}
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="message"
+        >
+          Your query
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          onBlur={[Function]}
+          onChange={[Function]}
+          rows="8"
+          type="text"
+          value=""
+        />
+      </div>
+      <button
+        style={
+          Object {
+            "marginBottom": "8px",
+          }
+        }
+      >
+        Submit query
+      </button>
+    </form>
+  </div>
+</div>
+`;

@@ -185,7 +185,7 @@ function App() {
         <Route path="/create-event" element={<CreateEvents />} />
         <Route path="/edit-event" element={<EditEvents />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

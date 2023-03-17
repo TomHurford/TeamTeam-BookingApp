@@ -200,7 +200,7 @@ describe('Signup', () => {
       },
     });
 
-    expect(response.statusCode).toBe(200)
+    expect(response.statusCode).toBe(200);
   });
 
   test('Signup with invalid credentials (empty email)', async () => {

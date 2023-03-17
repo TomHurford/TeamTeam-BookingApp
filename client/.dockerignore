@@ -1,0 +1,4 @@
+node_modules/
+cypress/
+cypress.config.js
+jest.config.js

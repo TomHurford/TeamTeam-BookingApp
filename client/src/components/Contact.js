@@ -14,20 +14,20 @@ function Contact() {
           specifically for university societies! Our mission is to provide a
           simple and effective way for societies to create events and sell
           tickets online.
-          <br />
+          <br /> <br />
           We understand the importance of a well-organized event, and the hassle
           of managing ticket sales manually. That's why we've created a
           user-friendly platform that allows societies to easily create and
           manage their events.
-          <br />
+          <br /> <br />
           With our platform, societies can easily set up an event page,
           customize ticket options, and track ticket sales in real-time.
-          <br />
+          <br /> <br />
           Our team is dedicated to providing excellent customer support,
           ensuring that your society has a seamless experience on our platform.
           We're always available to answer any questions or address any concerns
           that you may have.
-          <br />
+          <br /> <br />
           So whether you're planning a fundraising event, a social gathering, or
           a cultural celebration, our platform is here to help. Join our growing
           community of university societies today and start creating

@@ -5,6 +5,7 @@ import SearchBar from "../common/Searchbar";
 import { Link } from "react-router-dom";
 import ListFilter from "../common/ListFilter";
 import axios from "axios";
+import "../../styles/index.css";
 
 class SearchSocieties extends Component {
   constructor(props) {
@@ -114,7 +115,7 @@ class SearchSocieties extends Component {
             />
           </div>
           <Link to="/create-society">
-            <button className="btn btn-primary" style={{ marginRight: "15px" }}>
+            <button className="button" style={{ marginRight: "15px" }}>
               Create Society
             </button>
           </Link>

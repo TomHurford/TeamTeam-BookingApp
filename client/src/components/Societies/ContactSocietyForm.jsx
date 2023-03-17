@@ -1,6 +1,7 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import "../../styles/index.css";
 
 function ContactSocietyForm(props) {
   const formik = useFormik({
@@ -130,7 +131,7 @@ function ContactSocietyForm(props) {
         </div>
 
         <button
-          className="btn btn-primary"
+          className="button"
           style={{
             marginBottom: "8px",
           }}

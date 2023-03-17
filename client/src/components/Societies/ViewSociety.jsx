@@ -10,6 +10,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import ContactSocietyForm from "./ContactSocietyForm";
 import { Link } from "react-router-dom";
+import "../../styles/index.css";
 
 function ViewSociety() {
   const [society, setSociety] = useState({});
@@ -148,7 +149,7 @@ function ViewSociety() {
       <ContactSocietyForm societyName={society.name} />
 
       <Link to={`/edit-society/${society.id}`}>
-        <button className="btn btn-primary">Edit Society</button>
+        <button className="button">Edit Society</button>
       </Link>
     </div>
   );

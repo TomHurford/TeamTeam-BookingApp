@@ -183,7 +183,7 @@ function App() {
         <Route path="/edit-society/:id" element={<EditSocietyForm />} />
         <Route path="/search-events" element={<SearchEvents />} />
         <Route path="/create-event" element={<CreateEvents />} />
-        <Route path="/edit-event" element={<EditEvents />} />
+        <Route path="/edit-event/:id" element={<EditEvents />} />
       </Routes>
       {/* <Footer /> */}
     </div>

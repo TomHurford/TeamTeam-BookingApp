@@ -5,6 +5,7 @@ import "../../styles/TitleOfPage.css";
 import { getEventById } from "../../utils/EventsLogic";
 import TicketHolderTicket from "./TicketHolder";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 class EventDetails extends Component {
   constructor(props) {
@@ -18,6 +19,13 @@ class EventDetails extends Component {
     const eventId = parseInt(searchParams.get("eventId"));
     const event = await getEventById(eventId);
     this.setState({ data: event });
+  }
+
+  
+  handleClick= () => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const eventId = parseInt(searchParams.get("eventId"));
+    window.location.href = '/edit-event/' + eventId;
   }
 
   render() {
@@ -116,15 +124,12 @@ class EventDetails extends Component {
             >
               Go To Basket
             </button>
-            <button
-              className="addToCart"
-              onClick={() => {
-                window.location = "/edit-event";
-              }}
-            >
-              Edit Event
-            </button>
-            @Abdur: change class names of css
+            {/* <Link
+              to={`/edit-event/${this.getEventId})
+              )}`}
+            > */}
+              <button className="btn btn-primary" onClick={this.handleClick}>Edit Event</button>
+            {/* </Link> */}
           </div>
 
           <div className="spacer"></div>

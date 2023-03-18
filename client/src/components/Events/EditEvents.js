@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 //import "../styles/EditEvent.css";
 //import "../styles/TitleOfPage.css";
 const jwtController = require("../../utils/jwt.js");
+import "../../styles/index.css";
 
 function EditEvents() {
   return (
@@ -12,7 +13,7 @@ function EditEvents() {
       <h1>Edit Event</h1>
       <Formik
         initialValues={{
-          eventId : parseInt(useParams().id),
+          eventId: parseInt(useParams().id),
           eventName: "",
           description: "",
           date: "",
@@ -21,25 +22,33 @@ function EditEvents() {
         }}
         validationSchema={Yup.object({
           eventName: Yup.string(),
-          description: Yup.string()
-            .min(30, "Event description must be at least 30 characters."),
+          description: Yup.string().min(
+            30,
+            "Event description must be at least 30 characters."
+          ),
           date: Yup.date(),
           location: Yup.string(),
           time: Yup.string(),
         })}
         onSubmit={(value) => {
           console.log(value);
-          if(value.eventName === "" && value.description === "" && value.date === "" && value.location === "" && value.time === ""){
+          if (
+            value.eventName === "" &&
+            value.description === "" &&
+            value.date === "" &&
+            value.location === "" &&
+            value.time === ""
+          ) {
             alert("Please fill in at least one field to update the event.");
             return;
           }
 
-          if(value.date !== "" && value.time === ""){
+          if (value.date !== "" && value.time === "") {
             alert("Please fill in the time of the event.");
             return;
           }
 
-          if(value.date === "" && value.time !== ""){
+          if (value.date === "" && value.time !== "") {
             alert("Please fill in the date of the event.");
             return;
           }
@@ -48,7 +57,10 @@ function EditEvents() {
             eventId: value.eventId,
             name: value.eventName,
             description: value.description,
-            date:  value.date === "" || value.time === "" ? "" : value.date + "T" + value.time + ":00.000Z",
+            date:
+              value.date === "" || value.time === ""
+                ? ""
+                : value.date + "T" + value.time + ":00.000Z",
             location: value.location,
           };
 
@@ -64,7 +76,8 @@ function EditEvents() {
               response.json().then((data) => {
                 console.log(data);
                 alert("Event updated successfully!");
-                window.location.href = "/event-details?eventId=" + data.event.id;
+                window.location.href =
+                  "/event-details?eventId=" + data.event.id;
               });
             })
             .catch((error) => {
@@ -172,7 +185,7 @@ function EditEvents() {
             )}
             <button
               type="submit"
-              className="btn btn-primary"
+              className="button"
               style={{ marginTop: "15px" }}
             >
               Update Event

@@ -911,7 +911,7 @@ async function checkIfUserIsCommitteeMember(req, res) {
     });
 
     if (committee.length === 0) {
-      res.status(400).send({isCommitteeMember: false});
+      res.status(200).send({isCommitteeMember: false});
       return;
     }
 
@@ -946,7 +946,7 @@ async function checkIfUserIsPresident(req, res) {
     });
 
     if (president.length === 0) {
-      res.status(400).send({isPresident: false});
+      res.status(200).send({isPresident: false});
       return;
     }
 

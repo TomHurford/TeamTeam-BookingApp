@@ -61,4 +61,12 @@ router.post('/getFollowedSocieties', (req, res) => {
   societyController.getListOfFollowedSocieties(req, res);
 });
 
+router.post('/checkCommitteeMember', (req, res) => {
+  societyController.checkIfUserIsCommitteeMember(req, res);
+});
+
+router.post('/checkPresident', (req, res) => {
+  societyController.checkIfUserIsPresident(req, res);
+});
+
 module.exports = router;

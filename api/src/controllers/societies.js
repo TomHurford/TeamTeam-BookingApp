@@ -874,6 +874,89 @@ async function getListOfFollowedSocieties(req, res) {
   }
 }
 
+/**
+ * Checks if user is a committee member
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ */
+async function checkIfUserIsCommitteeMember(req, res) {
+  try {
+    // Authenticate the user
+    const userId = (await auth.authenticate(req)).id;
+
+    if (!req.body.eventId) {
+      res.status(400).send({message: 'Missing eventId'});
+      return;
+    }
+
+    const event = await prisma.event.findUnique({
+      where: {
+        id: req.body.eventId,
+      },
+      select: {
+        societyId: true,
+      },
+    });
+
+    if (!event) {
+      res.status(404).send({message: 'Event not found'});
+      return;
+    }
+
+    const committee = await prisma.committee.findMany({
+      where: {
+        userId: userId,
+        societyId: event.societyId,
+      },
+    });
+
+    if (committee.length === 0) {
+      res.status(400).send({isCommitteeMember: false});
+      return;
+    }
+
+    res.status(200).send({isCommitteeMember: true});
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({message: 'Internal Server Error'});
+  }
+}
+
+/**
+ * Checks if user is president of a society
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ */
+async function checkIfUserIsPresident(req, res) {
+  try {
+    // Authenticate the user
+    const userId = (await auth.authenticate(req)).id;
+
+    if (!req.body.societyId) {
+      res.status(400).send({message: 'Missing societyId'});
+      return;
+    }
+
+    const president = await prisma.committee.findMany({
+      where: {
+        userId: userId,
+        societyId: req.body.societyId,
+        isPresident: true,
+      },
+    });
+
+    if (president.length === 0) {
+      res.status(400).send({isPresident: false});
+      return;
+    }
+
+    res.status(200).send({isPresident: true});
+  } catch (err) {
+    console.log(err);
+    res.status(500).send({message: 'Internal Server Error'});
+  }
+}
+
 module.exports = {
   signup,
   getSocieties,
@@ -889,4 +972,6 @@ module.exports = {
   checkUserIsMember,
   getMembers,
   getListOfFollowedSocieties,
+  checkIfUserIsCommitteeMember,
+  checkIfUserIsPresident,
 };

@@ -3,9 +3,6 @@ import React, { useEffect, useState } from "react";
 import Member from "./Member";
 import AddCommitteeMember from "./AddCommitteeMember";
 const jwtController = require("../../../utils/jwt.js");
-
-
-const jwtController = require("../../../utils/jwt.js");
 import axios from "axios";
 
 const EditSocietyCommittee = (props) => {

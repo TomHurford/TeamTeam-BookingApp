@@ -180,37 +180,83 @@ exports[`App snapshot test 1`] = `
     </nav>
   </div>
   <div
-    className="page-container"
+    className="page-wrapper"
   >
     <div
-      className="underlay"
-    />
-    <div
-      className="homePage"
-      data-testid="home-component"
+      className="page-container"
     >
       <div
-        className="welcome"
-        data-testid="welcome-message"
-      >
-        <h1>
-          Perfect Tickets? Perfect Time.
-        </h1>
-      </div>
+        className="underlay"
+      />
       <div
-        className="searchBarContainer"
+        className="homePage"
+        data-testid="home-component"
       >
-        <input
-          className="searchBar"
-          data-testid="search-bar"
-          onChange={[Function]}
-          onKeyDown={[Function]}
-          placeholder="Search for events..."
-          type="text"
-          value=""
-        />
+        <div
+          className="welcome"
+          data-testid="welcome-message"
+        >
+          <h1>
+            Perfect Tickets? Perfect Time.
+          </h1>
+        </div>
+        <div
+          className="searchBarContainer"
+        >
+          <input
+            className="searchBar"
+            data-testid="search-bar"
+            onChange={[Function]}
+            onKeyDown={[Function]}
+            placeholder="Search for events..."
+            type="text"
+            value=""
+          />
+        </div>
       </div>
     </div>
+    <footer
+      className="footer"
+    >
+      <ul>
+        <li>
+          <p>
+            <a
+              href="/about"
+              onClick={[Function]}
+            >
+              <li>
+                About
+              </li>
+            </a>
+          </p>
+        </li>
+        <li>
+          <p>
+            <a
+              href="/privacy"
+              onClick={[Function]}
+            >
+              <li>
+                Privacy
+              </li>
+            </a>
+          </p>
+        </li>
+        <li>
+          <p>
+            <a
+              href="/terms"
+              onClick={[Function]}
+            >
+              <li>
+                Terms
+              </li>
+            </a>
+          </p>
+        </li>
+      </ul>
+    </footer>
   </div>
 </div>
 `;

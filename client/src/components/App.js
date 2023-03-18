@@ -23,7 +23,7 @@ import EditEvents from "./Events/EditEvents";
 
 const sessionStorage = require("sessionstorage");
 import Footer from "./Footer";
-import PrivateRoutes from "../utils/PrivateRoutes";
+import { LoggedInRoutes, PrivateRoutes } from "../utils/PrivateRoutes";
 
 //Routes to connect to the homepage, the contact page and other pages which can be added here
 
@@ -142,10 +142,12 @@ function App() {
       <div className="page-wrapper">
         <Routes>
           <Route path="/" element={<Home />}></Route>
-          <Route
-            path="/login"
-            element={<Login isLoggedIn={isLoggedIn} />}
-          ></Route>
+          <Route element={<LoggedInRoutes />}>
+            <Route
+              path="/login"
+              element={<Login isLoggedIn={isLoggedIn} />}
+            ></Route>
+          </Route>
           <Route
             path="/logout"
             element={<Logout isLoggedIn={isLoggedIn} />}

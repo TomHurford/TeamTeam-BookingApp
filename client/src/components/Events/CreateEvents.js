@@ -32,8 +32,10 @@ function CreateEvents() {
           ticketInfo: Yup.array().of(
             Yup.object({
               name: Yup.string().required("Ticket name is required"),
-              price: Yup.number("Price must be a number").required("Ticket price is required"),
-              quantity: Yup.number()
+              price: Yup.number("Price must be a number")
+                .positive("Price must be positive")
+                .required("Ticket price is required"),
+              quantity: Yup.number("Quantity must be a number")
                 .positive("Ticket quantity must be positive")
                 .required("Ticket quantity is required"),
             })
@@ -48,7 +50,14 @@ function CreateEvents() {
             date: value.date + "T" + value.time + ":00.000Z",
             location: value.location,
             societyId: parseInt(value.societyId),
-            ticketType: value.ticketInfo,
+            ticketType: value.ticketInfo.map((ticket) => {
+              return {
+                name: ticket.name,
+                price: parseInt(ticket.price),
+                quantity: parseInt(ticket.quantity),
+              };
+            }
+              ),
           };
 
           console.log(jwtController.getToken());
@@ -244,7 +253,7 @@ function CreateEvents() {
                             <input
                               name="price"
                               onChange={formikProps.handleChange}
-                              type="number"
+                              type="text"
                               className="form-control"
                               onBlur={formikProps.handleBlur}
                               {...fieldProps.field}
@@ -264,7 +273,7 @@ function CreateEvents() {
                             <input
                               name="quantity"
                               onChange={formikProps.handleChange}
-                              type="number"
+                              type="text"
                               className="form-control"
                               onBlur={formikProps.handleBlur}
                               {...fieldProps.field}

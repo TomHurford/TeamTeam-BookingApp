@@ -95,6 +95,44 @@ describe('Create Events', () => {
       cy.contains('Society ID must be positive')
     })
 
+    it('Invalid ticket price - type in string', () =>{
+      cy.get('div[data-testid="ticketInfo.0.name"]').contains("Ticket Price").parent().find('input').type('Test');
+      cy.contains('Create Event').click()
+      cy.contains('ticketInfo[0].price must be a `number` type')
+    })
+
+    it('Invalid ticket price - type in negative number', () =>{
+      cy.get('div[data-testid="ticketInfo.0.name"]').contains("Ticket Price").parent().find('input').type('-1');
+      cy.contains('Create Event').click()
+      cy.contains('Price must be positive')
+    })
+
+    it('Invalid ticket price - type in 0', () =>{
+      cy.get('div[data-testid="ticketInfo.0.name"]').contains("Ticket Price").parent().find('input').type('0');
+      cy.contains('Create Event').click()
+      cy.contains('Price must be positive')
+    })
+
+    //ticketInfo[0].quantity must be a `number` type
+
+    it('Invalid quantity - type in string', () =>{
+      cy.get('div[data-testid="ticketInfo.0.name"]').contains("Ticket Quantity").parent().find('input').type('Test');
+      cy.contains('Create Event').click()
+      cy.contains('ticketInfo[0].quantity must be a `number` type')
+    })
+
+    it('Invalid quantity - type in negative number', () =>{
+      cy.get('div[data-testid="ticketInfo.0.name"]').contains("Ticket Quantity").parent().find('input').type('-1');
+      cy.contains('Create Event').click()
+      cy.contains('Ticket quantity must be positive')
+    })
+
+    it('Invalid quantity - type in 0', () =>{
+      cy.get('div[data-testid="ticketInfo.0.name"]').contains("Ticket Quantity").parent().find('input').type('0');
+      cy.contains('Create Event').click()
+      cy.contains('Ticket quantity must be positive')
+    })
+    
   })
 
   describe('Test valid inputs', () => {

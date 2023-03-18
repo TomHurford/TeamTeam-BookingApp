@@ -1,4 +1,5 @@
 import React from "react";
+import "../../../styles/index.css";
 
 const Member = (props) => {
   return (
@@ -9,8 +10,8 @@ const Member = (props) => {
     >
       <span>
         <button
-          className="btn btn-danger"
-          onClick={() => props.removeMember(props.id)}
+          className="button button--red"
+          onClick={() => props.removeMember(props.userId)}
           style={{ marginBottom: "8px" }}
         >
           Remove

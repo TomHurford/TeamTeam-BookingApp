@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import "../../../styles/index.css";
 
 const AddCommitteeMember = (props) => {
   const [value, setValue] = React.useState("");
@@ -28,7 +29,7 @@ const AddCommitteeMember = (props) => {
         }}
       />
       <button
-        className="btn btn-primary"
+        className="button"
         style={{ marginLeft: "8px", marginBottom: "8px" }}
       >
         Add Member

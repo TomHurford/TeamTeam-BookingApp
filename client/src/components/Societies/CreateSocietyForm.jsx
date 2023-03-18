@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 const jwtController = require("../../utils/jwt.js");
+import "../../styles/index.css";
 
 function CreateSocietyForm() {
   const formik = useFormik({
@@ -273,7 +274,7 @@ function CreateSocietyForm() {
           )}
         </div>
 
-        <button className="btn btn-primary">Create Society</button>
+        <button className="button">Create Society</button>
       </form>
     </div>
   );

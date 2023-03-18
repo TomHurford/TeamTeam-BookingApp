@@ -5,6 +5,7 @@ import SearchBar from "../common/Searchbar";
 import { Link } from "react-router-dom";
 import ListFilter from "../common/ListFilter";
 import axios from "axios";
+import "../../styles/index.css";
 
 class SearchSocieties extends Component {
   constructor(props) {
@@ -93,7 +94,7 @@ class SearchSocieties extends Component {
                     <div className="icon"><div className="logo" style={{backgroundImage: `url(${society.links[0].logo})`}}></div></div>
                     <div className="name">{society.name}</div>
                     <div className="category">
-                      {society.members} Following - {society.category}
+                      {society.members} Followers - {society.category}
                     </div>
                     <div className="description">{society.description}</div>
                     <div className="followers"></div>
@@ -112,14 +113,10 @@ class SearchSocieties extends Component {
             />
           </div>
           <Link to="/create-society">
-            <button className="btn btn-primary" style={{ marginRight: "15px" }}>
+            <button className="button" style={{ marginRight: "15px" }}>
               Create Society
             </button>
           </Link>
-          <Link to="/edit-society">
-            <button className="btn btn-primary">Edit Society</button>
-          </Link>
-          {/* TODO: Use destructuring */}
         </div>
       </div>
     );

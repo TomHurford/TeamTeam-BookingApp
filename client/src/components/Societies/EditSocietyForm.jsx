@@ -7,6 +7,9 @@ import "../../styles/Society.css";
 const jwtController = require("../../utils/jwt.js");
 import { useParams } from "react-router-dom";
 
+import "../../styles/index.css";
+
+
 function EditSocietyForm() {
   const formik = useFormik({
     initialValues: {
@@ -307,7 +310,7 @@ function EditSocietyForm() {
           )}
         </div>
 
-        <button className="btn btn-primary">Create Society</button>
+        <button className="button">Edit Society</button>
       </form>
 
       <EditSocietyCommittee societyId={formik.values.societyId} />

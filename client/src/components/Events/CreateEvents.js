@@ -217,7 +217,6 @@ function CreateEvents() {
                       key={`ticketInfo.${index}.name`}
                       data-testid={`ticketInfo.${index}.name`}
                     >
-                      console.log({`ticketInfo.${index}.name`})
                       <Field name={`ticketInfo.${index}.name`}>
                         {(fieldProps) => (
                           <div className="form-group">

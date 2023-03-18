@@ -1,67 +1,104 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import Member from "./Member";
 import AddCommitteeMember from "./AddCommitteeMember";
 const jwtController = require("../../../utils/jwt.js");
 
+
+const jwtController = require("../../../utils/jwt.js");
+import axios from "axios";
+
 const EditSocietyCommittee = (props) => {
-  const [members, setMembers] = React.useState([
-    {
-      email: "nid@nid.com",
-      userId: 1,
-      societyId: props.societyId,
-      role: "admin",
-    },
-    { email: "hi@hi.com", userId: 2 },
-    { email: "hdsdfasi@dhi.com", userId: 3 },
-  ]);
+  const [members, setMembers] = useState([]);
 
-  const [newMemberId, setNewMemberId] = React.useState(4);
-
-  const handleRemoveMember = (id) => {
-    if (members.length > 1) {
-      setMembers((prevMembers) => prevMembers.filter((m) => m.userId !== id));
-    } else {
-      console.log("Committee must have at least one member");
-    }
-  };
-
-  const handleAddMember = (email) => {
-    setMembers((prevMembers) => [
-      ...prevMembers,
-      {
-        email: email,
-        userId: newMemberId,
-        societyId: props.societyId,
-        role: "newMember",
-      },
-    ]);
-    setNewMemberId((prevId) => prevId + 1);
-
-    const data = {
-      email: email,
-      userId: newMemberId,
-      societyId: parseInt(props.societyId),
-      role: "newMember",
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.post(
+          "http://localhost:5001/societies/getCommitteeMembers",
+          {
+            societyId: props.societyId,
+          }
+        );
+        setMembers(response.data.committee);
+      } catch (error) {
+        console.log(error);
+      }
     };
-    console.log(jwtController.getToken());
+    fetchData();
+  }, [props.societyId]);
 
-    console.log(data);
-    fetch("http://localhost:5001/societies/addCommitteeMember", {
+  useEffect(() => {
+    setMembers(members);
+  }, [members]);
+
+  const handleRemoveMember = async (userId) => {
+    const data = { "userId": userId, "societyId": props.societyId };
+    await fetch("http://localhost:5001/societies/removeCommitteeMember", {
       method: "POST",
+      mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + jwtController.getToken(),
+        "Authorization": "Bearer " + jwtController.getToken(),
       },
       body: JSON.stringify(data),
     })
-      .then((res) => res.status)
-      .then((status) => {
-        if (status === 200) {
-          alert("Member added successfully!");
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.message === 'User removed from committee') {
+          alert("Member deleted successfully!");
+          if (members.length > 1) {
+            setMembers((prevMembers) =>
+              prevMembers.filter((m) => m.userId !== userId)
+            );
+          } else {
+            console.log("Committee must have at least one member");
+          }
         } else {
-          alert("Error adding member");
+          alert(data.message);
         }
+      });
+  };
+
+  const handleAddMember = async (email) => {
+    const data = {
+      email: email,
+      societyId: parseInt(props.societyId),
+      role: "Committee Member",
+    };
+
+    var resUserId = 0;
+
+    await fetch("http://localhost:5001/societies/addCommitteeMember", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + jwtController.getToken(),
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => (res.json()))
+      .then((data) => {
+        if(data.message === "User added to committee")
+        {
+          alert("Member added successfully!"); 
+        } else {
+          alert(data.message)
+          return;
+        }
+        resUserId = data.userId;
+        setMembers((prevMembers) => [
+          ...prevMembers,
+          {
+            email: email,
+            userId: resUserId,
+            role: "Committee Member",
+          },
+        ]);
+      }).catch((error) => {
+        console.log(error);
+
       });
   };
 
@@ -87,7 +124,9 @@ const EditSocietyCommittee = (props) => {
       {members.map((member) => (
         <Member
           email={member.email}
-          id={member.userId}
+
+          userId={member.userId}
+
           key={member.userId.toString()}
           removeMember={handleRemoveMember}
         />

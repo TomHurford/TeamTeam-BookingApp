@@ -32,7 +32,7 @@ function CreateEvents() {
           ticketInfo: Yup.array().of(
             Yup.object({
               name: Yup.string().required("Ticket name is required"),
-              price: Yup.number().required("Ticket price is required"),
+              price: Yup.number("Price must be a number").required("Ticket price is required"),
               quantity: Yup.number()
                 .positive("Ticket quantity must be positive")
                 .required("Ticket quantity is required"),

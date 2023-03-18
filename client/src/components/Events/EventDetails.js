@@ -49,19 +49,25 @@ class EventDetails extends Component {
           <div className="description">
             <h2>Description</h2>
             <div className="text">{event.event.description}</div>
+            { event.isCommittee ? <button
+              className="addToCart"
+              onClick={() => {
+                window.location = "/edit-event";
+              }}
+            >
+              Edit Event
+            </button> : <br />}
           </div>
           <div className="societyInfo">
             <div className="icon">
-              <div
-                className="logo"
-                style={{ backgroundImage: `url(${event.societyLinks.logo})` }}
-              ></div>
+              {console.log(event)}
+              <div className="logo" style={{ backgroundImage: `url(${event.event.society.links[0].logo})` }}></div>
             </div>
-            <div className="name">{event.society.name}</div>
-            <div className="description">{event.society.description}</div>
+            <div className="name">{event.event.society.name}</div>
+            <div className="description">{event.event.society.description}</div>
             <div className="socials">
               <a
-                href={this.state.data.societyLinks.facebook}
+                href={event.event.society.links[0].facebook}
                 className="socialCircle"
               >
                 <img
@@ -70,7 +76,7 @@ class EventDetails extends Component {
                 />
               </a>
               <a
-                href={this.state.data.societyLinks.twitter}
+                href={event.event.society.links[0].twitter}
                 className="socialCircle"
               >
                 <img
@@ -79,7 +85,7 @@ class EventDetails extends Component {
                 />
               </a>
               <a
-                href={this.state.data.societyLinks.instagram}
+                href={event.event.society.links[0].instagram}
                 className="socialCircle"
               >
                 <img
@@ -88,7 +94,7 @@ class EventDetails extends Component {
                 />
               </a>
               <a
-                href={this.state.data.societyLinks.website}
+                href={event.event.society.links[0].website}
                 className="socialCircle"
               >
                 <img
@@ -101,7 +107,7 @@ class EventDetails extends Component {
 
           <div className="tickerHolder">
             <h2>Tickets</h2>
-            {event.ticket_types.map((ticketType) => {
+            {event.event.ticketTypes.map((ticketType) => {
               return (
                 <TicketHolderTicket
                   extraChanges={(a) => {
@@ -124,12 +130,14 @@ class EventDetails extends Component {
             >
               Go To Basket
             </button>
+
             {/* <Link
               to={`/edit-event/${this.getEventId})
               )}`}
             > */}
               <button className="btn btn-primary" onClick={this.handleClick}>Edit Event</button>
             {/* </Link> */}
+
           </div>
 
           <div className="spacer"></div>

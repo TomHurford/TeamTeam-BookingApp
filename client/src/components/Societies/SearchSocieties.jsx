@@ -91,9 +91,7 @@ class SearchSocieties extends Component {
               {societies.map((society) => (
                 <Link to={`/society/${society.id}`}>
                   <tr key={society.id}>
-                    <div className="icon">
-                      <div className="logo"></div>
-                    </div>
+                    <div className="icon"><div className="logo" style={{backgroundImage: `url(${society.links[0].logo})`}}></div></div>
                     <div className="name">{society.name}</div>
                     <div className="category">
                       {society.members} Followers - {society.category}

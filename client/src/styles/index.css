@@ -27,13 +27,15 @@ code {
 
 .page-container {
   width: 100vw;
-  min-height: fit-content;
+  min-height: calc( 100vh - 120px);
+  height: fit-content;
   min-width: 400px;
-  position: absolute;
+  position: relative;
   top: 60px;
   left: 0;
   z-index: 5;
-  overflow-x: hidden;
+  overflow: hidden;
+  margin-bottom: 100px;
 }
 
 .nav-container {
@@ -47,6 +49,7 @@ code {
 }
 
 .underlay {
+
   width: 100vw;
   min-width: 400px;
   height: 100vh;
@@ -60,6 +63,7 @@ code {
   background-size: cover;
   background-position: center;
   opacity: 0.5;
+
 }
 
 .spacer {
@@ -95,17 +99,43 @@ code {
   display: none;
 }
 
+
+.page-wrapper {
+  position: relative;
+  padding: 0;
+  padding-bottom: 100px;
+}
+
+
 .footer {
   position: absolute;
   bottom: 0;
-  left: 0;
-  width: 100%;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  height: 80px;
   background-color: black;
   text-align: right;
-  padding-top: 2px;
-  padding-bottom: 2px;
   z-index: 100;
+  overflow: hidden;
 }
+.footer > ul {
+  list-style:none;
+  text-align: right;
+  margin: 0;
+  padding: 0;
+}
+.footer > ul > li {
+  float: left;
+  text-align: right;
+  margin-left: 20px;
+}
+
+.footer > ul > li > p > a {
+  text-decoration: none;
+  color: white;
+}
+
 
 /* Button styles */
 .button {
@@ -139,3 +169,12 @@ code {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+
+
+.footer > ul > li > p > a:hover {
+  transform: scale(1.03);
+  transition: 0.3s;
+  opacity: 0.8;
+}
+

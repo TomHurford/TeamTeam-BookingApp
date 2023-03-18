@@ -138,6 +138,7 @@ function App() {
   return (
     <div className="root-container">
       <Navbar isLoggedIn={isLoggedIn} />
+      <div className="page-wrapper">
       <Routes>
         <Route path="/" element={<Home />}></Route>
         <Route
@@ -187,7 +188,8 @@ function App() {
         <Route path="/create-event" element={<CreateEvents />} />
         <Route path="/edit-event/:id" element={<EditEvents />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
+      </div>
     </div>
   );
 }

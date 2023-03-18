@@ -1,7 +1,7 @@
 const axios = require('axios');
 const jwt = require("./jwt.js");
 
-export const generateTickets = async (event, ticketTypes, tickets, total) => {
+const generateTickets = async (event, ticketTypes, tickets, total) => {
 
     // Check Logged In
     var isLoggedIn = false;
@@ -55,3 +55,7 @@ export const generateTickets = async (event, ticketTypes, tickets, total) => {
 
     return 0;
 }
+
+module.exports = {
+    generateTickets
+};

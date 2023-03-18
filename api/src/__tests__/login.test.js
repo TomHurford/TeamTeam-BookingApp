@@ -135,7 +135,7 @@ describe('Reset', () => {
       verificationType: 'forgotPassword',
       verificationCode: 'verificationCode',
       userId: 1,
-      new_password: 'admin',
+      new_password: 'admin123',
     });
     expect(resetResponse.statusCode).toBe(409);
     expect(resetResponse.body).toHaveProperty('message');
@@ -200,7 +200,7 @@ describe('Signup', () => {
       },
     });
 
-    expect(response.statusCode).toBe(200)
+    expect(response.statusCode).toBe(200);
   });
 
   test('Signup with invalid credentials (empty email)', async () => {

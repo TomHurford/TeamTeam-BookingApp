@@ -2,7 +2,7 @@
 const prisma = require('../../prisma/prisma.js');
 const auth = require('../utils/jwt_auth.js');
 const {randomString} = require('../utils/random.js');
-const { mail } = require('../utils/emails.js');
+const {mail} = require('../utils/emails.js');
 
 /**
  * Login a user
@@ -72,7 +72,7 @@ async function reset(req, res) {
     req.body.userId === undefined ||
     req.body.new_password === undefined
   ) {
-    console.log(req.body)
+    console.log(req.body);
     return res
         .status(409)
         .send({token: null, message: 'Request body cannot be empty'});
@@ -108,6 +108,27 @@ async function reset(req, res) {
       return res
           .status(409)
           .send({token: null, message: 'New password cannot be empty'});
+    }
+
+    // If the new password is the same as the old password, return an error
+    if (user.password === req.body.new_password) {
+      return res
+          .status(409)
+          .send({
+            token: null,
+            message: 'New password cannot be the same as the old password',
+          });
+    }
+
+    // If the new password does not meet the password requirements, return an
+    // error
+    if (req.body.new_password.length < 8) {
+      return res
+          .status(409)
+          .send({
+            token: null,
+            message: 'New password must be at least 8 characters',
+          });
     }
 
     // Update the user's password
@@ -205,19 +226,20 @@ async function signup(req, res) {
   });
 
   // Mail the verification code
-  
-  url = "http://localhost:3000/" 
 
-  mail(to=user.email,subject="Signup Confirmation", body=`
+  url = 'http://localhost:3000/';
+
+  mail(to=user.email, subject='Signup Confirmation', body=`
   <h2>Sign Up Confirmation</h2><br />
   <br />
-  <h4> Hi ` + user.name +  `</h4><br />
+  <h4> Hi ` + user.name + `</h4><br />
   <p><br />
   Welcome to Ticketopia!<br />
   <br />
   Click the link to verify your account!<br />
   <br />
-  ` + url + `login?verify=` + verification.verificationCode + `&type=newuser&userId=` + user.id + `<br />
+  ` + url + `login?verify=` +
+    verification.verificationCode + `&type=newuser&userId=` + user.id + `<br />
   <br />
   Don't share this email!
   </p>
@@ -265,17 +287,18 @@ async function forgotPassword(req, res) {
     });
 
     // Mail the verification code
-  
-  url = "http://localhost:3000/" 
 
-  mail(to=user.email,subject="Forgot Password", body=`
-  <h4> Hi ` + user.name +  `</h4><br />
+    url = 'http://localhost:3000/';
+
+    mail(to=user.email, subject='Forgot Password', body=`
+  <h4> Hi ` + user.name + `</h4><br />
   <p><br />
   Forgot Your Password?<br />
   <br />
   Click the link to change it!<br />
   <br />
-  ` + url + `login?forgot=` + verification.verificationCode + `&type=forgot&userId=` + user.id + `<br />
+  ` + url + `login?forgot=` +
+      verification.verificationCode + `&type=forgot&userId=` + user.id + `<br />
   <br />
   Don't share this email!
   Wasn't you? Reset your password on our site!

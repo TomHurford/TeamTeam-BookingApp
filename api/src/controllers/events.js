@@ -8,31 +8,17 @@ const auth = require('../utils/jwt_auth.js');
  * @param {Respon} res The response object
  */
 async function getEvents(req, res) {
-  try {
-    // Authenticate the user
-    // const decoded = await auth.authenticate(req);
-    // Get all events
-    // const events = await prisma.event.findMany();
-    // I want to add the society name to each event
-    const events = await prisma.event.findMany({
-      where: {
-        isArchived: false,
-      },
-    });
+  const events = await prisma.event.findMany({
+    where: {
+      isArchived: false,
+    },
+    include: {
+      society: true,
+    },
+  });
 
-    // For each event get the society name and add it to the event object
-    for (let i = 0; i < events.length; i++) {
-      const society = await prisma.society.findUnique({
-        where: {
-          id: events[i].societyId,
-        },
-      });
-      events[i].societyName = society.name;
-    }
-    res.status(200).send({events: events});
-  } catch (err) {
-    res.status(401).send({token: null, error: 'Unauthorized'});
-  }
+  res.status(200).send({events: events});
+
   // const events = await prisma.event.findMany()
   // res.status(200).send({events: events})
 }
@@ -43,45 +29,7 @@ async function getEvents(req, res) {
  * @param {Respon} res The response object
  */
 async function getEventById(req, res) {
-  // try {
-  //   // Authenticate the user
-  //   // const decoded = await auth.authenticate(req);
-
-  //   // Get the event
-  //   const event = await prisma.event.findUnique({
-  //     where: {
-  //       id: req.body.eventId,
-  //     },
-  //   });
-
-  //   const ticketTypes = await prisma.ticketType.findMany({
-  //     where: {
-  //       event: event,
-  //     },
-  //   });
-
-  //   const society = await prisma.society.findUnique({
-  //     where: {
-  //       id: event.societyId,
-  //     },
-  //   });
-
-  //   const societyLinks = await prisma.societyLinks.findUnique({
-  //     where: {
-  //       societyId: event.societyId,
-  //     },
-  //   });
-
-  //   res.status(200).send({
-  //     event: event,
-  //     ticket_types: ticketTypes,
-  //     society: society,
-  //     societyLinks: societyLinks,
-  //   });
-  // } catch (err) {
-  //   res.status(401).send({token: null, error: 'Unauthorized'});
-  // }
-
+  console.log('HERE');
   let decoded = null;
   // Check that the request header contains a token
   if (req.headers.authorization) {
@@ -114,10 +62,6 @@ async function getEventById(req, res) {
       },
     },
   });
-
-  console.log(event);
-
-  console.log(event.society.links);
 
   // If the event does not exist, return an error
   if (!event) {
@@ -428,6 +372,9 @@ async function searchEvents(req, res) {
           contains: req.body.name,
           mode: 'insensitive',
         },
+      },
+      include: {
+        society: true,
       },
     });
     res.status(200).send({event: event});

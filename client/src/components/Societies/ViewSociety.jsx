@@ -112,35 +112,9 @@ function ViewSociety() {
           <p>
             <strong>Followers:</strong> {society.members}
           </p>
-          <h3>Social Links:</h3>
-          <p>
-            <strong> Website:</strong>{" "}
-            <a href={societyLinks.website}>{societyLinks.website}</a>
-          </p>
-          <a href={societyLinks.instagram}>
-            <FontAwesomeIcon
-              icon={faInstagram}
-              size="3x"
-              style={{ marginBottom: "7px" }}
-            />
-          </a>
-          <a href={societyLinks.twitter}>
-            <FontAwesomeIcon
-              icon={faTwitter}
-              size="3x"
-              style={{ marginLeft: "10px", marginBottom: "7px" }}
-            />
-          </a>
-          <a href={societyLinks.facebook}>
-            <FontAwesomeIcon
-              icon={faFacebook}
-              size="3x"
-              style={{ marginLeft: "10px", marginBottom: "7px" }}
-            />
-          </a>
         </div>
 
-        <div>
+        <div className="events">
           <h2>Events:</h2>
           {eventsCardList(events)}
         </div>

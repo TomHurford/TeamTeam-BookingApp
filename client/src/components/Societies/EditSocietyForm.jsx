@@ -6,7 +6,9 @@ import EditSocietyCommittee from "./ChangeSocietyMembers/EditSocietyCommittee";
 import "../../styles/Society.css";
 const jwtController = require("../../utils/jwt.js");
 import { useParams } from "react-router-dom";
+
 import "../../styles/index.css";
+
 
 function EditSocietyForm() {
   const formik = useFormik({

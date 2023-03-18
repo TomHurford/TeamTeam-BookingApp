@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import Member from "./Member";
 import AddCommitteeMember from "./AddCommitteeMember";
+const jwtController = require("../../../utils/jwt.js");
+
 
 const jwtController = require("../../../utils/jwt.js");
 import axios from "axios";
@@ -96,6 +98,7 @@ const EditSocietyCommittee = (props) => {
         ]);
       }).catch((error) => {
         console.log(error);
+
       });
   };
 
@@ -121,7 +124,9 @@ const EditSocietyCommittee = (props) => {
       {members.map((member) => (
         <Member
           email={member.email}
+
           userId={member.userId}
+
           key={member.userId.toString()}
           removeMember={handleRemoveMember}
         />

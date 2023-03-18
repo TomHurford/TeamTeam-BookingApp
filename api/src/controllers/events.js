@@ -225,7 +225,7 @@ async function updateEvent(req, res) {
   // other field
   if (
     !req.body.eventId ||
-    !req.body.societyId ||
+    // !req.body.societyId ||
     (!req.body.name &&
       !req.body.description &&
       !req.body.date &&
@@ -246,7 +246,8 @@ async function updateEvent(req, res) {
   // Check that the society exists
   const society = await prisma.society.findUnique({
     where: {
-      id: req.body.societyId,
+      // id: req.body.societyId,
+      id: event.societyId,
     },
   });
 
@@ -259,7 +260,8 @@ async function updateEvent(req, res) {
   // Check that the user is a committee member of the society
   const isMember = await prisma.committee.findMany({
     where: {
-      societyId: req.body.societyId,
+      // societyId: req.body.societyId,
+      societyId: event.societyId,
       userId: decoded.id,
     },
   });

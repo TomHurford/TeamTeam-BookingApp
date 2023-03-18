@@ -49,14 +49,14 @@ class EventDetails extends Component {
           <div className="description">
             <h2>Description</h2>
             <div className="text">{event.event.description}</div>
-            { event.isCommittee ? <button
+            {/* { event.isCommittee ? <button
               className="addToCart"
               onClick={() => {
                 window.location = "/edit-event";
               }}
             >
               Edit Event
-            </button> : <br />}
+            </button> : <br />} */}
           </div>
           <div className="societyInfo">
             <div className="icon">

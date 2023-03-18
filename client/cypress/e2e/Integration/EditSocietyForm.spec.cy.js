@@ -106,7 +106,7 @@ describe('Test Edit Society Form', () => {
     cy.get('input[name="facebook"]').type('https://www.facebook.com', { force: true });
     cy.get('input[name="logo"]').type('https://www.logo.com', { force: true });
     cy.get('input[name="banner"]').type('https://www.banner.com', { force: true });
-    cy.get('textarea[name="description"]').type('This is a test society Lorem ipsum dolor sit amet,', { force: true });
+    cy.get('textarea[name="description"]').type('This is a test society', { force: true });
 
     cy.contains('Save').click();
   })

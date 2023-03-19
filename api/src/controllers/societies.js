@@ -87,7 +87,6 @@ async function signup(req, res) {
 
 
     res.status(200).send({society, committee, listSocietyLinks});
-
   } catch (err) {
     console.log(err);
     res.status(401).send({token: null, error: 'Unauthorized'});
@@ -410,7 +409,6 @@ async function updateSociety(req, res) {
     }
 
     res.status(200).send({message: 'Society Updated'});
-
   } catch (err) {
     console.log(err);
     res.status(500).send({message: 'Internal Server Error'});
@@ -442,7 +440,6 @@ async function addCommitteeMember(req, res) {
     });
 
     if (committee.length === 0) {
-
       res.status(401).send({message: 'User not part of committee'});
       return;
     }

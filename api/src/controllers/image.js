@@ -1,39 +1,44 @@
-const imageUtil = require('../utils/imageS3');
-const auth = require('../utils/jwt_auth');
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+const {S3Client} = require('@aws-sdk/client-s3');
+
+const s3 = new S3Client();
+
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+  if (!allowedTypes.includes(file.mimetype)) {
+    const error = new Error('Invalid file type');
+    error.code = 'LIMIT_FILE_TYPES';
+    return cb(error, false);
+  }
+  cb(null, true);
+};
+
+const uploadToS3 = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: 'ticketopia',
+    location: 'https://ticketopia.s3.eu-west-2.amazonaws.com/photos/',
+    key: function(req, file, cb) {
+      cb(null, Date.now().toString() + '-' + file.originalname);
+    },
+    metadata: function(req, file, cb) {
+      console.log(req);
+      cb(null, {fieldName: file.fieldname});
+    },
+  }),
+  fileFilter: fileFilter,
+});
 
 /**
- * Upload an image
- * @param {File} file The request object
+ * Uploads a file to S3, and adds the file name to the database
  * @param {Request} req The request object
  * @param {Response} res The response object
- * @return {Response} The response object
  */
-async function upload(file, req, res) {
-  let decoded = null;
-
-  if (req.headers.authorization) {
-    try {
-      decoded = await auth.authenticate(req);
-    } catch (err) {
-      return res.status(401).send({token: null, message: 'Unauthorized'});
-    }
-  }
-
-  if (!decoded.id) {
-    return res.status(401).send({token: null, message: 'Unauthorized'});
-  };
-
-  const image = await imageUtil.uploadImageToS3(file, decoded.id);
-
-  console.log(image);
-
-  if (image instanceof Error) {
-    return res.status(400).send({message: image.message});
-  }
-
-  return res.status(200).send({message: 'Image uploaded successfully'});
+async function uploadToS3(req, res) {
+  res.status(200).send('File uploaded successfully');
 }
 
 module.exports = {
-  upload,
+  uploadToS3,
 };

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../styles/Purchase.css";
 
 const jwtController = require("../utils/jwt.js");
+import {QRCodeSVG} from 'qrcode.react';
 
 const FutureTickets = () => {
   const [futureTickets, setFutureTickets] = useState([]);
@@ -61,11 +62,15 @@ const FutureTickets = () => {
             <tr data-testid={ticket.id} key={ticket.id}>
               <td><a href={"/event-details?eventId=" + ticket.event.id}>{ticket.event.name}</a></td>
               <td>{new Date(ticket.event.date).toLocaleDateString()}</td>
+              <td>
               {ticket.tickets.map((ticket) => (
-                <ul data-testid={ticket.id} key={ticket.id}>
-                  <li>Ticket ID: {ticket.id}</li>
-                  <li>Ticket Data: {ticket.ticketData}</li>
-                </ul>))}
+                  <div key={ticket.id}>
+                    <span>Ticket ID: {ticket.id}</span>
+                    <br/>
+                    <QRCodeSVG value={ticket.ticketData}/>
+                  </div>
+                ))}
+              </td>
             </tr>
           ))}
         </tbody>
@@ -86,10 +91,12 @@ const FutureTickets = () => {
               <td>{new Date(ticket.event.date).toLocaleDateString()}</td>
               <td>
               {ticket.tickets.map((ticket) => (
-                <ul data-testid={ticket.id} key={ticket.id}>
-                  <li>Ticket ID: {ticket.id}</li>
-                  <li>Ticket Data: {ticket.ticketData}</li>
-                </ul>))}
+                  <div key={ticket.id}>
+                    <span>Ticket ID: {ticket.id}</span>
+                    <br/>
+                    <QRCodeSVG value={ticket.ticketData}/>
+                  </div>
+                ))}
               </td>
             </tr>
           ))}

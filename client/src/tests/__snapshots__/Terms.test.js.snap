@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Terms snapshot test 1`] = `
+<div
+  className="page-container"
+>
+  <div
+    className="underlay"
+  />
+  <h1
+    className="title"
+  >
+    Terms And Conditions
+  </h1>
+  <p
+    className="title"
+  >
+    Agreement to our legal terms
+  </p>
+  <p
+    className="data"
+  >
+    We operate the website WEBSITE, as well as any other
+    <br />
+    related productes and services that refer or link to these legal terms (the 'LEGAL TERMS')(collectivly, the 'SERVICES')
+    <br />
+    <br />
+    These Legal Terms constitute a legally binding agreement made between you, whether personally or behalf
+    <br />
+    of an entity("you"), and ticketopia, conserning your access to and use of the Services. You agree that by accessing the services, you 
+    <br />
+     have read, unstood, and agreed to be bound by all these Legal Terms
+  </p>
+</div>
+`;

@@ -225,9 +225,7 @@ exports[`App snapshot test 1`] = `
               href="/about"
               onClick={[Function]}
             >
-              <li>
-                About
-              </li>
+              About
             </a>
           </p>
         </li>
@@ -237,9 +235,7 @@ exports[`App snapshot test 1`] = `
               href="/privacy"
               onClick={[Function]}
             >
-              <li>
-                Privacy
-              </li>
+              Privacy
             </a>
           </p>
         </li>
@@ -249,9 +245,7 @@ exports[`App snapshot test 1`] = `
               href="/terms"
               onClick={[Function]}
             >
-              <li>
-                Terms
-              </li>
+              Terms
             </a>
           </p>
         </li>

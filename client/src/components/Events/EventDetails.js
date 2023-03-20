@@ -49,6 +49,8 @@ class EventDetails extends Component {
           <div className="description">
             <h2>Description</h2>
             <div className="text">{event.event.description}</div>
+            <div className="eventDate">Date: {new Date(event.event.date).toLocaleDateString()}</div>
+            <div className="eventTime">Time: {new Date(event.event.date).toLocaleTimeString()}</div>
             {/* { event.isCommittee ? <button
               className="addToCart"
               onClick={() => {

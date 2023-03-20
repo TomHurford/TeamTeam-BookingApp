@@ -19,19 +19,31 @@ function CreateEvents() {
           ticketInfo: [{ name: "", price: "", quantity: "" }],
         }}
         validationSchema={Yup.object({
-          eventName: Yup.string().required("Event name is required"),
+          eventName: Yup.string()
+            .trim()
+            .min(3, "Event Name must be at least 3 characters")
+            .required("Event name is required"),
           description: Yup.string()
+            .trim()
             .min(30, "Event description must be at least 30 characters.")
             .required("Event description is required"),
-          date: Yup.date().required("Event date is required"),
-          location: Yup.string().required("Event location is required"),
+          date: Yup.date()
+            .min(new Date(), "Event date must be in the future.")
+            .required("Event date is required"),
+          location: Yup.string()
+            .trim()
+            .min(3, "Event location must be at least 3 characters.")
+            .required("Event location is required"),
           societyId: Yup.number("Society ID must be a number")
             .positive("Society ID must be positive")
             .required("Society ID is required"),
           time: Yup.string().required("Event time is required"),
           ticketInfo: Yup.array().of(
             Yup.object({
-              name: Yup.string().required("Ticket name is required"),
+              name: Yup.string()
+                .trim()
+                .min(3, "Ticket name must be at least 3 characters.")
+                .required("Ticket name is required"),
               price: Yup.number("Price must be a number")
                 .positive("Price must be positive")
                 .required("Ticket price is required"),
@@ -287,7 +299,7 @@ function CreateEvents() {
 
                             <button
                               type="button"
-                              onClick={() => fieldArrayProps.remove(index)}
+                              onClick={() => index > 0 && fieldArrayProps.remove(index)}
                               className="btn btn-danger"
                               style={{ marginTop: "15px" }}
                             >

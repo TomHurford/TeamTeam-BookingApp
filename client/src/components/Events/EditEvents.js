@@ -20,11 +20,12 @@ function EditEvents() {
           time: "",
         }}
         validationSchema={Yup.object({
-          eventName: Yup.string(),
+          eventName: Yup.string().trim().min(3, "Event name must be at least 3 characters."),
           description: Yup.string()
+            .trim()
             .min(30, "Event description must be at least 30 characters."),
-          date: Yup.date(),
-          location: Yup.string(),
+          date: Yup.date().min(new Date(), "Event date must be in the future."),
+          location: Yup.string().trim().min(3, "Event location must be at least 3 characters."),
           time: Yup.string(),
         })}
         onSubmit={(value) => {

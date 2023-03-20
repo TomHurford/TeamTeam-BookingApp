@@ -7,6 +7,9 @@ describe('Create Events', () => {
     cy.wait(500)
     cy.contains('Create Event').click()
   })
+  afterEach(() => {
+    cy.contains('Logout').click()
+  })
 
   describe('Test empty inputs', () => {
     it('Enter empty name', () => {
@@ -77,6 +80,12 @@ describe('Create Events', () => {
       cy.contains('Create Event').click()
     })
 
+    it('Invalid date - Enter past date', () => {
+      cy.get('input[name="date"]').type('2020-01-01')
+      cy.contains('Event Date').click()
+      cy.contains('Event date must be in the future')
+    })
+
     it('Invalid Society ID - type in string', () => {
       cy.get('input[name="societyId"]').type('Test')
       cy.contains('Create Event').click()
@@ -132,20 +141,50 @@ describe('Create Events', () => {
       cy.contains('Create Event').click()
       cy.contains('Ticket quantity must be positive')
     })
+  })
+
+  describe('Test whitespace inputs', () => {
+    it('Error thrown for whitespace input in Name field', () =>{
+      cy.contains('Event Name').parent().find('input').type(' ')
+      cy.contains('Event Name').parent().click()
+      cy.contains('Event Name must be at least 3 characters')
+    })
+
+    it('Error thrown for whitespace input in Description field', () =>{
+      cy.contains('Event Description').parent().find('textarea').type(' ')
+      cy.contains('Event Description').parent().click()
+      cy.contains('Event description must be at least 30 characters')
+    })
     
+    it('Error thrown for whitespace input in Location field', () =>{
+      cy.contains('Event Location').parent().find('input').type(' ')
+      cy.contains('Event Location').parent().click()
+      cy.contains('Event location must be at least 3 characters')
+    })
+    it('Error thrown for whitespace input in Society ID field', () =>{
+      cy.contains('Society ID').parent().find('input').type(' ')
+      cy.contains('Society ID').parent().click()
+      cy.contains('societyId must be a `number` type,')
+    })
+    it('Error thrown for whitespace input in Ticket Name field', () =>{
+      cy.contains('Ticket Type Name').parent().find('input').type(' ')
+      cy.contains('Ticket Type Name').parent().click()
+      cy.contains('Ticket name must be at least 3 characters')
+    })
+    it('Error thrown for whitespace input in Ticket Price field', () =>{
+      cy.contains('Ticket Price').parent().find('input').type(' ')
+      cy.contains('Ticket Price').parent().click()
+      cy.contains('ticketInfo[0].price must be a `number` type,')
+    })
+    it('Error thrown for whitespace input in Ticket Quantity field', () => {
+      cy.contains('Ticket Quantity').parent().find('input').type(' ')
+      cy.contains('Ticket Quantity').parent().click()
+      cy.contains('ticketInfo[0].quantity must be a `number` type,')
+    })
   })
 
   describe('Test valid inputs', () => {
   it('should create an event', () => {
-    //login
-    // cy.visit('http://localhost:3000/login')
-    // cy.get('input[name="loginEmail"]').type('admin@admin.com')
-    // cy.get('input[name="loginPassword"]').type('admin123')
-    // cy.get('button[name="loginbutton"]').click()
-
-    //fill in form
-    // cy.visit('http://localhost:3000/create-event')
-    // cy.contains('Create Event').click()
     cy.url().should('include', 'create-event')
 
     cy.get('input[name="eventName"]').type('DevOps Event')
@@ -173,28 +212,6 @@ describe('Create Events', () => {
     cy.get('div[data-testid="ticketInfo.3.name"]').contains('Remove Ticket Type').click();
 
     cy.get('form').contains('Create Event').click();
-
-    //add tickets
-    // cy.get('input[data-testid="ticketName0"]').type('DevOps Ticket')
-    // cy.get('input[data-testid="ticketPrice0"]').type('20')
-    // cy.get('input[data-testid="ticketQuantity0"]').type('10')
-    // cy.get('button[data-testid="addMore"]').click()
-
-    // cy.get('input[data-testid="ticketName1"]').type('DevOps Premium Ticket')
-    // cy.get('input[data-testid="ticketPrice1"]').type('50')
-    // cy.get('input[data-testid="ticketQuantity1"]').type('5')
-    // cy.get('button[data-testid="addMore"]').click()
-
-    // cy.get('input[data-testid="ticketName2"]').type('DevOps Early Ticket')
-    // cy.get('input[data-testid="ticketPrice2"]').type('10')
-    // cy.get('input[data-testid="ticketQuantity2"]').type('3')
-    // cy.get('button[data-testid="addMore"]').click()
-
-    // cy.get('button[data-testid="removeRow3"]').click()
-
-    // cy.get('button[type="submit"]').click()
-
-    // cy.url().should('include', 'event-details?eventId=')
   })
 })
 })

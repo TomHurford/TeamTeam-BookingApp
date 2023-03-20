@@ -41,6 +41,16 @@
     font-size: 1.5em;
     margin-bottom: 10px;
 }
+.body > .description > .eventDate {
+    font-size: 1.0em;
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+.body > .description > .eventTime {
+    font-size: 1.0em;
+    margin-bottom: 10px;
+    font-weight: 800;
+}
 
 .body > .societyInfo {
     width: 40%;

@@ -58,7 +58,7 @@ function Basket(props) {
             <ol className="basket">
               {
                 props.availableTicketTypes.map((ticketType) => {
-                  return <TicketHolderTicket key={ticketType.id} event={props.basketEvent} tickets={props.tickets} ticketType={ticketType} addTicket={props.addTicket} removeTicket={props.removeTicket}/>
+                  return <TicketHolderTicket extraChanges={() => {}} key={ticketType.id} event={props.basketEvent} tickets={props.tickets} ticketType={ticketType} addTicket={props.addTicket} removeTicket={props.removeTicket}/>
                 })
               }
             </ol>
@@ -81,7 +81,7 @@ function Basket(props) {
             Check out <Link to="/">events</Link> and come back here to checkout!
           </p>
         </div>
-        <div className='footer'></div>
+        {/* <div className='footer'></div> */}
       </div>
   </div>
   );

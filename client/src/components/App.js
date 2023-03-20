@@ -79,12 +79,12 @@ function App() {
 
     if (!basketEvent.event) {
       setBasketEvent(callData);
-      setAvailableTicketTypes(callData.ticket_types);
+      setAvailableTicketTypes(callData.event.ticketTypes);
     } else if (basketEvent.event.id != event.id) {
       // WARN USER TO CLEAR BASKET, ON YES WE PUSH NEW TICKET
 
       setBasketEvent(callData);
-      setAvailableTicketTypes(callData.ticket_types);
+      setAvailableTicketTypes(callData.event.ticketTypes);
       setTickets({});
     } else if (!availableTicketTypes.find((tt) => tt.id === ticketType.id)) {
       return;

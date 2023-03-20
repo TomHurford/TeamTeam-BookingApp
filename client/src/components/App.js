@@ -75,14 +75,15 @@ function App() {
 
   const addTicket = (callData, ticketType) => {
     var event = callData.event;
-    //console.log(callData);
+    console.log(callData.event)
 
     if (!basketEvent.event) {
       setBasketEvent(callData);
       setAvailableTicketTypes(callData.event.ticketTypes);
-    } else if (basketEvent.event.id != event.id) {
+    } else if (basketEvent.event.id !== event.id) {
       // WARN USER TO CLEAR BASKET, ON YES WE PUSH NEW TICKET
 
+      emptyBasket();
       setBasketEvent(callData);
       setAvailableTicketTypes(callData.event.ticketTypes);
       setTickets({});
@@ -96,7 +97,7 @@ function App() {
 
     setTickets(temptickets);
 
-    updateTicketSessionStorage();
+    updateTicketSessionStorage(true);
   };
 
   const removeTicket = (callData, ticketType) => {
@@ -108,29 +109,34 @@ function App() {
 
     setTickets(temptickets);
 
-    updateTicketSessionStorage();
+    updateTicketSessionStorage(true);
   };
 
-  const updateTicketSessionStorage = () => {
+  const updateTicketSessionStorage = (value) => {
+    if(value === true){
     sessionStorage.setItem("basketEvent", JSON.stringify(basketEvent));
     sessionStorage.setItem(
       "availableTicketTypes",
       JSON.stringify(availableTicketTypes)
     );
     sessionStorage.setItem("tickets", JSON.stringify(tickets));
-
-    //console.log(basketEvent);
-    //console.log(availableTicketTypes);
-    //console.log(tickets);
-    //console.log(totalPrice());
+    }else{
+      sessionStorage.removeItem("basketEvent", JSON.stringify(basketEvent));
+      sessionStorage.setItem(
+        "availableTicketTypes",
+        JSON.stringify([])
+      );
+      sessionStorage.setItem("tickets", JSON.stringify({}));
+    }
   };
 
   const emptyBasket = () => {
+    console.log("emptying basket");
     setBasketEvent({ a: "b" });
     setAvailableTicketTypes([]);
     setTickets({});
 
-    updateTicketSessionStorage();
+    updateTicketSessionStorage(false);
   };
 
   /* NORMAL ROUTE FUNCTIONALITY VIA ROUTER DOM */

@@ -12,7 +12,7 @@ function Basket(props) {
 
   useEffect(() => {
     setTotalPrice(props.totalPrice())
-  }, [])
+  }, [props.basketEvent, props.availableTicketTypes, props.tickets])
 
   useEffect(() => {
     setTotalPrice(props.totalPrice());
@@ -28,18 +28,18 @@ function Basket(props) {
 
   async function checkout() {
     if (!props.isLoggedIn) {
-      // window.location = '/login';
+      window.location = '/login';
     }
 
     props.emptyBasket();
-    // const res = await generateTickets(props.basketEvent, props.availableTicketTypes, props.tickets, props.totalPrice());
+    const res = await generateTickets(props.basketEvent, props.availableTicketTypes, props.tickets, props.totalPrice());
 
-    // if (res) {
-    //   props.emptyBasket();
-    //   //window.location = '/tickets';
-    // } else {
-    //   // refund payment and call help lol displat error
-    // }
+    if (res) {
+      props.emptyBasket();
+      window.location = '/tickets';
+    } else {
+      // refund payment and call help lol displat error
+    }
   }
 
   return (

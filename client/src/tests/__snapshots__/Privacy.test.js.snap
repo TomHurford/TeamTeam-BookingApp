@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Privacy snapshot test 1`] = `
+<div
+  className="page-container"
+>
+  <div
+    className="underlay"
+  />
+  <h1
+    className="title"
+  >
+    Privacy
+  </h1>
+  <p
+    className="data"
+  >
+    Privacy policy here on cookies ask team on info of what our tokens collect
+  </p>
+</div>
+`;

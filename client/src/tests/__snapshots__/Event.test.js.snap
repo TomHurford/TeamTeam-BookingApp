@@ -20,7 +20,9 @@ exports[`Event snapshot test 1`] = `
     <div
       className="eventName"
       data-testid="eventNameID"
-    />
+    >
+      Event 1
+    </div>
     <div
       className="hiddenUntilHover"
     >
@@ -29,15 +31,20 @@ exports[`Event snapshot test 1`] = `
       />
       <div
         className="societyName"
-      />
+      >
+        Society Name
+      </div>
       <div
         className="eventDesc"
-      />
+      >
+        Event 1 description
+      </div>
       <div
         className="locationTime"
       >
+        Event 1 location
         <br />
-        Invalid Date
+        Sat Dec 02 2023
       </div>
     </div>
   </div>

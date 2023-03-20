@@ -1,12 +1,12 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import ViewSociety from '../components/Societies/ViewSociety';
+import Footer from '../components/Footer';
 import { BrowserRouter } from 'react-router-dom';
 
-test('ViewSociety snapshot test', () => {
+test('Footer snapshot test', () => {
   const component = renderer.create(
     <BrowserRouter>
-      <ViewSociety />
+      <Footer />
     </BrowserRouter>
   );
   const tree = component.toJSON();

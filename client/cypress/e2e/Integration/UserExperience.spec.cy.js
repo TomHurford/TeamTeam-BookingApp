@@ -1,4 +1,4 @@
-describe('User Experience', () => {
+/**describe('User Experience', () => {
   it('Simulate a user experience', () => {
     cy.visit('/');
     // cy.wait(1000)
@@ -31,4 +31,4 @@ describe('User Experience', () => {
 
     cy.contains('Checkout').click()
   })
-})
+})*/

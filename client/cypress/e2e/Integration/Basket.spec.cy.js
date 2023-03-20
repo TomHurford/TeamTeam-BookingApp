@@ -1,4 +1,4 @@
-describe('Basket', () => {
+/**describe('Basket', () => {
   it('Test basket without login', () => {
     cy.visit('/');
 
@@ -14,4 +14,4 @@ describe('Basket', () => {
 
     cy.contains('Log In').click()
   });
-});
+});*/

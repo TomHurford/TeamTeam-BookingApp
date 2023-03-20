@@ -1,8 +1,18 @@
 describe('Test Edit Society Form', () => {
+  it('No forms filled', () => {
+    cy.visit('/societies');
+    cy.contains('Schaden - Wehner').click();
+    cy.contains('Edit Society').click();
+    cy.contains('button','Edit Society').click();
+    cy.on('window:alert', (str) => {
+      expect(str).to.contains('Please fill in at least one field')
+    })
+  })
+ 
   it('Fill invalid website', () => {
     cy.visit('/societies');
-
-    cy.contains('Edit Society').parent().click();
+    cy.contains('Schaden - Wehner').click();
+    cy.contains('Edit Society').click();
 
     cy.get('input[name="website"]').type('incorrectwebsite', { force: true });
     cy.get('input[name="instagram"]').type('https://www.instagram.com', { force: true });
@@ -12,14 +22,14 @@ describe('Test Edit Society Form', () => {
     cy.get('input[name="banner"]').type('https://www.banner.com', { force: true });
     cy.get('textarea[name="description"]').type('This is a test society Lorem ipsum dolor sit amet,', { force: true });
     cy.contains('Must be a valid URL');
-    cy.contains('Save').click();
+    cy.contains('button','Edit Society').click();
     
   })
-
+  
   it('Fill invalid instagram', () => {
     cy.visit('/societies');
-
-    cy.contains('Edit Society').parent().click();
+    cy.contains('Schaden - Wehner').click();
+    cy.contains('Edit Society').click();
 
     cy.get('input[name="website"]').type('https://www.test.com', { force: true });
     cy.get('input[name="instagram"]').type('incorrectinstagram', { force: true });
@@ -29,14 +39,14 @@ describe('Test Edit Society Form', () => {
     cy.get('input[name="banner"]').type('https://www.banner.com', { force: true });
     cy.get('textarea[name="description"]').type('This is a test society Lorem ipsum dolor sit amet,', { force: true });
     cy.contains('Must be a valid URL');
-    cy.contains('Save').click();
+    cy.contains('button','Edit Society').click();
     
   })
 
   it('Fill invalid twitter', () => {
     cy.visit('/societies');
-
-    cy.contains('Edit Society').parent().click();
+    cy.contains('Schaden - Wehner').click();
+    cy.contains('Edit Society').click();
 
     cy.get('input[name="website"]').type('https://www.test.com', { force: true });
     cy.get('input[name="instagram"]').type('https://www.instagram.com', { force: true });
@@ -46,14 +56,14 @@ describe('Test Edit Society Form', () => {
     cy.get('input[name="banner"]').type('https://www.banner.com', { force: true });
     cy.get('textarea[name="description"]').type('This is a test society Lorem ipsum dolor sit amet,', { force: true });
     cy.contains('Must be a valid URL');
-    cy.contains('Save').click();
+    cy.contains('Edit Society').click();
     
   })
 
   it('Fill invalid facebook', () => {
     cy.visit('/societies');
-
-    cy.contains('Edit Society').parent().click();
+    cy.contains('Schaden - Wehner').click();
+    cy.contains('Edit Society').click();
 
     cy.get('input[name="website"]').type('https://www.test.com', { force: true });
     cy.get('input[name="instagram"]').type('https://www.instagram.com', { force: true });
@@ -63,13 +73,13 @@ describe('Test Edit Society Form', () => {
     cy.get('input[name="banner"]').type('https://www.banner.com', { force: true });
     cy.get('textarea[name="description"]').type('This is a test society Lorem ipsum dolor sit amet,', { force: true });
     cy.contains('Must be a valid URL');
-    cy.contains('Save').click();
+    cy.contains('button','Edit Society').click();
     
   })
 
   it('Fill invalid logo', () => {
     cy.visit('/societies');
-
+    cy.contains('Schaden - Wehner').click();
     cy.contains('Edit Society').parent().click();
 
     cy.get('input[name="website"]').type('https://www.test.com', { force: true });
@@ -80,13 +90,13 @@ describe('Test Edit Society Form', () => {
     cy.get('input[name="banner"]').type('https://www.banner.com', { force: true });
     cy.get('textarea[name="description"]').type('This is a test society Lorem ipsum dolor sit amet,', { force: true });
     cy.contains('Must be a valid URL');
-    cy.contains('Save').click();
+    cy.contains('button','Edit Society').click();
     
   })
 
   it('Fill invalid banner', () => {
     cy.visit('/societies');
-
+    cy.contains('Schaden - Wehner').click();
     cy.contains('Edit Society').parent().click();
 
     cy.get('input[name="website"]').type('https://www.test.com', { force: true });
@@ -97,12 +107,12 @@ describe('Test Edit Society Form', () => {
     cy.get('input[name="banner"]').type('incorrectbanner', { force: true });
     cy.get('textarea[name="description"]').type('This is a test society Lorem ipsum dolor sit amet,', { force: true });
     cy.contains('Must be a valid URL');
-    cy.contains('Save').click();
+    cy.contains('button','Edit Society').click();
   })
 
   it('Fill invalid description', () => {
     cy.visit('/societies');
-
+    cy.contains('Schaden - Wehner').click();
     cy.contains('Edit Society').parent().click();
 
     cy.get('input[name="website"]').type('https://www.test.com', { force: true });
@@ -112,7 +122,7 @@ describe('Test Edit Society Form', () => {
     cy.get('input[name="logo"]').type('https://www.logo.com', { force: true });
     cy.get('input[name="banner"]').type('https://www.banner.com', { force: true });
     cy.get('textarea[name="description"]').type('This is a test society', { force: true });
-    cy.contains('Save').click();
+    cy.contains('button','Edit Society').click();
     cy.contains('Society description must be at least 50 characters');
     
   })
@@ -120,7 +130,7 @@ describe('Test Edit Society Form', () => {
 
   it('Manipulate committee members', () => {
     cy.visit('/societies');
-
+    cy.contains('Schaden - Wehner').click();
     cy.contains('Edit Society').parent().click();
     
     cy.contains('Committee Members').parent().find('input').type('test');
@@ -137,7 +147,7 @@ describe('Test Edit Society Form', () => {
   })
   it('Fill valid details', () => {
     cy.visit('/societies');
-
+    cy.contains('Schaden - Wehner').click();
     cy.contains('Edit Society').parent().click();
 
     cy.get('input[name="website"]').type('https://www.test.com', { force: true });
@@ -148,7 +158,7 @@ describe('Test Edit Society Form', () => {
     cy.get('input[name="banner"]').type('https://www.banner.com', { force: true });
     cy.get('textarea[name="description"]').type('This is a test society Lorem ipsum dolor sit amet,', { force: true });
 
-    cy.contains('Save').click();
+    cy.contains('button','Edit Society').click();
   })
 
   

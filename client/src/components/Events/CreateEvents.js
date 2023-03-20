@@ -1,9 +1,10 @@
 import React from "react";
 import { Formik, FieldArray, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-
 const jwtController = require("../../utils/jwt.js");
+import "../../styles/CreateEvents.css";
 
+// A component for the create events page that allows users to create events for their societies
 function CreateEvents() {
   return (
     <div style={{ marginTop: "60px", marginLeft: "8px" }}>
@@ -18,6 +19,7 @@ function CreateEvents() {
           time: "",
           ticketInfo: [{ name: "", price: "", quantity: "" }],
         }}
+        // Validation for the form fields using Yup.
         validationSchema={Yup.object({
           eventName: Yup.string()
             .trim()
@@ -53,6 +55,7 @@ function CreateEvents() {
             })
           ),
         })}
+        // When the form is submitted, the data is sent to the backend to be processed
         onSubmit={(value) => {
           console.log("Form data");
           console.log(value);
@@ -68,10 +71,9 @@ function CreateEvents() {
                 price: parseInt(ticket.price),
                 quantity: parseInt(ticket.quantity),
               };
-            }
-              ),
+            }),
           };
-
+          // The token is sent with the request to the backend to verify the user is logged in
           console.log(jwtController.getToken());
           console.log(JSON.stringify(event));
           fetch("http://localhost:5001/events/create", {
@@ -92,6 +94,7 @@ function CreateEvents() {
               console.log(error);
             });
         }}
+        // The form is rendered to the page
       >
         {(formikProps) => (
           <form onSubmit={formikProps.handleSubmit}>
@@ -299,7 +302,9 @@ function CreateEvents() {
 
                             <button
                               type="button"
-                              onClick={() => index > 0 && fieldArrayProps.remove(index)}
+                              onClick={() =>
+                                index > 0 && fieldArrayProps.remove(index)
+                              }
                               className="btn btn-danger"
                               style={{ marginTop: "15px" }}
                             >

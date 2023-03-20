@@ -245,7 +245,7 @@ exports[`App snapshot test 1`] = `
               href="/terms"
               onClick={[Function]}
             >
-              Terms
+              Terms and Conditions
             </a>
           </p>
         </li>

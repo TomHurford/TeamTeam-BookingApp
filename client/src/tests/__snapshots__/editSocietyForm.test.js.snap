@@ -65,16 +65,17 @@ exports[`EditSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        htmlFor="email"
+        htmlFor="societyEmail"
       >
         Society Email
       </label>
       <input
         className="form-control"
-        name="email"
+        name="societyEmail"
         onBlur={[Function]}
         onChange={[Function]}
         type="text"
+        value=""
       />
     </div>
     <h5>

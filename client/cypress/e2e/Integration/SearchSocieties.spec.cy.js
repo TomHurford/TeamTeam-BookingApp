@@ -8,7 +8,8 @@ describe('Test Search Societies', () => {
     cy.get('div[data-testid="pagination"]').contains('2').click();
     cy.contains('Sports').click({force:true});
 
-    cy.contains('All').click();
+    cy.contains('All').scrollIntoView({offset: {top: -100, left: 0}});
+    cy.contains('All').click({force:true});
     // cy.contains('Society 1').click();
   })
 })

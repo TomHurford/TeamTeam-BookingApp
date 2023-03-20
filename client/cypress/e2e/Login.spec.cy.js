@@ -66,6 +66,21 @@ describe('Login', () => {
       cy.get('input[name="signupConfirmPassword"]').type('password')
       cy.get('button[name="signup-button"]').click();
     })
+
+    it('Sign up form password mismatch', () => {
+      cy.visit('/login');
+      cy.contains('Not A User? Sign Up').click();
+      cy.get('input[name="signupName"]').type('John Doe')
+      cy.get('input[name="signupEmail"]').type('john.doe@kcl.ac.uk')
+      cy.get('input[name="signupEmail"]').should('have.value','john.doe@kcl.ac.uk')
+      cy.get('input[name="signupPassword"]').type('password')
+      cy.get('input[name="signupPassword"]').should('have.value','password')
+      cy.get('input[name="signupConfirmPassword"]').type('password1')
+      cy.get('input[name="signupConfirmPassword"]').should('have.value','password1')
+      cy.get('button[name="signup-button"]').click();
+      cy.contains('Passwords Do Not Match')
+    })
+    
   // })
   // describe('Test Forgot Password', () => {
     it('Forgot Password form can be filled', () => {

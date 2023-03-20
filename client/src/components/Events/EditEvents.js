@@ -61,11 +61,15 @@ function EditEvents() {
             body: JSON.stringify(event),
           })
             .then((response) => {
+              if(response.status === 200){
               response.json().then((data) => {
                 console.log(data);
                 alert("Event updated successfully!");
                 window.location.href = "/event-details?eventId=" + data.event.id;
-              });
+              });}
+              else{
+                alert("Error updating event. Please try again.");
+              }
             })
             .catch((error) => {
               console.log(error);

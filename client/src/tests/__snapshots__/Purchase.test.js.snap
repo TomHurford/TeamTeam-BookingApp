@@ -8,10 +8,8 @@ exports[`Purchase snapshot test 1`] = `
   <div
     className="underlay"
   />
-  <hr />
-  <hr />
   <h1>
-    Upcoming Tickets
+    Past Event Purchases
   </h1>
   <table
     className="purchase"
@@ -25,10 +23,28 @@ exports[`Purchase snapshot test 1`] = `
           Event Date
         </th>
         <th>
-          Status
+          Tickets
+        </th>
+      </tr>
+    </thead>
+    <tbody />
+  </table>
+  <h1>
+    Upcoming Event Purchases
+  </h1>
+  <table
+    className="purchase"
+  >
+    <thead>
+      <tr>
+        <th>
+          Event Name
         </th>
         <th>
-          Payment Method
+          Event Date
+        </th>
+        <th>
+          Tickets
         </th>
       </tr>
     </thead>

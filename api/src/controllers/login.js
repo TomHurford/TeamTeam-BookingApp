@@ -3,16 +3,16 @@ const prisma = require('../../prisma/prisma.js');
 const auth = require('../utils/jwt_auth.js');
 const {randomString} = require('../utils/random.js');
 const {mail} = require('../utils/emails.js');
+const bcrypt = require('../utils/bcrypt.js');
 
 /**
  * Login a user
- * @param {string} email The email of the user
- * @param {string} password The password of the user
+ * @param {Request} req The request object
  * @param {Response} res The response object
  * @return {Response} The response object
  */
-async function login(email, password, res) {
-  if (email === undefined || password === undefined) {
+async function login(req, res) {
+  if (req.body.email === undefined || req.body.password === undefined) {
     return res
         .status(409)
         .send({token: null, message: 'Request body cannot be empty'});
@@ -20,12 +20,12 @@ async function login(email, password, res) {
 
   const user = await prisma.user.findUnique({
     where: {
-      email: email,
+      email: req.body.email,
     },
   });
 
   if (user) {
-    if (user.password === password) {
+    if (bcrypt.comparePassword(req.body.password, user.password)) {
       const token = await auth.generateToken(user);
       res.status(200).send({token: token, message: 'Login successful'});
     } else {
@@ -94,7 +94,7 @@ async function reset(req, res) {
         id: req.body.userId,
       },
     });
-    if (user.password === req.body.new_password) {
+    if (bcrypt.comparePassword(req.body.new_password, user.password)) {
       return res
           .status(409)
           .send({
@@ -108,16 +108,6 @@ async function reset(req, res) {
       return res
           .status(409)
           .send({token: null, message: 'New password cannot be empty'});
-    }
-
-    // If the new password is the same as the old password, return an error
-    if (user.password === req.body.new_password) {
-      return res
-          .status(409)
-          .send({
-            token: null,
-            message: 'New password cannot be the same as the old password',
-          });
     }
 
     // If the new password does not meet the password requirements, return an
@@ -137,7 +127,7 @@ async function reset(req, res) {
         id: req.body.userId,
       },
       data: {
-        password: req.body.new_password,
+        password: bcrypt.hashPassword(req.body.new_password),
       },
     });
     // Delete forget password request
@@ -205,7 +195,7 @@ async function signup(req, res) {
   user = await prisma.user.create({
     data: {
       email: req.body.email,
-      password: req.body.password,
+      password: bcrypt.hashPassword(req.body.password),
       name: req.body.name,
       type: {
         connect: {

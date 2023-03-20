@@ -75,16 +75,16 @@ function App() {
 
   const addTicket = (callData, ticketType) => {
     var event = callData.event;
-    //console.log(callData);
+    console.log(callData);
 
     if (!basketEvent.event) {
       setBasketEvent(callData);
-      setAvailableTicketTypes(callData.ticket_types);
+      setAvailableTicketTypes(callData.event.ticketTypes);
     } else if (basketEvent.event.id != event.id) {
       // WARN USER TO CLEAR BASKET, ON YES WE PUSH NEW TICKET
 
       setBasketEvent(callData);
-      setAvailableTicketTypes(callData.ticket_types);
+      setAvailableTicketTypes(callData.event.ticketTypes);
       setTickets({});
     } else if (!availableTicketTypes.find((tt) => tt.id === ticketType.id)) {
       return;
@@ -119,10 +119,10 @@ function App() {
     );
     sessionStorage.setItem("tickets", JSON.stringify(tickets));
 
-    //console.log(basketEvent);
-    //console.log(availableTicketTypes);
-    //console.log(tickets);
-    //console.log(totalPrice());
+    console.log(basketEvent);
+    console.log(availableTicketTypes);
+    console.log(tickets);
+    console.log(totalPrice());
   };
 
   const emptyBasket = () => {

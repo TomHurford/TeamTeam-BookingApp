@@ -144,7 +144,7 @@ function EditSocietyForm() {
           <label htmlFor="societyEmail">Society Email</label>
           <input
             name="societyEmail"
-            value={formik.values.email}
+            value={formik.values.societyEmail}
             onChange={formik.handleChange}
             type="text"
             className="form-control"

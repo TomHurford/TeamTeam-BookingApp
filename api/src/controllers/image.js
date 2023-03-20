@@ -35,10 +35,10 @@ const uploadToS3 = multer({
  * @param {Request} req The request object
  * @param {Response} res The response object
  */
-async function uploadToS3(req, res) {
+async function uploadImageToS3(req, res) {
   res.status(200).send('File uploaded successfully');
 }
 
 module.exports = {
-  uploadToS3,
+  uploadImageToS3,
 };

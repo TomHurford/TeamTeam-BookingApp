@@ -4,7 +4,7 @@ import Basket from '../components/Basket';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
 import { Router } from 'react-router-dom';
-
+// Snapshot test for Basket component
 test('Basket snapshot test', () => {
   <Router>
   const component = renderer.create(<Basket availableTicketTypes={[]}/>);

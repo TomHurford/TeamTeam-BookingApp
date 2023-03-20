@@ -698,6 +698,236 @@ async function getCommitteeMembers(req, res) {
   }
 }
 
+/**
+ * Follow a society
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ * @return {Response} The response object
+ */
+async function followSociety(req, res) {
+  let decoded = null;
+  try {
+    // Authenticate the user
+    decoded = await auth.authenticate(req);
+  } catch (err) {
+    res.status(401).send({message: 'Unauthorized'});
+    return;
+  }
+
+  // Check that the req body has a societyId and userId
+  if (!req.body.societyId) {
+    res.status(400).send({message: 'Missing societyId'});
+    return;
+  }
+
+  // CHeck that the society exists
+  const society = await prisma.society.findUnique({
+    where: {
+      id: req.body.societyId,
+    },
+  });
+
+  if (!society) {
+    res.status(404).send({message: 'Society not found'});
+    return;
+  }
+
+  // Check if the user is already following the society
+  const isFollowing = await prisma.members.findMany({
+    where: {
+      userId: decoded.id,
+      societyId: society.id,
+    },
+  });
+
+  if (isFollowing.length > 0) {
+    res.status(400).send({message: 'User is already following society'});
+    return;
+  }
+
+  // Add the user to the society
+  await prisma.members.create({
+    data: {
+      userId: decoded.id,
+      societyId: req.body.societyId,
+    },
+  });
+
+  res.status(200).send({message: 'User is now following society'});
+}
+
+/**
+ * unfollow a society
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ * @return {Response} The response object
+ */
+async function unfollowSociety(req, res) {
+  let decoded = null;
+  try {
+    // Authenticate the user
+    decoded = await auth.authenticate(req);
+  } catch (err) {
+    res.status(401).send({message: 'Unauthorized'});
+    return;
+  }
+
+  // Check that the req body has a societyId and userId
+  if (!req.body.societyId) {
+    res.status(400).send({message: 'Missing societyId'});
+    return;
+  }
+
+  // CHeck that the society exists
+  const society = await prisma.society.findUnique({
+    where: {
+      id: req.body.societyId,
+    },
+  });
+
+  if (!society) {
+    res.status(404).send({message: 'Society not found'});
+    return;
+  }
+
+  // Check if the user is already following the society
+  const isFollowing = await prisma.members.findMany({
+    where: {
+      userId: decoded.id,
+      societyId: society.id,
+    },
+  });
+
+  if (!isFollowing) {
+    res.status(400).send({message: 'User is already not following society'});
+    return;
+  }
+
+  // Add the user to the society
+  await prisma.members.delete({
+    data: {
+      userId: decoded.id,
+      societyId: req.body.societyId,
+    },
+  });
+
+  res.status(200).send({message: 'No longer following society'});
+}
+
+/**
+ * Change the society president
+ * @param {Request} req The request object
+ * @param {Response} res The response object
+ * @return {Response} The response object
+ */
+async function changePresident(req, res) {
+  let decoded = null;
+  try {
+    // Authenticate the user
+    decoded = await auth.authenticate(req);
+  } catch (err) {
+    res.status(401).send({message: 'Unauthorized'});
+    return;
+  }
+
+  // Check that the req body has a societyId and userId
+  if (!req.body.societyId || !req.body.userId) {
+    res.status(400).send({message: 'Missing societyId or userId'});
+    return;
+  }
+
+  // Check that the society exists
+  const society = await prisma.society.findUnique({
+    where: {
+      id: req.body.societyId,
+    },
+  });
+
+  if (!society) {
+    res.status(404).send({message: 'Society not found'});
+    return;
+  }
+
+  // Check that the user exists
+  const user = await prisma.user.findUnique({
+    where: {
+      id: req.body.userId,
+    },
+  });
+
+  if (!user) {
+    res.status(404).send({message: 'User not found'});
+    return;
+  }
+
+  // Check that the user is a committee member
+  const isCommittee = await prisma.committee.findMany({
+    where: {
+      userId: req.body.userId,
+      societyId: req.body.societyId,
+    },
+  });
+
+  if (isCommittee.length === 0) {
+    res.status(400).send({message: 'User is not a committee member'});
+    return;
+  }
+
+  // Check that the user is a president
+  const isPresident = await prisma.committee.findMany({
+    where: {
+      userId: decoded.id,
+      societyId: req.body.societyId,
+      role: 'President',
+    },
+  });
+
+  if (isPresident.length === 0) {
+    res.status(400).send({message: 'User is not a president'});
+    return;
+  }
+
+  // Check that the user is not already president
+  const isAlreadyPresident = await prisma.committee.findMany({
+    where: {
+      userId: req.body.userId,
+      societyId: req.body.societyId,
+      role: 'President',
+    },
+  });
+
+  if (isAlreadyPresident.length > 0) {
+    res.status(400).send({message: 'User is already president'});
+    return;
+  }
+
+  // Change the president
+  await prisma.committee.updateMany({
+    where: {
+      societyId: req.body.societyId,
+      role: 'President',
+    },
+    data: {
+      role: 'Vice President',
+    },
+  });
+
+  await prisma.committee.update({
+    where: {
+      userId_societyId: {
+        userId: req.body.userId,
+        societyId: req.body.societyId,
+      },
+    },
+    data: {
+      role: 'President',
+    },
+  });
+
+  res.status(200).send({message: 'President changed'});
+}
+
+
 module.exports = {
   signup,
   getSocieties,
@@ -708,4 +938,7 @@ module.exports = {
   removeCommitteeMember,
   updateCommitteeMember,
   getCommitteeMembers,
+  followSociety,
+  unfollowSociety,
+  changePresident,
 };

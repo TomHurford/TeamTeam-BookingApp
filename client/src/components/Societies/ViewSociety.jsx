@@ -34,7 +34,6 @@ function ViewSociety() {
         setSociety(response.data.society);
         setSocietyLinks(response.data.society.links[0]);
         setEvents(response.data.society.events);
-        console.log(response.data.society.events);
       })
       .catch((error) => {
         console.log(error);
@@ -50,9 +49,7 @@ function ViewSociety() {
       },
       body: JSON.stringify(data),
     }).then((res) => {
-      //  console.log(res);
       res.json().then((data) => {
-        // console.log(data.societies);
         for (let i = 0; i < data.societies.length; i++) {
           if (data.societies[i].societyId === parseInt(societyId)) {
             setShowFollowButton(false);
@@ -224,7 +221,10 @@ function ViewSociety() {
         </div>
       </div>
 
-      <ContactSocietyForm societyName={society.name} />
+      <ContactSocietyForm
+        societyName={society.name}
+        societyEmail={society.email}
+      />
 
       <Link to={`/edit-society/${society.id}`}>
         {showEditButton && (

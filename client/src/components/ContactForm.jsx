@@ -31,7 +31,6 @@ function ContactForm(props) {
     }),
 
     onSubmit: async (values) => {
-      console.log(values);
       emailjs
         .sendForm(
           "service_t9bv478",

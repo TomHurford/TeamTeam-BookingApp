@@ -16,9 +16,9 @@ function Privacy() {
         <h2>What information do we collect?</h2>
         <br></br>
         When you use our application, we collect information about you such as
-        your name, email address, and phone number. We may also collect
-        information about your device, browser, and IP address. This information
-        is collected through cookies and other tracking technologies.
+        your name and email address. We may also collect information about your
+        device, browser, and IP address. This information is collected through
+        cookies and other tracking technologies.
         <br></br>
         <h2>How do we use your information?</h2>
         <br></br>
@@ -37,11 +37,8 @@ function Privacy() {
         <h2>Do we share your information?</h2>
         <br></br>
         We do not share your personal information with third parties for
-        marketing purposes. However, we may share your information with
-        third-party service providers who help us with our operations, such as
-        payment processors and analytics providers. We may also share your
-        information if required by law or in the event of a merger or
-        acquisition.
+        marketing purposes. We may also share your information if required by
+        law or in the event of a merger or acquisition.
         <br></br>
         <h2>Cookies</h2>
         <br></br>
@@ -54,9 +51,10 @@ function Privacy() {
         <br></br>
         Our application uses tokens to authenticate users and protect user data.
         Tokens are small pieces of data that are stored on your device and are
-        used to verify your identity when you log in or make purchases. Tokens
-        do not contain personal information but are used to protect personal
-        information by ensuring that only authenticated users can access it.
+        used to verify your identity when you log in or make purchases.{" "}
+        <br></br>Tokens do not contain personal information but are used to
+        protect personal information by ensuring that only authenticated users
+        can access it.
         <br></br>
         Overall, we take your privacy seriously and strive to protect your
         personal information. If you have any questions or concerns about our

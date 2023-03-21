@@ -18,6 +18,7 @@ function ViewSociety() {
   const [societyLinks, setSocietyLinks] = useState({});
   const [showFollowButton, setShowFollowButton] = useState(true);
   const [showUnfollowButton, setShowUnfollowButton] = useState(true);
+  const [showEditButton, setShowEditButton] = useState(true);
   const [events, setEvents] = useState([]);
   const { id: societyId } = useParams();
   const data = {
@@ -56,6 +57,23 @@ function ViewSociety() {
           if (data.societies[i].societyId === parseInt(societyId)) {
             setShowFollowButton(false);
           }
+        }
+      });
+    });
+  }, [societyId]);
+
+  useEffect(() => {
+    fetch("http://localhost:5001/societies/checkPresident", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + jwtController.getToken(),
+      },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      res.json().then((data) => {
+        if (data.isPresident === false) {
+          setShowEditButton(false);
         }
       });
     });
@@ -209,9 +227,11 @@ function ViewSociety() {
       <ContactSocietyForm societyName={society.name} />
 
       <Link to={`/edit-society/${society.id}`}>
-        <button type="submit" className="button">
-          Edit Society
-        </button>
+        {showEditButton && (
+          <button type="button" className="button">
+            Edit Society
+          </button>
+        )}
       </Link>
     </div>
   );

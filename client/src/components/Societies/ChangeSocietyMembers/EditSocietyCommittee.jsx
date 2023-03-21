@@ -98,43 +98,26 @@ const EditSocietyCommittee = (props) => {
       });
   };
 
-  const handleMakePresident = async (email) => {
-    // const data = {
-    //   email: email,
-    //   societyId: parseInt(props.societyId),
-    //   role: "Committee Member",
-    // };
-    // var resUserId = 0;
-    // await fetch("http://localhost:5001/societies/addCommitteeMember", {
-    //   method: "POST",
-    //   mode: "cors",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: "Bearer " + jwtController.getToken(),
-    //   },
-    //   body: JSON.stringify(data),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     if (data.message === "User added to committee") {
-    //       alert("Member added successfully!");
-    //     } else {
-    //       alert(data.message);
-    //       return;
-    //     }
-    //     resUserId = data.userId;
-    //     setMembers((prevMembers) => [
-    //       ...prevMembers,
-    //       {
-    //         email: email,
-    //         userId: resUserId,
-    //         role: "Committee Member",
-    //       },
-    //     ]);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
+  const handleMakePresident = async (userId) => {
+    const data = {
+      societyId: parseInt(props.societyId),
+      userId: parseInt(userId),
+    };
+
+    await fetch("http://localhost:5001/societies/changePresident", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + jwtController.getToken(),
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {})
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
@@ -143,7 +126,7 @@ const EditSocietyCommittee = (props) => {
         marginTop: "20px",
         marginBottom: "20px",
         borderColor: "gray",
-        width: "28%",
+        width: "50%",
         borderWidth: 2,
         borderRadius: 20,
         backgroundColor: "#abc4ff",

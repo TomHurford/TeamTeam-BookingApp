@@ -11,12 +11,17 @@ import {
 import ContactSocietyForm from "./ContactSocietyForm";
 import { Link } from "react-router-dom";
 import "../../styles/index.css";
+const jwtController = require("../../utils/jwt.js");
 
 function ViewSociety() {
   const [society, setSociety] = useState({});
   const [societyLinks, setSocietyLinks] = useState({});
+  const [showFollowButton, setShowFollowButton] = useState(true);
   const [events, setEvents] = useState([]);
   const { id: societyId } = useParams();
+  const data = {
+    societyId: parseInt(societyId),
+  };
 
   useEffect(() => {
     axios
@@ -32,6 +37,29 @@ function ViewSociety() {
       .catch((error) => {
         console.log(error);
       });
+  }, [societyId]);
+
+  useEffect(() => {
+    fetch("http://localhost:5001/societies/getFollowedSocieties", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + jwtController.getToken(),
+      },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      //  console.log(res);
+      res.json().then((data) => {
+        // console.log(data.societies);
+        for (let i = 0; i < data.societies.length; i++) {
+          if (data.societies[i].societyId === parseInt(societyId)) {
+            console.log("Society already followed");
+
+            setShowFollowButton(false);
+          }
+        }
+      });
+    });
   }, [societyId]);
 
   function societyEventClick(eventId) {
@@ -53,6 +81,26 @@ function ViewSociety() {
         ))}
       </div>
     );
+  }
+
+  function followSociety() {
+    fetch("http://localhost:5001/societies/followSociety", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + jwtController.getToken(),
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.status)
+      .then((status) => {
+        if (status === 200) {
+          setShowFollowButton(false);
+          alert("Society followed successfully!");
+        } else {
+          alert("Error following society");
+        }
+      });
   }
 
   return (
@@ -112,6 +160,13 @@ function ViewSociety() {
           <p>
             <strong>Followers:</strong> {society.members}
           </p>
+          <div>
+            {showFollowButton && (
+              <button type="button" className="button" onClick={followSociety}>
+                Follow
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="events">
@@ -123,7 +178,9 @@ function ViewSociety() {
       <ContactSocietyForm societyName={society.name} />
 
       <Link to={`/edit-society/${society.id}`}>
-        <button className="button">Edit Society</button>
+        <button type="submit" className="button">
+          Edit Society
+        </button>
       </Link>
     </div>
   );

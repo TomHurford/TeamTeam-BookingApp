@@ -32,7 +32,6 @@ async function getEvents(req, res) {
  * @param {Respon} res The response object
  */
 async function getEventById(req, res) {
-  console.log('HERE');
   let decoded = null;
   // Check that the request header contains a token
   if (req.headers.authorization) {

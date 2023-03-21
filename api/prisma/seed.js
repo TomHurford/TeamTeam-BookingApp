@@ -1,6 +1,7 @@
 const prisma = require('./prisma.js');
 const {faker} = require('@faker-js/faker');
 const {randomString} = require('../src/utils/random.js');
+const bcrypt = require('../src/utils/bcrypt.js');
 
 /**
  * This file is used to seed the database with fake data
@@ -76,7 +77,7 @@ async function seedUsers() {
     data: {
       name: 'Admin',
       email: 'admin@admin.com',
-      password: 'admin123',
+      password: bcrypt.hashPassword('admin123'),
       type: {
         connect: {
           id: 1,
@@ -89,7 +90,7 @@ async function seedUsers() {
     data: {
       name: 'Student',
       email: 'student@kcl.ac.uk',
-      password: 'student',
+      password: bcrypt.hashPassword('student'),
       type: {
         connect: {
           id: 2,
@@ -103,7 +104,7 @@ async function seedUsers() {
       data: {
         name: faker.name.fullName(),
         email: faker.internet.email(),
-        password: faker.internet.password(),
+        password: bcrypt.hashPassword(faker.internet.password()),
         type: {
           connect: {
             id: 2,

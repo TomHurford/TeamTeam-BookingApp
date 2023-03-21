@@ -14,6 +14,7 @@ const eventsRouter = require('./routes/events');
 const societiesRouter = require('./routes/societies');
 const purchaseRouter = require('./routes/purchase');
 const ticketsRouter = require('./routes/tickets');
+const imageRouter = require('./routes/image');
 const swaggerDocument = require('./swagger.json');
 
 
@@ -38,6 +39,7 @@ app.use('/events', eventsRouter);
 app.use('/societies', societiesRouter);
 app.use('/tickets', ticketsRouter);
 app.use('/purchase', purchaseRouter);
+app.use('/image', imageRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // catch 404 and forward to error handler

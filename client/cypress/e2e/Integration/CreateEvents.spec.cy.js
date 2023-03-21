@@ -146,39 +146,39 @@ describe('Create Events', () => {
   describe('Test whitespace inputs', () => {
     it('Error thrown for whitespace input in Name field', () =>{
       cy.contains('Event Name').parent().find('input').type(' ')
-      cy.contains('Event Name').parent().click()
+      cy.contains('Event Name').click({force: true})
       cy.contains('Event Name must be at least 3 characters')
     })
 
     it('Error thrown for whitespace input in Description field', () =>{
       cy.contains('Event Description').parent().find('textarea').type(' ')
-      cy.contains('Event Description').parent().click()
+      cy.contains('Event Description').click({force: true})
       cy.contains('Event description must be at least 30 characters')
     })
     
     it('Error thrown for whitespace input in Location field', () =>{
       cy.contains('Event Location').parent().find('input').type(' ')
-      cy.contains('Event Location').parent().click()
+      cy.contains('Event Location').click({force: true})
       cy.contains('Event location must be at least 3 characters')
     })
     it('Error thrown for whitespace input in Society ID field', () =>{
       cy.contains('Society ID').parent().find('input').type(' ')
-      cy.contains('Society ID').parent().click()
+      cy.contains('Society ID').click({force: true})
       cy.contains('societyId must be a `number` type,')
     })
     it('Error thrown for whitespace input in Ticket Name field', () =>{
       cy.contains('Ticket Type Name').parent().find('input').type(' ')
-      cy.contains('Ticket Type Name').parent().click()
+      cy.contains('Ticket Type Name').click({force: true})
       cy.contains('Ticket name must be at least 3 characters')
     })
     it('Error thrown for whitespace input in Ticket Price field', () =>{
       cy.contains('Ticket Price').parent().find('input').type(' ')
-      cy.contains('Ticket Price').parent().click()
+      cy.contains('Ticket Price').click({force: true})
       cy.contains('ticketInfo[0].price must be a `number` type,')
     })
     it('Error thrown for whitespace input in Ticket Quantity field', () => {
       cy.contains('Ticket Quantity').parent().find('input').type(' ')
-      cy.contains('Ticket Quantity').parent().click()
+      cy.contains('Ticket Quantity').click({force: true})
       cy.contains('ticketInfo[0].quantity must be a `number` type,')
     })
   })

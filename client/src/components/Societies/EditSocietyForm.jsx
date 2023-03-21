@@ -28,12 +28,15 @@ function EditSocietyForm() {
 
     validationSchema: Yup.object({
       societyId: Yup.number(),
-      societyName: Yup.string(),
+      societyName: Yup.string()
+        .trim()
+        .min(3, "Society name must be at least 3 characters long"),
       societyEmail: Yup.string().email("Must be a valid email address"),
-      description: Yup.string().min(
-        50,
-        "Society description must be at least 50 characters."
-      ),
+      description: Yup.string()
+        .trim()
+        .min(50,
+          "Society description must be at least 50 characters."
+        ),
       website: Yup.string().url("Must be a valid URL"),
       instagram: Yup.string().url("Must be a valid URL"),
       twitter: Yup.string().url("Must be a valid URL"),
@@ -138,10 +141,10 @@ function EditSocietyForm() {
 
         {/*Email below*/}
         <div className="form-group">
-          <label htmlFor="email">Society Email</label>
+          <label htmlFor="societyEmail">Society Email</label>
           <input
-            name="email"
-            value={formik.values.email}
+            name="societyEmail"
+            value={formik.values.societyEmail}
             onChange={formik.handleChange}
             type="text"
             className="form-control"

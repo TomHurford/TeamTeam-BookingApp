@@ -221,6 +221,7 @@ async function updateEvent(req, res) {
     decoded = await auth.authenticate(req);
   } catch (err) {
     res.status(401).send({token: null, error: 'Unauthorized'});
+    return;
   }
 
   // The update request must contain the eventId, societyId and at least one

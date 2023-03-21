@@ -1,13 +1,13 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 import EventDetails from '../components/Events/EventDetails';
-
+// Snapshot test for EventDetails component
 test('EventDetails snapshot test', () => {
   const component = renderer.create(<EventDetails />);
   const tree = component.toJSON();
   expect(tree).toMatchSnapshot();
 });
-
+// Unit tests for EventDetails component
 test('Event details title is not null', () => {
   const selectedEvent = <EventDetails />;
   expect (selectedEvent.props.title).not.toBeNull();

@@ -2,14 +2,13 @@ import React, {Component} from "react";
 import '../../styles/EventCard.css';
 import PropTypes from 'prop-types';
 
-//Creating an event component to show event details
-//Event society name needs to be fixed
-
+// This component is used to display the event cards on the home page and the events page.
+// It is used in the Events component. 
 class Event extends Component { 
 
   d = new Date(this.props.specificEvent.date);
   
-  
+  // This function is used to render the component.
   render() {
     return (
       <div className="innerEventCard" data-testid = "eventCardID">
@@ -27,6 +26,9 @@ class Event extends Component {
     );
   }
 }
+
+
+// This is used to check the type of the props passed to the component.
 
 Event.propTypes = {
   specificEvent: PropTypes.object,

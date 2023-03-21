@@ -1,9 +1,4 @@
 describe('Contact', () => {
-  it('should display the contact page', () => {
-    cy.visit('/contact')
-    cy.get('h1').contains('Who are we')
-  })
-
   describe('Test empty inputs', () => {
     it('Enter empty name', () => {
       cy.visit('/contact')

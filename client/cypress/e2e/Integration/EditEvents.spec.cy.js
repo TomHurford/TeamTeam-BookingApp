@@ -38,28 +38,28 @@ describe('Edit Events', () => {
   describe('Test invalid inputs', () => {
     it('Error thrown for whitespace input in Name field', () =>{
       cy.contains('Name').parent().find('input').type(' ')
-      cy.contains('Name').parent().click()
+      cy.contains('Name').click()
       cy.contains('Event name must be at least 3 characters')
     })
     it('Shows error on invalid description', () => {
       cy.contains('Description').parent().find('textarea').type('a')
-      cy.contains('Description').parent().click()
+      cy.contains('Description').click()
       cy.contains('Event description must be at least 30 characters')
     })
     it('Error thrown for whitespace input in Description field', () =>{
       cy.contains('Description').parent().find('textarea').type(' ')
-      cy.contains('Description').parent().click()
+      cy.contains('Description').click()
       cy.contains('Event description must be at least 30 characters')
     })
     it('Error thrown for whitespace input in Location field', () =>{
       cy.contains('Location').parent().find('input').type(' ')
-      cy.contains('Location').parent().click()
+      cy.contains('Location').click()
       cy.contains('Event location must be at least 3 characters')
     })
 
     it('Error thrown for past date as input in Date field', () =>{
       cy.contains('Date').parent().find('input').type('2023-03-01')
-      cy.contains('Date').parent().click()
+      cy.contains('Date').click()
       cy.contains('Event date must be in the future.')
     })
     // it('Error thrown for whitespace input in Time field', () =>{

@@ -17,6 +17,7 @@ function ViewSociety() {
   const [society, setSociety] = useState({});
   const [societyLinks, setSocietyLinks] = useState({});
   const [showFollowButton, setShowFollowButton] = useState(true);
+  const [showUnfollowButton, setShowUnfollowButton] = useState(true);
   const [events, setEvents] = useState([]);
   const { id: societyId } = useParams();
   const data = {
@@ -53,8 +54,6 @@ function ViewSociety() {
         // console.log(data.societies);
         for (let i = 0; i < data.societies.length; i++) {
           if (data.societies[i].societyId === parseInt(societyId)) {
-            console.log("Society already followed");
-
             setShowFollowButton(false);
           }
         }
@@ -96,9 +95,31 @@ function ViewSociety() {
       .then((status) => {
         if (status === 200) {
           setShowFollowButton(false);
+          setShowUnfollowButton(true);
           alert("Society followed successfully!");
         } else {
           alert("Error following society");
+        }
+      });
+  }
+
+  function unfollowSociety() {
+    fetch("http://localhost:5001/societies/unFollowSociety", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + jwtController.getToken(),
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.status)
+      .then((status) => {
+        if (status === 200) {
+          setShowUnfollowButton(false);
+          setShowFollowButton(true);
+          alert("Society unfollowed successfully!");
+        } else {
+          alert("Error unfollowing society");
         }
       });
   }
@@ -164,6 +185,16 @@ function ViewSociety() {
             {showFollowButton && (
               <button type="button" className="button" onClick={followSociety}>
                 Follow
+              </button>
+            )}
+
+            {showUnfollowButton && (
+              <button
+                type="button"
+                className="button button--red"
+                onClick={unfollowSociety}
+              >
+                Unfollow
               </button>
             )}
           </div>

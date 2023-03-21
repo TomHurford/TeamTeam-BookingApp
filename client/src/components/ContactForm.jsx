@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
+import emailjs from "@emailjs/browser";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "../styles/index.css";
 
 function ContactForm(props) {
+  const form = useRef();
   const formik = useFormik({
     initialValues: {
       customerName: "",
@@ -30,6 +32,21 @@ function ContactForm(props) {
 
     onSubmit: async (values) => {
       console.log(values);
+      emailjs
+        .sendForm(
+          "service_t9bv478",
+          "template_erbd6jo",
+          form.current,
+          "sVET7bHYSxTjvXd30"
+        )
+        .then(
+          (result) => {
+            alert("Message sent, we will get back to you shortly");
+          },
+          (error) => {
+            console.log(error.text);
+          }
+        );
     },
   });
 
@@ -37,7 +54,7 @@ function ContactForm(props) {
     <div className="container">
       <h1>Contact Us</h1>
 
-      <form onSubmit={formik.handleSubmit}>
+      <form ref={form} onSubmit={formik.handleSubmit}>
         <div className="field">
           <label htmlFor="customerName">Your Name</label>
           <br />
@@ -119,6 +136,7 @@ function ContactForm(props) {
         </div>
 
         <button
+          value="send"
           className="button"
           style={{
             marginBottom: "8px",

@@ -37,7 +37,7 @@ function ViewSociety() {
   function societyEventClick(eventId) {
     window.location.href = "/event-details?eventId=" + eventId;
   }
-
+  //Render the events for the particular society
   function eventsCardList(events) {
     return (
       <div className="events" data-testid="events-list">

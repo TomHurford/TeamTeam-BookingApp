@@ -24,7 +24,7 @@ import EditEvents from "./Events/EditEvents";
 const sessionStorage = require("sessionstorage");
 import Footer from "./Footer";
 
-//Routes to connect to the homepage, the contact page and other pages which can be added here
+//Routes to connect the different pages of the application
 
 //TODO: Some variables using var instead of let
 

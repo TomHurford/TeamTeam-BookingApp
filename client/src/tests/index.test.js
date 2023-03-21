@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client';
-
+// Snapshot test for index.js
 test('index test', () => {
   const div = document.createElement('div');
   div.setAttribute('id', 'root');

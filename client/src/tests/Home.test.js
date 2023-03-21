@@ -3,7 +3,7 @@ import renderer from 'react-test-renderer';
 import Home from '../components/Home';
 import { render, screen } from '@testing-library/react';
 
-
+// Snapshot test for Home page
 test('Home snapshot test', () => {
   const component = renderer.create(<Home />);
   const tree = component.toJSON();

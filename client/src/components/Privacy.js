@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/Privacy.css";
-//A component for Contact page to be added
+//A component for providing privacy information to the user about our application.
 
 function Privacy() {
   return (
@@ -8,42 +8,60 @@ function Privacy() {
       <div className="underlay"></div>
       <h1 className="title">Privacy</h1>
       <p className="data">
-        <center>
-          At our platform, we take your privacy seriously and are committed to
-          protecting your personal information. This privacy policy outlines the
-          types of information we collect, how we use it, and the measures we
-          take to safeguard it.
-          <br />
-          <br />
-          We collect personal information such as your name, email address, and
-          payment information when you sign up for an account, purchase tickets,
-          or use our platform. This information is used to process your
-          transactions, provide customer support, and improve our services.
-          <br />
-          <br />
-          We may also collect information about your use of our platform,
-          including IP address, browser type, and device information. This
-          information is used to analyze and improve our services and to
-          personalize your experience on our platform.
-          <br />
-          <br />
-          We may share your personal information with third-party service
-          providers, such as payment processors and marketing partners, to
-          facilitate transactions and improve our services. We will never sell
-          your personal information to third parties.
-          <br />
-          <br />
-          We take appropriate measures to safeguard your personal information,
-          including encryption, firewalls, and secure servers. We also require
-          our third-party service providers to implement appropriate security
-          measures to protect your personal information.
-          <br />
-          <br />
-          By using our platform, you consent to the collection and use of your
-          personal information as outlined in this privacy policy. If you have
-          any questions or concerns about our privacy practices, please contact
-          us using the contact page.
-        </center>
+        Our event booking application values your privacy and is committed to
+        protecting your personal information. We understand the importance of
+        privacy and aim to be transparent in how we collect, use, and protect
+        your personal information.
+        <br></br>
+        <h2>What information do we collect?</h2>
+        <br></br>
+        When you use our application, we collect information about you such as
+        your name, email address, and phone number. We may also collect
+        information about your device, browser, and IP address. This information
+        is collected through cookies and other tracking technologies.
+        <br></br>
+        <h2>How do we use your information?</h2>
+        <br></br>
+        We use your information to provide you with a better user experience, to
+        process your bookings and purchases, and to communicate with you about
+        our services. We may also use your information to analyze user behavior
+        and improve our application.
+        <br></br>
+        <h2>How do we protect your information?</h2>
+        <br></br>
+        We take appropriate measures to protect your information from
+        unauthorized access, alteration, disclosure, or destruction. We use
+        secure servers, encryption, and other security measures to protect your
+        personal information.
+        <br></br>
+        <h2>Do we share your information?</h2>
+        <br></br>
+        We do not share your personal information with third parties for
+        marketing purposes. However, we may share your information with
+        third-party service providers who help us with our operations, such as
+        payment processors and analytics providers. We may also share your
+        information if required by law or in the event of a merger or
+        acquisition.
+        <br></br>
+        <h2>Cookies</h2>
+        <br></br>
+        Our application uses cookies to improve your user experience and to
+        collect information about your usage of our application. Cookies are
+        small files stored on your device that allow us to remember your
+        preferences and provide a better user experience.
+        <br></br>
+        <h2>Token</h2>
+        <br></br>
+        Our application uses tokens to authenticate users and protect user data.
+        Tokens are small pieces of data that are stored on your device and are
+        used to verify your identity when you log in or make purchases. Tokens
+        do not contain personal information but are used to protect personal
+        information by ensuring that only authenticated users can access it.
+        <br></br>
+        Overall, we take your privacy seriously and strive to protect your
+        personal information. If you have any questions or concerns about our
+        privacy policy or how we handle your information, please do not hesitate
+        to contact us.
       </p>
     </div>
   );

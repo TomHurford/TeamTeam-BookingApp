@@ -12,7 +12,7 @@ function Basket(props) {
 
   useEffect(() => {
     setTotalPrice(props.totalPrice())
-  }, [])
+  }, [props.basketEvent, props.availableTicketTypes, props.tickets])
 
   useEffect(() => {
     setTotalPrice(props.totalPrice());
@@ -28,18 +28,18 @@ function Basket(props) {
 
   async function checkout() {
     if (!props.isLoggedIn) {
-      // window.location = '/login';
+      window.location = '/login';
     }
 
     props.emptyBasket();
-    // const res = await generateTickets(props.basketEvent, props.availableTicketTypes, props.tickets, props.totalPrice());
+    const res = await generateTickets(props.basketEvent, props.availableTicketTypes, props.tickets, props.totalPrice());
 
-    // if (res) {
-    //   props.emptyBasket();
-    //   //window.location = '/tickets';
-    // } else {
-    //   // refund payment and call help lol displat error
-    // }
+    if (res) {
+      props.emptyBasket();
+      window.location = '/tickets';
+    } else {
+      // refund payment and call help lol displat error
+    }
   }
 
   return (
@@ -58,7 +58,7 @@ function Basket(props) {
             <ol className="basket">
               {
                 props.availableTicketTypes.map((ticketType) => {
-                  return <TicketHolderTicket key={ticketType.id} event={props.basketEvent} tickets={props.tickets} ticketType={ticketType} addTicket={props.addTicket} removeTicket={props.removeTicket}/>
+                  return <TicketHolderTicket extraChanges={() => {}} key={ticketType.id} event={props.basketEvent} tickets={props.tickets} ticketType={ticketType} addTicket={props.addTicket} removeTicket={props.removeTicket}/>
                 })
               }
             </ol>
@@ -81,7 +81,7 @@ function Basket(props) {
             Check out <Link to="/">events</Link> and come back here to checkout!
           </p>
         </div>
-        <div className='footer'></div>
+        {/* <div className='footer'></div> */}
       </div>
   </div>
   );

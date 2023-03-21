@@ -29,7 +29,7 @@ class Home extends Component {
         // console.log(events);
         this.setState({eventCardList: this.eventsCardList(events)})
     }
-
+    // Message displayed on the home page
     welcome() {
         return(
         <div className="welcome" data-testid = "welcome-message">
@@ -37,7 +37,7 @@ class Home extends Component {
         </div>
         )
     }
-
+    // Search bar for searching events
     searchBar(){
         return(
             <div className="searchBarContainer">
@@ -55,7 +55,7 @@ class Home extends Component {
         )
 
     }
-
+    // Displaying the events on the home page
     eventsCardList(events) {
         return (
             <div className="events" data-testid="events-list">
@@ -80,7 +80,7 @@ class Home extends Component {
             </div>
         )
     }
-
+    // When an event is clicked, the user is redirected to that event's details page
     handleClick= (eventId) => {
         window.location.href = '/event-details?eventId=' + eventId;
     }

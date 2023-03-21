@@ -10,7 +10,7 @@ const loginController = require('../controllers/login.js');
 
 // This route is used to login a user
 router.post('/login', (req, res) => {
-  loginController.login(req.body.email, req.body.password, res);
+  loginController.login(req, res);
 });
 
 // This route is used to logout a user

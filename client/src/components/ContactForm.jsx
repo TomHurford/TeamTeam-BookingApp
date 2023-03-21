@@ -13,10 +13,17 @@ function ContactForm(props) {
     },
 
     validationSchema: Yup.object({
-      customerName: Yup.string().required("You must enter your name"),
+      customerName: Yup.string()
+        .trim()
+        .min(3, "Name must be at least 3 characters long")
+        .required("You must enter your name"),
       customerEmail: Yup.string().email().required("You must enter your email"),
-      messageSubject: Yup.string().required("A subject is required"),
+      messageSubject: Yup.string()
+        .trim()
+        .min(3, "Subject must be at least 3 characters long")
+        .required("A subject is required"),
       message: Yup.string()
+        .trim()
         .min(50, "Message must be at least 50 characters long")
         .required("A message is required"),
     }),

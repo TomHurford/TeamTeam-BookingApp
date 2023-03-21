@@ -7,16 +7,6 @@ exports[`Contact snapshot test 1`] = `
   <div
     className="underlay"
   />
-  <h1
-    className="title"
-  >
-    Who are we
-  </h1>
-  <p
-    className="data"
-  >
-    Ticketopia is...
-  </p>
   <div
     className="container"
   >
@@ -95,6 +85,7 @@ exports[`Contact snapshot test 1`] = `
         />
       </div>
       <button
+        className="button"
         style={
           Object {
             "marginBottom": "8px",

@@ -1,5 +1,7 @@
 const prisma = require('./prisma.js');
 const {faker} = require('@faker-js/faker');
+const {randomString} = require('../src/utils/random.js');
+const bcrypt = require('../src/utils/bcrypt.js');
 
 /**
  * This file is used to seed the database with fake data
@@ -75,7 +77,7 @@ async function seedUsers() {
     data: {
       name: 'Admin',
       email: 'admin@admin.com',
-      password: 'admin123',
+      password: bcrypt.hashPassword('admin123'),
       type: {
         connect: {
           id: 1,
@@ -88,7 +90,7 @@ async function seedUsers() {
     data: {
       name: 'Student',
       email: 'student@kcl.ac.uk',
-      password: 'student',
+      password: bcrypt.hashPassword('student'),
       type: {
         connect: {
           id: 2,
@@ -102,7 +104,7 @@ async function seedUsers() {
       data: {
         name: faker.name.fullName(),
         email: faker.internet.email(),
-        password: faker.internet.password(),
+        password: bcrypt.hashPassword(faker.internet.password()),
         type: {
           connect: {
             id: 2,
@@ -297,6 +299,21 @@ async function seedEvents() {
       isArchived: false,
     },
   });
+
+  await prisma.event.create({
+    data: {
+      society: {
+        connect: {
+          id: 1,
+        },
+      },
+      name: 'Past Event',
+      description: 'This event has already happened',
+      location: 'Event 1 location',
+      date: new Date('2022-12-2'),
+      isArchived: false,
+    },
+  });
   // For each society, add 3 events in the next 3 months
   const societies = await prisma.society.findMany();
   for (let i = 0; i < societies.length; i++) {
@@ -377,9 +394,21 @@ async function seedPurchasesandTickets() {
     },
   });
 
+  const ticketEncode = {
+    ticketTypeName: 'FREE',
+    ticketTypeID: 1,
+    userID: 1,
+    eventID: 1,
+    purchaseID: setPurchase.id,
+    ticketSecret: randomString(),
+  };
+
+  const ticketText = Buffer.from(
+      JSON.stringify(ticketEncode)).toString('base64');
+
   await prisma.ticket.create({
     data: {
-      ticketData: 'sdgsgbsfgbsumfin',
+      ticketData: ticketText,
       purchase: {
         connect: {
           id: setPurchase.id,
@@ -393,6 +422,61 @@ async function seedPurchasesandTickets() {
       event: {
         connect: {
           id: 1,
+        },
+      },
+      user: {
+        connect: {
+          id: 1,
+        },
+      },
+    },
+  });
+
+  const setPurchasePast = await prisma.purchase.create({
+    data: {
+      total: 0,
+      paymentMethod: 'paypal',
+      user: {
+        connect: {
+          id: 1,
+        },
+      },
+      event: {
+        connect: {
+          id: 2,
+        },
+      },
+    },
+  });
+
+  const ticketEncodePast = {
+    ticketTypeName: 'FREE',
+    ticketTypeID: 1,
+    userID: 1,
+    eventID: 2,
+    purchaseID: setPurchasePast.id,
+    ticketSecret: randomString(),
+  };
+
+  const ticketTextPast = Buffer.from(
+      JSON.stringify(ticketEncodePast)).toString('base64');
+
+  await prisma.ticket.create({
+    data: {
+      ticketData: ticketTextPast,
+      purchase: {
+        connect: {
+          id: setPurchasePast.id,
+        },
+      },
+      ticketType: {
+        connect: {
+          id: 3,
+        },
+      },
+      event: {
+        connect: {
+          id: 2,
         },
       },
       user: {
@@ -429,9 +513,22 @@ async function seedPurchasesandTickets() {
         },
       });
       for (let k = 0; k < qoftickets; k++) {
+        const ticketEncode = {
+          ticketTypeName: ticketType.ticketType,
+          ticketTypeID: ticketType.id,
+          userID: j + 1,
+          eventID: i + 1,
+          purchaseID: purchase.id,
+          ticketSecret: randomString(),
+        };
+
+        const ticketText = Buffer.from(
+            JSON.stringify(ticketEncode)).toString('base64');
+
         await prisma.ticket.create({
           data: {
-            ticketData: '' + (i + 4 * 3) * (j * 2 + 6) * (k * 7 * 8 + 5 * 6),
+            // ticketData: '' + (i + 4 * 3) * (j * 2 + 6) * (k * 7 * 8 + 5 * 6),
+            ticketData: ticketText,
             purchase: {
               connect: {
                 id: purchase.id,

@@ -19,7 +19,6 @@ exports[`EditSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label"
         htmlFor="societyName"
       >
         Society Name
@@ -27,6 +26,7 @@ exports[`EditSocietyForm snapshot test 1`] = `
       <input
         className="form-control"
         name="societyName"
+        onBlur={[Function]}
         onChange={[Function]}
         type="text"
         value=""
@@ -47,15 +47,14 @@ exports[`EditSocietyForm snapshot test 1`] = `
       >
         <option
           defaultValue={true}
-        />
+        >
+          Other
+        </option>
         <option>
           Academic
         </option>
         <option>
           Social
-        </option>
-        <option>
-          Other
         </option>
         <option>
           Sports
@@ -66,25 +65,6 @@ exports[`EditSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
-        htmlFor="societyId"
-      >
-        Society ID
-      </label>
-      <input
-        className="form-control"
-        name="societyId"
-        onBlur={[Function]}
-        onChange={[Function]}
-        type="number"
-        value={0}
-      />
-    </div>
-    <div
-      className="form-group"
-    >
-      <label
-        className="form-label "
         htmlFor="societyEmail"
       >
         Society Email
@@ -105,7 +85,6 @@ exports[`EditSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="website"
       >
         Website
@@ -123,7 +102,6 @@ exports[`EditSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="instagram"
       >
         Instagram
@@ -141,7 +119,6 @@ exports[`EditSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="twitter"
       >
         Twitter
@@ -159,7 +136,6 @@ exports[`EditSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="facebook"
       >
         Facebook
@@ -186,7 +162,6 @@ exports[`EditSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="logo"
       >
         Society Logo
@@ -204,7 +179,6 @@ exports[`EditSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="banner"
       >
         Society Banner
@@ -222,7 +196,6 @@ exports[`EditSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="description"
       >
         Society Description
@@ -245,9 +218,9 @@ exports[`EditSocietyForm snapshot test 1`] = `
       />
     </div>
     <button
-      className="btn btn-primary"
+      className="button"
     >
-      Save
+      Edit Society
     </button>
   </form>
   <div
@@ -272,72 +245,6 @@ exports[`EditSocietyForm snapshot test 1`] = `
     >
       Committee Members
     </h1>
-    <div
-      style={
-        Object {
-          "marginLeft": "8px",
-        }
-      }
-    >
-      <span>
-        <button
-          className="btn btn-danger"
-          onClick={[Function]}
-          style={
-            Object {
-              "marginBottom": "8px",
-            }
-          }
-        >
-          Remove
-        </button>
-           nid@nid.com
-      </span>
-    </div>
-    <div
-      style={
-        Object {
-          "marginLeft": "8px",
-        }
-      }
-    >
-      <span>
-        <button
-          className="btn btn-danger"
-          onClick={[Function]}
-          style={
-            Object {
-              "marginBottom": "8px",
-            }
-          }
-        >
-          Remove
-        </button>
-           hi@hi.com
-      </span>
-    </div>
-    <div
-      style={
-        Object {
-          "marginLeft": "8px",
-        }
-      }
-    >
-      <span>
-        <button
-          className="btn btn-danger"
-          onClick={[Function]}
-          style={
-            Object {
-              "marginBottom": "8px",
-            }
-          }
-        >
-          Remove
-        </button>
-           hdsdfasi@dhi.com
-      </span>
-    </div>
     <form
       onSubmit={[Function]}
       style={
@@ -359,7 +266,7 @@ exports[`EditSocietyForm snapshot test 1`] = `
         value=""
       />
       <button
-        className="btn btn-primary"
+        className="button"
         style={
           Object {
             "marginBottom": "8px",

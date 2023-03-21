@@ -11,6 +11,9 @@ async function getEvents(req, res) {
   const events = await prisma.event.findMany({
     where: {
       isArchived: false,
+      date: {
+        gte: new Date(),
+      },
     },
     include: {
       society: true,
@@ -29,7 +32,6 @@ async function getEvents(req, res) {
  * @param {Respon} res The response object
  */
 async function getEventById(req, res) {
-  console.log('HERE');
   let decoded = null;
   // Check that the request header contains a token
   if (req.headers.authorization) {
@@ -219,6 +221,7 @@ async function updateEvent(req, res) {
     decoded = await auth.authenticate(req);
   } catch (err) {
     res.status(401).send({token: null, error: 'Unauthorized'});
+    return;
   }
 
   // The update request must contain the eventId, societyId and at least one

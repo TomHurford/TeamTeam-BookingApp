@@ -4,6 +4,8 @@ import Event from "./Event";
 import "../../styles/TitleOfPage.css"
 import "../../styles/Home.css"
 
+//A component to display the events based on the search query
+
 class SearchEvents extends React.Component {
   constructor(props) {
     super(props);

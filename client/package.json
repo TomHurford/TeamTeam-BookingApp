@@ -19,6 +19,7 @@
     "joi-browser": "^13.4.0",
     "jsbarcode": "^3.11.5",
     "lodash": "^4.17.21",
+    "qrcode.react": "^3.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.8.1",
@@ -52,13 +53,12 @@
     "start": "react-scripts -r @cypress/instrument-cra start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:jest": "npm run test -- --coverage --watchAll=false --coverageDirectory=jest-coverage",
-    "coverage": "npm run test -- --coverage --watchAll=false",
+    "coverage": "npm run test -- --coverage --watchAll=false --coverageDirectory=jest-coverage",
     "eject": "react-scripts eject",
-    "cypress:open": "cypress open",
+    "test:cypress": "cypress open",
     "merge": "istanbul-merge cypress-coverage/coverage-final.json jest-coverage/coverage-final.json --out combined-coverage/coverage-final.json",
     "report:combined": "npx nyc report --reporter html --reporter text -t combined-coverage --report-dir combined-coverage/summary",
-    "test:all": "npm run test:jest && npx cypress run && npm run merge && npm run report:combined"
+    "test:all": "npm run coverage && npx cypress run && npm run merge && npm run report:combined"
   },
   "browserslist": {
     "production": [

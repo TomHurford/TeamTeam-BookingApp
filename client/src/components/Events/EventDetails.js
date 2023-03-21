@@ -111,9 +111,11 @@ class EventDetails extends Component {
               </a>
             </div>
           </div>
-
-          <div className="tickerHolder">
+          
+          {new Date() <= new Date(event.event.date) && 
+            (<div className="tickerHolder">
             <h2>Tickets</h2>
+            {console.log(new Date() <= event.event.date)}
             {event.event.ticketTypes.map((ticketType) => {
               return (
                 <TicketHolderTicket
@@ -146,7 +148,7 @@ class EventDetails extends Component {
               Edit Event
             </button>
             {/* </Link> */}
-          </div>
+          </div>)}
 
           <div className="spacer"></div>
         </div>

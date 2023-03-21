@@ -3,6 +3,7 @@ import { Formik, FieldArray, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 const jwtController = require("../../utils/jwt.js");
 import "../../styles/CreateEvents.css";
+import "../../styles/index.css";
 
 // A component for the create events page that allows users to create events for their societies
 function CreateEvents() {
@@ -229,7 +230,7 @@ function CreateEvents() {
                           quantity: "",
                         })
                       }
-                      className="btn btn-primary"
+                      className="button button--green"
                       style={{ marginTop: "15px" }}
                     >
                       Add Ticket Type
@@ -305,7 +306,7 @@ function CreateEvents() {
                               onClick={() =>
                                 index > 0 && fieldArrayProps.remove(index)
                               }
-                              className="btn btn-danger"
+                              className="button button--red"
                               style={{ marginTop: "15px" }}
                             >
                               Remove Ticket Type
@@ -320,7 +321,7 @@ function CreateEvents() {
             </FieldArray>
             <button
               type="submit"
-              className="btn btn-primary"
+              className="button"
               style={{ marginTop: "15px" }}
             >
               Create Event

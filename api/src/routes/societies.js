@@ -41,4 +41,32 @@ router.post('/getCommitteeMembers', (req, res) => {
   societyController.getCommitteeMembers(req, res);
 });
 
+router.post('/followSociety', (req, res) => {
+  societyController.followSociety(req, res);
+});
+
+router.post('/unFollowSociety', (req, res) => {
+  societyController.unFollowSociety(req, res);
+});
+
+router.post('/checkUserIsMember', (req, res) => {
+  societyController.checkUserIsMember(req, res);
+});
+
+router.post('/getMembers', (req, res) => {
+  societyController.getMembers(req, res);
+});
+
+router.post('/getFollowedSocieties', (req, res) => {
+  societyController.getListOfFollowedSocieties(req, res);
+});
+
+router.post('/checkCommitteeMember', (req, res) => {
+  societyController.checkIfUserIsCommitteeMember(req, res);
+});
+
+router.post('/checkPresident', (req, res) => {
+  societyController.checkIfUserIsPresident(req, res);
+});
+
 module.exports = router;

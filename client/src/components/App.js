@@ -23,6 +23,7 @@ import EditEvents from "./Events/EditEvents";
 
 const sessionStorage = require("sessionstorage");
 import Footer from "./Footer";
+import { LoggedInRoutes, PrivateRoutes } from "../utils/PrivateRoutes";
 
 //Routes to connect the different pages of the application
 
@@ -145,56 +146,60 @@ function App() {
     <div className="root-container">
       <Navbar isLoggedIn={isLoggedIn} />
       <div className="page-wrapper">
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route
-          path="/login"
-          element={<Login isLoggedIn={isLoggedIn} />}
-        ></Route>
-        <Route
-          path="/logout"
-          element={<Logout isLoggedIn={isLoggedIn} />}
-        ></Route>
-        <Route path="/contact" element={<Contact />}></Route>
-        <Route path="/about" element={<About />}></Route>
-        <Route path="/terms" element={<Terms />}></Route>
-        <Route path="/privacy" element={<Privacy />}></Route>
-        <Route path="/tickets" element={<Purchase />}></Route>
-
-        <Route
-          path="/event-details"
-          element={
-            <EventDetails
-              addTicket={addTicket}
-              tickets={tickets}
-              removeTicket={removeTicket}
-            />
-          }
-        ></Route>
-        <Route
-          path="/basket"
-          element={
-            <Basket
-              basketEvent={basketEvent}
-              availableTicketTypes={availableTicketTypes}
-              tickets={tickets}
-              removeTicket={removeTicket}
-              totalPrice={totalPrice}
-              addTicket={addTicket}
-              isLoggedIn={isLoggedIn}
-              emptyBasket={emptyBasket}
-            />
-          }
-        ></Route>
-        <Route path="/society/:id" element={<ViewSociety />} />
-        <Route path="/societies" element={<SearchSocieties />} />
-        <Route path="/create-society" element={<CreateSocietyForm />} />
-        <Route path="/edit-society/:id" element={<EditSocietyForm />} />
-        <Route path="/search-events" element={<SearchEvents />} />
-        <Route path="/create-event" element={<CreateEvents />} />
-        <Route path="/edit-event/:id" element={<EditEvents />} />
-      </Routes>
-      <Footer />
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route element={<LoggedInRoutes />}>
+            <Route
+              path="/login"
+              element={<Login isLoggedIn={isLoggedIn} />}
+            ></Route>
+          </Route>
+          <Route
+            path="/logout"
+            element={<Logout isLoggedIn={isLoggedIn} />}
+          ></Route>
+          <Route path="/contact" element={<Contact />}></Route>
+          <Route path="/about" element={<About />}></Route>
+          <Route path="/terms" element={<Terms />}></Route>
+          <Route path="/privacy" element={<Privacy />}></Route>
+          <Route path="/tickets" element={<Purchase />}></Route>
+          <Route
+            path="/event-details"
+            element={
+              <EventDetails
+                addTicket={addTicket}
+                tickets={tickets}
+                removeTicket={removeTicket}
+              />
+            }
+          ></Route>
+          <Route
+            path="/basket"
+            element={
+              <Basket
+                basketEvent={basketEvent}
+                availableTicketTypes={availableTicketTypes}
+                tickets={tickets}
+                removeTicket={removeTicket}
+                totalPrice={totalPrice}
+                addTicket={addTicket}
+                isLoggedIn={isLoggedIn}
+                emptyBasket={emptyBasket}
+              />
+            }
+          ></Route>
+          <Route path="/society/:id" element={<ViewSociety />} />
+          <Route path="/societies" element={<SearchSocieties />} />
+          <Route path="/search-events" element={<SearchEvents />} />
+          <Route path="*" element={<Home />} />
+          <Route element={<PrivateRoutes />}>
+            <Route path="/create-society" element={<CreateSocietyForm />} />
+            <Route path="/edit-society/:id" element={<EditSocietyForm />} />
+            <Route path="/create-event" element={<CreateEvents />} />
+            <Route path="/edit-event/:id" element={<EditEvents />} />
+          </Route>
+        </Routes>
+        <Footer />
       </div>
     </div>
   );

@@ -6,6 +6,7 @@ import { getEventById } from "../../utils/EventsLogic";
 import TicketHolderTicket from "./TicketHolder";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import "../../styles/index.css";
 
 class EventDetails extends Component {
   constructor(props) {
@@ -21,12 +22,11 @@ class EventDetails extends Component {
     this.setState({ data: event });
   }
 
-  
-  handleClick= () => {
+  handleClick = () => {
     const searchParams = new URLSearchParams(window.location.search);
     const eventId = parseInt(searchParams.get("eventId"));
-    window.location.href = '/edit-event/' + eventId;
-  }
+    window.location.href = "/edit-event/" + eventId;
+  };
 
   render() {
     const event = this.state.data;
@@ -63,7 +63,12 @@ class EventDetails extends Component {
           <div className="societyInfo">
             <div className="icon">
               {console.log(event)}
-              <div className="logo" style={{ backgroundImage: `url(${event.event.society.links[0].logo})` }}></div>
+              <div
+                className="logo"
+                style={{
+                  backgroundImage: `url(${event.event.society.links[0].logo})`,
+                }}
+              ></div>
             </div>
             <div className="name">{event.event.society.name}</div>
             <div className="description">{event.event.society.description}</div>
@@ -137,9 +142,10 @@ class EventDetails extends Component {
               to={`/edit-event/${this.getEventId})
               )}`}
             > */}
-              <button className="btn btn-primary" onClick={this.handleClick}>Edit Event</button>
+            <button className="button" onClick={this.handleClick}>
+              Edit Event
+            </button>
             {/* </Link> */}
-
           </div>
 
           <div className="spacer"></div>

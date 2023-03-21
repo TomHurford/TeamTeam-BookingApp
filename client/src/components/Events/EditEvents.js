@@ -3,6 +3,7 @@ import { Formik, FieldArray, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 const jwtController = require("../../utils/jwt.js");
+import "../../styles/index.css";
 
 // A component for the edit event page which allows the user to edit the details of an event they have created previously.
 function EditEvents() {
@@ -192,7 +193,7 @@ function EditEvents() {
             )}
             <button
               type="submit"
-              className="btn btn-primary"
+              className="button"
               style={{ marginTop: "15px" }}
             >
               Update Event

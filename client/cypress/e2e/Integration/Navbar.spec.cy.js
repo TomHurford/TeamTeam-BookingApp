@@ -11,34 +11,34 @@ describe('Navbar', () => {
     cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click()
     cy.contains('Close').click()
 
-    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click()
-    cy.get('div[id="menu"]').find('ul[class="top"]').find('a').find('li').contains('Events').click()
+    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click({ force: true })
+    cy.get('div[id="menu"]').find('ul[class="top"]').find('a').find('li').contains('Events').wait(500).click({force: true})
 
-    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click()
-    cy.get('div[id="menu"]').find('ul[class="top"]').find('a').find('li').contains('Societies').click()
+    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click({ force: true})
+    cy.get('div[id="menu"]').find('ul[class="top"]').find('a').find('li').contains('Societies').wait(500).click({force: true})
 
-    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click()
-    cy.get('div[id="menu"]').find('ul[class="top"]').find('a').find('li').contains('Contact').click()
+    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click({ force: true })
+    cy.get('div[id="menu"]').find('ul[class="top"]').find('a').find('li').contains('Contact').wait(500).click({force: true})
 
-    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click() 
-    cy.get('div[id="menu"]').find('ul[class="bottom"]').find('a').find('li').contains('Basket').click()
+    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click({force: true}) 
+    cy.get('div[id="menu"]').find('ul[class="bottom"]').find('a').find('li').contains('Basket').wait(500).click({force: true})
 
-    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click()
-    cy.get('div[id="menu"]').find('ul[class="bottom"]').find('a').find('li').contains('Login').click()
+    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click({force: true})
+    cy.get('div[id="menu"]').find('ul[class="bottom"]').find('a').find('li').contains('Login').wait(500).click({force: true})
 
 
     cy.get('input[name="loginEmail"]').type('admin@admin.com')
     cy.get('input[name="loginPassword"]').type('admin123')
     cy.get('button[name="loginbutton"]').click();
 
-    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click()
-    cy.get('div[id="menu"]').find('ul[class="bottom"]').find('a').find('li').contains('Basket').click()
+    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click({force: true})
+    cy.get('div[id="menu"]').find('ul[class="bottom"]').find('a').find('li').contains('Basket').wait(500).click({force: true})
 
-    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click()
-    cy.get('div[id="menu"]').find('ul[class="bottom"]').find('a').find('li').contains('Tickets').click()
+    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click({force: true})
+    cy.get('div[id="menu"]').find('ul[class="bottom"]').find('a').find('li').contains('Tickets').wait(500).click({force: true})
 
-    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click()
-    cy.get('div[id="menu"]').find('ul[class="bottom"]').find('a').find('li').contains('Logout').click()
+    cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click({force: true})
+    cy.get('div[id="menu"]').find('ul[class="bottom"]').find('a').find('li').contains('Logout').wait(500).click({force: true})
     // cy.contains('Events').click({force: true})
 
     // cy.get('nav[class="mobile-navbar"]').find('ul[class="right"]').find('a').click()

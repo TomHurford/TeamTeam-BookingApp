@@ -143,6 +143,7 @@ async function getSocietyById(req, res) {
   // the society
   try {
     let committee = null;
+    let isCommitteePresident = false;
 
     // If the request header authorization is not empty, the user is logged in
     if (req.headers.authorization) {
@@ -164,6 +165,19 @@ async function getSocietyById(req, res) {
           },
         },
       });
+
+      // Check if the user is the president of the society
+      checkMember = await prisma.committee.findMany({
+        where: {
+          userId: userId,
+          societyId: req.body.societyId,
+          isPresident: true,
+        },
+      });
+
+      if (checkMember.length > 0) {
+        isCommitteePresident = true;
+      }
     }
 
     // Get the society
@@ -184,6 +198,8 @@ async function getSocietyById(req, res) {
 
     // Only send the number of members
     society.members = society.members.length;
+
+    society.isCommitteePresident = isCommitteePresident;
 
     if (!committee) {
       res.status(200).send({

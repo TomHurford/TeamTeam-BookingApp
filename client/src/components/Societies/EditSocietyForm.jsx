@@ -132,10 +132,11 @@ function EditSocietyForm() {
             onChange={formik.handleChange}
             className="form-select"
           >
-            <option defaultValue>Other</option>
+            <option defaultValue></option>
             <option>Academic</option>
             <option>Social</option>
             <option>Sports</option>
+            <option>Other</option>
           </select>
         </div>
 
@@ -313,7 +314,7 @@ function EditSocietyForm() {
           )}
         </div>
 
-        <button className="button">Edit Society</button>
+        <button className="button" type="submit">Edit Society</button>
       </form>
 
       <EditSocietyCommittee societyId={formik.values.societyId} />

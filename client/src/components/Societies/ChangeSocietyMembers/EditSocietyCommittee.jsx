@@ -30,19 +30,19 @@ const EditSocietyCommittee = (props) => {
   }, [members]);
 
   const handleRemoveMember = async (userId) => {
-    const data = { "userId": userId, "societyId": props.societyId };
+    const data = { userId: userId, societyId: props.societyId };
     await fetch("http://localhost:5001/societies/removeCommitteeMember", {
       method: "POST",
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + jwtController.getToken(),
+        Authorization: "Bearer " + jwtController.getToken(),
       },
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
       .then((data) => {
-        if (data.message === 'User removed from committee') {
+        if (data.message === "User removed from committee") {
           alert("Member deleted successfully!");
           if (members.length > 1) {
             setMembers((prevMembers) =>
@@ -71,17 +71,16 @@ const EditSocietyCommittee = (props) => {
       mode: "cors",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + jwtController.getToken(),
+        Authorization: "Bearer " + jwtController.getToken(),
       },
       body: JSON.stringify(data),
     })
-      .then((res) => (res.json()))
+      .then((res) => res.json())
       .then((data) => {
-        if(data.message === "User added to committee")
-        {
-          alert("Member added successfully!"); 
+        if (data.message === "User added to committee") {
+          alert("Member added successfully!");
         } else {
-          alert(data.message)
+          alert(data.message);
           return;
         }
         resUserId = data.userId;
@@ -93,9 +92,31 @@ const EditSocietyCommittee = (props) => {
             role: "Committee Member",
           },
         ]);
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error);
+      });
+  };
 
+  const handleMakePresident = async (userId) => {
+    const data = {
+      societyId: parseInt(props.societyId),
+      userId: parseInt(userId),
+    };
+
+    await fetch("http://localhost:5001/societies/changePresident", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + jwtController.getToken(),
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.json())
+      .then((data) => {})
+      .catch((error) => {
+        console.log(error);
       });
   };
 
@@ -105,7 +126,7 @@ const EditSocietyCommittee = (props) => {
         marginTop: "20px",
         marginBottom: "20px",
         borderColor: "gray",
-        width: "28%",
+        width: "50%",
         borderWidth: 2,
         borderRadius: 20,
         backgroundColor: "#abc4ff",
@@ -121,11 +142,10 @@ const EditSocietyCommittee = (props) => {
       {members.map((member) => (
         <Member
           email={member.email}
-
           userId={member.userId}
-
           key={member.userId.toString()}
           removeMember={handleRemoveMember}
+          makePresident={handleMakePresident}
         />
       ))}
       <AddCommitteeMember addMember={handleAddMember} />

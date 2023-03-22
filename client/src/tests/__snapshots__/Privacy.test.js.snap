@@ -21,7 +21,7 @@ exports[`Privacy snapshot test 1`] = `
       What information do we collect?
     </h2>
     <br />
-    When you use our application, we collect information about you such as your name, email address, and phone number. We may also collect information about your device, browser, and IP address. This information is collected through cookies and other tracking technologies.
+    When you use our application, we collect information about you such as your name and email address. We may also collect information about your device, browser, and IP address. This information is collected through cookies and other tracking technologies.
     <br />
     <h2>
       How do we use your information?
@@ -39,7 +39,7 @@ exports[`Privacy snapshot test 1`] = `
       Do we share your information?
     </h2>
     <br />
-    We do not share your personal information with third parties for marketing purposes. However, we may share your information with third-party service providers who help us with our operations, such as payment processors and analytics providers. We may also share your information if required by law or in the event of a merger or acquisition.
+    We do not share your personal information with third parties for marketing purposes. We may also share your information if required by law or in the event of a merger or acquisition.
     <br />
     <h2>
       Cookies
@@ -51,7 +51,10 @@ exports[`Privacy snapshot test 1`] = `
       Token
     </h2>
     <br />
-    Our application uses tokens to authenticate users and protect user data. Tokens are small pieces of data that are stored on your device and are used to verify your identity when you log in or make purchases. Tokens do not contain personal information but are used to protect personal information by ensuring that only authenticated users can access it.
+    Our application uses tokens to authenticate users and protect user data. Tokens are small pieces of data that are stored on your device and are used to verify your identity when you log in or make purchases.
+     
+    <br />
+    Tokens do not contain personal information but are used to protect personal information by ensuring that only authenticated users can access it.
     <br />
     Overall, we take your privacy seriously and strive to protect your personal information. If you have any questions or concerns about our privacy policy or how we handle your information, please do not hesitate to contact us.
   </p>

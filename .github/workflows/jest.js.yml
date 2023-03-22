@@ -25,9 +25,14 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
+    - name: Run postgres
+      run: docker-compose up -d postgres
+      working-directory: .
     - name: Install dependencies and run tests
       run: |
         cd api
         npm install
+        npx prisma generate
+        node prisma/seed.js
         npm run test
       working-directory: .

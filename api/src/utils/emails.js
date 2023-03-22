@@ -17,7 +17,7 @@ Call mail() from the file using params to, subject and body.
 // EMAIL : noreply@ticketopia.armtech.dev => PASSWORD : (8N.J1NOI.U*
 
 const transporter = nodemailer.createTransport({
-  host: 'ticketopia.armtech.dev',
+  host: 'armtech.dev',
   port: 465,
   auth: {
     user: 'noreply@ticketopia.armtech.dev',

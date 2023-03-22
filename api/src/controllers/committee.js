@@ -8,8 +8,6 @@ const auth = require('../utils/jwt_auth.js');
  * @param {Response} res The response object
  * @return {Response} The response object
  */
-
-
 async function addCommitteeMember(req, res) {
   let decoded = null;
   try {

@@ -1,16 +1,13 @@
-
-const prisma = require('../../prisma/prisma.js');
-const auth = require('../utils/jwt_auth.js');
+const prisma = require("../../prisma/prisma.js");
+const auth = require("../utils/jwt_auth.js");
 
 /**
  * Add a committee member to a society
  * @param {Request} req The request object
  * @param {Response} res The response object
  * @return {Response} The response object
- * 
+ *
  */
-
-const auth = require('../utils/jwt_auth.js');
 
 async function addCommitteeMember(req, res) {
   let decoded = null;
@@ -19,16 +16,16 @@ async function addCommitteeMember(req, res) {
 
     decoded = await auth.authenticate(req);
   } catch (err) {
-    return res.status(400).send({message: 'Unauthorized'});
+    return res.status(400).send({ message: "Unauthorized" });
   }
 
   if (decoded === null) {
-    return res.status(400).send({message: 'Unauthorized'});
+    return res.status(400).send({ message: "Unauthorized" });
   }
 
   // Check that the request body contains an email and societyId
   if (!req.body.email || !req.body.societyId) {
-    return res.status(400).send({message: 'Invalid Request'});
+    return res.status(400).send({ message: "Invalid Request" });
   }
 
   // Check if user is a committee member of the society
@@ -39,7 +36,7 @@ async function addCommitteeMember(req, res) {
     },
   });
   if (committee.length === 0) {
-    return res.status(400).send({message: 'Unauthorized'});
+    return res.status(400).send({ message: "Unauthorized" });
   }
 
   // Find the user
@@ -49,11 +46,9 @@ async function addCommitteeMember(req, res) {
     },
   });
 
-
   if (user === null) {
-    return res.status(400).send({message: 'User does not exist'});
+    return res.status(400).send({ message: "User does not exist" });
   }
-
 
   // Check if user is already a committee member
   const committeeMember = await prisma.committee.findMany({
@@ -63,12 +58,11 @@ async function addCommitteeMember(req, res) {
     },
   });
 
-
   if (committeeMember.length > 0) {
-    return res.status(400)
-        .send({message: 'User is already a committee member'});
+    return res
+      .status(400)
+      .send({ message: "User is already a committee member" });
   }
-
 
   // Add the user to the committee
   await prisma.committee.create({
@@ -76,14 +70,13 @@ async function addCommitteeMember(req, res) {
       userId: user.id,
       societyId: req.body.societyId,
       isPresident: false,
-      role: 'committee member',
+      role: "committee member",
     },
   });
 
-
-  res.status(200)
-      .send({message: 'User added to committee', userId: decoded.id});
-
+  res
+    .status(200)
+    .send({ message: "User added to committee", userId: decoded.id });
 }
 
 /**
@@ -243,9 +236,8 @@ async function updateCommitteeMember(req, res) {
  * @param {Response} res The response object
  */
 async function getCommitteeMembers(req, res) {
-
   if (!req.body.societyId) {
-    return res.status(400).send({message: 'Missing societyId'});
+    return res.status(400).send({ message: "Missing societyId" });
   }
   const committee = await prisma.committee.findMany({
     where: {
@@ -259,12 +251,11 @@ async function getCommitteeMembers(req, res) {
 
   for (let i = 0; i < committee.length; i++) {
     committee[i].email = committee[i].user.email;
-
   }
 
   return res
-      .status(200)
-      .send({message: 'Committee members found', committee: committee});
+    .status(200)
+    .send({ message: "Committee members found", committee: committee });
 }
 
 /**
@@ -325,12 +316,10 @@ async function checkIfUserIsPresident(req, res) {
 
     const userId = (await auth.authenticate(req)).id;
 
-
     if (!req.body.societyId) {
       res.status(400).send({ message: "Missing societyId" });
       return;
     }
-
 
     const president = await prisma.committee.findMany({
       where: {
@@ -340,12 +329,10 @@ async function checkIfUserIsPresident(req, res) {
       },
     });
 
-
     if (president.length === 0) {
       res.status(200).send({ isPresident: false });
       return;
     }
- 
 
     res.status(200).send({ isPresident: true });
   } catch (err) {

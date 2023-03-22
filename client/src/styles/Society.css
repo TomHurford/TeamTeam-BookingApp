@@ -33,6 +33,8 @@
 .searchSocietiesPage-container li.list-group-item:active,
 ul.list-group > li.active {
   background-color: #007aff;
+  
+  color: white;
 }
 .societyListTable {
   width: 100%;
@@ -140,6 +142,7 @@ ul.pagination > a > li:hover {
 }
 ul.pagination > a > li.active {
   background-color: #007aff;
+  color: white;
 }
 
 /* View Society Page */

@@ -2,6 +2,20 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Creating the .env file
+
+The .env file is used to store environment variables. The .env file is not checked into git. You will need to create a .env file in the api directory. The .env file should look like this:
+
+```bash
+# .env
+HTTPS=true
+SSL_CRT_FILE=certificate.crt
+SSL_KEY_FILE=private.key
+```
+
+You are then required to open both the localhost:3000 (react server) and accept the certificate
+and localhost:5001 (express server) and accept the certificate to allow cors connections between the two
+
 ## Testing
 
 *Before running tests make sure that the database is seeded and postgres and express are running in the background.*

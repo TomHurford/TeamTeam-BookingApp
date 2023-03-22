@@ -9,7 +9,6 @@ import { useParams } from "react-router-dom";
 
 import "../../styles/index.css";
 
-
 function EditSocietyForm() {
   const formik = useFormik({
     initialValues: {
@@ -34,9 +33,7 @@ function EditSocietyForm() {
       societyEmail: Yup.string().email("Must be a valid email address"),
       description: Yup.string()
         .trim()
-        .min(50,
-          "Society description must be at least 50 characters."
-        ),
+        .min(50, "Society description must be at least 50 characters."),
       website: Yup.string().url("Must be a valid URL"),
       instagram: Yup.string().url("Must be a valid URL"),
       twitter: Yup.string().url("Must be a valid URL"),
@@ -75,10 +72,10 @@ function EditSocietyForm() {
             banner: values.banner,
           },
         };
-        console.log(jwtController.getToken());
-        console.log(values);
-        console.log(data);
+
+
         fetch(process.env.REACT_APP_API_URL + "/societies/updateSociety", {
+
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -315,7 +312,9 @@ function EditSocietyForm() {
             )}
           </div>
 
-        <button className="button" type="submit">Edit Society</button>
+        <button className="button" type="submit">
+          Edit Society
+        </button>
       </form>
         <hr></hr>
 

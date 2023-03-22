@@ -58,8 +58,6 @@ function CreateEvents() {
         })}
         // When the form is submitted, the data is sent to the backend to be processed
         onSubmit={(value) => {
-          console.log("Form data");
-          console.log(value);
           const event = {
             name: value.eventName,
             description: value.description,
@@ -75,9 +73,10 @@ function CreateEvents() {
             }),
           };
           // The token is sent with the request to the backend to verify the user is logged in
-          console.log(jwtController.getToken());
-          console.log(JSON.stringify(event));
+
+
           fetch(process.env.REACT_APP_API_URL + "/events/create", {
+
             method: "POST",
             headers: {
               "Content-Type": "application/json",

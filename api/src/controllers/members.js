@@ -8,10 +8,10 @@ const auth = require('../utils/jwt_auth.js');
  * @param {Response} res The response object
  */
 async function followSociety(req, res) {
-  let userId = null;
+  let decoded = null;
   try {
     // Authenticate the user
-    const userId = (await auth.authenticate(req)).id;
+    decoded = await auth.authenticate(req);
   } catch (err) {
     return res.status(500).send({message: 'Internal Server Error'});
   }
@@ -34,7 +34,7 @@ async function followSociety(req, res) {
 
   const member = await prisma.members.findMany({
     where: {
-      userId: userId,
+      userId: decoded.id,
       societyId: req.body.societyId,
     },
   });
@@ -45,7 +45,7 @@ async function followSociety(req, res) {
       await prisma.members.update({
         where: {
           userId_societyId: {
-            userId: userId,
+            userId: decoded.id,
             societyId: req.body.societyId,
           },
         },
@@ -63,7 +63,7 @@ async function followSociety(req, res) {
 
   await prisma.members.create({
     data: {
-      userId: userId,
+      userId: decoded.id,
       societyId: req.body.societyId,
     },
   });
@@ -77,9 +77,13 @@ async function followSociety(req, res) {
  * @param {Response} res The response object
  */
 async function unfollowSociety(req, res) {
+  let userId = null;
   try {
     // Authenticate the user
-    const userId = (await auth.authenticate(req)).id;
+    userId = (await auth.authenticate(req)).id;
+  } catch (err) {
+    return res.status(500).send({message: 'Internal Server Error'});
+  }
 
     if (!req.body.societyId) {
       res.status(400).send({message: 'Missing societyId'});
@@ -127,10 +131,7 @@ async function unfollowSociety(req, res) {
       },
     });
 
-    res.status(200).send({message: 'User is no longer a member'});
-  } catch (err) {
-    res.status(500).send({message: 'Internal Server Error'});
-  }
+    return res.status(200).send({message: 'User is no longer a member'});
 }
 
 /**
@@ -139,32 +140,32 @@ async function unfollowSociety(req, res) {
  *  @param {Response} res The response object
  */
 async function checkUserIsMember(req, res) {
+  let userId = null;
   try {
     // Authenticate the user
-    const userId = (await auth.authenticate(req)).id;
-
-    if (!req.body.societyId) {
-      res.status(400).send({message: 'Missing societyId'});
-      return;
-    }
-
-    const member = await prisma.members.findMany({
-      where: {
-        userId: userId,
-        societyId: req.body.societyId,
-        isArchived: false,
-      },
-    });
-
-    if (member.length === 0) {
-      res.status(200).send({message: 'User is not a member', isMember: false});
-      return;
-    }
-
-    res.status(200).send({message: 'User is a member', isMember: true});
+    userId = (await auth.authenticate(req)).id;
   } catch (err) {
-    res.status(500).send({message: 'Internal Server Error'});
+    return res.status(500).send({message: 'Internal Server Error'});
   }
+
+  if (!req.body.societyId) {
+    return res.status(400).send({message: 'Missing societyId'});
+  }
+
+  const member = await prisma.members.findMany({
+    where: {
+      userId: userId,
+      societyId: req.body.societyId,
+      isArchived: false,
+    },
+  });
+
+  if (member.length === 0) {
+    res.status(200).send({message: 'User is not a member', isMember: false});
+    return;
+  }
+
+  return res.status(200).send({message: 'User is a member', isMember: true});
 }
 
 /**
@@ -174,61 +175,62 @@ async function checkUserIsMember(req, res) {
  * @param {Response} res The response object
  */
 async function getMembers(req, res) {
+  let userId = null;
   try {
     // Authenticate the user
-    const userId = (await auth.authenticate(req)).id;
-
-    if (!req.body.societyId) {
-      res.status(400).send({message: 'Missing societyId'});
-      return;
-    }
-
-    const commitee = await prisma.committee.findMany({
-      where: {
-        userId: userId,
-        societyId: req.body.societyId,
-      },
-    });
-
-    if (commitee.length === 0) {
-      res.status(400).send({message: 'User is not a committee member'});
-      return;
-    }
-
-    const members = await prisma.members.findMany({
-      where: {
-        societyId: req.body.societyId,
-        isArchived: false,
-      },
-      select: {
-        userId: true,
-      },
-    });
-
-    if (members.length === 0) {
-      res.status(404).send({message: 'No members found'});
-      return;
-    }
-
-    const userIds = members.map((member) => member.userId);
-
-    const users = await prisma.user.findMany({
-      where: {
-        id: {
-          in: userIds,
-        },
-      },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-      },
-    });
-
-    res.status(200).send({message: 'Members found', members: users});
+    userId = (await auth.authenticate(req)).id;  
   } catch (err) {
-    res.status(500).send({message: 'Internal Server Error'});
+    return res.status(500).send({message: 'Internal Server Error'});
   }
+
+  if (!req.body.societyId) {
+    res.status(400).send({message: 'Missing societyId'});
+    return;
+  }
+
+  const commitee = await prisma.committee.findMany({
+    where: {
+      userId: userId,
+      societyId: req.body.societyId,
+    },
+  });
+
+  if (commitee.length === 0) {
+    res.status(400).send({message: 'User is not a committee member'});
+    return;
+  }
+
+  const members = await prisma.members.findMany({
+    where: {
+      societyId: req.body.societyId,
+      isArchived: false,
+    },
+    select: {
+      userId: true,
+    },
+  });
+
+  if (members.length === 0) {
+    res.status(404).send({message: 'No members found'});
+    return;
+  }
+
+  const userIds = members.map((member) => member.userId);
+
+  const users = await prisma.user.findMany({
+    where: {
+      id: {
+        in: userIds,
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+    },
+  });
+
+  res.status(200).send({message: 'Members found', members: users});
 }
 
 /**
@@ -237,29 +239,31 @@ async function getMembers(req, res) {
  * @param {Response} res The response object
  */
 async function getListOfFollowedSocieties(req, res) {
+  let userId = null;
   try {
     // Authenticate the user
-    const userId = (await auth.authenticate(req)).id;
-
-    const societies = await prisma.members.findMany({
-      where: {
-        userId: userId,
-        isArchived: false,
-      },
-      select: {
-        societyId: true,
-      },
-    });
-
-    if (societies.length === 0) {
-      res.status(404).send({message: 'No societies found'});
-      return;
-    }
-
-    res.status(200).send({message: 'Societies found', societies: societies});
+    userId = (await auth.authenticate(req)).id;
   } catch (err) {
-    res.status(500).send({message: 'Internal Server Error'});
+    return res.status(500).send({message: 'Internal Server Error'});
   }
+
+  const societies = await prisma.members.findMany({
+    where: {
+      userId: userId,
+      isArchived: false,
+    },
+    select: {
+      societyId: true,
+    },
+  });
+
+  if (societies.length === 0) {
+    res.status(404).send({message: 'No societies found'});
+    return;
+  }
+
+  res.status(200).send({message: 'Societies found', societies: societies});
+
 }
 
 module.exports = {

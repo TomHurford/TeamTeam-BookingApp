@@ -68,8 +68,6 @@ function Basket(props) {
             <h1>Total: £{totalPrice}</h1>
           </div>
         </div>
-        <div className='footer'>
-        </div>
       </div>
       <div className='empty-basket basket-container' id={emActive}>
         <div className='header'>

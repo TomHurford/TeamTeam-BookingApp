@@ -21,7 +21,7 @@ class SearchSocieties extends Component {
 
   async componentDidMount() {
     const { data: societiesList } = await axios.get(
-      "http://localhost:5001/societies/getSocieties"
+      process.env.REACT_APP_API_URL + "/societies/getSocieties"
     );
     this.setState({ societiesList });
   }

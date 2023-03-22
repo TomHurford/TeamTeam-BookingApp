@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import '../styles/Navbar.css';
 import {Link} from 'react-router-dom';
-import logo from '../utils/logo.png';
-import basket from '../utils/basket.png';
+import logo from '../assets/logo.png';
+import basket from '../assets/basket.png';
+import burger from '../assets/burger.png';
 
 
 //Create a navbar component
@@ -55,7 +56,7 @@ function Navbar(props) {
                     <Link to = "/"><li className='left'><img src = {logo} alt = "Logo"></img></li></Link>
                 </ul>
                 <ul className='right'>
-                    <a onClick={() => {openMenu()}}><li><img src = {basket} alt = "Basket"></img></li></a>
+                    <a onClick={() => {openMenu()}}><li><img src = {burger} alt = "Basket"></img></li></a>
                 </ul>
                 <div id='notMenu' className={notMenuClass} onClick={() => {closeMenu()}}></div>
                 <div id='menu' className={menuClass}>

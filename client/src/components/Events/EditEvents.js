@@ -65,8 +65,8 @@ function EditEvents() {
                 : value.date + "T" + value.time + ":00.000Z",
             location: value.location,
           };
+          fetch(process.env.REACT_APP_API_URL + "/events/update", {
           // Send the event object to the backend to update the event.
-          fetch("http://localhost:5001/events/update", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

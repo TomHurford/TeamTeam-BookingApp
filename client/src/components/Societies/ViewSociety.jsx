@@ -27,13 +27,31 @@ function ViewSociety() {
   };
 
   useEffect(() => {
-    if (
-      jwtController.getToken() === undefined ||
-      jwtController.getToken() === null
-    ) {
-      axios
-        .post("http://localhost:5001/societies/getSociety", {
-          societyId: societyId,
+
+    if(jwtController.getToken() === undefined || jwtController.getToken() === null){
+    axios
+      .post(process.env.REACT_APP_API_URL + "/societies/getSociety", {
+        societyId: societyId,
+      })
+      .then((response) => {
+        setSociety(response.data.society);
+        setSocietyLinks(response.data.society.links[0]);
+        setEvents(response.data.society.events);
+        // console.log(response.data.society.events);
+      })
+      .catch((error) => {
+        console.log(error);
+      });}
+      else{
+        fetch(process.env.REACT_APP_API_URL + '/societies/getSociety', {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + jwtController.getToken()
+          },
+          body: JSON.stringify({"societyId": parseInt(societyId)})
+
         })
         .then((response) => {
           setSociety(response.data.society);
@@ -67,34 +85,32 @@ function ViewSociety() {
   }, [societyId]);
 
   useEffect(() => {
-    if (
-      jwtController.getToken() !== undefined &&
-      jwtController.getToken() !== null
-    ) {
-      fetch("http://localhost:5001/societies/checkUserIsMember", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
 
-          Authorization: "Bearer " + jwtController.getToken(),
-        },
-        body: JSON.stringify({ societyId: parseInt(societyId) }),
-      }).then((res) => {
-        res.json().then((data) => {
-          if (data.isMember === true) {
-            setShowFollowButton(false);
-            setShowUnfollowButton(true);
-          } else {
-            setShowFollowButton(true);
-            setShowUnfollowButton(false);
-          }
-        });
+    if(jwtController.getToken() !== undefined && jwtController.getToken() !== null){
+    fetch(process.env.REACT_APP_API_URL + "/societies/checkUserIsMember", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + jwtController.getToken()
+      },
+      body: JSON.stringify({"societyId": parseInt(societyId)})
+    }).then((res) => {
+      res.json().then((data) => {
+        if (data.isMember === true) {
+          setShowFollowButton(false);
+          setShowUnfollowButton(true)
+        }
+        else{
+          setShowFollowButton(true);
+          setShowUnfollowButton(false)
+        }
+
       });
     }
   }, [societyId]);
 
   // useEffect(() => {
-  //   fetch("http://localhost:5001/societies/getFollowedSocieties", {
+  //   fetch(process.env.REACT_APP_API_URL + "/societies/getFollowedSocieties", {
   //     method: "POST",
   //     headers: {
   //       "Content-Type": "application/json",
@@ -113,24 +129,21 @@ function ViewSociety() {
   // }, [societyId]);
 
   useEffect(() => {
-    if (
-      jwtController.getToken() !== undefined &&
-      jwtController.getToken() !== null
-    ) {
-      console.log();
-      fetch("http://localhost:5001/societies/checkPresident", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": "Bearer " + jwtController.getToken(),
-        },
-        body: JSON.stringify(data),
-      }).then((res) => {
-        res.json().then((data) => {
-          if (data.isPresident === false) {
-            setShowEditButton(false);
-          }
-        });
+
+    if(jwtController.getToken() !== undefined && jwtController.getToken() !== null){
+    fetch(process.env.REACT_APP_API_URL + "/societies/checkPresident", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + jwtController.getToken(),
+      },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      res.json().then((data) => {
+        if (data.isPresident === false) {
+          setShowEditButton(false);
+        }
+
       });
     }
   }, [societyId]);
@@ -157,7 +170,7 @@ function ViewSociety() {
   }
 
   function followSociety() {
-    fetch("http://localhost:5001/societies/followSociety", {
+    fetch(process.env.REACT_APP_API_URL + "/societies/followSociety", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -179,7 +192,7 @@ function ViewSociety() {
   }
 
   function unfollowSociety() {
-    fetch("http://localhost:5001/societies/unFollowSociety", {
+    fetch(process.env.REACT_APP_API_URL + "/societies/unFollowSociety", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -243,6 +256,11 @@ function ViewSociety() {
       </div>
 
       <div className="body">
+        {showEditButton && (
+          <Link to={`/edit-society/${society.id}`}>
+            <button className="button">Edit Society</button>
+          </Link>
+        )}
         <div className="description">
           <p>{society.description}</p>
           <p>
@@ -292,6 +310,7 @@ function ViewSociety() {
         societyEmail={society.email}
       />
 
+
       <Link to={`/edit-society/${society.id}`}>
         {society.isCommitteePresident === true && showEditButton && (
           <button type="button" className="button">
@@ -299,6 +318,7 @@ function ViewSociety() {
           </button>
         )}
       </Link>
+
     </div>
   );
 }

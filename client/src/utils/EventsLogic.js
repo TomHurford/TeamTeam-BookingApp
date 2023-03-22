@@ -5,7 +5,7 @@ const jwtController = require('./jwt.js');
 // This function gets all events from the backend 
 export const getEvents = async () => {
   var events = [];
-  await fetch('http://localhost:5001/events', {
+  await fetch(process.env.REACT_APP_API_URL + '/events', {
     method: 'GET',
     mode: 'cors',
     headers: {
@@ -26,7 +26,7 @@ export const getEvents = async () => {
 export const getEventById = async (eventId) => {
   var event = {};
   if(jwtController.getToken() != null){
-    await fetch('http://localhost:5001/events/', {
+    await fetch(process.env.REACT_APP_API_URL + '/events/', {
       method: 'POST',
       mode: 'cors',
       headers: {
@@ -43,7 +43,7 @@ export const getEventById = async (eventId) => {
       console.log(error);
     })
   } else {
-    await fetch('http://localhost:5001/events/', {
+    await fetch(process.env.REACT_APP_API_URL + '/events/', {
       method: 'POST',
       mode: 'cors',
       headers: {

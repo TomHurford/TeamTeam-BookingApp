@@ -89,8 +89,6 @@ async function getEventById(req, res) {
     }
   }
 
-  console.log(isMember);
-
   res.status(200).send({
     event: event,
     isCommittee: isMember,
@@ -205,13 +203,8 @@ async function createEvent(req, res) {
       }
     }
 
-    for (let i = 0; i < ticketTypes.length; i++) {
-      console.log(ticketTypes[i]);
-    }
-
     res.status(200).send({event: event, ticket_types: ticketTypes});
   } catch (err) {
-    console.log(err);
     res.status(401).send({token: null, error: 'Unauthorized'});
   }
 }
@@ -358,7 +351,6 @@ async function deleteEvent(req, res) {
     }
 
     // Update the Event so that isArchived is true
-
     await prisma.event.update({
       where: {
         id: req.body.eventId,
@@ -370,7 +362,6 @@ async function deleteEvent(req, res) {
 
     res.status(200).send({message: 'Event Archived'});
   } catch (err) {
-    console.log(err);
     res.status(401).send({token: null, error: 'Unauthorized'});
   }
 }
@@ -395,7 +386,6 @@ async function searchEvents(req, res) {
     });
     res.status(200).send({event: event});
   } catch (err) {
-    console.log(err);
     res.status(401).send({token: null, error: 'Unauthorized'});
   }
 }
@@ -417,16 +407,13 @@ async function checkPrivileges(req, res) {
         userId: decoded.id,
       },
     });
-
     // If the user is not a member of the society committee, return an error
     if (isMember.length === 0) {
       res.status(401).send({error: 'Unauthorized'});
       return;
     }
-
     res.status(200).send({message: 'Authorized'});
   } catch (err) {
-    console.log(err);
     res.status(401).send({token: null, error: 'Unauthorized'});
   }
 }

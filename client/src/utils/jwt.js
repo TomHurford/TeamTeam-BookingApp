@@ -39,7 +39,7 @@ export const checkIsLoggedIn = async () => {
         'Authorization': 'Bearer ' + token
       }      
 
-    const res = await axios.post('http://localhost:5001/user/checkUserLoggedIn', {}, {
+    const res = await axios.post(process.env.REACT_APP_API_URL + '/user/checkUserLoggedIn', {}, {
         headers: headers
       }).catch(err => {
         console.log(err);
@@ -64,7 +64,7 @@ export const checkIsLoggedIn = async () => {
 
 // Send a request to the server to refresh the token, 
 // export const refreshAuthToken = () => {
-//     axios.post('https://localhost:5001/user/checkUserLoggedIn', { token: getToken() })
+//     axios.post(process.env.REACT_APP_API_URL + '/user/checkUserLoggedIn', { token: getToken() })
 //         .then(response => {
 //             setToken(response.data.token);
 //         })

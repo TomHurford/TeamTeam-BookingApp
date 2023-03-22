@@ -34,3 +34,4 @@ describe('follow society', () => {
     expect(res.body.message).toBe('Internal Server Error');
   });
 });
+

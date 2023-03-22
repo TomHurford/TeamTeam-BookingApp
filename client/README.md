@@ -2,6 +2,14 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Creating the .env file
+
+The .env file is used to store environment variables. The .env file is not checked into git. You will need to create a .env file in the api directory. The .env file should look like this:
+
+```bash
+# .env
+REACT_APP_API_URL=http://localhost:5001
+
 ## Testing
 
 *Before running tests make sure that the database is seeded and postgres and express are running in the background.*

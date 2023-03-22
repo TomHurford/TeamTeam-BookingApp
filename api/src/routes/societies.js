@@ -47,7 +47,9 @@ router.post("/followSociety", (req, res) => {
   memberController.followSociety(req, res);
 });
 
-router.post("/unFollowSociety", (req, res) => {
+
+router.post('/unfollowSociety', (req, res) => {
+
   memberController.unfollowSociety(req, res);
 });
 

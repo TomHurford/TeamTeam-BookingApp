@@ -256,6 +256,7 @@ async function getSocietyById(req, res) {
  */
 async function deleteSociety(req, res) {
   try {
+    let decoded = null;
     try {
       decoded = await auth.authenticate(req);
     } catch (err) {
@@ -301,88 +302,86 @@ async function deleteSociety(req, res) {
  * @return {Response} The response object
  */
 async function updateSociety(req, res) {
+  let decoded = null;
   try {
-    // Authenticate the user
-    const userId = (await auth.authenticate(req)).id;
-    // Check if user is a committee member of the society
+    decoded = await auth.authenticate(req);
+  } catch (err) {
+    return res.status(401).send({message: 'Unauthorized'});
+  }
 
-    // Get the society
-    const society = await prisma.society.findUnique({
+  // Check that the request body has a societyId
+  if (!req.body.societyId) {
+    res.status(400).send({message: 'Missing societyId'});
+    return;
+  }
+
+
+  // Check that the society id is of type number and is > 0
+  if (typeof req.body.societyId !== 'number' || req.body.societyId <= 0) {
+    res.status(400).send({message: 'Invalid societyId'});
+    return;
+  }
+
+  // Check that the society exists
+  const society = await prisma.society.findUnique({
+    where: {
+      id: req.body.societyId,
+    },
+  });
+  if (!society) {
+    res.status(400).send({message: 'Society does not exist'});
+    return;
+  }
+
+
+  // Check that the user is a committee member of the society
+  const committee = await prisma.committee.findMany({
+    where: {
+      userId: decoded.id,
+      societyId: society.id,
+    },
+  });
+
+  // If the user is not a committee member of the society, return an error
+  if (committee.length === 0) {
+    res.status(401).send({message: 'Unauthorized'});
+    return;
+  }
+
+  // Update the society with the data if the data is provided
+  await prisma.society.update({
+    where: {
+      id: society.id,
+    },
+    data: {
+      name: req.body.name || society.name,
+      description: req.body.description || society.description,
+      email: req.body.email || society.email,
+      category: req.body.category || society.category,
+    },
+  });
+
+  // If society links are included in the request body, update the links
+  if (req.body.links) {
+    // Update the links
+    await prisma.societyLinks.update({
       where: {
-        email: req.body.email,
-      },
-    });
-
-    if (society.length === 0) {
-      res.status(404).send({ message: "Society Not Found" });
-      return;
-    }
-    const committee = await prisma.committee.findMany({
-      where: {
-        userId: userId,
-        societyId: req.body.societyId,
-      },
-    });
-
-    if (committee.length === 0) {
-      res.status(401).send({ message: "Unauthorized" });
-      return;
-    }
-
-    // Update the society
-    // Only update the fields that are not empty in the request body
-    await prisma.society.update({
-      where: {
-        id: req.body.societyId,
+        societyId: society.id,
       },
       data: {
-        name: req.body.name ? req.body.name : society.name,
-        category: req.body.category ? req.body.category : society.category,
-        email: req.body.email ? req.body.email : society.email,
-        description: req.body.description
-          ? req.body.description
-          : society.description,
+
+        instagram: req.body.links.instagram || society.links.instagram,
+        facebook: req.body.links.facebook || society.links.facebook,
+        twitter: req.body.links.twitter || society.links.twitter,
+        website: req.body.links.website || society.links.website,
+        logo: req.body.links.logo || society.links.logo,
+        banner: req.body.links.banner || society.links.banner,
       },
     });
 
-    // get the society links
-    const societyLinks = await prisma.societyLinks.findUnique({
-      where: {
-        societyId: req.body.societyId,
-      },
-    });
-
-    // Update the society links if they exist in the request body
-    if (req.body.links) {
-      await prisma.societyLinks.update({
-        where: {
-          societyId: req.body.societyId,
-        },
-        data: {
-          website: req.body.links.website
-            ? req.body.links.website
-            : societyLinks.website,
-          instagram: req.body.links.instagram
-            ? req.body.links.instagram
-            : societyLinks.instagram,
-          twitter: req.body.links.twitter
-            ? req.body.links.twitter
-            : societyLinks.twitter,
-          facebook: req.body.links.facebook
-            ? req.body.links.facebook
-            : societyLinks.facebook,
-          logo: req.body.links.logo ? req.body.links.logo : societyLinks.logo,
-          banner: req.body.links.banner
-            ? req.body.links.banner
-            : societyLinks.banner,
-        },
-      });
-    }
-
-    res.status(200).send({ message: "Society Updated" });
-  } catch (err) {
-    res.status(500).send({ message: "Internal Server Error" });
   }
+
+  res.status(200).send({message: 'Society Updated'});
 }
 
 module.exports = {

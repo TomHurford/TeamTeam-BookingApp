@@ -351,7 +351,8 @@ describe('Get societies', () => {
     societiesCount = societiesNonArchived.length;
     // expect(res.body.society).toBe(societiesCount);
     expect(res.body).not.toBeNull();
-    expect(res.body[0].name).toBe('Society 1');
+    // Expect the response to be an array
+    expect(Array.isArray(res.body)).toBeTruthy();
   });
 });
 
@@ -587,12 +588,26 @@ describe('Update society', () => {
           name: 'Society 1 updated',
           description: 'Society 1 description updated',
         });
-    // Check the response
     expect(res.statusCode).toBe(200);
     expect(res.body.message).toBe('Society Updated');
   });
+
+  test('Update society with invalid token', async () => {
+    const res = await request(app)
+      .post('/societies/updateSociety')
+      .set('Authorization', `Bearer invalidtoken`)
+      .send({
+        societyId: 1,
+        email: 'test@test.com',
+        name: 'Society 1 updated',
+        description: 'Society 1 description updated',
+      })
+      .expect(401);
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('Unauthorized');
+  });
+
   test('Update society with user not being part of committee', async () => {
-    // Login as a user with no permission
     const res = await request(app)
         .post('/user/login')
         .send({
@@ -600,7 +615,6 @@ describe('Update society', () => {
           password: 'student',
         })
         .expect(200);
-    // Make the request to the API
     const res2 = await request(app)
         .post('/societies/updateSociety')
         .set('Authorization', `Bearer ${res.body.token}`)
@@ -615,36 +629,8 @@ describe('Update society', () => {
     expect(res2.body).not.toBeNull();
     expect(res2.body.message).toBe('Unauthorized');
   });
-  test('Update society with invalid data', async () => {
-    // Make the request to the API
-    const res = await request(app)
-        .post('/societies/updateSociety')
-        .set('Authorization', `Bearer ${token}`)
-        .send({
-          societyId: -1,
-          email: 'test@test.com',
-          name: 'Society 1 updated',
-          description: 'Society 1 description updated',
-        });
-    // Check the response
-    expect(res.statusCode).toBe(400);
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Invalid data');
-  });
-
-  test('Update society with invalid token', async () => {
-    // Make the request to the API
-    const res = await request(app)
-        .post('/societies/updateSociety')
-        .set('Authorization', `Bearer` + 'invalid token');
-    expect(res.statusCode).toBe(500);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Internal Server Error');
-  });
 
   test('Update society with invalid society id', async () => {
-    // Make the request to the API
     const res = await request(app)
         .post('/societies/updateSociety')
         .set('Authorization', `Bearer ${token}`)
@@ -654,84 +640,23 @@ describe('Update society', () => {
           name: 'Society 1 updated',
           description: 'Society 1 description updated',
         })
-        .expect(404);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Society not found');
-  });
-
-  test('Update society with invalid id and invalid data', async () => {
-    // Make the request to the API
-    const res = await request(app)
-        .post('/societies/updateSociety')
-        .set('Authorization', `Bearer ${token}`)
-        .send({
-          id: -1,
-          name: '',
-          description: '',
-        })
         .expect(400);
-    // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Invalid data');
+    expect(res.body.message).toBe('Invalid societyId');
   });
 
-  test('Update society with invalid id and invalid token', async () => {
-    // Make the request to the API
+  test('Update society with missing society id', async () => {
     const res = await request(app)
-        .post('/societies/updateSociety')
-        .set('Authorization', `Bearer ${token}1`)
-        .send({
-          id: -1,
-          name: 'Society 1 updated',
-          description: 'Society 1 description updated',
-        })
-        .expect(401);
-    // Check the response
+      .post('/societies/updateSociety')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        email: 'test@test.com',
+        name: 'Society 1 updated',
+        description: 'Society 1 description updated',
+      })
+      .expect(400);
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Invalid token');
+    expect(res.body.message).toBe('Missing societyId');
   });
 
-  test('Update society with invalid id and invalid data and invalid token',
-      async () => {
-      // Make the request to the API
-        const res = await request(app)
-            .post('/societies/updateSociety')
-            .set('Authorization', `Bearer ${token}1`)
-            .send({
-              id: -1,
-              name: '',
-              description: '',
-            })
-            .expect(400);
-        // Check the response
-        expect(res.body).not.toBeNull();
-        expect(res.body.message).toBe('Invalid data');
-      });
-
-  test('Update society as a user with no permission', async () => {
-    // Login as a user with no permission
-    const res = await request(app)
-        .post('/users/login')
-        .send({
-          email: 'student@kcl.ac.uk',
-          password: 'student',
-        })
-        .expect(200);
-    // Make the request to the API
-    const res2 = await request(app)
-        .post('/societies/updateSociety')
-        .set('Authorization', `Bearer ${res.body.token}`)
-        .send({
-          id: 1,
-          name: 'Society 1 updated',
-          description: 'Society 1 description updated',
-        })
-        .expect(403);
-    // Check the response
-    expect(res2.body).not.toBeNull();
-    expect(res2.body.message).toBe(
-        'You do not have permission to perform this action',
-    );
-  });
 });

@@ -69,10 +69,11 @@ function ViewSociety() {
       jwtController.getToken() !== undefined &&
       jwtController.getToken() !== null
     ) {
-      fetch("http://localhost:5001/societies//checkUserIsMember", {
+      fetch("http://localhost:5001/societies/checkUserIsMember", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+
           Authorization: "Bearer " + jwtController.getToken(),
         },
         body: JSON.stringify({ societyId: parseInt(societyId) }),
@@ -114,11 +115,12 @@ function ViewSociety() {
       jwtController.getToken() !== undefined &&
       jwtController.getToken() !== null
     ) {
+      console.log();
       fetch("http://localhost:5001/societies/checkPresident", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + jwtController.getToken(),
+          "Authorization": "Bearer " + jwtController.getToken(),
         },
         body: JSON.stringify(data),
       }).then((res) => {

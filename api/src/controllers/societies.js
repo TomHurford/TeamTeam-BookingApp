@@ -115,8 +115,10 @@ async function getSocieties(req, res) {
       // Calculate the number of members in the society
       members: {
         select: {
+          isArchived: true,
           userId: true,
         },
+        where: { isArchived: false },
       },
       links: true,
     },
@@ -205,7 +207,11 @@ async function getSocietyById(req, res) {
     });
 
     // Only send the number of members
-    society.members = society.members.length;
+    const members = await prisma.members.findMany({
+      where: { societyId: society.id, isArchived: false },
+    });
+
+    society.members = members.length;
 
     society.isCommitteePresident = isCommitteePresident;
 

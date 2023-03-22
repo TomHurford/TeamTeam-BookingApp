@@ -16,8 +16,14 @@ const jwtController = require('../../utils/jwt.js');
 function ViewSociety() {
   const [society, setSociety] = useState({});
   const [societyLinks, setSocietyLinks] = useState({});
+  const [showFollowButton, setShowFollowButton] = useState(true);
+  const [showUnfollowButton, setShowUnfollowButton] = useState(true);
+  const [showEditButton, setShowEditButton] = useState(true);
   const [events, setEvents] = useState([]);
   const { id: societyId } = useParams();
+  const data = {
+    societyId: parseInt(societyId),
+  };
 
   useEffect(() => {
     if(jwtController.getToken() === undefined || jwtController.getToken() === null){
@@ -57,6 +63,42 @@ function ViewSociety() {
       }
   }, [societyId]);
 
+  useEffect(() => {
+    fetch("http://localhost:5001/societies/getFollowedSocieties", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + jwtController.getToken(),
+      },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      res.json().then((data) => {
+        for (let i = 0; i < data.societies.length; i++) {
+          if (data.societies[i].societyId === parseInt(societyId)) {
+            setShowFollowButton(false);
+          }
+        }
+      });
+    });
+  }, [societyId]);
+
+  useEffect(() => {
+    fetch("http://localhost:5001/societies/checkPresident", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + jwtController.getToken(),
+      },
+      body: JSON.stringify(data),
+    }).then((res) => {
+      res.json().then((data) => {
+        if (data.isPresident === false) {
+          setShowEditButton(false);
+        }
+      });
+    });
+  }, [societyId]);
+
   function societyEventClick(eventId) {
     window.location.href = "/event-details?eventId=" + eventId;
   }
@@ -76,6 +118,48 @@ function ViewSociety() {
         ))}
       </div>
     );
+  }
+
+  function followSociety() {
+    fetch("http://localhost:5001/societies/followSociety", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + jwtController.getToken(),
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.status)
+      .then((status) => {
+        if (status === 200) {
+          setShowFollowButton(false);
+          setShowUnfollowButton(true);
+          alert("Society followed successfully!");
+        } else {
+          alert("Error following society");
+        }
+      });
+  }
+
+  function unfollowSociety() {
+    fetch("http://localhost:5001/societies/unFollowSociety", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + jwtController.getToken(),
+      },
+      body: JSON.stringify(data),
+    })
+      .then((res) => res.status)
+      .then((status) => {
+        if (status === 200) {
+          setShowUnfollowButton(false);
+          setShowFollowButton(true);
+          alert("Society unfollowed successfully!");
+        } else {
+          alert("Error unfollowing society");
+        }
+      });
   }
 
   return (
@@ -135,6 +219,27 @@ function ViewSociety() {
           <p>
             <strong>Followers:</strong> {society.members}
           </p>
+          <div>
+            {jwtController.getToken() !== undefined &&
+              jwtController.getToken() !== null &&
+              showFollowButton && (
+              <button type="button" className="button" onClick={followSociety}>
+                Follow
+              </button>
+            )}
+
+            {jwtController.getToken() !== undefined &&
+              jwtController.getToken() !== null &&
+              showUnfollowButton && (
+              <button
+                type="button"
+                className="button button--red"
+                onClick={unfollowSociety}
+              >
+                Unfollow
+              </button>
+            )}
+          </div>
         </div>
 
         <div className="events">
@@ -143,15 +248,19 @@ function ViewSociety() {
         </div>
       </div>
 
-      <ContactSocietyForm societyName={society.name} />
-      {/* {console.log(society.isCommitteePresident)}
-      {console.log(jwtController.getToken())} */}
+      <ContactSocietyForm
+        societyName={society.name}
+        societyEmail={society.email}
+      />
 
-      { society.isCommitteePresident === true &&
-      (<Link to={`/edit-society/${society.id}`}>
-        <button className="button">Edit Society</button>
-      </Link>)
-      }
+      <Link to={`/edit-society/${society.id}`}>
+        {society.isCommitteePresident === true &&
+          showEditButton && (
+          <button type="button" className="button">
+            Edit Society
+          </button>
+        )}
+      </Link>
     </div>
   );
 }

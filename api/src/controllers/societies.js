@@ -1099,15 +1099,15 @@ async function changePresident(req, res) {
   }
 
   // Check that the user is a president
-  const isPresident = await prisma.committee.findMany({
+  const findPresident = await prisma.committee.findMany({
     where: {
       userId: decoded.id,
       societyId: req.body.societyId,
-      role: 'President',
+      isPresident: true,
     },
   });
 
-  if (isPresident.length === 0) {
+  if (findPresident.length === 0) {
     res.status(400).send({message: 'User is not a president'});
     return;
   }
@@ -1117,7 +1117,7 @@ async function changePresident(req, res) {
     where: {
       userId: req.body.userId,
       societyId: req.body.societyId,
-      role: 'President',
+      isPresident: true,
     },
   });
 
@@ -1130,10 +1130,10 @@ async function changePresident(req, res) {
   await prisma.committee.updateMany({
     where: {
       societyId: req.body.societyId,
-      role: 'President',
+      isPresident: true,
     },
     data: {
-      role: 'Vice President',
+      isPresident: false,
     },
   });
 
@@ -1145,7 +1145,7 @@ async function changePresident(req, res) {
       },
     },
     data: {
-      role: 'President',
+      isPresident: true,
     },
   });
 

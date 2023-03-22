@@ -20,7 +20,7 @@ function ViewSociety() {
 
   useEffect(() => {
     axios
-      .post("http://localhost:5001/societies/getSociety", {
+      .post("https://localhost:5001/societies/getSociety", {
         societyId: societyId,
       })
       .then((response) => {

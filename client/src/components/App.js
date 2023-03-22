@@ -61,6 +61,8 @@ function App() {
   };
 
   useEffect(() => {
+    document.title = "Ticketopia | Perfect Tickets, Perfect Time";
+
     const storedBasketEvent = sessionStorage.getItem("basketEvent");
     const storedAvailableTicketTypes = sessionStorage.getItem(
       "availableTicketTypes"

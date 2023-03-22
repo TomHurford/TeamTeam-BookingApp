@@ -5,7 +5,7 @@ const FutureTickets = () => {
   const [futureTickets, setFutureTickets] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5001/purchase/future", {
+    fetch("https://localhost:5001/purchase/future", {
         method: 'POST',
         body: JSON.stringify({}),
         headers: {

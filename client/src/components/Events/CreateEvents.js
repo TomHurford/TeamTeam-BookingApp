@@ -53,7 +53,7 @@ function CreateEvents() {
 
           console.log(jwtController.getToken());
           console.log(JSON.stringify(event));
-          fetch("http://localhost:5001/events/create", {
+          fetch("https://localhost:5001/events/create", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

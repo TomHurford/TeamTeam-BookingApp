@@ -1,13 +1,13 @@
 describe('Create Events', () => {
   it('should create an event', () => {
     //login
-    cy.visit('http://localhost:3000/login')
+    cy.visit('https://localhost:3000/login')
     cy.get('input[name="loginEmail"]').type('admin@admin.com')
     cy.get('input[name="loginPassword"]').type('admin123')
     cy.get('button[name="loginbutton"]').click()
 
     //fill in form
-    // cy.visit('http://localhost:3000/create-event')
+    // cy.visit('https://localhost:3000/create-event')
     cy.contains('Create Event').click()
     cy.url().should('include', 'create-event')
 

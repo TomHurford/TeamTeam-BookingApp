@@ -52,7 +52,7 @@ function EditEvents() {
             location: value.location,
           };
 
-          fetch("http://localhost:5001/events/update", {
+          fetch("https://localhost:5001/events/update", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

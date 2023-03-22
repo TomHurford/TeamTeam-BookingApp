@@ -274,7 +274,7 @@ class Login extends Component {
                         <label htmlFor="confirmPassword">Confirm Password</label><br />
                         <input type="password" name="resetConfirmPassword" onChange={this.handleChange} required />
                     </div>
-                    <button onClick={this.handleSubmitResetPassword} type="submit">Reset Password</button>
+                    <button data-testid="reset" onClick={this.handleSubmitResetPassword} type="submit">Reset Password</button>
                 </div>
 
                 <div className='overlay' disabled={this.state.disablePopUpMessage}>

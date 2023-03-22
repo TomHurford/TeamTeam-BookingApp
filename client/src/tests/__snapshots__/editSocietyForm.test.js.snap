@@ -47,9 +47,7 @@ exports[`EditSocietyForm snapshot test 1`] = `
       >
         <option
           defaultValue={true}
-        >
-          Other
-        </option>
+        />
         <option>
           Academic
         </option>
@@ -58,6 +56,9 @@ exports[`EditSocietyForm snapshot test 1`] = `
         </option>
         <option>
           Sports
+        </option>
+        <option>
+          Other
         </option>
       </select>
     </div>
@@ -219,6 +220,7 @@ exports[`EditSocietyForm snapshot test 1`] = `
     </div>
     <button
       className="button"
+      type="submit"
     >
       Edit Society
     </button>
@@ -232,7 +234,7 @@ exports[`EditSocietyForm snapshot test 1`] = `
         "borderWidth": 2,
         "marginBottom": "20px",
         "marginTop": "20px",
-        "width": "28%",
+        "width": "50%",
       }
     }
   >

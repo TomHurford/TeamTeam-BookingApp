@@ -65,7 +65,7 @@ function ViewSociety() {
 
   useEffect(() => {
     if(jwtController.getToken() !== undefined && jwtController.getToken() !== null){
-    fetch(process.env.REACT_APP_API_URL + "/societies//checkUserIsMember", {
+    fetch(process.env.REACT_APP_API_URL + "/societies/checkUserIsMember", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

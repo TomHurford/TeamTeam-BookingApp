@@ -20,7 +20,6 @@ beforeEach(async () => {
         password: 'admin123',
       });
   token = res.body.token;
-  console.log(token);
 });
 
 /**
@@ -65,7 +64,6 @@ describe('getFuturePurchases', () => {
         expect(res.body.error).toBeDefined();
       });
 });
-
 
 // Create purchase requires the following fields in the request body:
 // status, total, method, ticket_quantities, eventId
@@ -114,7 +112,7 @@ describe('Create Purchase', () => {
         expect(res.body.error).toBeDefined();
       });
 
-  test('It should return an error when ticket_quantities is not provided',
+  test('It should return an error when ticket_quantities is undefined',
       async () => {
         const res = await request(app)
             .post('/purchase/create')
@@ -124,6 +122,60 @@ describe('Create Purchase', () => {
               total: 20,
               method: 'air',
               eventId: 1,
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.error).toBeDefined();
+      });
+
+  test('It should return an error when ticket_quantities is invalid',
+      async () => {
+        const res = await request(app)
+            .post('/purchase/create')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+              status: 'paid',
+              total: 20,
+              method: 'air',
+              ticket_quantities: 1,
+              eventId: 1,
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.error).toBeDefined();
+      });
+
+  test('It should return an error when the ticket_quantities is null',
+      async () => {
+        const res = await request(app)
+            .post('/purchase/create')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+              status: 'paid',
+              total: 20,
+              method: 'air',
+              ticket_quantities: null,
+              eventId: 1,
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.error).toBeDefined();
+      });
+
+  test('It should return an error when the eventId is undefined',
+      async () => {
+        const res = await request(app)
+            .post('/purchase/create')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+              status: 'paid',
+              total: 20,
+              method: 'air',
+              ticket_quantities: {
+                types: [
+                  {
+                    id: 2,
+                    quantity: 2,
+                  },
+                ],
+              },
             });
         expect(res.statusCode).toEqual(400);
         expect(res.body.error).toBeDefined();
@@ -287,7 +339,8 @@ describe('Create Purchase', () => {
         expect(res.body.error).toBeDefined();
       });
 
-  test('It should return an error when the eventId is undefined',
+  // eslint-disable-next-line max-len
+  test('It should return an error when the ticket_quantities.types is undefined',
       async () => {
         const res = await request(app)
             .post('/purchase/create')
@@ -297,20 +350,15 @@ describe('Create Purchase', () => {
               total: 20,
               method: 'air',
               ticket_quantities: {
-                types: [
-                  {
-                    id: 2,
-                    quantity: 2,
-                  },
-                ],
               },
+              eventId: 1,
             });
         expect(res.statusCode).toEqual(400);
         expect(res.body.error).toBeDefined();
       });
 
   // eslint-disable-next-line max-len
-  test('It should return an error when the ticket_quantities does not have a types field',
+  test('It should return an error when the ticket_quantities.types is not an array',
       async () => {
         const res = await request(app)
             .post('/purchase/create')
@@ -320,6 +368,29 @@ describe('Create Purchase', () => {
               total: 20,
               method: 'air',
               ticket_quantities: {
+                types: {
+                  id: 2,
+                  quantity: 2,
+                },
+              },
+              eventId: 1,
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.error).toBeDefined();
+      });
+
+  // eslint-disable-next-line max-len
+  test('It should return an error when the ticket_quantities.types has length 0',
+      async () => {
+        const res = await request(app)
+            .post('/purchase/create')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+              status: 'paid',
+              total: 20,
+              method: 'air',
+              ticket_quantities: {
+                types: [],
               },
               eventId: 1,
             });
@@ -395,6 +466,34 @@ describe('Create Purchase', () => {
                 types: [
                   {
                     id: -1,
+                    quantity: 2,
+                  },
+                  {
+                    id: 2,
+                    quantity: 2,
+                  },
+                ],
+              },
+              eventId: 1,
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.error).toBeDefined();
+      });
+
+  // eslint-disable-next-line max-len
+  test('It should return an error when the ticket_quantities.types has Invalid ids',
+      async () => {
+        const res = await request(app)
+            .post('/purchase/create')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+              status: 'paid',
+              total: 20,
+              method: 'air',
+              ticket_quantities: {
+                types: [
+                  {
+                    id: 10000000,
                     quantity: 2,
                   },
                   {

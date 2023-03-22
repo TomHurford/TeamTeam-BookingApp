@@ -18,7 +18,6 @@ const getPastPurchases = async (req, res) => {
     // Get the user id from the decoded token
     // TODO
     const userId = decoded.id; // decoded.id
-    console.log('userId: ', userId);
     // use the user id to get the user's past purchases for events that have
     // already happened
     const purchases = await prisma.purchase.findMany({
@@ -60,75 +59,65 @@ const getPastPurchases = async (req, res) => {
             event: event,
           };
         }));
-    console.log('pastTickets: ', pastTicketWithEvent);
     res.status(200).send({pastTickets: pastTicketWithEvent});
   } catch (err) {
-    console.log(err);
     res.status(401).send({token: null, error: 'Unauthorized'});
   }
 };
 
 
 const getFutureTickets = async (req, res) => {
+  let decoded = null;
   try {
     // Authenticate the user
-    const decoded = await auth.authenticate(req);
+    decoded = await auth.authenticate(req);
+  } catch (err) {
+    return res.status(401).send({token: null, error: 'Unauthorized'});
+  }
 
-    const userId = decoded.id;
-
-    console.log('userId: ', userId);
-
-    // Get all purchases for the user where the event date is in the future
-    const purchases = await prisma.purchase.findMany({
-      where: {
-        userId: userId,
-        event: {
-          date: {
-            gte: new Date(),
-          },
+  // Get all purchases for the user where the event date is in the future
+  const purchases = await prisma.purchase.findMany({
+    where: {
+      userId: decoded.id,
+      event: {
+        date: {
+          gte: new Date(),
         },
-        isArchived: false,
       },
-    });
+      isArchived: false,
+    },
+  });
 
-    // Retreive tickets using purchase id and add the tickets to purchase json
-
-    const futureTickets = await Promise.all(
-        purchases.map(async (purchase) => {
-          const tickets = await prisma.ticket.findMany({
-            where: {
-              purchaseId: purchase.id,
-            },
-          });
-          return {
-            ...purchase,
-            tickets: tickets,
-          };
-        }),
-    );
-
-    // Retreive event using event id and add the event to purchase json
-    const futureTicketWithEvent =
-      await Promise.all(futureTickets.map(async (ticket) => {
-        const event = await prisma.event.findUnique({
+  // Retreive tickets using purchase id and add the tickets to purchase json
+  const futureTickets = await Promise.all(
+      purchases.map(async (purchase) => {
+        const tickets = await prisma.ticket.findMany({
           where: {
-            id: ticket.eventId,
+            purchaseId: purchase.id,
           },
         });
         return {
-          ...ticket,
-          event: event,
+          ...purchase,
+          tickets: tickets,
         };
-      }));
-    console.log('purchases: ', purchases);
+      }),
+  );
 
+  // Retreive event using event id and add the event to purchase json
+  const futureTicketWithEvent =
+    await Promise.all(futureTickets.map(async (ticket) => {
+      const event = await prisma.event.findUnique({
+        where: {
+          id: ticket.eventId,
+        },
+      });
+      return {
+        ...ticket,
+        event: event,
+      };
+    }));
 
-    console.log('futureTickets: ', futureTickets);
-    res.status(200).send({futureTickets: futureTicketWithEvent});
-  } catch (err) {
-    console.log(err);
-    res.status(401).send({token: null, error: 'Unauthorized'});
-  }
+  res.status(200).send({futureTickets: futureTicketWithEvent});
 };
 
 const createPurchase = async (req, res) => {
@@ -153,34 +142,41 @@ const createPurchase = async (req, res) => {
 
   if (
     // Check that the status is a string
-    typeof req.body.status === 'string' ||
+    typeof req.body.status !== 'string' ||
     // Check that the method is a string
-    typeof req.body.method === 'string' ||
+    typeof req.body.method !== 'string' ||
     // Check that the total is a number
-    typeof req.body.total === 'number' ||
+    typeof req.body.total !== 'number' ||
     // Check that the total is greater than 0
     req.body.total <= 0 ||
     // Check that the eventId is a number
-    typeof req.body.eventId === 'number' ||
+    typeof req.body.eventId !== 'number' ||
     // Check that the eventId is greater than 0
     req.body.eventId <= 0
   ) {
     return res.status(400).send({error: 'Invalid Body'});
   }
 
-  if (
-    // Check that ticket_quantities is an object
-    typeof req.body.ticket_quantities === 'object' ||
-    // Check that ticket_quantities is not null
-    req.body.ticket_quantities != null ||
-    // Check that ticket_quantities has a types property
-    !req.body.ticket_quantities.hasOwnProperty('types') ||
-    // Check that ticket_quantities.types is an array
-    !Array.isArray(req.body.ticket_quantities.types) ||
-    // Check that ticket_quantities.types is not empty
-    req.body.ticket_quantities.types.length === 0
-  ) {
-    return res.status(400).send({error: 'Invalid ticket_quantities'});
+  // Split the if statement above into multiple individual if statements
+  if (typeof req.body.ticket_quantities !== 'object') {
+    return res.status(400).send({error: 'Ticket Quantities not an object'});
+  }
+
+  if (req.body.ticket_quantities === null) {
+    return res.status(400).send({error: 'Ticket Quantities is null'});
+  }
+
+  if (!req.body.ticket_quantities.hasOwnProperty('types')) {
+    return res.status(400).send({error: 'Ticket Quantities has no types'});
+  }
+
+  if (!Array.isArray(req.body.ticket_quantities.types)) {
+    return res.status(400)
+        .send({error: 'Ticket Quantities types is not an array'});
+  }
+
+  if (req.body.ticket_quantities.types.length === 0) {
+    return res.status(400).send({error: 'Ticket Quantities types is empty'});
   }
 
   for (const type of req.body.ticket_quantities.types) {

@@ -866,3 +866,109 @@ describe('follow society', () => {
     expect(res.body.message).toBe('Internal Server Error');
   });
 });
+
+describe('unfollow society', () => {
+  test('unfollow society with  invalid token', async () => {
+    const res = await request(app)
+        .post('/societies/unFollowSociety')
+        .set('Authorization', `Bearer` + 'invalid token');
+    expect(res.statusCode).toBe(500);
+    // Check the response
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('Internal Server Error');
+  });
+});
+
+describe('check if user is member', () => {
+  test('check if user is a member with invalid token', async () => {
+    const res = await request(app)
+        .post('/societies/checkUserIsMember')
+        .set('Authorization', `Bearer` + 'invalid token');
+    expect(res.statusCode).toBe(500);
+    // Check the response
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('Internal Server Error');
+  });
+});
+
+describe('get members', () => {
+  test('get members with invalid token', async () => {
+    const res = await request(app)
+        .post('/societies/getMembers')
+        .set('Authorization', `Bearer` + 'invalid token');
+    expect(res.statusCode).toBe(500);
+    // Check the response
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('Internal Server Error');
+  });
+});
+
+describe('get followed societies', () => {
+  test('get followed with invalid token', async () => {
+    const res = await request(app)
+        .post('/societies/getFollowedSocieties')
+        .set('Authorization', `Bearer` + 'invalid token');
+    expect(res.statusCode).toBe(500);
+    // Check the response
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('Internal Server Error');
+  });
+});
+
+describe('check committee member', () => {
+  test('check committee member with invalid token', async () => {
+    const res = await request(app)
+        .post('/societies/checkCommitteeMember')
+        .set('Authorization', `Bearer` + 'invalid token');
+    expect(res.statusCode).toBe(500);
+    // Check the response
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('Internal Server Error');
+  });
+});
+
+describe('check president', () => {
+  test('check president with invalid token', async () => {
+    const res = await request(app)
+        .post('/societies/checkPresident')
+        .set('Authorization', `Bearer` + 'invalid token');
+    expect(res.statusCode).toBe(500);
+    // Check the response
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('Internal Server Error');
+  });
+});
+
+describe('change president', () => {
+  test('change president with invalid token', async () => {
+    const res = await request(app)
+        .post('/societies/changePresident')
+        .set('Authorization', `Bearer` + 'invalid token');
+    expect(res.statusCode).toBe(500);
+    // Check the response
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('Internal Server Error');
+  });
+  test('change president with no userId', async () => {
+    const res = await request(app)
+        .post('/societies/changePresident')
+        .set('Authorization', `Bearer` + 'invalid token')
+        .send({
+          societyId:1,
+        });
+    expect(res.statusCode).toBe(400);
+    // Check the response
+    expect(res.body.message).toBe('Missing societyId or userId');
+  });
+  test('change president with no societyId', async () => {
+    const res = await request(app)
+        .post('/societies/changePresident')
+        .set('Authorization', `Bearer` + 'invalid token')
+        .send({
+          societyId:1,
+        });
+    expect(res.statusCode).toBe(400);
+    // Check the response
+    expect(res.body.message).toBe('Missing societyId or userId');
+  });
+});

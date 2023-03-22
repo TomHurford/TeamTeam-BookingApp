@@ -12,6 +12,9 @@ async function getEvents(req, res) {
   const events = await prisma.event.findMany({
     where: {
       isArchived: false,
+      date: {
+        gte: new Date(),
+      },
     },
     include: {
       society: true,

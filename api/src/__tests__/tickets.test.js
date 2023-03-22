@@ -19,7 +19,6 @@ describe('Get Tickets', () => {
     const response = await request(app)
         .get('/tickets/')
         .set('Authorization', 'Bearer ' + token);
-    console.log(response.body);
     expect(response.statusCode).toBe(200);
   });
 

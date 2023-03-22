@@ -223,15 +223,5 @@ exports[`ViewSociety snapshot test 1`] = `
       </button>
     </form>
   </div>
-  <a
-    href="/edit-society/undefined"
-    onClick={[Function]}
-  >
-    <button
-      className="button"
-    >
-      Edit Society
-    </button>
-  </a>
 </div>
 `;

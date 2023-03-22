@@ -11,6 +11,7 @@ import {
 import ContactSocietyForm from "./ContactSocietyForm";
 import { Link } from "react-router-dom";
 import "../../styles/index.css";
+const jwtController = require('../../utils/jwt.js');
 
 function ViewSociety() {
   const [society, setSociety] = useState({});
@@ -19,6 +20,7 @@ function ViewSociety() {
   const { id: societyId } = useParams();
 
   useEffect(() => {
+    if(jwtController.getToken() === undefined || jwtController.getToken() === null){
     axios
       .post("http://localhost:5001/societies/getSociety", {
         societyId: societyId,
@@ -27,11 +29,32 @@ function ViewSociety() {
         setSociety(response.data.society);
         setSocietyLinks(response.data.society.links[0]);
         setEvents(response.data.society.events);
-        console.log(response.data.society.events);
+        // console.log(response.data.society.events);
       })
       .catch((error) => {
         console.log(error);
-      });
+      });}
+      else{
+        fetch('http://localhost:5001/societies/getSociety', {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + jwtController.getToken()
+          },
+          body: JSON.stringify({"societyId": parseInt(societyId)})
+        })
+        .then(response => response.json())
+        .then(data => {
+          setSociety(data.society);
+          setSocietyLinks(data.society.links[0]);
+          setEvents(data.society.events);
+          // console.log(data.society.events);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+      }
   }, [societyId]);
 
   function societyEventClick(eventId) {
@@ -121,10 +144,14 @@ function ViewSociety() {
       </div>
 
       <ContactSocietyForm societyName={society.name} />
+      {/* {console.log(society.isCommitteePresident)}
+      {console.log(jwtController.getToken())} */}
 
-      <Link to={`/edit-society/${society.id}`}>
+      { society.isCommitteePresident === true &&
+      (<Link to={`/edit-society/${society.id}`}>
         <button className="button">Edit Society</button>
-      </Link>
+      </Link>)
+      }
     </div>
   );
 }

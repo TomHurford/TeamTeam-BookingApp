@@ -144,9 +144,11 @@ class EventDetails extends Component {
               to={`/edit-event/${this.getEventId})
               )}`}
             > */}
+            { event.isCommittee === true && (
             <button className="button" onClick={this.handleClick}>
               Edit Event
-            </button>
+            </button>)
+            }
             {/* </Link> */}
           </div>)}
 

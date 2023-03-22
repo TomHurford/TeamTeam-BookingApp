@@ -487,6 +487,61 @@ async function seedPurchasesandTickets() {
     },
   });
 
+  const setPurchasePastSecond = await prisma.purchase.create({
+    data: {
+      total: 0,
+      paymentMethod: 'paypal',
+      user: {
+        connect: {
+          id: 1,
+        },
+      },
+      event: {
+        connect: {
+          id: 2,
+        },
+      },
+    },
+  });
+
+  const ticketEncodePastSecond = {
+    ticketTypeName: 'FREE',
+    ticketTypeID: 1,
+    userID: 1,
+    eventID: 2,
+    purchaseID: setPurchasePastSecond.id,
+    ticketSecret: randomString(),
+  };
+
+  const ticketTextPastSecond = Buffer.from(
+      JSON.stringify(ticketEncodePastSecond)).toString('base64');
+
+  await prisma.ticket.create({
+    data: {
+      ticketData: ticketTextPastSecond,
+      purchase: {
+        connect: {
+          id: setPurchasePastSecond.id,
+        },
+      },
+      ticketType: {
+        connect: {
+          id: 3,
+        },
+      },
+      event: {
+        connect: {
+          id: 2,
+        },
+      },
+      user: {
+        connect: {
+          id: 1,
+        },
+      },
+    },
+  });
+
   const events = await prisma.event.findMany();
   for (let i = 0; i < events.length; i++) {
     const offset = faker.datatype.number({min: 1, max: 44});

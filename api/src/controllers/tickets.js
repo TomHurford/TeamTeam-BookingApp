@@ -53,7 +53,7 @@ async function getTickets(req, res) {
  */
 async function createTickets(req, res) {
   // (user token, ticket type ID, quantity)
-  //include so price >0
+  // include so price >0
   try {
     await auth.authenticate(req);
   } catch (err) {

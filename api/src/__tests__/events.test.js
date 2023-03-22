@@ -66,7 +66,7 @@ describe('Get Events', () => {
   test('Get event with invalid token', async () => {
     const response = await request(app)
         .post('/events')
-        .set('Authorization', 'Bearer ' + "invalid token");
+        .set('Authorization', 'Bearer ' + 'invalid token');
     expect(response.statusCode).toBe(401);
     expect(response.body.error).toBe('Unauthorized');
     expect(response.body.token).toBe(null);
@@ -84,7 +84,7 @@ describe('Get Events', () => {
   });
   test('Get event with event that doesnt exist', async () => {
     const invalidEventId = {
-        eventId: -1,
+      eventId: -1,
     };
     const response = await request(app)
         .post('/events')
@@ -99,7 +99,7 @@ describe('Create Event', () => {
   test('Create event with invalid token', async () => {
     const response = await request(app)
         .post('/events/create')
-        .set('Authorization', 'Bearer ' + "invalid token");
+        .set('Authorization', 'Bearer ' + 'invalid token');
     expect(response.statusCode).toBe(401);
     expect(response.body.error).toBe('Unauthorized');
     expect(response.body.token).toBe(null);
@@ -107,19 +107,19 @@ describe('Create Event', () => {
   test('Create event as committee member', async () => {
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      "ticketType":[{
-        name:"Test Ticket Type1",
-        price:200,
-        quantity:10,
-      },{
-        name:"Test Ticket Type2",
-        price:100,
-        quantity:10,
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 10,
       }],
     };
     const response = await request(app)
@@ -138,35 +138,35 @@ describe('Create Event', () => {
     expect(response.body.event.date).toBe('2023-12-02T00:10:00.000Z');
     expect(response.body.event.societyId).toBe(1);
     // Delete ticket types
-    for(let i = 0; i< Object.keys(response.body.ticket_types).length; i++){
+    for (let i = 0; i< Object.keys(response.body.ticket_types).length; i++) {
       await prisma.ticketType.delete({
         where: {
-          id: response.body.ticket_types[i].id
+          id: response.body.ticket_types[i].id,
         },
       });
     }
     // Delete the event
     await prisma.event.delete({
-      where:{
+      where: {
         id: response.body.event.id,
       },
-    })
+    });
   });
-   test('Create event with missing details (name)', async () => {
+  test('Create event with missing details (name)', async () => {
     // Create a json object with the event details
     const event = {
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      "ticketType":[{
-        name:"Test Ticket Type1",
-        price:200,
-        quantity:10,
-      },{
-        name:"Test Ticket Type2",
-        price:100,
-        quantity:10,
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 10,
       }],
     };
     const response = await request(app)
@@ -181,18 +181,18 @@ describe('Create Event', () => {
   test('Create event with missing details (description)', async () => {
     // Create a json object with the event details
     const event = {
-      name:'Test Event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      "ticketType":[{
-        name:"Test Ticket Type1",
-        price:200,
-        quantity:10,
-      },{
-        name:"Test Ticket Type2",
-        price:100,
-        quantity:10,
+      'name': 'Test Event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 10,
       }],
     };
     const response = await request(app)
@@ -207,18 +207,18 @@ describe('Create Event', () => {
   test('Create event with missing details (date)', async () => {
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      "ticketType":[{
-        name:"Test Ticket Type1",
-        price:200,
-        quantity:10,
-      },{
-        name:"Test Ticket Type2",
-        price:100,
-        quantity:10,
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 10,
       }],
     };
     const response = await request(app)
@@ -233,18 +233,18 @@ describe('Create Event', () => {
   test('Create event with missing details (location)', async () => {
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      societyId: 1,
-      "ticketType":[{
-        name:"Test Ticket Type1",
-        price:200,
-        quantity:10,
-      },{
-        name:"Test Ticket Type2",
-        price:100,
-        quantity:10,
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 10,
       }],
     };
     const response = await request(app)
@@ -259,18 +259,18 @@ describe('Create Event', () => {
   test('Create event with missing details (societyId)', async () => {
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      "ticketType":[{
-        name:"Test Ticket Type1",
-        price:200,
-        quantity:10,
-      },{
-        name:"Test Ticket Type2",
-        price:100,
-        quantity:10,
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 10,
       }],
     };
     const response = await request(app)
@@ -300,41 +300,41 @@ describe('Create Event', () => {
     // Expect the event to not be created
     expect(response.body.error).toBe('Missing Event Details');
   });
-  
+
   test('Create event with missing ticket type body', async () => {
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      'ticketType':{
-      }
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': {
+      },
     };
     const response = await request(app)
         .post('/events/create')
         .set('Authorization', 'Bearer ' + token)
         .send(event);
     expect(response.statusCode).toBe(400);
-    expect(response.body.error).toBe("Missing Ticket Type Body");
+    expect(response.body.error).toBe('Missing Ticket Type Body');
   });
   test('Create event with missing ticket type field(name)', async () => {
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      'ticketType':[{
-        name:'Test Ticket Type1',
-        price:200,
-        quantity:10,
-      },{
-        //MISSING NAME HERE
-        price:100,
-        quantity:10,
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        // MISSING NAME HERE
+        price: 100,
+        quantity: 10,
       }],
     };
     const response = await request(app)
@@ -347,19 +347,19 @@ describe('Create Event', () => {
   test('Create event with missing ticket type field(price)', async () => {
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      'ticketType':[{
-        name:'Test Ticket Type1',
-        price:200,
-        quantity:10,
-      },{
-        name:'Test Ticket Type2',
-        //MISSING PRICE HERE
-        quantity:10,
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        // MISSING PRICE HERE
+        quantity: 10,
       }],
     };
     const response = await request(app)
@@ -372,19 +372,19 @@ describe('Create Event', () => {
   test('Create event with missing ticket type field(quantity)', async () => {
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      'ticketType':[{
-        name:'Test Ticket Type1',
-        price:200,
-        quantity:10,
-      },{
-        name:'Test Ticket Type2',
-        price:100,
-        //MISSING QUANTITY HERE
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        // MISSING QUANTITY HERE
       }],
     };
     const response = await request(app)
@@ -397,19 +397,19 @@ describe('Create Event', () => {
   test('Create event with valid ticket type field (quantity,1)', async () => {
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      'ticketType':[{
-        name:'Test Ticket Type1',
-        price:200,
-        quantity:10,
-      },{
-        name:'Test Ticket Type2',
-        price:100,
-        quantity:1, //VALID HERE
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 1, // VALID HERE
       }],
     };
     const response = await request(app)
@@ -418,36 +418,36 @@ describe('Create Event', () => {
         .send(event);
     expect(response.body.ticket_types[1].quantity).toBe(1);
     // Delete ticket types
-    for(let i = 0; i< Object.keys(response.body.ticket_types).length; i++){
+    for (let i = 0; i< Object.keys(response.body.ticket_types).length; i++) {
       await prisma.ticketType.delete({
         where: {
-          id: response.body.ticket_types[i].id
+          id: response.body.ticket_types[i].id,
         },
       });
     }
     // Delete the event
     await prisma.event.delete({
-      where:{
+      where: {
         id: response.body.event.id,
       },
-    })
+    });
   });
   test('Create event with invalid ticket type field (quantity,0)', async () => {
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      'ticketType':[{
-        name:'Test Ticket Type1',
-        price:200,
-        quantity:10,
-      },{
-        name:'Test Ticket Type2',
-        price:100,
-        quantity:0, //INVALID HERE
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 0, // INVALID HERE
       }],
     };
     const response = await request(app)
@@ -460,19 +460,19 @@ describe('Create Event', () => {
   test('Create event with valid ticket type field (price,1)', async () => {
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      'ticketType':[{
-        name:'Test Ticket Type1',
-        price:200,
-        quantity:10,
-      },{
-        name:'Test Ticket Type2',
-        price:1, //VALID HERE
-        quantity:10,
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 1, // VALID HERE
+        quantity: 10,
       }],
     };
     const response = await request(app)
@@ -481,36 +481,36 @@ describe('Create Event', () => {
         .send(event);
     expect(response.body.ticket_types[1].price).toBe(1);
     // Delete ticket types
-    for(let i = 0; i< Object.keys(response.body.ticket_types).length; i++){
+    for (let i = 0; i< Object.keys(response.body.ticket_types).length; i++) {
       await prisma.ticketType.delete({
         where: {
-          id: response.body.ticket_types[i].id
+          id: response.body.ticket_types[i].id,
         },
       });
     }
     // Delete the event
     await prisma.event.delete({
-      where:{
+      where: {
         id: response.body.event.id,
       },
-    })
+    });
   });
   test('Create event with invalid ticket type field (price,0)', async () => {
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      'ticketType':[{
-        name:'Test Ticket Type1',
-        price:200,
-        quantity:10,
-      },{
-        name:'Test Ticket Type2',
-        price:0, //INVALID HERE
-        quantity:10
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 0, // INVALID HERE
+        quantity: 10,
       }],
     };
     const response = await request(app)
@@ -533,19 +533,19 @@ describe('Create Event', () => {
 
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      "ticketType":[{
-        name:"Test Ticket Type1",
-        price:200,
-        quantity:10,
-      },{
-        name:"Test Ticket Type2",
-        price:100,
-        quantity:10,
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 10,
       }],
     };
     const response2 = await request(app)
@@ -557,23 +557,23 @@ describe('Create Event', () => {
     // Expect the event to not be created
     expect(response2.body.error).toBe('Unauthorized');
   });
-   // This is a POST request
-   test('Create event with invalid societyId', async () => {
+  // This is a POST request
+  test('Create event with invalid societyId', async () => {
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: -1,
-      "ticketType":[{
-        name:"Test Ticket Type1",
-        price:200,
-        quantity:10,
-      },{
-        name:"Test Ticket Type2",
-        price:100,
-        quantity:10,
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': -1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 10,
       }],
     };
     const response = await request(app)
@@ -588,19 +588,19 @@ describe('Create Event', () => {
   test('Create event with date in the past', async () => {
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2019-02-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      "ticketType":[{
-        name:"Test Ticket Type1",
-        price:200,
-        quantity:10,
-      },{
-        name:"Test Ticket Type2",
-        price:100,
-        quantity:10,
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2019-02-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 10,
       }],
     };
     const response = await request(app)
@@ -618,20 +618,20 @@ describe('Create Event', () => {
     // Create a json object with the event details
 
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-02-02T00:00:00.000Z',
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-02-02T00:00:00.000Z',
       // What makes this date invalid is the time
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      "ticketType":[{
-        name:"Test Ticket Type1",
-        price:200,
-        quantity:10,
-      },{
-        name:"Test Ticket Type2",
-        price:100,
-        quantity:10,
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 10,
       }],
     };
     const response = await request(app)
@@ -650,7 +650,7 @@ describe('Update Event', () => {
   test('Update event with invalid token', async () => {
     const response = await request(app)
         .post('/events/update')
-        .set('Authorization', 'Bearer ' + "invalid token");
+        .set('Authorization', 'Bearer ' + 'invalid token');
     expect(response.statusCode).toBe(401);
     expect(response.body.error).toBe('Unauthorized');
     expect(response.body.token).toBe(null);
@@ -660,22 +660,22 @@ describe('Update Event', () => {
   test('Update event as committee member', async () => {
     // Create a json object with the event details
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      "ticketType":[{
-        name:"Test Ticket Type1",
-        price:200,
-        quantity:10,
-      },{
-        name:"Test Ticket Type2",
-        price:100,
-        quantity:10,
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 10,
       }],
     };
-    
+
     const response = await request(app)
         .post('/events/create')
         .set('Authorization', 'Bearer ' + token)
@@ -703,20 +703,20 @@ describe('Update Event', () => {
     expect(response2.body.event.date).toBe('2023-12-02T00:10:00.000Z');
     expect(response2.body.event.societyId).toBe(1);
 
-    //delete the ticket types
-    for(let i = 0; i< Object.keys(response.body.ticket_types).length; i++){
+    // delete the ticket types
+    for (let i = 0; i< Object.keys(response.body.ticket_types).length; i++) {
       await prisma.ticketType.delete({
         where: {
-          id: response.body.ticket_types[i].id
+          id: response.body.ticket_types[i].id,
         },
       });
     }
     // Delete the event
     await prisma.event.delete({
-      where:{
+      where: {
         id: response.body.event.id,
       },
-    })
+    });
   });
   // This is a POST request
   test('Update event as non committee member', async () => {
@@ -770,24 +770,24 @@ describe('Update Event', () => {
     expect(response.body.event.date).toBe('2023-12-02T00:10:00.000Z');
     expect(response.body.event.societyId).toBe(1);
   });
-    // This is a POST request
-    test('Update event with invalid date', async () => {
-      // Create a json object with the event details
-      const updateEvent = {
-        eventId: 1,
-        name: 'Event 1 Updated',
-        date: '2023-02-02T00:00:00.000Z',
-        // What makes this date invalid is the time
-      };
-      const response = await request(app)
-          .post('/events/update')
-          .set('Authorization', 'Bearer ' + token)
-          .send(updateEvent);
-      expect(response.statusCode).toBe(400);
-      expect(response.body).toHaveProperty('error');
-      // Expect the event to not be updated
-      expect(response.body.error).toBe('Invalid Date');
-    });
+  // This is a POST request
+  test('Update event with invalid date', async () => {
+    // Create a json object with the event details
+    const updateEvent = {
+      eventId: 1,
+      name: 'Event 1 Updated',
+      date: '2023-02-02T00:00:00.000Z',
+      // What makes this date invalid is the time
+    };
+    const response = await request(app)
+        .post('/events/update')
+        .set('Authorization', 'Bearer ' + token)
+        .send(updateEvent);
+    expect(response.statusCode).toBe(400);
+    expect(response.body).toHaveProperty('error');
+    // Expect the event to not be updated
+    expect(response.body.error).toBe('Invalid Date');
+  });
   // This is a POST request
   test('Update event with invalid date', async () => {
     // Create a json object with the event details
@@ -840,7 +840,7 @@ describe('Update Event', () => {
     // Expect the event to not be updated
     expect(response.body.error).toBe('Missing Event Details');
   });
-  
+
   // This is a POST request
   test('Update event with no other fields', async () => {
     const updateEvent = {
@@ -873,7 +873,7 @@ describe('Update Event', () => {
         quantity:10,
       }],
     };
-    
+
     const response = await request(app)
         .post('/events/create')
         .set('Authorization', 'Bearer ' + token)
@@ -901,28 +901,28 @@ describe('Delete Event', () => {
   test('Update event with invalid token', async () => {
     const response = await request(app)
         .post('/events/delete')
-        .set('Authorization', 'Bearer ' + "invalid token");
+        .set('Authorization', 'Bearer ' + 'invalid token');
     expect(response.statusCode).toBe(401);
     expect(response.body.error).toBe('Unauthorized');
     expect(response.body.token).toBe(null);
   });
   // This is a POST request
   test('Delete event as committee member', async () => {
-    //create event
+    // create event
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      "ticketType":[{
-        name:"Test Ticket Type1",
-        price:200,
-        quantity:10,
-      },{
-        name:"Test Ticket Type2",
-        price:100,
-        quantity:10,
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 10,
       }],
     };
     const response = await request(app)
@@ -949,27 +949,27 @@ describe('Delete Event', () => {
     });
     expect(eventArchived).toHaveProperty('isArchived');
     expect(eventArchived.isArchived).toBe(true);
-    for(let i = 0; i< Object.keys(response.body.ticket_types).length; i++){
+    for (let i = 0; i< Object.keys(response.body.ticket_types).length; i++) {
       await prisma.ticketType.delete({
         where: {
-          id: response.body.ticket_types[i].id
+          id: response.body.ticket_types[i].id,
         },
       });
     }
     // Delete the event
     await prisma.event.delete({
-      where:{
+      where: {
         id: response.body.event.id,
       },
-    })
+    });
   });
 
   // This is a POST request
   test('Delete event as non committee member', async () => {
     // Login as a non committee member
-    //response is non committee login
-    //response2 is create event
-    //response3 is deleting event
+    // response is non committee login
+    // response2 is create event
+    // response3 is deleting event
     tokenAdmin = token;
     const response = await request(app).post('/user/login').send({
       email: 'student@kcl.ac.uk',
@@ -978,21 +978,21 @@ describe('Delete Event', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('token');
     token = response.body.token;
-    //create event
+    // create event
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      "ticketType":[{
-        name:"Test Ticket Type1",
-        price:200,
-        quantity:10,
-      },{
-        name:"Test Ticket Type2",
-        price:100,
-        quantity:10,
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 10,
       }],
     };
     const response2 = await request(app)
@@ -1010,19 +1010,19 @@ describe('Delete Event', () => {
     expect(response3.body).toHaveProperty('error');
     // Expect the event to not be deleted
     expect(response3.body.error).toBe('Unauthorized');
-    for(let i = 0; i< Object.keys(response2.body.ticket_types).length; i++){
+    for (let i = 0; i< Object.keys(response2.body.ticket_types).length; i++) {
       await prisma.ticketType.delete({
         where: {
-          id: response2.body.ticket_types[i].id
+          id: response2.body.ticket_types[i].id,
         },
       });
     }
     // Delete the event
     await prisma.event.delete({
-      where:{
+      where: {
         id: response2.body.event.id,
       },
-    })
+    });
   });
   // This is a POST request
   test('Delete event with invalid eventId', async () => {
@@ -1053,62 +1053,62 @@ describe('Delete Event', () => {
 });
 describe('search events', () => {
   test('Search events', async () => {
-    //create event
-    //response is create events
-    //response2 is search events
+    // create event
+    // response is create events
+    // response2 is search events
     const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      "ticketType":[{
-        name:"Test Ticket Type1",
-        price:200,
-        quantity:10,
-      },{
-        name:"Test Ticket Type2",
-        price:100,
-        quantity:10,
+      'name': 'Test Event',
+      'description': 'This is a test event',
+      'date': '2023-12-02T00:10:00.000Z',
+      'location': faker.address.streetAddress(),
+      'societyId': 1,
+      'ticketType': [{
+        name: 'Test Ticket Type1',
+        price: 200,
+        quantity: 10,
+      }, {
+        name: 'Test Ticket Type2',
+        price: 100,
+        quantity: 10,
       }],
     };
-    
+
     const response = await request(app)
         .post('/events/create')
-      .set('Authorization', 'Bearer ' + token)
-      .send(event);
+        .set('Authorization', 'Bearer ' + token)
+        .send(event);
     expect(response.statusCode).toBe(200);
-    
+
     const search = {
       name: response.body.event.name,
-    }
-    
+    };
+
     const response2 = await request(app)
         .post('/events/search')
         .set('Authorization', 'Bearer ' + token)
         .send(search);
     expect(response2.statusCode).toBe(200);
-    for(let i = 0; i< Object.keys(response.body.ticket_types).length; i++){
+    for (let i = 0; i< Object.keys(response.body.ticket_types).length; i++) {
       await prisma.ticketType.delete({
         where: {
-          id: response.body.ticket_types[i].id
+          id: response.body.ticket_types[i].id,
         },
       });
     }
     // Delete the event
     await prisma.event.delete({
-      where:{
+      where: {
         id: response.body.event.id,
-     },
+      },
     });
   });
   test('Search event with name as undefined', async () => {
     const response = await request(app)
         .post('/events/search')
         .set('Authorization', 'Bearer ' + token)
-        .send(); //default of name is undefined
-    //get amount of events in database
-    const eventCount = await prisma.event.count()
+        .send(); // default of name is undefined
+    // get amount of events in database
+    const eventCount = await prisma.event.count();
     expect(response.statusCode).toBe(200);
     expect(Object.keys(response.body.event).length).toBe(eventCount);
   });
@@ -1118,7 +1118,7 @@ describe('check privileges', () =>{
   test('check privileges with invalid token', async () => {
     const response = await request(app)
         .post('/events/auth')
-        .set('Authorization', 'Bearer ' + "invalid token");
+        .set('Authorization', 'Bearer ' + 'invalid token');
     expect(response.statusCode).toBe(401);
     expect(response.body.error).toBe('Unauthorized');
     expect(response.body.token).toBe(null);

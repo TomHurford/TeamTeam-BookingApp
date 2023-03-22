@@ -35,14 +35,14 @@ async function signup(req, res) {
       return res.status(409).send({token: null, message: 'User Not Found'});
     }
 
-        // Check if the society name already exists
-    let societyName = await prisma.society.findUnique({
+    // Check if the society name already exists
+    const societyName = await prisma.society.findUnique({
       where: {
         name: req.body.name,
       },
     });
     // Check if the society email already exists
-    let societyEmail = await prisma.society.findUnique({
+    const societyEmail = await prisma.society.findUnique({
       where: {
         email: req.body.email,
       },
@@ -50,21 +50,21 @@ async function signup(req, res) {
     console.log(societyName);
     if (societyName) {
       return res
-        .status(409)
-        .send({ token: null, message: "Society already exists with that name" });
+          .status(409)
+          .send({token: null, message: 'Society already exists with that name'});
     }
     console.log(societyEmail);
-    if(societyEmail){
+    if (societyEmail) {
       return res
-        .status(409)
-        .send({token: null, message: "Society already exists with that email"})
+          .status(409)
+          .send({token: null, message: 'Society already exists with that email'});
     }
     const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     // Check that the email has a valid regex
-    if(!req.body.email.match(validRegex)){
+    if (!req.body.email.match(validRegex)) {
       return res
-        .status(409)
-        .send({token: null, message: "Email inputed doesnt have a valid regex"});
+          .status(409)
+          .send({token: null, message: 'Email inputed doesnt have a valid regex'});
     }
     society = await prisma.society.create({
       data: {
@@ -273,16 +273,16 @@ async function deleteSociety(req, res) {
         societyId: req.body.societyId,
       },
     });
-    //not part of committee?
+    // not part of committee?
     const society = await prisma.society.findUnique({
-      where:{
+      where: {
         id: req.body.societyId,
-      }
+      },
     });
-    if(!society){
+    if (!society) {
       res.status(400).send({error: 'Invalid id of society'});
       return;
-    } 
+    }
     if (!commitee.isPresident && !isAdmin) {
       res.status(401).send({message: 'Unauthorized'});
       return;
@@ -309,7 +309,7 @@ async function updateSociety(req, res) {
     // Authenticate the user
     const userId = (await auth.authenticate(req)).id;
     // Check if user is a committee member of the society
-    
+
     // Get the society
     const society = await prisma.society.findUnique({
       where: {

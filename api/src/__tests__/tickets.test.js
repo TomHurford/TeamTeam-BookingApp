@@ -30,10 +30,10 @@ describe('Get Tickets', () => {
     expect(response.body.message).toBe('Unauthorised');
   });
   test('Get tickets with invalid user', async () => {
-    //line 36 testing requires breaking prisma bd rules to get invalid user id
+    // line 36 testing requires breaking prisma bd rules to get invalid user id
   });
 });
-describe("Create Tickets",() =>{
+describe('Create Tickets', () =>{
   test('Create tickets with invalid token', async () => {
     const response = await request(app)
         .post('/tickets/create')
@@ -52,7 +52,7 @@ describe("Create Tickets",() =>{
   //   "isArchived": false
   // }
 
-  test("Create Tickets with valid values", async() =>{
+  test('Create Tickets with valid values', async () =>{
     // const event = {
     //   name: 'Test Event',
     //   description: 'This is a test event',
@@ -74,17 +74,17 @@ describe("Create Tickets",() =>{
     //     .set('Authorization', 'Bearer ' + token)
     //     .send(event);
     const response = await request(app)
-      .post("/tickets/create")
-      .set('Authorization', 'Bearer ' + token)
-      .send({
-        ticketData: "sdgsgbsfgbsumfin",
-        userId: 1,
-        eventId: 1,
-        ticketTypeId: 1,
-        purchaseId: 1,
-        isArchived: false
-      });
-    console.log("response from /tickets/create\n" + response.body);
+        .post('/tickets/create')
+        .set('Authorization', 'Bearer ' + token)
+        .send({
+          ticketData: 'sdgsgbsfgbsumfin',
+          userId: 1,
+          eventId: 1,
+          ticketTypeId: 1,
+          purchaseId: 1,
+          isArchived: false,
+        });
+    console.log('response from /tickets/create\n' + response.body);
     expect(response.statusCode).toBe(200);
   });
   /*
@@ -139,24 +139,24 @@ describe("Create Tickets",() =>{
   });
   */
 });
-describe("Use Tickets",() =>{
+describe('Use Tickets', () =>{
   test('Use tickets with invalid token', async () => {
     const response = await request(app)
         .get('/tickets/use')
-        .set('Authorization', 'Bearer ' + "invalid token");
+        .set('Authorization', 'Bearer ' + 'invalid token');
     expect(response.statusCode).toBe(401);
     expect(response.body.message).toBe('Unauthorised');
   });
-  test("Use Ticket", async() =>{
+  test('Use Ticket', async () =>{
     const response = await request(app)
-      .post("/tickets/use")
-      .set('Authorization', 'Bearer ' + token)
-      .send({
-        ticketTypeId:1,
-        quantity:10
-      });
-    console.log("response from /tickets/use\n" + response.body);
+        .post('/tickets/use')
+        .set('Authorization', 'Bearer ' + token)
+        .send({
+          ticketTypeId: 1,
+          quantity: 10,
+        });
+    console.log('response from /tickets/use\n' + response.body);
     expect(response.statusCode).toBe(400);
-    expect(response.message).toBe("Invalid Ticket Type");
+    expect(response.message).toBe('Invalid Ticket Type');
   });
 });

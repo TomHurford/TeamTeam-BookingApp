@@ -86,6 +86,7 @@ describe('Create Purchase', () => {
           },
           eventId: 1,
         });
+    console.log(res.body);
     expect(res.statusCode).toEqual(200);
     expect(res.body.message).toBeDefined();
   });
@@ -112,7 +113,7 @@ describe('Create Purchase', () => {
         expect(res.body.error).toBeDefined();
       });
 
-  test('It should return an error when ticket_quantities is not provided',
+  test('It should return an error when ticket_quantities is undefined',
       async () => {
         const res = await request(app)
             .post('/purchase/create')
@@ -121,6 +122,38 @@ describe('Create Purchase', () => {
               status: 'paid',
               total: 20,
               method: 'air',
+              eventId: 1,
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.error).toBeDefined();
+      });
+
+  test('It should return an error when ticket_quantities is invalid',
+      async () => {
+        const res = await request(app)
+            .post('/purchase/create')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+              status: 'paid',
+              total: 20,
+              method: 'air',
+              ticket_quantities: 1,
+              eventId: 1,
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.error).toBeDefined();
+      });
+
+  test('It should return an error when the ticket_quantities is null',
+      async () => {
+        const res = await request(app)
+            .post('/purchase/create')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+              status: 'paid',
+              total: 20,
+              method: 'air',
+              ticket_quantities: null,
               eventId: 1,
             });
         expect(res.statusCode).toEqual(400);
@@ -308,7 +341,7 @@ describe('Create Purchase', () => {
       });
 
   // eslint-disable-next-line max-len
-  test('It should return an error when the ticket_quantities does not have a types field',
+  test('It should return an error when the ticket_quantities.types is undefined',
       async () => {
         const res = await request(app)
             .post('/purchase/create')

@@ -3,6 +3,8 @@ const express = require('express');
 /* eslint-disable-next-line */
 const router = express.Router();
 const societyController = require('../controllers/societies.js');
+const committeeController = require('../controllers/committee.js');
+const memberController = require('../controllers/members.js');
 
 // This route is used to create a society
 router.post('/signup', (req, res) => {
@@ -26,59 +28,51 @@ router.post('/deleteSociety', (req, res) => {
 });
 
 router.post('/addCommitteeMember', (req, res) => {
-  societyController.addCommitteeMember(req, res);
+  committeeController.addCommitteeMember(req, res);
 });
 
 router.post('/removeCommitteeMember', (req, res) => {
-  societyController.removeCommitteeMember(req, res);
+  committeeController.removeCommitteeMember(req, res);
 });
 
 router.post('/updateCommitteeMember', (req, res) => {
-  societyController.updateCommitteeMember(req, res);
+  committeeController.updateCommitteeMember(req, res);
 });
 
 router.post('/getCommitteeMembers', (req, res) => {
-  societyController.getCommitteeMembers(req, res);
+  committeeController.getCommitteeMembers(req, res);
 });
 
 router.post('/followSociety', (req, res) => {
-  societyController.followSociety(req, res);
+  memberController.followSociety(req, res);
 });
 
 router.post('/unFollowSociety', (req, res) => {
-  societyController.unFollowSociety(req, res);
+  memberController.unFollowSociety(req, res);
 });
 
 router.post('/checkUserIsMember', (req, res) => {
-  societyController.checkUserIsMember(req, res);
+  memberController.checkUserIsMember(req, res);
 });
 
 router.post('/getMembers', (req, res) => {
-  societyController.getMembers(req, res);
+  memberController.getMembers(req, res);
 });
 
 router.post('/getFollowedSocieties', (req, res) => {
-  societyController.getListOfFollowedSocieties(req, res);
+  memberController.getListOfFollowedSocieties(req, res);
 });
 
 router.post('/checkCommitteeMember', (req, res) => {
-  societyController.checkIfUserIsCommitteeMember(req, res);
+  committeeController.checkIfUserIsCommitteeMember(req, res);
 });
 
 router.post('/checkPresident', (req, res) => {
-  societyController.checkIfUserIsPresident(req, res);
+  committeeController.checkIfUserIsPresident(req, res);
 });
 
-// router.post('/unfollowSociety', (req, res) => {
-//   societyController.unfollowSociety(req, res);
-// });
-
-// router.post('/getFollowedSocieties', (req, res) => {
-//   societyController.getFollowedSocieties(req, res);
-// });
-
 router.post('/changePresident', (req, res) => {
-  societyController.changePresident(req, res);
+  committeeController.changePresident(req, res);
 });
 
 module.exports = router;

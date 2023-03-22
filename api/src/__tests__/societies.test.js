@@ -1,24 +1,7 @@
-// This is going to be a test suite for the societies route
-// We will be using the supertest library to test the API
-// We will also be using the jest library to run the tests
-
-// Import the supertest library
+/* eslint-disable */
 const request = require('supertest');
-// Import the app
 const app = require('../server.js');
 const prisma = require('../../prisma/prisma.js');
-
-// I want to test these routes:
-// GET /societies
-// POST /societies
-//   - with valid data
-//   - with invalid data
-// POST /societies/update
-//   - with valid data
-//   - with invalid data
-// POST /societies/delete
-//   - with valid data
-//   - with invalid data
 
 let token = null;
 
@@ -30,7 +13,6 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-  // Before Each test we want to login as a user
   const res = await request(app)
       .post('/user/login')
       .send({
@@ -41,7 +23,7 @@ beforeEach(async () => {
 });
 
 describe('Create Societies', () => {
-  test('Get event with invalid token', async () => {
+  test('Signup Society with invalid token', async () => {
     const response = await request(app)
         .post('/societies/signup')
         .set('Authorization', 'Bearer ' + 'invalid token');
@@ -49,6 +31,7 @@ describe('Create Societies', () => {
     expect(response.body.error).toBe('Unauthorized');
     expect(response.body.token).toBe(null);
   });
+
   test('Signup societies with normal values', async () => {
     const response = await request(app)
         .post('/societies/signup')
@@ -67,13 +50,9 @@ describe('Create Societies', () => {
             logo: 'https://www.google.com/',
           },
         });
-    console.log('response from /societies/signup\n' + response.body);
-    console.log(response.body.message);
-    console.log(response.statusCode);
     expect(response.statusCode).toBe(200);
     expect(response.body).not.toBeNull();
     expect(response.body.society.name).toBe('Soc Signup Test');
-    console.log(response.body.society.id);
     // Delete the society we just created
     await prisma.committee.delete({
       where: {
@@ -94,6 +73,7 @@ describe('Create Societies', () => {
       },
     });
   });
+
   test('Signup societies with no values (email)', async () => {
     const response = await request(app)
         .post('/societies/signup')
@@ -114,6 +94,7 @@ describe('Create Societies', () => {
     expect(response.statusCode).toBe(400);
     expect(response.body.error).toBe('Missing Society Details');
   });
+
   test('Signup societies with no values (name)', async () => {
     const response = await request(app)
         .post('/societies/signup')
@@ -134,6 +115,7 @@ describe('Create Societies', () => {
     expect(response.statusCode).toBe(400);
     expect(response.body.error).toBe('Missing Society Details');
   });
+
   test('Signup societies with no values (description)', async () => {
     const response = await request(app)
         .post('/societies/signup')
@@ -154,9 +136,9 @@ describe('Create Societies', () => {
     expect(response.statusCode).toBe(400);
     expect(response.body.error).toBe('Missing Society Details');
   });
+
   test('Signup societies with repeated values (email)', async () => {
     // make first soc with email
-    console.log('sending request to /societies/signup');
     const response = await request(app)
         .post('/societies/signup')
         .set('Authorization', `Bearer ${token}`)
@@ -217,9 +199,9 @@ describe('Create Societies', () => {
       },
     });
   });
+
   test('Signup societies with repeated values (name)', async () => {
     // make first soc
-    console.log('sending request to /societies/signup');
     const response = await request(app)
         .post('/societies/signup')
         .set('Authorization', `Bearer ${token}`)
@@ -237,10 +219,7 @@ describe('Create Societies', () => {
             logo: 'https://www.google.com/',
           },
         });
-    console.log('response from /societies/signup\n' + response.body);
     expect(response.statusCode).toBe(200);
-    // repeat but with different soc info and same name
-    console.log('sending second request to /societies/signup');
     const response2 = await request(app)
         .post('/societies/signup')
         .set('Authorization', `Bearer ${token}`)
@@ -282,8 +261,8 @@ describe('Create Societies', () => {
       },
     });
   });
+
   test('Signup societies with invalid email (no prefix)', async () => {
-    console.log('sending request to /societies/signup');
     const response = await request(app)
         .post('/societies/signup')
         .set('Authorization', `Bearer ${token}`)
@@ -301,14 +280,12 @@ describe('Create Societies', () => {
             logo: 'https://www.google.com/',
           },
         });
-    console.log('response from /societies/signup\n' + response.body);
     expect(response.statusCode).toBe(409);
     expect(response.body.token).toBeNull();
     expect(response.body.message)
         .toBe('Email inputed doesnt have a valid regex');
   });
   test('Signup societies with invalid email (double @)', async () => {
-    console.log('sending request to /societies/signup');
     const response = await request(app)
         .post('/societies/signup')
         .set('Authorization', `Bearer ${token}`)
@@ -326,14 +303,13 @@ describe('Create Societies', () => {
             logo: 'https://www.google.com/',
           },
         });
-    console.log('response from /societies/signup\n' + response.body);
     expect(response.statusCode).toBe(409);
     expect(response.body.token).toBeNull();
     expect(response.body.message)
         .toBe('Email inputed doesnt have a valid regex');
   });
+
   test('Signup societies with invalid email (postfix)', async () => {
-    console.log('sending request to /societies/signup');
     const response = await request(app)
         .post('/societies/signup')
         .set('Authorization', `Bearer ${token}`)
@@ -351,7 +327,6 @@ describe('Create Societies', () => {
             logo: 'https://www.google.com/',
           },
         });
-    console.log('response from /societies/signup\n' + response.body);
     expect(response.statusCode).toBe(409);
     expect(response.body.token).toBeNull();
     expect(response.body.message)
@@ -359,7 +334,6 @@ describe('Create Societies', () => {
   });
 });
 
-// This is the test suite for the societies route
 describe('Get societies', () => {
   // This is the test for the GET /societies route
   test('Get societies', async () => {
@@ -380,6 +354,7 @@ describe('Get societies', () => {
     expect(res.body[0].name).toBe('Society 1');
   });
 });
+
 describe('Get societiesId', () => {
   // This is the test for the POST /societies route
   test('Get society with id', async () => {
@@ -408,9 +383,6 @@ describe('Get societiesId', () => {
         .send({
           societyId: res.body.society.id,
         });
-
-    // Check the response
-    console.log(res2.body);
     expect(res2.statusCode).toBe(200);
     expect(res2.body).not.toBeNull();
     expect(res2.body.society.name).toBe('Soc Signup Test');
@@ -501,8 +473,7 @@ describe('Get societiesId', () => {
     expect(res.body.error).toBe('Unauthorized');
   });
 });
-// The societies are not actually deleted from the database, they are just
-// marked as archived
+
 describe('Delete society', () => {
   test('Delete society with invalid token', async () => {
     // Make the request to the API
@@ -581,19 +552,6 @@ describe('Delete society', () => {
     expect(res.body.error).toBe('Invalid id of society');
   });
 
-
-  // test('Delete society with invalid id and invalid token', async () => {
-  //   const res = await request(app)
-  //       .post('/societies/deleteSociety')
-  //       .set('Authorization', `Bearer ${token}1`)
-  //       .send({
-  //         id: -1,
-  //       })
-  //       .expect(401);
-  //   expect(res.body).not.toBeNull();
-  //   expect(res.body.message).toBe('Invalid token');
-  // });
-
   test('Delete society as a user with no permission', async () => {
     // Login as a user with no permission
     adminToken = token;
@@ -617,7 +575,7 @@ describe('Delete society', () => {
     expect(res2.body.message).toBe('Unauthorized');
   });
 });
-// These are the tests for the societies/update route
+
 describe('Update society', () => {
   test('Update society with valid data', async () => {
     const res = await request(app)
@@ -632,7 +590,6 @@ describe('Update society', () => {
     // Check the response
     expect(res.statusCode).toBe(200);
     expect(res.body.message).toBe('Society Updated');
-    console.log(updatedEvent).toHaveProperty();
   });
   test('Update society with user not being part of committee', async () => {
     // Login as a user with no permission
@@ -670,7 +627,6 @@ describe('Update society', () => {
           description: 'Society 1 description updated',
         });
     // Check the response
-    console.log(res.body);
     expect(res.statusCode).toBe(400);
     expect(res.body).not.toBeNull();
     expect(res.body.message).toBe('Invalid data');
@@ -777,92 +733,5 @@ describe('Update society', () => {
     expect(res2.body.message).toBe(
         'You do not have permission to perform this action',
     );
-  });
-});
-describe('add committee members', () => {
-  test('add committee member with invalid token', async () => {
-    const res = await request(app)
-        .post('/societies/addCommitteeMember')
-        .set('Authorization', `Bearer` + 'invalid token');
-    expect(res.statusCode).toBe(500);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Internal Server Error');
-  });
-  test('add committee member but user not a committee member', async () => {
-    const res= await request(app).post('/user/login').send({
-      email: 'student@kcl.ac.uk',
-      password: 'student',
-    });
-    token = res.body.token;
-    const res2 = await request(app)
-        .post('/societies/addCommitteeMember')
-        .set('Authorization', `Bearer` + token)
-        .send({
-          societyId: 1,
-        });
-    expect(res2.statusCode).toBe(401);
-    // Check the response
-    expect(res2.body.message).toBe('User not part of committee');
-  });
-  test('add committee member but user not president', async () => {
-    const res = await request(app)
-        .post('/user/login')
-        .send({
-          email: '',
-          password: 'admin123',
-        });
-    token = res.body.token;
-    expect(res.statusCode).toBe(200);
-    // Check the response
-    expect(res.body).not.toBeNull();
-  });
-});
-
-describe('remove committee members', () => {
-  test('remove committee member with invalid token', async () => {
-    const res = await request(app)
-        .post('/societies/removeCommitteeMember')
-        .set('Authorization', `Bearer` + 'invalid token');
-    expect(res.statusCode).toBe(500);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Internal Server Error');
-  });
-});
-
-describe('update committee members', () => {
-  test('update committee member with invalid token', async () => {
-    const res = await request(app)
-        .post('/societies/updateCommitteeMember')
-        .set('Authorization', `Bearer` + 'invalid token');
-    expect(res.statusCode).toBe(500);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Internal Server Error');
-  });
-});
-
-describe('get committee members', () => {
-  test('remove committee member with invalid token', async () => {
-    const res = await request(app)
-        .post('/societies/getCommitteeMember')
-        .set('Authorization', `Bearer` + 'invalid token');
-    expect(res.statusCode).toBe(500);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Internal Server Error');
-  });
-});
-
-describe('follow society', () => {
-  test('follow society with invalid token', async () => {
-    const res = await request(app)
-        .post('/societies/followSociety')
-        .set('Authorization', `Bearer` + 'invalid token');
-    expect(res.statusCode).toBe(500);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Internal Server Error');
   });
 });

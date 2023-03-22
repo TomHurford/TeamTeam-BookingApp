@@ -94,7 +94,9 @@ async function reset(req, res) {
         id: req.body.userId,
       },
     });
-    if (bcrypt.comparePassword(req.body.new_password, user.password)) {
+    if (bcrypt.comparePassword(
+        bcrypt.hashPassword(req.body.new_password),
+        user.password)) {
       return res
           .status(409)
           .send({

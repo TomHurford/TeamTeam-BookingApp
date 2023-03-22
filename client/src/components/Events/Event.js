@@ -8,7 +8,7 @@ class Event extends Component {
 
   d = new Date(this.props.specificEvent.date);
   
-  // This function is used to render the component.
+  // This function is used to render the component. 
   render() {
     return (
       <div className="innerEventCard" data-testid = "eventCardID">

@@ -1,8 +1,8 @@
-// This file contains functions that make API calls to the backend
+// This file contains functions that make API calls to the backend 
 
 const jwtController = require('./jwt.js');
 
-// This function gets all events from the backend
+// This function gets all events from the backend 
 export const getEvents = async () => {
   var events = [];
   await fetch('http://localhost:5001/events', {

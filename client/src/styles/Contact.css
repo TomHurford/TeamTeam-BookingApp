@@ -6,5 +6,6 @@
 .data{
     text-align:center;
     align-self: right;
-
+    width: 70%;
+    margin: auto;
 }

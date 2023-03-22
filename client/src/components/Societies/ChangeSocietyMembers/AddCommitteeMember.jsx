@@ -16,6 +16,7 @@ const AddCommitteeMember = (props) => {
       onSubmit={(event) => handleSubmit(event)}
       style={{
         marginLeft: "8px",
+        marginTop: "20px"
       }}
     >
       <input
@@ -24,13 +25,11 @@ const AddCommitteeMember = (props) => {
         placeholder="Enter member's email"
         onChange={(event) => setValue(event.target.value)}
         required
-        style={{
-          borderRadius: 3,
-        }}
+        className="addmemberinput"
       />
       <button
         className="button"
-        style={{ marginLeft: "8px", marginBottom: "8px" }}
+        style={{ marginBottom: "8px" }}
       >
         Add Member
       </button>

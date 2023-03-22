@@ -78,7 +78,7 @@ function EditSocietyForm() {
         console.log(jwtController.getToken());
         console.log(values);
         console.log(data);
-        fetch("http://localhost:5001/societies/updateSociety", {
+        fetch(process.env.REACT_APP_API_URL + "/societies/updateSociety", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -99,31 +99,32 @@ function EditSocietyForm() {
   });
 
   return (
-    <div style={{ marginTop: "60px", marginLeft: "8px" }}>
-      <h1>Edit Society</h1>
+    <div className="page-container">
+      <div className="underlay"></div>
+      <div className="container">
+        <h1>Edit Society</h1>
 
-      <form onSubmit={formik.handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="societyName">Society Name</label>
-          <input
-            name="societyName"
-            value={formik.values.societyName}
-            onChange={formik.handleChange}
-            type="text"
-            className="form-control"
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.societyName && formik.errors.societyName ? (
-            <label className="errortext" htmlFor="societyName">
-              {formik.errors.societyName}
-              <br />
-            </label>
-          ) : (
-            ""
-          )}
-        </div>
-
-        <div className="form-group">
+        <form onSubmit={formik.handleSubmit}>
+          <div className="field">
+            <label htmlFor="societyName">Society Name</label>
+            <input
+              name="societyName"
+              value={formik.values.societyName}
+              onChange={formik.handleChange}
+              type="text"
+              className="form-control"
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.societyName && formik.errors.societyName ? (
+              <label className="errortext" htmlFor="societyName">
+                {formik.errors.societyName}
+                <br />
+              </label>
+            ) : (
+              ""
+            )}
+          </div>
+        <div className="field">
           <label>Select a category</label>
           <select
             id="category"
@@ -141,7 +142,7 @@ function EditSocietyForm() {
         </div>
 
         {/*Email below*/}
-        <div className="form-group">
+        <div className="field">
           <label htmlFor="societyEmail">Society Email</label>
           <input
             name="societyEmail"
@@ -162,162 +163,164 @@ function EditSocietyForm() {
         </div>
         {/*Email Above */}
 
-        {/* Socials below*/}
-        <h5>Socials</h5>
+          {/* Socials below*/}
+          <h5>Socials</h5>
 
-        <div className="form-group">
-          <label htmlFor="website">Website</label>
-          <input
-            name="website"
-            value={formik.values.website}
-            onChange={formik.handleChange}
-            type="text"
-            className="form-control"
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.website && formik.errors.website ? (
-            <label className="errortext" htmlFor="website">
-              {formik.errors.website}
-              <br />
-            </label>
-          ) : (
-            ""
-          )}
-        </div>
+          <div className="field">
+            <label htmlFor="website">Website</label>
+            <input
+              name="website"
+              value={formik.values.website}
+              onChange={formik.handleChange}
+              type="text"
+              className="form-control"
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.website && formik.errors.website ? (
+              <label className="errortext" htmlFor="website">
+                {formik.errors.website}
+                <br />
+              </label>
+            ) : (
+              ""
+            )}
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="instagram">Instagram</label>
-          <input
-            name="instagram"
-            value={formik.values.instagram}
-            onChange={formik.handleChange}
-            type="text"
-            className="form-control"
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.instagram && formik.errors.instagram ? (
-            <label className="errortext" htmlFor="instagram">
-              {formik.errors.instagram}
-              <br />
-            </label>
-          ) : (
-            ""
-          )}
-        </div>
+          <div className="field">
+            <label htmlFor="instagram">Instagram</label>
+            <input
+              name="instagram"
+              value={formik.values.instagram}
+              onChange={formik.handleChange}
+              type="text"
+              className="form-control"
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.instagram && formik.errors.instagram ? (
+              <label className="errortext" htmlFor="instagram">
+                {formik.errors.instagram}
+                <br />
+              </label>
+            ) : (
+              ""
+            )}
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="twitter">Twitter</label>
-          <input
-            name="twitter"
-            value={formik.values.twitter}
-            onChange={formik.handleChange}
-            type="text"
-            className="form-control"
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.twitter && formik.errors.twitter ? (
-            <label className="errortext" htmlFor="twitter">
-              {formik.errors.twitter}
-              <br />
-            </label>
-          ) : (
-            ""
-          )}
-        </div>
+          <div className="field">
+            <label htmlFor="twitter">Twitter</label>
+            <input
+              name="twitter"
+              value={formik.values.twitter}
+              onChange={formik.handleChange}
+              type="text"
+              className="form-control"
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.twitter && formik.errors.twitter ? (
+              <label className="errortext" htmlFor="twitter">
+                {formik.errors.twitter}
+                <br />
+              </label>
+            ) : (
+              ""
+            )}
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="facebook">Facebook</label>
-          <input
-            name="facebook"
-            value={formik.values.facebook}
-            onChange={formik.handleChange}
-            type="text"
-            className="form-control"
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.facebook && formik.errors.facebook ? (
-            <label className="errortext" htmlFor="facebook">
-              {formik.errors.facebook}
-              <br />
-            </label>
-          ) : (
-            ""
-          )}
-        </div>
+          <div className="field">
+            <label htmlFor="facebook">Facebook</label>
+            <input
+              name="facebook"
+              value={formik.values.facebook}
+              onChange={formik.handleChange}
+              type="text"
+              className="form-control"
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.facebook && formik.errors.facebook ? (
+              <label className="errortext" htmlFor="facebook">
+                {formik.errors.facebook}
+                <br />
+              </label>
+            ) : (
+              ""
+            )}
+          </div>
 
-        {/* Image links below*/}
-        <h5>Images</h5>
-        <small id="imageHelp" className="form-text text-muted">
-          You must enter a link to the images
-        </small>
-        <div className="form-group">
-          <label htmlFor="logo">Society Logo</label>
-          <input
-            name="logo"
-            value={formik.values.logo}
-            onChange={formik.handleChange}
-            type="text"
-            className="form-control"
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.logo && formik.errors.logo ? (
-            <label className="errortext" htmlFor="logo">
-              {formik.errors.logo}
-              <br />
-            </label>
-          ) : (
-            ""
-          )}
-        </div>
+          {/* Image links below*/}
+          <h5>Images</h5>
+          <small id="imageHelp" className="form-text text-muted">
+            You must enter a link to the images
+          </small>
+          <div className="field">
+            <label htmlFor="logo">Society Logo</label>
+            <input
+              name="logo"
+              value={formik.values.logo}
+              onChange={formik.handleChange}
+              type="text"
+              className="form-control"
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.logo && formik.errors.logo ? (
+              <label className="errortext" htmlFor="logo">
+                {formik.errors.logo}
+                <br />
+              </label>
+            ) : (
+              ""
+            )}
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="banner">Society Banner</label>
-          <input
-            name="banner"
-            value={formik.values.banner}
-            onChange={formik.handleChange}
-            type="text"
-            className="form-control"
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.banner && formik.errors.banner ? (
-            <label className="errortext" htmlFor="banner">
-              {formik.errors.banner}
-              <br />
-            </label>
-          ) : (
-            ""
-          )}
-        </div>
+          <div className="field">
+            <label htmlFor="banner">Society Banner</label>
+            <input
+              name="banner"
+              value={formik.values.banner}
+              onChange={formik.handleChange}
+              type="text"
+              className="form-control"
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.banner && formik.errors.banner ? (
+              <label className="errortext" htmlFor="banner">
+                {formik.errors.banner}
+                <br />
+              </label>
+            ) : (
+              ""
+            )}
+          </div>
 
-        <div className="form-group">
-          <label htmlFor="description">Society Description</label>
-          <textarea
-            id="description"
-            name="description"
-            value={formik.values.description}
-            onChange={formik.handleChange}
-            type="text"
-            className="form-control"
-            onBlur={formik.handleBlur}
-            rows="8"
-            cols="173"
-            style={{ marginBottom: "8px" }}
-          ></textarea>
-          {formik.touched.description && formik.errors.description ? (
-            <label className="errortext" htmlFor="description">
-              {formik.errors.description}
-              <br />
-            </label>
-          ) : (
-            ""
-          )}
-        </div>
+          <div className="field">
+            <label htmlFor="description">Society Description</label>
+            <textarea
+              id="description"
+              name="description"
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              type="text"
+              className="form-control"
+              onBlur={formik.handleBlur}
+              rows="8"
+              cols="173"
+              style={{ marginBottom: "8px" }}
+            ></textarea>
+            {formik.touched.description && formik.errors.description ? (
+              <label className="errortext" htmlFor="description">
+                {formik.errors.description}
+                <br />
+              </label>
+            ) : (
+              ""
+            )}
+          </div>
 
         <button className="button" type="submit">Edit Society</button>
       </form>
+        <hr></hr>
 
-      <EditSocietyCommittee societyId={formik.values.societyId} />
+        <EditSocietyCommittee societyId={formik.values.societyId} />
+      </div>
     </div>
   );
 }

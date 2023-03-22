@@ -250,34 +250,52 @@ async function checkIfUserIsCommitteeMember(req, res) {
  * @param {Response} res The response object
  */
 async function checkIfUserIsPresident(req, res) {
+  let decoded = null;
   try {
     // Authenticate the user
-
-    const userId = (await auth.authenticate(req)).id;
-
-    if (!req.body.societyId) {
-      res.status(400).send({message: 'Missing societyId'});
-      return;
-    }
-
-    const president = await prisma.committee.findMany({
-      where: {
-        userId: userId,
-        societyId: req.body.societyId,
-        isPresident: true,
-      },
-    });
-
-    if (president.length === 0) {
-      res.status(200).send({isPresident: false});
-      return;
-    }
-
-
-    res.status(200).send({isPresident: true});
+    decoded = (await auth.authenticate(req));
   } catch (err) {
-    res.status(500).send({message: 'Internal Server Error'});
+    return res.status(400).send({message: 'Unauthorized'});
   }
+
+  if (!req.body.societyId) {
+    res.status(400).send({message: 'Missing societyId'});
+    return;
+  }
+
+  // Check that the societyId is a positive integer and is of type number
+  if (typeof req.body.societyId !== 'number' || req.body.societyId < 0) {
+    res.status(400).send({ message: 'Invalid Request' });
+    return;
+  }
+
+  // Check that society exists
+  const society = await prisma.society.findUnique({
+    where: {
+      id: req.body.societyId,
+    },
+  });
+
+  if (society === null) {
+    res.status(400).send({ message: 'Society does not exist' });
+    return;
+  }
+
+  const president = await prisma.committee.findMany({
+    where: {
+      userId: decoded.id,
+      societyId: req.body.societyId,
+      isPresident: true,
+    },
+  });
+
+  if (president.length === 0) {
+    res.status(200).send({isPresident: false});
+    return;
+  }
+
+
+  res.status(200).send({isPresident: true});
 }
 
 /**

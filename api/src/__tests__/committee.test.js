@@ -23,6 +23,25 @@ beforeEach(async () => {
 
 describe('addCommitteeMember', () => {
   test('add committee member with valid token', async () => {
+    // Check if the user is already a committee member in the database
+    const member = await prisma.committee.findUnique({
+      where: {
+        userId_societyId: {
+          societyId: 1,
+          userId: 2,
+        },
+      },
+    });
+    if (member) {
+      await prisma.committee.delete({
+        where: {
+          userId_societyId: {
+            societyId: 1,
+            userId: 2,
+          },
+        },
+      });
+    }
     const res = await request(app)
         .post('/societies/addCommitteeMember')
         .set('Authorization', `Bearer ` + token)
@@ -54,6 +73,24 @@ describe('addCommitteeMember', () => {
   });
 
   test('add committee member but user not a committee member', async () => {
+    const member = await prisma.committee.findUnique({
+      where: {
+        userId_societyId: {
+          societyId: 1,
+          userId: 2,
+        },
+      },
+    });
+    if (member) {
+      await prisma.committee.delete({
+        where: {
+          userId_societyId: {
+            societyId: 1,
+            userId: 2,
+          },
+        },
+      });
+    }
     const res = await request(app).post('/user/login').send({
       email: 'student@kcl.ac.uk',
       password: 'student',
@@ -534,5 +571,142 @@ describe('checkIfUserIsCommitteeMember', () => {
     // Check the response
     expect(res2.body).not.toBeNull();
     expect(res2.body.isCommitteeMember).toBe(false);
+  });
+});
+
+describe('checkIfUserIsPresident', () => {
+  test('Check if user is president', async () => {
+    const res = await request(app)
+        .post('/societies/checkPresident')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: 1,
+        });
+    expect(res.statusCode).toBe(200);
+    // Check the response
+    expect(res.body).not.toBeNull();
+    expect(res.body.isPresident).toBe(true);
+  });
+
+  test('Check if user is president with no token', async () => {
+    const res = await request(app)
+        .post('/societies/checkPresident')
+        .send({
+          societyId: 1,
+        });
+    expect(res.statusCode).toBe(400);
+    // Check the response
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('Unauthorized');
+  });
+
+  test('Send missing society ID', async () => {
+    const res = await request(app)
+        .post('/societies/checkPresident')
+        .set('Authorization', `Bearer ` + token);
+    expect(res.statusCode).toBe(400);
+    // Check the response
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('Missing societyId');
+  });
+
+  test('Send invalid societyId (large number)', async () => {
+    const res = await request(app)
+        .post('/societies/checkPresident')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: 1000000,
+        });
+    expect(res.statusCode).toBe(400);
+    // Check the response
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('Society does not exist');
+  });
+
+  test('Send invalid societyId (neg number)', async () => {
+    const res = await request(app)
+        .post('/societies/checkPresident')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: -1,
+        });
+    expect(res.statusCode).toBe(400);
+    // Check the response
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('Invalid Request');
+  });
+
+  test('Check if user is not president', async () => {
+    // Login as a user not in the committee
+    const res = await request(app)
+        .post('/user/login')
+        .send({
+          email: 'student@kcl.ac.uk',
+          password: 'student',
+        });
+    expect(res.statusCode).toBe(200);
+    // Check the response
+    expect(res.body).not.toBeNull();
+    expect(res.body.token).not.toBeNull();
+    const token = res.body.token;
+    const res2 = await request(app)
+        .post('/societies/checkPresident')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: 1,
+        });
+    expect(res2.statusCode).toBe(200);
+    // Check the response
+    expect(res2.body).not.toBeNull();
+    expect(res2.body.isPresident).toBe(false);
+  });
+});
+
+describe('changePresident', () => {
+  test('Change president', async () => {
+    // Add a new user to the society
+    await prisma.committee.create({
+      data: {
+        societyId: 1,
+        userId: 2,
+        role: 'Committee Member',
+      },
+    });
+    const res = await request(app)
+        .post('/societies/changePresident')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: 1,
+          userId: 2,
+        });
+    expect(res.statusCode).toBe(200);
+    // Check the response
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('President changed');
+    // Change the president back in the database
+    await prisma.committee.update({
+      where: {
+        userId_societyId: {
+          societyId: 1,
+          userId: 2,
+        },
+      },
+      data: {
+        role: 'Committee Member',
+        isPresident: false,
+      },
+    });
+    await prisma.committee.update({
+      where: {
+        userId_societyId: {
+          societyId: 1,
+          userId: 1,
+        },
+      },
+      data: {
+        role: 'President',
+        isPresident: true,
+      },
+    });
   });
 });

@@ -34,7 +34,6 @@ function EditEvents() {
           time: Yup.string(),
         })}
         onSubmit={(value) => {
-          console.log(value);
           if (
             value.eventName === "" &&
             value.description === "" &&
@@ -78,7 +77,6 @@ function EditEvents() {
             .then((response) => {
               if (response.status === 200) {
                 response.json().then((data) => {
-                  console.log(data);
                   alert("Event updated successfully!");
                   window.location.href =
                     "/event-details?eventId=" + data.event.id;

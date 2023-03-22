@@ -41,9 +41,10 @@ function CreateSocietyForm() {
     }),
 
     onSubmit: async (values) => {
-      console.log(values);
+
 
       await fetch(process.env.REACT_APP_API_URL + "/societies/signup", {
+
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -52,9 +53,7 @@ function CreateSocietyForm() {
         body: JSON.stringify(values),
       })
         .then((res) => {
-          console.log(res);
           res.json().then((data) => {
-            console.log(data);
             const societyId = data.society.id;
             window.location.href = `/society/${societyId}`;
           });

@@ -11,10 +11,11 @@ import {
 import ContactSocietyForm from "./ContactSocietyForm";
 import { Link } from "react-router-dom";
 import "../../styles/index.css";
-const jwtController = require('../../utils/jwt.js');
+const jwtController = require("../../utils/jwt.js");
 
 function ViewSociety() {
   const [society, setSociety] = useState({});
+  const [followersCount, setFollowersCount] = useState(0);
   const [societyLinks, setSocietyLinks] = useState({});
   const [showFollowButton, setShowFollowButton] = useState(true);
   const [showUnfollowButton, setShowUnfollowButton] = useState(true);
@@ -26,6 +27,7 @@ function ViewSociety() {
   };
 
   useEffect(() => {
+
     if(jwtController.getToken() === undefined || jwtController.getToken() === null){
     axios
       .post(process.env.REACT_APP_API_URL + "/societies/getSociety", {
@@ -49,21 +51,41 @@ function ViewSociety() {
             'Authorization': 'Bearer ' + jwtController.getToken()
           },
           body: JSON.stringify({"societyId": parseInt(societyId)})
+
         })
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => {
+          setSociety(response.data.society);
+          setSocietyLinks(response.data.society.links[0]);
+          setEvents(response.data.society.events);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      fetch("http://localhost:5001/societies/getSociety", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + jwtController.getToken(),
+        },
+        body: JSON.stringify({ societyId: parseInt(societyId) }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
           setSociety(data.society);
           setSocietyLinks(data.society.links[0]);
           setEvents(data.society.events);
-          // console.log(data.society.events);
+          setFollowersCount(data.society.members);
         })
-        .catch(error => {
+        .catch((error) => {
           console.log(error);
-        })
-      }
+        });
+    }
   }, [societyId]);
 
   useEffect(() => {
+
     if(jwtController.getToken() !== undefined && jwtController.getToken() !== null){
     fetch(process.env.REACT_APP_API_URL + "/societies/checkUserIsMember", {
       method: "POST",
@@ -82,8 +104,8 @@ function ViewSociety() {
           setShowFollowButton(true);
           setShowUnfollowButton(false)
         }
+
       });
-    });
     }
   }, [societyId]);
 
@@ -107,6 +129,7 @@ function ViewSociety() {
   // }, [societyId]);
 
   useEffect(() => {
+
     if(jwtController.getToken() !== undefined && jwtController.getToken() !== null){
     fetch(process.env.REACT_APP_API_URL + "/societies/checkPresident", {
       method: "POST",
@@ -120,9 +143,9 @@ function ViewSociety() {
         if (data.isPresident === false) {
           setShowEditButton(false);
         }
+
       });
-    });
-  }
+    }
   }, [societyId]);
 
   function societyEventClick(eventId) {
@@ -160,6 +183,7 @@ function ViewSociety() {
         if (status === 200) {
           setShowFollowButton(false);
           setShowUnfollowButton(true);
+          setFollowersCount(followersCount + 1);
           alert("Society followed successfully!");
         } else {
           alert("Error following society");
@@ -181,6 +205,7 @@ function ViewSociety() {
         if (status === 200) {
           setShowUnfollowButton(false);
           setShowFollowButton(true);
+          setFollowersCount(followersCount - 1);
           alert("Society unfollowed successfully!");
         } else {
           alert("Error unfollowing society");
@@ -207,7 +232,7 @@ function ViewSociety() {
             ></div>
           </div>
           <div className="name">{society.name}</div>
-          <div className="socials">
+          <div className="socials" style={{ marginRight: "10px" }}>
             <a href={societyLinks.facebook} className="socialCircle">
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png"
@@ -226,12 +251,6 @@ function ViewSociety() {
                 alt="instagram"
               />
             </a>
-            <a href={societyLinks.website} className="socialCircle">
-              <img
-                src="https://w7.pngwing.com/pngs/549/715/png-transparent-web-development-logo-website-web-design-symmetry-internet.png"
-                alt="website"
-              />
-            </a>
           </div>
         </div>
       </div>
@@ -248,34 +267,35 @@ function ViewSociety() {
             <strong>Category:</strong> {society.category}
           </p>
           <p>
-            <strong>Followers:</strong> {society.members}
+            <strong>Followers:</strong> {followersCount}
           </p>
+          <a href={societyLinks.website}>{societyLinks.website}</a>
           <div>
             {jwtController.getToken() !== undefined &&
               jwtController.getToken() !== null &&
               showFollowButton && (
-              <button 
-                data-testid="followButton" 
-                type="button" 
-                className="button" 
-                onClick={followSociety}
-              >
-                Follow
-              </button>
-            )}
+                <button
+                  data-testid="followButton"
+                  type="button"
+                  className="button"
+                  onClick={followSociety}
+                >
+                  Follow
+                </button>
+              )}
 
             {jwtController.getToken() !== undefined &&
               jwtController.getToken() !== null &&
               showUnfollowButton && (
-              <button
-                type="button"
-                data-testid="unfollowButton"
-                className="button button--red"
-                onClick={unfollowSociety}
-              >
-                Unfollow
-              </button>
-            )}
+                <button
+                  type="button"
+                  data-testid="unfollowButton"
+                  className="button button--red"
+                  onClick={unfollowSociety}
+                >
+                  Unfollow
+                </button>
+              )}
           </div>
         </div>
 
@@ -289,6 +309,15 @@ function ViewSociety() {
         societyName={society.name}
         societyEmail={society.email}
       />
+
+
+      <Link to={`/edit-society/${society.id}`}>
+        {society.isCommitteePresident === true && showEditButton && (
+          <button type="button" className="button">
+            Edit Society
+          </button>
+        )}
+      </Link>
 
     </div>
   );

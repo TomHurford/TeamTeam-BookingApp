@@ -72,7 +72,7 @@ const getFutureTickets = async (req, res) => {
     // Authenticate the user
     decoded = await auth.authenticate(req);
   } catch (err) {
-    res.status(401).send({token: null, error: 'Unauthorized'});
+    return res.status(401).send({token: null, error: 'Unauthorized'});
   }
 
   // Get all purchases for the user where the event date is in the future
@@ -142,34 +142,41 @@ const createPurchase = async (req, res) => {
 
   if (
     // Check that the status is a string
-    typeof req.body.status === 'string' ||
+    typeof req.body.status !== 'string' ||
     // Check that the method is a string
-    typeof req.body.method === 'string' ||
+    typeof req.body.method !== 'string' ||
     // Check that the total is a number
-    typeof req.body.total === 'number' ||
+    typeof req.body.total !== 'number' ||
     // Check that the total is greater than 0
     req.body.total <= 0 ||
     // Check that the eventId is a number
-    typeof req.body.eventId === 'number' ||
+    typeof req.body.eventId !== 'number' ||
     // Check that the eventId is greater than 0
     req.body.eventId <= 0
   ) {
     return res.status(400).send({error: 'Invalid Body'});
   }
 
-  if (
-    // Check that ticket_quantities is an object
-    typeof req.body.ticket_quantities === 'object' ||
-    // Check that ticket_quantities is not null
-    req.body.ticket_quantities != null ||
-    // Check that ticket_quantities has a types property
-    !req.body.ticket_quantities.hasOwnProperty('types') ||
-    // Check that ticket_quantities.types is an array
-    !Array.isArray(req.body.ticket_quantities.types) ||
-    // Check that ticket_quantities.types is not empty
-    req.body.ticket_quantities.types.length === 0
-  ) {
-    return res.status(400).send({error: 'Invalid ticket_quantities'});
+  // Split the if statement above into multiple individual if statements
+  if (typeof req.body.ticket_quantities !== 'object') {
+    return res.status(400).send({error: 'Ticket Quantities not an object'});
+  }
+
+  if (req.body.ticket_quantities === null) {
+    return res.status(400).send({error: 'Ticket Quantities is null'});
+  }
+
+  if (!req.body.ticket_quantities.hasOwnProperty('types')) {
+    return res.status(400).send({error: 'Ticket Quantities has no types'});
+  }
+
+  if (!Array.isArray(req.body.ticket_quantities.types)) {
+    return res.status(400)
+        .send({error: 'Ticket Quantities types is not an array'});
+  }
+
+  if (req.body.ticket_quantities.types.length === 0) {
+    return res.status(400).send({error: 'Ticket Quantities types is empty'});
   }
 
   for (const type of req.body.ticket_quantities.types) {

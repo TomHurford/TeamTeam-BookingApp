@@ -51,20 +51,30 @@ async function signup(req, res) {
     if (societyName) {
       return res
           .status(409)
-          .send({token: null, message: 'Society already exists with that name'});
+          .send({
+            token: null,
+            message: 'Society already exists with that name',
+          });
     }
     console.log(societyEmail);
     if (societyEmail) {
       return res
           .status(409)
-          .send({token: null, message: 'Society already exists with that email'});
+          .send({
+            token: null,
+            message: 'Society already exists with that email',
+          });
     }
-    const validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    const validRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     // Check that the email has a valid regex
     if (!req.body.email.match(validRegex)) {
       return res
           .status(409)
-          .send({token: null, message: 'Email inputed doesnt have a valid regex'});
+          .send({
+            token: null,
+            message: 'Email inputed doesnt have a valid regex',
+          });
     }
     society = await prisma.society.create({
       data: {
@@ -1178,6 +1188,7 @@ async function changePresident(req, res) {
     },
     data: {
       isPresident: false,
+      role: 'Committee Member',
     },
   });
 
@@ -1190,6 +1201,7 @@ async function changePresident(req, res) {
     },
     data: {
       isPresident: true,
+      role: 'President',
     },
   });
 

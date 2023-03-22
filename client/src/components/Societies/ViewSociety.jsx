@@ -15,6 +15,7 @@ const jwtController = require("../../utils/jwt.js");
 
 function ViewSociety() {
   const [society, setSociety] = useState({});
+  const [followersCount, setFollowersCount] = useState(0);
   const [societyLinks, setSocietyLinks] = useState({});
   const [showFollowButton, setShowFollowButton] = useState(true);
   const [showUnfollowButton, setShowUnfollowButton] = useState(true);
@@ -57,6 +58,7 @@ function ViewSociety() {
           setSociety(data.society);
           setSocietyLinks(data.society.links[0]);
           setEvents(data.society.events);
+          setFollowersCount(data.society.members);
         })
         .catch((error) => {
           console.log(error);
@@ -168,6 +170,7 @@ function ViewSociety() {
         if (status === 200) {
           setShowFollowButton(false);
           setShowUnfollowButton(true);
+          setFollowersCount(followersCount + 1);
           alert("Society followed successfully!");
         } else {
           alert("Error following society");
@@ -189,6 +192,7 @@ function ViewSociety() {
         if (status === 200) {
           setShowUnfollowButton(false);
           setShowFollowButton(true);
+          setFollowersCount(followersCount - 1);
           alert("Society unfollowed successfully!");
         } else {
           alert("Error unfollowing society");
@@ -245,7 +249,7 @@ function ViewSociety() {
             <strong>Category:</strong> {society.category}
           </p>
           <p>
-            <strong>Followers:</strong> {society.members}
+            <strong>Followers:</strong> {followersCount}
           </p>
           <a href={societyLinks.website}>{societyLinks.website}</a>
           <div>

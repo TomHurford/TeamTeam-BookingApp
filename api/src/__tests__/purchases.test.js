@@ -86,7 +86,6 @@ describe('Create Purchase', () => {
           },
           eventId: 1,
         });
-    console.log(res.body);
     expect(res.statusCode).toEqual(200);
     expect(res.body.message).toBeDefined();
   });
@@ -359,6 +358,47 @@ describe('Create Purchase', () => {
       });
 
   // eslint-disable-next-line max-len
+  test('It should return an error when the ticket_quantities.types is not an array',
+      async () => {
+        const res = await request(app)
+            .post('/purchase/create')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+              status: 'paid',
+              total: 20,
+              method: 'air',
+              ticket_quantities: {
+                types: {
+                  id: 2,
+                  quantity: 2,
+                },
+              },
+              eventId: 1,
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.error).toBeDefined();
+      });
+
+  // eslint-disable-next-line max-len
+  test('It should return an error when the ticket_quantities.types has length 0',
+      async () => {
+        const res = await request(app)
+            .post('/purchase/create')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+              status: 'paid',
+              total: 20,
+              method: 'air',
+              ticket_quantities: {
+                types: [],
+              },
+              eventId: 1,
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.error).toBeDefined();
+      });
+
+  // eslint-disable-next-line max-len
   test('It should return an error when the ticket_quantities.types does not have an id field',
       async () => {
         const res = await request(app)
@@ -426,6 +466,34 @@ describe('Create Purchase', () => {
                 types: [
                   {
                     id: -1,
+                    quantity: 2,
+                  },
+                  {
+                    id: 2,
+                    quantity: 2,
+                  },
+                ],
+              },
+              eventId: 1,
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.error).toBeDefined();
+      });
+
+  // eslint-disable-next-line max-len
+  test('It should return an error when the ticket_quantities.types has Invalid ids',
+      async () => {
+        const res = await request(app)
+            .post('/purchase/create')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+              status: 'paid',
+              total: 20,
+              method: 'air',
+              ticket_quantities: {
+                types: [
+                  {
+                    id: 10000000,
                     quantity: 2,
                   },
                   {

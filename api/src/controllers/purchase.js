@@ -157,21 +157,6 @@ const createPurchase = async (req, res) => {
     return res.status(400).send({error: 'Invalid Body'});
   }
 
-  // if (
-  //   // Check that ticket_quantities is an object
-  //   typeof req.body.ticket_quantities !== 'object' ||
-  //   // Check that ticket_quantities is not null
-  //   req.body.ticket_quantities === null ||
-  //   // Check that ticket_quantities has a types property
-  //   !req.body.ticket_quantities.hasOwnProperty('types') ||
-  //   // Check that ticket_quantities.types is an array
-  //   !Array.isArray(req.body.ticket_quantities.types) ||
-  //   // Check that ticket_quantities.types is not empty
-  //   req.body.ticket_quantities.types.length === 0
-  // ) {
-  //   return res.status(400).send({error: 'Invalid ticket_quantities'});
-  // }
-
   // Split the if statement above into multiple individual if statements
   if (typeof req.body.ticket_quantities !== 'object') {
     return res.status(400).send({error: 'Ticket Quantities not an object'});
@@ -187,7 +172,7 @@ const createPurchase = async (req, res) => {
 
   if (!Array.isArray(req.body.ticket_quantities.types)) {
     return res.status(400)
-        .send({ error: 'Ticket Quantities types is not an array' });
+        .send({error: 'Ticket Quantities types is not an array'});
   }
 
   if (req.body.ticket_quantities.types.length === 0) {

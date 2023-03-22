@@ -140,9 +140,9 @@ const EditSocietyCommittee = (props) => {
       </h1>
       {members.map((member) => (
         <Member
-          email={member.email}
-          userId={member.userId}
-          key={member.userId.toString()}
+          email={member.user.email}
+          userId={member.user.id}
+          key={member.user.id.toString()}
           removeMember={handleRemoveMember}
           makePresident={handleMakePresident}
         />

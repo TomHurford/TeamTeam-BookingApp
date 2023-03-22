@@ -38,7 +38,7 @@ function Basket(props) {
       props.emptyBasket();
       window.location = '/tickets';
     } else {
-      // refund payment and call help lol displat error
+      // refund payment 
     }
   }
 
@@ -86,8 +86,6 @@ function Basket(props) {
   </div>
   );
 }
-
-//<Paypal totalPrice={props.totalPrice} event={props.basketEvent} tickets={props.tickets} />
 
 Basket.propTypes = {
   basketEvent: PropTypes.object,

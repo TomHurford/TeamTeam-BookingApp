@@ -23,7 +23,7 @@ beforeEach(async () => {
   token = res.body.token;
 });
 
-describe('add committee members', () => {
+describe('addCommitteeMember', () => {
   test('add committee member with valid token', async () => {
     const res = await request(app)
         .post('/societies/addCommitteeMember')
@@ -35,6 +35,7 @@ describe('add committee members', () => {
     expect(res.statusCode).toBe(200);
     expect(res.body).not.toBeNull();
     expect(res.body.message).toBe('User added to committee');
+    console.log(res.body);
     await prisma.committee.delete({
       where: {
         userId_societyId: {
@@ -73,6 +74,20 @@ describe('add committee members', () => {
     expect(res2.body.message).toBe('Unauthorized');
   });
 
+  test('add committee member but user does not exist', async () => {
+    const res = await request(app)
+      .post('/societies/addCommitteeMember')
+      .set('Authorization', `Bearer ` + token)
+      .send({
+        societyId: 1,
+        email: 'invalid email',
+      });
+    expect(res.statusCode).toBe(400);
+    // Check the response
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('User does not exist');
+  });
+
   test('add committee member without email field', async () => {
     const res = await request(app)
         .post('/societies/addCommitteeMember')
@@ -98,43 +113,26 @@ describe('add committee members', () => {
     expect(res.body).not.toBeNull();
     expect(res.body.message).toBe('Invalid Request');
   });
-});
 
-describe('remove committee members', () => {
-  test('remove committee member with invalid token', async () => {
-    const res = await request(app)
-        .post('/societies/removeCommitteeMember')
-        .set('Authorization', `Bearer ` + 'invalid token');
-    expect(res.statusCode).toBe(500);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Internal Server Error');
-  });
-});
-
-describe('update committee members', () => {
-  test('Update Committee members successfully (Change role)', async () => {
+  test('add committee member but user is already a committee member', async () => {
     await prisma.committee.create({
       data: {
         societyId: 1,
         userId: 2,
-        role: 'committee member',
-        isPresident: false,
+        role: 'Committee Member'
       },
     });
     const res = await request(app)
-        .post('/societies/updateCommitteeMember')
-        .set('Authorization', `Bearer ` + token)
-        .send({
-          userId: 2,
-          societyId: 1,
-          role: 'i dunno',
-          isPresident: false,
-        });
-    expect(res.statusCode).toBe(200);
+      .post('/societies/addCommitteeMember')
+      .set('Authorization', `Bearer ` + token)
+      .send({
+        societyId: 1,
+        email: 'student@kcl.ac.uk',
+      });
+    expect(res.statusCode).toBe(400);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('User updated in committee');
+    expect(res.body.message).toBe('User is already a committee member');
     await prisma.committee.delete({
       where: {
         userId_societyId: {
@@ -144,10 +142,34 @@ describe('update committee members', () => {
       },
     });
   });
+});
 
-  test('update committee member with invalid token', async () => {
+describe('removeCommitteeMember', () => {
+  test('remove committee member with valid token', async () => {
+    await prisma.committee.create({
+      data: {
+        societyId: 1,
+        userId: 2,
+        role: 'Committee Member',
+        isPresident: false,
+      },
+    });
     const res = await request(app)
-        .post('/societies/updateCommitteeMember')
+      .post('/societies/removeCommitteeMember')
+      .set('Authorization', `Bearer ` + token)
+      .send({
+        societyId: 1,
+        email: 'student@kcl.ac.uk',
+      });
+    console.log(res.body);
+    expect(res.statusCode).toBe(200);
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('User removed from committee');
+  });
+
+  test('remove committee member with invalid token', async () => {
+    const res = await request(app)
+        .post('/societies/removeCommitteeMember')
         .set('Authorization', `Bearer ` + 'invalid token');
     expect(res.statusCode).toBe(500);
     // Check the response
@@ -155,56 +177,10 @@ describe('update committee members', () => {
     expect(res.body.message).toBe('Internal Server Error');
   });
 
-  test('Update Committee members successfully (Change president)', async () => {
-    const res = await request(app)
-        .post('/societies/updateCommitteeMember')
-        .set('Authorization', `Bearer ` + token)
-        .send({
-          userId: 2,
-          societyId: 1,
-          role: 'i dunno',
-          isPresident: true,
-        });
-    expect(res.statusCode).toBe(200);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('User updated in committee');
-  });
 
-  test('Update Committee members with no permission', async () => {
-    const res = await request(app)
-        .post('/societies/updateCommitteeMember')
-        .set('Authorization', `Bearer ` + token)
-        .send({
-          userId: 2,
-          societyId: 1,
-          role: 'i dunno',
-          isPresident: true,
-        });
-    expect(res.statusCode).toBe(401);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Unauthorized');
-  });
-
-  test('Update Invalid Committee members', async () => {
-    const res = await request(app)
-        .post('/societies/updateCommitteeMember')
-        .set('Authorization', `Bearer ` + token)
-        .send({
-          userId: 4,
-          societyId: 1,
-          role: 'i dunno',
-          isPresident: true,
-        });
-    expect(res.statusCode).toBe(400);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('User is not a committee member');
-  });
 });
 
-describe('get committee members', () => {
+describe('getCommitteeMember', () => {
   test('Get Committee Members', async () => {
     const res = await request(app)
         .post('/societies/getCommitteeMembers')

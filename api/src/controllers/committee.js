@@ -16,10 +16,6 @@ async function addCommitteeMember(req, res) {
     return res.status(400).send({message: 'Unauthorized'});
   }
 
-  if (decoded === null) {
-    return res.status(400).send({message: 'Unauthorized'});
-  }
-
   // Check that the request body contains an email and societyId
   if (!req.body.email || !req.body.societyId) {
     return res.status(400).send({message: 'Invalid Request'});
@@ -81,87 +77,17 @@ async function addCommitteeMember(req, res) {
  * @return {Response} The response object
  */
 async function removeCommitteeMember(req, res) {
+  let decoded = null;
   try {
     // Authenticate the user
-    const userId = (await auth.authenticate(req)).id;
-
-    // Check if user is a committee member of the society
-    const committee = await prisma.committee.findMany({
-      where: {
-        userId: userId,
-        societyId: req.body.societyId,
-      },
-      select: {
-        isPresident: true,
-      },
-    });
-
-    if (committee.length === 0) {
-      res.status(401).send({message: 'Unauthorized'});
-
-      return;
-    }
-
-    if (committee[0].isPresident === false) {
-      res.status(400).send({message: 'User must be a President'});
-
-      return;
-    }
-
-    // Check if the user is a committee member
-    const isCommitteeMember = await prisma.committee.findMany({
-      where: {
-        userId: req.body.userId,
-        societyId: req.body.societyId,
-      },
-    });
-
-    if (isCommitteeMember == 0) {
-      res.status(400).send({message: 'User is not a committee member'});
-
-      return;
-    }
-
-    if (isCommitteeMember[0].isPresident === true) {
-      res.status(400).send({message: 'Cannot remove the president'});
-
-      return;
-    }
-
-    // Remove the user from the committee
-    await prisma.committee.delete({
-      where: {
-        userId_societyId: {
-          userId: req.body.userId,
-          societyId: req.body.societyId,
-        },
-      },
-    });
-
-    res.status(200).send({message: 'User removed from committee'});
+    decoded = (await auth.authenticate(req));
   } catch (err) {
-    res.status(500).send({message: 'Internal Server Error'});
-  }
-}
-
-/**
- * Update a committee member's role
- * @param {Request} req The request object
- * @param {Response} res The response object
- * @return {Response} The response object
- */
-async function updateCommitteeMember(req, res) {
-  let userId = null;
-  try {
-    // Authenticate the user
-    userId = (await auth.authenticate(req)).id;
-  } catch (err) {
-    res.status(500).send({message: 'Internal Server Error'});
+    return res.status(500).send({message: 'Internal Server Error'});
   }
   // Check if user is a committee member of the society
   const committee = await prisma.committee.findMany({
     where: {
-      userId: userId,
+      userId: decoded.id,
       societyId: req.body.societyId,
     },
     select: {
@@ -170,8 +96,11 @@ async function updateCommitteeMember(req, res) {
   });
 
   if (committee.length === 0) {
-    res.status(401).send({message: 'Unauthorized'});
-    return;
+    return res.status(401).send({message: 'Unauthorized'});
+  }
+
+  if (committee[0].isPresident === false) {
+    return res.status(400).send({message: 'User must be a President'});
   }
 
   // Check if the user is a committee member
@@ -182,47 +111,27 @@ async function updateCommitteeMember(req, res) {
     },
   });
 
-  if (isCommitteeMember.length == 0) {
-    res.status(400).send({message: 'User is not a committee member'});
-    return;
+  if (isCommitteeMember == 0) {
+    return res.status(400).send({message: 'User is not a committee member'});
   }
 
-  // Update the user's role in the committee
-  await prisma.committee.update({
+  console.log(isCommitteeMember);
+
+  if (isCommitteeMember[0].isPresident === true) {
+    return res.status(400).send({message: 'Cannot remove the president'});
+  }
+
+  // Remove the user from the committee
+  await prisma.committee.delete({
     where: {
       userId_societyId: {
         userId: req.body.userId,
         societyId: req.body.societyId,
       },
     },
-    data: {
-      role: req.body.role,
-      isPresident: req.body.isPresident,
-    },
   });
 
-  // Check that there aren't multiple presidents
-  const presidents = await prisma.committee.findMany({
-    where: {
-      societyId: req.body.societyId,
-      isPresident: true,
-    },
-  });
-
-  // If there are multiple presidents, set the first one to false
-  if (presidents.length > 1) {
-    await prisma.committee.update({
-      where: {
-        userId: userId,
-        societyId: req.body.societyId,
-      },
-      data: {
-        isPresident: false,
-      },
-    });
-  }
-
-  res.status(200).send({message: 'User updated in committee'});
+  res.status(200).send({message: 'User removed from committee'});
 }
 
 /**
@@ -252,7 +161,6 @@ async function getCommitteeMembers(req, res) {
       .status(200)
       .send({message: 'Committee members found', committee: committee});
 }
-
 
 /**
  * Checks if user is a committee member
@@ -453,7 +361,6 @@ async function changePresident(req, res) {
 module.exports = {
   addCommitteeMember,
   removeCommitteeMember,
-  updateCommitteeMember,
   getCommitteeMembers,
   checkIfUserIsCommitteeMember,
   checkIfUserIsPresident,

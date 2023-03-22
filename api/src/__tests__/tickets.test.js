@@ -37,7 +37,7 @@ describe('Get Tickets', () => {
 describe('Use Tickets', () =>{
   test('Use tickets with invalid token', async () => {
     const response = await request(app)
-        .get('/tickets/use')
+        .post('/tickets/use')
         .set('Authorization', 'Bearer ' + 'invalid token');
     expect(response.statusCode).toBe(401);
     expect(response.body.message).toBe('Unauthorised');

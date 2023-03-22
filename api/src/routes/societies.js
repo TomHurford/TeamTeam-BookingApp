@@ -35,10 +35,6 @@ router.post('/removeCommitteeMember', (req, res) => {
   committeeController.removeCommitteeMember(req, res);
 });
 
-router.post('/updateCommitteeMember', (req, res) => {
-  committeeController.updateCommitteeMember(req, res);
-});
-
 router.post('/getCommitteeMembers', (req, res) => {
   committeeController.getCommitteeMembers(req, res);
 });

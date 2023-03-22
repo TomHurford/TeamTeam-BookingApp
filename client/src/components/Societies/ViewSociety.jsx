@@ -28,7 +28,7 @@ function ViewSociety() {
   useEffect(() => {
     if(jwtController.getToken() === undefined || jwtController.getToken() === null){
     axios
-      .post("http://localhost:5001/societies/getSociety", {
+      .post(process.env.REACT_APP_API_URL + "/societies/getSociety", {
         societyId: societyId,
       })
       .then((response) => {
@@ -41,7 +41,7 @@ function ViewSociety() {
         console.log(error);
       });}
       else{
-        fetch('http://localhost:5001/societies/getSociety', {
+        fetch(process.env.REACT_APP_API_URL + '/societies/getSociety', {
           method: 'POST',
           mode: 'cors',
           headers: {
@@ -65,7 +65,7 @@ function ViewSociety() {
 
   useEffect(() => {
     if(jwtController.getToken() !== undefined && jwtController.getToken() !== null){
-    fetch("http://localhost:5001/societies//checkUserIsMember", {
+    fetch(process.env.REACT_APP_API_URL + "/societies//checkUserIsMember", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +88,7 @@ function ViewSociety() {
   }, [societyId]);
 
   // useEffect(() => {
-  //   fetch("http://localhost:5001/societies/getFollowedSocieties", {
+  //   fetch(process.env.REACT_APP_API_URL + "/societies/getFollowedSocieties", {
   //     method: "POST",
   //     headers: {
   //       "Content-Type": "application/json",
@@ -108,7 +108,7 @@ function ViewSociety() {
 
   useEffect(() => {
     if(jwtController.getToken() !== undefined && jwtController.getToken() !== null){
-    fetch("http://localhost:5001/societies/checkPresident", {
+    fetch(process.env.REACT_APP_API_URL + "/societies/checkPresident", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -147,7 +147,7 @@ function ViewSociety() {
   }
 
   function followSociety() {
-    fetch("http://localhost:5001/societies/followSociety", {
+    fetch(process.env.REACT_APP_API_URL + "/societies/followSociety", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -168,7 +168,7 @@ function ViewSociety() {
   }
 
   function unfollowSociety() {
-    fetch("http://localhost:5001/societies/unFollowSociety", {
+    fetch(process.env.REACT_APP_API_URL + "/societies/unFollowSociety", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

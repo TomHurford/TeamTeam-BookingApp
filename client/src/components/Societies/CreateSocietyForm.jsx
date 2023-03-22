@@ -43,7 +43,7 @@ function CreateSocietyForm() {
     onSubmit: async (values) => {
       console.log(values);
 
-      await fetch("http://localhost:5001/societies/signup", {
+      await fetch(process.env.REACT_APP_API_URL + "/societies/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -12,7 +12,7 @@ const EditSocietyCommittee = (props) => {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:5001/societies/getCommitteeMembers",
+          process.env.REACT_APP_API_URL + "/societies/getCommitteeMembers",
           {
             societyId: props.societyId,
           }
@@ -31,7 +31,7 @@ const EditSocietyCommittee = (props) => {
 
   const handleRemoveMember = async (userId) => {
     const data = { userId: userId, societyId: props.societyId };
-    await fetch("http://localhost:5001/societies/removeCommitteeMember", {
+    await fetch(process.env.REACT_APP_API_URL + "/societies/removeCommitteeMember", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -66,7 +66,7 @@ const EditSocietyCommittee = (props) => {
 
     var resUserId = 0;
 
-    await fetch("http://localhost:5001/societies/addCommitteeMember", {
+    await fetch(process.env.REACT_APP_API_URL + "/societies/addCommitteeMember", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -104,7 +104,7 @@ const EditSocietyCommittee = (props) => {
       userId: parseInt(userId),
     };
 
-    await fetch("http://localhost:5001/societies/changePresident", {
+    await fetch(process.env.REACT_APP_API_URL + "/societies/changePresident", {
       method: "POST",
       mode: "cors",
       headers: {

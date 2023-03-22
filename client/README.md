@@ -8,13 +8,7 @@ The .env file is used to store environment variables. The .env file is not check
 
 ```bash
 # .env
-HTTPS=true
-SSL_CRT_FILE=certificate.crt
-SSL_KEY_FILE=private.key
-```
-
-You are then required to open both the localhost:3000 (react server) and accept the certificate
-and localhost:5001 (express server) and accept the certificate to allow cors connections between the two
+REACT_APP_API_URL=http://localhost:5001
 
 ## Testing
 

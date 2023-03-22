@@ -20,7 +20,6 @@ beforeEach(async () => {
         password: 'admin123',
       });
   token = res.body.token;
-  console.log(token);
 });
 
 /**
@@ -65,7 +64,6 @@ describe('getFuturePurchases', () => {
         expect(res.body.error).toBeDefined();
       });
 });
-
 
 // Create purchase requires the following fields in the request body:
 // status, total, method, ticket_quantities, eventId
@@ -124,6 +122,28 @@ describe('Create Purchase', () => {
               total: 20,
               method: 'air',
               eventId: 1,
+            });
+        expect(res.statusCode).toEqual(400);
+        expect(res.body.error).toBeDefined();
+      });
+
+  test('It should return an error when the eventId is undefined',
+      async () => {
+        const res = await request(app)
+            .post('/purchase/create')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+              status: 'paid',
+              total: 20,
+              method: 'air',
+              ticket_quantities: {
+                types: [
+                  {
+                    id: 2,
+                    quantity: 2,
+                  },
+                ],
+              },
             });
         expect(res.statusCode).toEqual(400);
         expect(res.body.error).toBeDefined();
@@ -282,28 +302,6 @@ describe('Create Purchase', () => {
                 ],
               },
               eventId: 1,
-            });
-        expect(res.statusCode).toEqual(400);
-        expect(res.body.error).toBeDefined();
-      });
-
-  test('It should return an error when the eventId is undefined',
-      async () => {
-        const res = await request(app)
-            .post('/purchase/create')
-            .set('Authorization', `Bearer ${token}`)
-            .send({
-              status: 'paid',
-              total: 20,
-              method: 'air',
-              ticket_quantities: {
-                types: [
-                  {
-                    id: 2,
-                    quantity: 2,
-                  },
-                ],
-              },
             });
         expect(res.statusCode).toEqual(400);
         expect(res.body.error).toBeDefined();

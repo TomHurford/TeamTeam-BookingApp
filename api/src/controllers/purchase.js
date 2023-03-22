@@ -18,7 +18,6 @@ const getPastPurchases = async (req, res) => {
     // Get the user id from the decoded token
     // TODO
     const userId = decoded.id; // decoded.id
-    console.log('userId: ', userId);
     // use the user id to get the user's past purchases for events that have
     // already happened
     const purchases = await prisma.purchase.findMany({
@@ -60,75 +59,65 @@ const getPastPurchases = async (req, res) => {
             event: event,
           };
         }));
-    console.log('pastTickets: ', pastTicketWithEvent);
     res.status(200).send({pastTickets: pastTicketWithEvent});
   } catch (err) {
-    console.log(err);
     res.status(401).send({token: null, error: 'Unauthorized'});
   }
 };
 
 
 const getFutureTickets = async (req, res) => {
+  let decoded = null;
   try {
     // Authenticate the user
-    const decoded = await auth.authenticate(req);
+    decoded = await auth.authenticate(req);
+  } catch (err) {
+    res.status(401).send({token: null, error: 'Unauthorized'});
+  }
 
-    const userId = decoded.id;
-
-    console.log('userId: ', userId);
-
-    // Get all purchases for the user where the event date is in the future
-    const purchases = await prisma.purchase.findMany({
-      where: {
-        userId: userId,
-        event: {
-          date: {
-            gte: new Date(),
-          },
+  // Get all purchases for the user where the event date is in the future
+  const purchases = await prisma.purchase.findMany({
+    where: {
+      userId: decoded.id,
+      event: {
+        date: {
+          gte: new Date(),
         },
-        isArchived: false,
       },
-    });
+      isArchived: false,
+    },
+  });
 
-    // Retreive tickets using purchase id and add the tickets to purchase json
-
-    const futureTickets = await Promise.all(
-        purchases.map(async (purchase) => {
-          const tickets = await prisma.ticket.findMany({
-            where: {
-              purchaseId: purchase.id,
-            },
-          });
-          return {
-            ...purchase,
-            tickets: tickets,
-          };
-        }),
-    );
-
-    // Retreive event using event id and add the event to purchase json
-    const futureTicketWithEvent =
-      await Promise.all(futureTickets.map(async (ticket) => {
-        const event = await prisma.event.findUnique({
+  // Retreive tickets using purchase id and add the tickets to purchase json
+  const futureTickets = await Promise.all(
+      purchases.map(async (purchase) => {
+        const tickets = await prisma.ticket.findMany({
           where: {
-            id: ticket.eventId,
+            purchaseId: purchase.id,
           },
         });
         return {
-          ...ticket,
-          event: event,
+          ...purchase,
+          tickets: tickets,
         };
-      }));
-    console.log('purchases: ', purchases);
+      }),
+  );
 
+  // Retreive event using event id and add the event to purchase json
+  const futureTicketWithEvent =
+    await Promise.all(futureTickets.map(async (ticket) => {
+      const event = await prisma.event.findUnique({
+        where: {
+          id: ticket.eventId,
+        },
+      });
+      return {
+        ...ticket,
+        event: event,
+      };
+    }));
 
-    console.log('futureTickets: ', futureTickets);
-    res.status(200).send({futureTickets: futureTicketWithEvent});
-  } catch (err) {
-    console.log(err);
-    res.status(401).send({token: null, error: 'Unauthorized'});
-  }
+  res.status(200).send({futureTickets: futureTicketWithEvent});
 };
 
 const createPurchase = async (req, res) => {

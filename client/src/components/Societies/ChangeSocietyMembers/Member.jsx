@@ -9,6 +9,7 @@ const Member = (props) => {
       }}
     >
       <span>
+        {`   ${props.email}`}
         <button
           className="button button--red"
           onClick={() => props.removeMember(props.userId)}
@@ -16,7 +17,6 @@ const Member = (props) => {
         >
           Remove
         </button>
-        {`   ${props.email}`}
       </span>
     </div>
   );

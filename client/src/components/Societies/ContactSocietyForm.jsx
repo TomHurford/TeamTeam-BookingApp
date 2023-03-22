@@ -27,33 +27,17 @@ function ContactSocietyForm(props) {
   });
 
   return (
-    <div
-      style={{
-        borderColor: "gray",
-        borderWidth: 2,
-        borderRadius: 20,
-        backgroundColor: "#abc4ff",
-      }}
-    >
-      <h3>
-        <center>Contact: {props.societyName}</center>
-      </h3>
+    <div className="container">
+      <h1>Contact</h1>
 
-      <form
-        onSubmit={formik.handleSubmit}
-        style={{
-          width: "95%",
-          marginLeft: 38,
-        }}
-      >
-        <div className="form-group">
+      <form onSubmit={formik.handleSubmit}>
+        <div className="field">
           <label htmlFor="customerName">Your Name</label>
           <input
             name="customerName"
             value={formik.values.customerName}
             onChange={formik.handleChange}
             type="text"
-            className="form-control"
             onBlur={formik.handleBlur}
           />
           {formik.touched.customerName && formik.errors.customerName ? (
@@ -66,7 +50,7 @@ function ContactSocietyForm(props) {
           )}
         </div>
 
-        <div className="form-group">
+        <div className="field">
           <label htmlFor="customerEmail">Your Email</label>
           <input
             name="customerEmail"
@@ -86,7 +70,7 @@ function ContactSocietyForm(props) {
           )}
         </div>
 
-        <div className="form-group">
+        <div className="field">
           <label htmlFor="messageSubject">Subject of your query</label>
           <input
             name="messageSubject"
@@ -106,7 +90,7 @@ function ContactSocietyForm(props) {
           )}
         </div>
 
-        <div className="form-group">
+        <div className="field">
           <label htmlFor="message">Your query</label>
           <textarea
             id="message"

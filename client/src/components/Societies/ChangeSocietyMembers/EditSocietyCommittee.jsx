@@ -105,10 +105,9 @@ const EditSocietyCommittee = (props) => {
         marginTop: "20px",
         marginBottom: "20px",
         borderColor: "gray",
-        width: "28%",
+        width: "100%",
         borderWidth: 2,
         borderRadius: 20,
-        backgroundColor: "#abc4ff",
       }}
     >
       <h1

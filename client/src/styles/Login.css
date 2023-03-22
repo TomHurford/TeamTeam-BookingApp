@@ -87,6 +87,20 @@
 .container  .field > textarea:active {
     border: 2px;
 }
+.container .field > select {
+    padding-left: 15px;
+    padding-right: 15px;
+    width: 100%;
+    aspect-ratio: 10;
+    box-shadow: 1px 1px 3px rgba(135, 135, 135, 0.452);
+    border-radius: 10px;
+    border: 1px;
+    outline: 5px;
+    font-size: 1.1em;
+}
+.container .field > select:active {
+        border: 2px;
+}
 
 .container  button {
     padding-left: 15px;

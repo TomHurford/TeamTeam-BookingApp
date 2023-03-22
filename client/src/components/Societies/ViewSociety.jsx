@@ -104,6 +104,9 @@ function ViewSociety() {
       </div>
 
       <div className="body">
+        <Link to={`/edit-society/${society.id}`}>
+          <button className="button">Edit Society</button>
+        </Link>
         <div className="description">
           <p>{society.description}</p>
           <p>
@@ -121,10 +124,6 @@ function ViewSociety() {
       </div>
 
       <ContactSocietyForm societyName={society.name} />
-
-      <Link to={`/edit-society/${society.id}`}>
-        <button className="button">Edit Society</button>
-      </Link>
     </div>
   );
 }

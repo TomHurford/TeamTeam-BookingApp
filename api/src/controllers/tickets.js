@@ -12,13 +12,11 @@ async function getTickets(req, res) {
   // (user token)
 
   let decoded = null;
-
   try {
     decoded = await auth.authenticate(req);
   } catch (err) {
     return res.status(401).send({message: 'Unauthorised'});
   }
-
   const userId = decoded.id;
 
   // Check if user exists
@@ -55,12 +53,12 @@ async function getTickets(req, res) {
  */
 async function createTickets(req, res) {
   // (user token, ticket type ID, quantity)
+  // include so price >0
   try {
     await auth.authenticate(req);
   } catch (err) {
     return res.status(401).send({message: 'Unauthorised'});
   }
-
   if (
     req.body === undefined ||
     req.body.ticketTypeId === undefined ||

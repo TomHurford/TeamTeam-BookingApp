@@ -17,8 +17,7 @@ const getPastPurchases = async (req, res) => {
 
     // Get the user id from the decoded token
     // TODO
-    const userId = decoded.id;
-
+    const userId = decoded.id; // decoded.id
     console.log('userId: ', userId);
     // use the user id to get the user's past purchases for events that have
     // already happened
@@ -34,9 +33,7 @@ const getPastPurchases = async (req, res) => {
       },
     });
 
-
     // Retreive tickets using purchase id and add the tickets to purchase json
-
     const pastTickets = await Promise.all(purchases.map(async (purchase) => {
       const tickets = await prisma.ticket.findMany({
         where: {
@@ -140,7 +137,7 @@ const createPurchase = async (req, res) => {
   try {
     decoded = await auth.authenticate(req);
   } catch (err) {
-    return res.status(401).send({message: 'Unauthorised'});
+    return res.status(401).send({error: 'Unauthorised'});
   }
 
   if (
@@ -151,9 +148,70 @@ const createPurchase = async (req, res) => {
     req.body.ticket_quantities === undefined ||
     req.body.eventId === undefined
   ) {
-    return res.status(400).send({message: 'Missing Body'});
+    return res.status(400).send({error: 'Missing Body'});
   }
 
+  if (
+    // Check that the status is a string
+    typeof req.body.status === 'string' ||
+    // Check that the method is a string
+    typeof req.body.method === 'string' ||
+    // Check that the total is a number
+    typeof req.body.total === 'number' ||
+    // Check that the total is greater than 0
+    req.body.total <= 0 ||
+    // Check that the eventId is a number
+    typeof req.body.eventId === 'number' ||
+    // Check that the eventId is greater than 0
+    req.body.eventId <= 0
+  ) {
+    return res.status(400).send({error: 'Invalid Body'});
+  }
+
+  if (
+    // Check that ticket_quantities is an object
+    typeof req.body.ticket_quantities === 'object' ||
+    // Check that ticket_quantities is not null
+    req.body.ticket_quantities != null ||
+    // Check that ticket_quantities has a types property
+    !req.body.ticket_quantities.hasOwnProperty('types') ||
+    // Check that ticket_quantities.types is an array
+    !Array.isArray(req.body.ticket_quantities.types) ||
+    // Check that ticket_quantities.types is not empty
+    req.body.ticket_quantities.types.length === 0
+  ) {
+    return res.status(400).send({error: 'Invalid ticket_quantities'});
+  }
+
+  for (const type of req.body.ticket_quantities.types) {
+    if (
+      // Check that ticket_quantities.types is an array of objects
+      typeof type !== 'object' ||
+      // Check that ticket_quantities.types is an array of objects with id and
+      // quantity properties
+      !type.hasOwnProperty('id') ||
+      !type.hasOwnProperty('quantity') ||
+      // Check that the ID is a number and greater than 0
+      typeof type.id !== 'number' ||
+      type.id <= 0 ||
+      // Check that the quantity is a number and greater than 0
+      typeof type.quantity !== 'number' ||
+      type.quantity <= 0
+    ) {
+      return res.status(400).send({error: 'Invalid ticket_quantities'});
+    }
+
+    // Check that the ID is a valid ticket type ID
+    const ticketTypeId = await prisma.ticketType.findUnique({
+      where: {
+        id: type.id,
+      },
+    });
+
+    if (!ticketTypeId) {
+      return res.status(400).send({error: 'Invalid ticket type ID'});
+    }
+  }
 
   const event = await prisma.event.findFirst({
     where: {
@@ -161,7 +219,7 @@ const createPurchase = async (req, res) => {
     },
   });
 
-  if (!event) return res.status(400).send({message: 'Invalid Event ID'});
+  if (!event) return res.status(400).send({error: 'Invalid Event ID'});
 
   const payment = await prisma.purchase.create({
     data: {

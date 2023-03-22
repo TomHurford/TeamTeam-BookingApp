@@ -98,6 +98,19 @@ async function seedUsers() {
       },
     },
   });
+
+  await prisma.user.create({
+    data: {
+      name: 'Professor',
+      email: 'professor@kcl.ac.uk',
+      password: bcrypt.hashPassword('professor'),
+      type: {
+        connect: {
+          id: 2,
+        },
+      },
+    },
+  });
   // Use faker to generate 50 random users
   for (let i = 0; i < 50; i++) {
     await prisma.user.create({
@@ -139,7 +152,7 @@ async function seedSocieties() {
       },
     },
   });
-  // use faker to generate 10 random societies
+  // use faker to generate 20 random societies
   for (let i = 0; i < 20; i++) {
     await prisma.society.create({
       data: {
@@ -185,7 +198,7 @@ async function seedCommittee() {
     },
   });
   const societies = await prisma.society.findMany();
-  for (let i = 0; i < societies.length; i++) {
+  for (let i = 1; i < societies.length; i++) {
     const society = societies[i];
     const userId = faker.datatype.number({min: 1, max: 50});
     // Make sure the user is not already in the committee
@@ -238,7 +251,7 @@ async function seedMembers() {
   });
 
   const societies = await prisma.society.findMany();
-  for (let i = 0; i < societies.length; i++) {
+  for (let i = 1; i < societies.length; i++) {
     const society = societies[i];
     for (let j = 0; j < Math.floor(Math.random() * 30) + 5; j++) {
       // We need to make sure that the user is not already a member of the
@@ -467,6 +480,61 @@ async function seedPurchasesandTickets() {
       purchase: {
         connect: {
           id: setPurchasePast.id,
+        },
+      },
+      ticketType: {
+        connect: {
+          id: 3,
+        },
+      },
+      event: {
+        connect: {
+          id: 2,
+        },
+      },
+      user: {
+        connect: {
+          id: 1,
+        },
+      },
+    },
+  });
+
+  const setPurchasePastSecond = await prisma.purchase.create({
+    data: {
+      total: 0,
+      paymentMethod: 'paypal',
+      user: {
+        connect: {
+          id: 1,
+        },
+      },
+      event: {
+        connect: {
+          id: 2,
+        },
+      },
+    },
+  });
+
+  const ticketEncodePastSecond = {
+    ticketTypeName: 'FREE',
+    ticketTypeID: 1,
+    userID: 1,
+    eventID: 2,
+    purchaseID: setPurchasePastSecond.id,
+    ticketSecret: randomString(),
+  };
+
+  const ticketTextPastSecond = Buffer.from(
+      JSON.stringify(ticketEncodePastSecond)).toString('base64');
+
+  await prisma.ticket.create({
+    data: {
+      ticketData: ticketTextPastSecond,
+      purchase: {
+        connect: {
+          id: setPurchasePastSecond.id,
         },
       },
       ticketType: {

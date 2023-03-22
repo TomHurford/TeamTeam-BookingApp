@@ -1,6 +1,7 @@
 const request = require('supertest');
 const prisma = require('../../prisma/prisma.js');
 const app = require('../server.js');
+const bcrypt = require('../utils/bcrypt.js');
 // const seed = require('../../prisma/seed.js')
 let token = null;
 
@@ -98,7 +99,7 @@ describe('Reset', () => {
         email: 'admin@admin.com',
       },
       data: {
-        password: 'admin123',
+        password: bcrypt.hashPassword('admin123'),
       },
     });
   });

@@ -28,12 +28,15 @@ function EditSocietyForm() {
 
     validationSchema: Yup.object({
       societyId: Yup.number(),
-      societyName: Yup.string(),
+      societyName: Yup.string()
+        .trim()
+        .min(3, "Society name must be at least 3 characters long"),
       societyEmail: Yup.string().email("Must be a valid email address"),
-      description: Yup.string().min(
-        50,
-        "Society description must be at least 50 characters."
-      ),
+      description: Yup.string()
+        .trim()
+        .min(50,
+          "Society description must be at least 50 characters."
+        ),
       website: Yup.string().url("Must be a valid URL"),
       instagram: Yup.string().url("Must be a valid URL"),
       twitter: Yup.string().url("Must be a valid URL"),
@@ -121,44 +124,44 @@ function EditSocietyForm() {
               ""
             )}
           </div>
+        <div className="field">
+          <label>Select a category</label>
+          <select
+            id="category"
+            name="category"
+            value={formik.values.category}
+            onChange={formik.handleChange}
+            className="form-select"
+          >
+            <option defaultValue></option>
+            <option>Academic</option>
+            <option>Social</option>
+            <option>Sports</option>
+            <option>Other</option>
+          </select>
+        </div>
 
-          <div className="field">
-            <label>Select a category</label>
-            <select
-              id="category"
-              name="category"
-              value={formik.values.category}
-              onChange={formik.handleChange}
-              className="form-select"
-            >
-              <option defaultValue>Other</option>
-              <option>Academic</option>
-              <option>Social</option>
-              <option>Sports</option>
-            </select>
-          </div>
-
-          {/*Email below*/}
-          <div className="field">
-            <label htmlFor="email">Society Email</label>
-            <input
-              name="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              type="text"
-              className="form-control"
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.societyEmail && formik.errors.societyEmail ? (
-              <label className="errortext" htmlFor="societyEmail">
-                {formik.errors.societyEmail}
-                <br />
-              </label>
-            ) : (
-              ""
-            )}
-          </div>
-          {/*Email Above */}
+        {/*Email below*/}
+        <div className="field">
+          <label htmlFor="societyEmail">Society Email</label>
+          <input
+            name="societyEmail"
+            value={formik.values.societyEmail}
+            onChange={formik.handleChange}
+            type="text"
+            className="form-control"
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.societyEmail && formik.errors.societyEmail ? (
+            <label className="errortext" htmlFor="societyEmail">
+              {formik.errors.societyEmail}
+              <br />
+            </label>
+          ) : (
+            ""
+          )}
+        </div>
+        {/*Email Above */}
 
           {/* Socials below*/}
           <h5>Socials</h5>
@@ -312,8 +315,8 @@ function EditSocietyForm() {
             )}
           </div>
 
-          <button className="button">Edit Society</button>
-        </form>
+        <button className="button" type="submit">Edit Society</button>
+      </form>
         <hr></hr>
 
         <EditSocietyCommittee societyId={formik.values.societyId} />

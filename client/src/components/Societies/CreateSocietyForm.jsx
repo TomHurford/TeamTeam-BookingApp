@@ -21,8 +21,12 @@ function CreateSocietyForm() {
     },
 
     validationSchema: Yup.object({
-      societyName: Yup.string().required("Society name is required"),
+      societyName: Yup.string()
+        .trim()
+        .min(3, "Society name must be at least 3 characters long")
+        .required("Society name is required"),
       description: Yup.string()
+        .trim()
         .min(50, "Society description must be at least 50 characters.")
         .required("Society description is required"),
       website: Yup.string().url("Must be a valid URL"),
@@ -31,7 +35,9 @@ function CreateSocietyForm() {
       facebook: Yup.string().url("Must be a valid URL"),
       logo: Yup.string().url("Must be a valid URL"),
       banner: Yup.string().url("Must be a valid URL"),
-      email: Yup.string().email().required("Must be a valid email address"),
+      email: Yup.string()
+        .email("Must be a valid email address")
+        .required("Must be a valid email address"),
     }),
 
     onSubmit: async (values) => {
@@ -103,27 +109,27 @@ function CreateSocietyForm() {
             </select>
           </div>
 
-          {/*Email below*/}
-          <div className="field">
-            <label htmlFor="email">Society Email</label>
-            <input
-              name="email"
-              value={formik.values.email}
-              onChange={formik.handleChange}
-              type="text"
-              className="form-control"
-              onBlur={formik.handleBlur}
-            />
-            {formik.touched.societyEmail && formik.errors.societyEmail ? (
-              <label className="errortext" htmlFor="societyEmail">
-                {formik.errors.societyEmail}
-                <br />
-              </label>
-            ) : (
-              ""
-            )}
-          </div>
-          {/*Email Above */}
+        {/*Email below*/}
+        <div className="field">
+          <label htmlFor="email">Society Email</label>
+          <input
+            name="email"
+            value={formik.values.email}
+            onChange={formik.handleChange}
+            type="text"
+            className="form-control"
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.email && formik.errors.email ? (
+            <label className="errortext" htmlFor="email">
+              {formik.errors.email}
+              <br />
+            </label>
+          ) : (
+            ""
+          )}
+        </div>
+        {/*Email Above */}
 
           {/* Socials below*/}
           <h5>Socials</h5>

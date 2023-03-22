@@ -6,6 +6,7 @@
 const request = require('supertest');
 // Import the app
 const app = require('../server.js');
+const prisma = require('../../prisma/prisma.js');
 
 // I want to test these routes:
 // GET /societies
@@ -34,23 +35,322 @@ beforeEach(async () => {
       .post('/user/login')
       .send({
         email: 'admin@admin.com',
-        password: 'admin',
+        password: 'admin123',
       });
   token = res.body.token;
 });
 
 describe('Create Societies', () => {
-  test('Signup societies with normal values', async () => {
-    console.log('sending request to /societies/signup');
+  test('Get event with invalid token', async () => {
     const response = await request(app)
-        .get('/societies/signup')
-        .set('Authorization', `Bearer ${token}`)
-        .send({
-          name: 'Team Team Society',
-          userId: 1,
-        });
-
+        .post("/societies/signup")
+        .set('Authorization', 'Bearer ' + "invalid token");
+    expect(response.statusCode).toBe(401);
+    expect(response.body.error).toBe('Unauthorized');
+    expect(response.body.token).toBe(null);
+  });
+  test("Signup societies with normal values", async () => {
+    const response = await request(app)
+      .post("/societies/signup")
+      .set("Authorization", 'Bearer ' + token)
+      .send({
+        name:"Soc Signup Test",
+        email: "testSoc@testSoc.com",
+        description:"test",
+        category: "Other",
+        "links": {
+          instagram: "https://www.instagram.com/",
+          facebook: "https://www.facebook.com/",
+          twitter: "https://twitter.com/",
+          website: "https://www.google.com/",
+          banner: "https://www.google.com/",
+          logo: "https://www.google.com/"
+         }
+      });
+    console.log("response from /societies/signup\n" + response.body);
+    console.log(response.body.message);
+    console.log(response.statusCode);
     expect(response.statusCode).toBe(200);
+    expect(response.body).not.toBeNull();
+    expect(response.body.society.name).toBe("Soc Signup Test");
+    console.log(response.body.society.id);
+    // Delete the society we just created
+    await prisma.committee.delete({
+      where: {
+        userId_societyId: { 
+          userId: 1,
+          societyId:response.body.society.id,
+        }
+      },
+    });
+    await prisma.societyLinks.delete({
+      where: {
+        societyId: response.body.society.id,
+      },
+    });
+    await prisma.society.delete({
+      where: {
+        id: response.body.society.id,
+      },
+    });
+  });
+  test("Signup societies with no values (email)", async () => {
+    const response = await request(app)
+    .post("/societies/signup")
+    .set("Authorization", 'Bearer ' + token)
+    .send({
+      name:"Soc Signup Test",
+      description:"text",
+      category: "Society Category",
+      "links": {
+        instagram: "https://www.instagram.com/",
+        facebook: "https://www.facebook.com/",
+        twitter: "https://twitter.com/",
+        website: "https://www.google.com/",
+        banner: "https://www.google.com/",
+        logo: "https://www.google.com/"
+       }
+    });
+    expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBe('Missing Society Details');
+  });
+  test("Signup societies with no values (name)", async () => {
+    const response = await request(app)
+    .post("/societies/signup")
+    .set("Authorization", 'Bearer ' + token)
+    .send({
+      email: "testSoc@testSoc.com",
+      description:"text",
+      category: "Society Category",
+      "links": {
+        instagram: "https://www.instagram.com/",
+        facebook: "https://www.facebook.com/",
+        twitter: "https://twitter.com/",
+        website: "https://www.google.com/",
+        banner: "https://www.google.com/",
+        logo: "https://www.google.com/"
+       }
+    });
+    expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBe('Missing Society Details');
+  });
+  test("Signup societies with no values (description)", async () => {
+    const response = await request(app)
+    .post("/societies/signup")
+    .set("Authorization", 'Bearer ' + token)
+    .send({
+      name:"Soc Signup Test",
+      email: "testSoc@testSoc.com",
+      category: "Other",
+      "links": {
+        instagram: "https://www.instagram.com/",
+        facebook: "https://www.facebook.com/",
+        twitter: "https://twitter.com/",
+        website: "https://www.google.com/",
+        banner: "https://www.google.com/",
+        logo: "https://www.google.com/"
+       }
+    });
+    expect(response.statusCode).toBe(400);
+    expect(response.body.error).toBe('Missing Society Details');
+  });
+  test("Signup societies with repeated values (email)", async () => {
+    //make first soc with email
+    console.log("sending request to /societies/signup");
+    const response = await request(app)
+      .post("/societies/signup")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        name:"Soc Signup Test",
+        description:"text",
+        email: "testSoc@testSoc.com",
+        category: "Other",
+        "links": {
+          instagram: "https://www.instagram.com/",
+          facebook: "https://www.facebook.com/",
+          twitter: "https://twitter.com/",
+          website: "https://www.google.com/",
+          banner: "https://www.google.com/",
+          logo: "https://www.google.com/"
+         }
+      });
+    expect(response.statusCode).toBe(200);
+    //repeat but with different soc info and same email
+    const response2 = await request(app)
+      .post("/societies/signup")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        name:"Soc Signup Test2",
+        description:"text2",
+        email: "testSoc@testSoc.com",
+        category: "Other",
+        "links": {
+          instagram: "https://www.instagram.com/2/",
+          facebook: "https://www.facebook.com/2/",
+          twitter: "https://twitter.com/2/",
+          website: "https://www.google.com/2/",
+          banner: "https://www.google.com/2/",
+          logo: "https://www.google.com/2/"
+         }
+      });
+      expect(response2.statusCode).toBe(409);
+      expect(response2.body.token).toBeNull();
+      expect(response2.body.message).toBe("Society already exists with that email");
+     // Delete the society we just created
+      await prisma.committee.delete({
+        where: {
+          userId_societyId: { 
+            userId: 1,
+            societyId:response.body.society.id,
+          }
+        },
+      });
+      await prisma.societyLinks.delete({
+        where: {
+          societyId: response.body.society.id,
+        },
+      });
+      await prisma.society.delete({
+        where: {
+          id: response.body.society.id,
+        },
+      });
+  });
+  test("Signup societies with repeated values (name)", async () => {
+    //make first soc
+    console.log("sending request to /societies/signup");
+    const response = await request(app)
+      .post("/societies/signup")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        name:"Soc Signup Test",
+        description:"text",
+        email: "testSoc@testSoc.com",
+        category: "Other",
+        "links": {
+          instagram: "https://www.instagram.com/",
+          facebook: "https://www.facebook.com/",
+          twitter: "https://twitter.com/",
+          website: "https://www.google.com/",
+          banner: "https://www.google.com/",
+          logo: "https://www.google.com/"
+         }
+      });
+    console.log("response from /societies/signup\n" + response.body);
+    expect(response.statusCode).toBe(200);
+    //repeat but with different soc info and same name
+    console.log("sending second request to /societies/signup");
+    const response2 = await request(app)
+      .post("/societies/signup")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        name:"Soc Signup Test",
+        description:"text2",
+        email: "test2Soc@testSoc.com",
+        category: "Other",
+        "links": {
+          instagram: "https://www.instagram.com/2/",
+          facebook: "https://www.facebook.com/2/",
+          twitter: "https://twitter.com/2/",
+          website: "https://www.google.com/2/",
+          banner: "https://www.google.com/2/",
+          logo: "https://www.google.com/2/"
+         }
+      });
+      expect(response2.statusCode).toBe(409);
+      expect(response2.body.token).toBeNull();
+      expect(response2.body.message).toBe("Society already exists with that name");
+      //delete initial soc created
+      await prisma.committee.delete({
+        where: {
+          userId_societyId: { 
+            userId: 1,
+            societyId:response.body.society.id,
+          }
+        },
+      });
+      await prisma.societyLinks.delete({
+        where: {
+          societyId: response.body.society.id,
+        },
+      });
+      await prisma.society.delete({
+        where: {
+          id: response.body.society.id,
+        },
+      });
+  });
+  test("Signup societies with invalid email (no prefix)", async () => {
+    console.log("sending request to /societies/signup");
+    const response = await request(app)
+      .post("/societies/signup")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        name:"Soc Signup Test",
+        email: "@testSoc.com",
+        description:"text",
+        category: "Society Category",
+        "links": {
+          instagram: "https://www.instagram.com/",
+          facebook: "https://www.facebook.com/",
+          twitter: "https://twitter.com/",
+          website: "https://www.google.com/",
+          banner: "https://www.google.com/",
+          logo: "https://www.google.com/"
+         }
+      });
+    console.log("response from /societies/signup\n" + response.body);
+    expect(response.statusCode).toBe(409);
+    expect(response.body.token).toBeNull();
+    expect(response.body.message).toBe("Email inputed doesnt have a valid regex");
+  });
+  test("Signup societies with invalid email (double @)", async () => {
+    console.log("sending request to /societies/signup");
+    const response = await request(app)
+      .post("/societies/signup")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        name:"Soc Signup Test",
+        email: "testSoc@@testSoc.com",
+        description:"text",
+        category: "Society Category",
+        "links": {
+          instagram: "https://www.instagram.com/",
+          facebook: "https://www.facebook.com/",
+          twitter: "https://twitter.com/",
+          website: "https://www.google.com/",
+          banner: "https://www.google.com/",
+          logo: "https://www.google.com/"
+         }
+      });
+    console.log("response from /societies/signup\n" + response.body);
+    expect(response.statusCode).toBe(409);
+    expect(response.body.token).toBeNull();
+    expect(response.body.message).toBe("Email inputed doesnt have a valid regex");
+  });
+  test("Signup societies with invalid email (postfix)", async () => {
+    console.log("sending request to /societies/signup");
+    const response = await request(app)
+      .post("/societies/signup")
+      .set("Authorization", `Bearer ${token}`)
+      .send({
+        name:"Soc Signup Test",
+        email: "testSoc@.com",
+        description:"text",
+        category: "Society Category",
+        "links": {
+          instagram: "https://www.instagram.com/",
+          facebook: "https://www.facebook.com/",
+          twitter: "https://twitter.com/",
+          website: "https://www.google.com/",
+          banner: "https://www.google.com/",
+          logo: "https://www.google.com/"
+         }
+      });
+    console.log("response from /societies/signup\n" + response.body);
+    expect(response.statusCode).toBe(409);
+    expect(response.body.token).toBeNull();
+    expect(response.body.message).toBe("Email inputed doesnt have a valid regex");
   });
 });
 
@@ -60,101 +360,314 @@ describe('Get societies', () => {
   test('Get societies', async () => {
     // Make the request to the API
     const res = await request(app)
-        .get('/societies')
+        .get('/societies/getSocieties')
         .set('Authorization', `Bearer ${token}`)
         .expect(200);
     // Check the response
+    const societiesNonArchived = await prisma.society.findMany({
+      where:{
+        isArchived:false,
+      },
+    });
+    societiesCount = societiesNonArchived.length;
+    // expect(res.body.society).toBe(societiesCount);
     expect(res.body).not.toBeNull();
-    expect(res.body.length).toBe(4);
     expect(res.body[0].name).toBe('Society 1');
   });
-
-  test('Get societies with invalid token', async () => {
-    // Make the request to the API
-    const res = await request(app)
-        .get('/societies')
-        .set('Authorization', `Bearer ${token}1`)
-        .expect(401);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Invalid token');
-  });
-
+});
+describe('Get societiesId', () => {
   // This is the test for the POST /societies route
   test('Get society with id', async () => {
-    // Make the request to the API
     const res = await request(app)
-        .post('/societies')
+      .post("/societies/signup")
+      .set("Authorization", 'Bearer ' + token)
+      .send({
+        name:"Soc Signup Test",
+        email: "testSoc@testSoc.com",
+        description:"test",
+        category: "Other",
+        "links": {
+          instagram: "https://www.instagram.com/",
+          facebook: "https://www.facebook.com/",
+          twitter: "https://twitter.com/",
+          website: "https://www.google.com/",
+          banner: "https://www.google.com/",
+          logo: "https://www.google.com/"
+        }
+    });
+    expect(res.statusCode).toBe(200);
+    // Make the request to the API
+    const res2 = await request(app)
+        .post('/societies/getSociety')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          id: 1,
-        })
-        .expect(200);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.name).toBe('Society 1');
-  });
+          societyId: res.body.society.id,
+        });
 
-  test('Get society with invalid id', async () => {
-    // Make the request to the API
+    // Check the response
+    console.log(res2.body);
+    expect(res2.statusCode).toBe(200);
+    expect(res2.body).not.toBeNull();
+    expect(res2.body.society.name).toBe('Soc Signup Test');
+    //delete soc
+    await prisma.committee.delete({
+      where: {
+        userId_societyId: { 
+          userId: 1,
+          societyId:res.body.society.id,
+        }
+      },
+    });
+    await prisma.societyLinks.delete({
+      where: {
+        societyId: res.body.society.id,
+      },
+    });
+    await prisma.society.delete({
+      where: {
+        id: res.body.society.id,
+      },
+    });
+  });
+  
+  test('Get society with user not being in committee', async () => {
+    adminToken = token;
     const res = await request(app)
-        .post('/societies')
+      .post('/user/login')
+      .send({
+        email: 'student@kcl.ac.uk',
+        password: 'student',
+      });
+    token = res.body.token;
+    // Make the request to the API
+    const res2 = await request(app)
+      .post("/societies/signup")
+      .set("Authorization", 'Bearer ' + adminToken)
+      .send({
+        name:"Soc Signup Test",
+        email: "testSoc@testSoc.com",
+        description:"test",
+        category: "Other",
+        "links": {
+          instagram: "https://www.instagram.com/",
+          facebook: "https://www.facebook.com/",
+          twitter: "https://twitter.com/",
+          website: "https://www.google.com/",
+          banner: "https://www.google.com/",
+          logo: "https://www.google.com/"
+        }
+    });
+    const res3 = await request(app)
+        .post('/societies/getSociety')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          id: -1,
+          societyId: res2.body.society.id,
         })
-        .expect(404);
     // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Society not found');
+    expect(res3.statusCode).toBe(200);
+    expect(res3.body).not.toBeNull();
+    await prisma.committee.delete({
+      where: {
+        userId_societyId: { 
+          userId: 1,
+          societyId:res2.body.society.id,
+        }
+      },
+    });
+    await prisma.societyLinks.delete({
+      where: {
+        societyId: res2.body.society.id,
+      },
+    });
+    await prisma.society.delete({
+      where: {
+        id: res2.body.society.id,
+      },
+    });
   });
-
   test('Get society with invalid token', async () => {
     // Make the request to the API
     const res = await request(app)
-        .post('/societies')
+        .post('/societies/getSociety')
         .set('Authorization', `Bearer ${token}1`)
-        .send({
-          id: 1,
-        })
         .expect(401);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Invalid token');
+    expect(res.body.error).toBe('Unauthorized');
   });
 });
-
-// These are the tests for the societies/update route
-describe('Update society', () => {
-  test('Update society with valid data', async () => {
+// The societies are not actually deleted from the database, they are just
+// marked as archived
+describe('Delete society', () => {
+  
+  test('Delete society with invalid token', async () => {
     // Make the request to the API
     const res = await request(app)
-        .post('/societies/update')
-        .set('Authorization', `Bearer ${token}`)
-        .send({
-          id: 1,
-          name: 'Society 1 updated',
-          description: 'Society 1 description updated',
-        })
-        .expect(200);
+        .post('/societies/deleteSociety')
+        .set('Authorization', `Bearer ${token}1`)
+        .expect(401);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.name).toBe('Society 1 updated');
-    expect(res.body.description).toBe('Society 1 description updated');
+    expect(res.body.error).toBe('Unauthorized');
   });
 
-  test('Update society with invalid data', async () => {
-    // Make the request to the API
+  test('Delete society with valid id', async () => {
     const res = await request(app)
-        .post('/societies/update')
+      .post("/societies/signup")
+      .set("Authorization", 'Bearer ' + token)
+      .send({
+        name:"Soc Signup Test",
+        email: "testSoc@testSoc.com",
+        description:"test",
+        category: "Other",
+        "links": {
+          instagram: "https://www.instagram.com/",
+          facebook: "https://www.facebook.com/",
+          twitter: "https://twitter.com/",
+          website: "https://www.google.com/",
+          banner: "https://www.google.com/",
+          logo: "https://www.google.com/"
+        }
+    });
+    expect(res.statusCode).toBe(200);
+    // Make the request to the API
+    const res2 = await request(app)
+        .post('/societies/deleteSociety')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          id: 1,
-          name: '',
-          description: '',
+          societyId: res.body.society.id,
+        })
+
+    // Check the response
+    expect(res2.statusCode).toBe(200);
+    expect(res2.body).not.toBeNull();
+    expect(res2.body.message).toBe('Society Updated');
+    await prisma.committee.delete({
+      where: {
+        userId_societyId: { 
+          userId: 1,
+          societyId:res.body.society.id,
+        }
+      },
+    });
+    await prisma.societyLinks.delete({
+      where: {
+        societyId: res.body.society.id,
+      },
+    });
+    await prisma.society.delete({
+      where: {
+        id: res.body.society.id,
+      },
+    });
+  });
+
+  test('Delete society with invalid id of society', async () => {
+    // Make the request to the API
+    const res = await request(app)
+        .post('/societies/deleteSociety')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          societyId: -1,
         })
         .expect(400);
     // Check the response
+
+    expect(res.body).not.toBeNull();
+    expect(res.body.error).toBe('Invalid id of society');
+  });
+
+
+  // test('Delete society with invalid id and invalid token', async () => {
+  //   const res = await request(app)
+  //       .post('/societies/deleteSociety')
+  //       .set('Authorization', `Bearer ${token}1`)
+  //       .send({
+  //         id: -1,
+  //       })
+  //       .expect(401);
+  //   expect(res.body).not.toBeNull();
+  //   expect(res.body.message).toBe('Invalid token');
+  // });
+
+  test('Delete society as a user with no permission', async () => {
+    // Login as a user with no permission
+    adminToken = token;    
+    const res = await request(app)
+        .post('/user/login')
+        .send({
+          email: 'student@kcl.ac.uk',
+          password: 'student',
+        })
+        .expect(200);
+    // Make the request to the API
+    const res2 = await request(app)
+        .post('/societies/deleteSociety')
+        .set('Authorization', `Bearer ${res.body.token}`)
+        .send({
+          societyId: 1,
+        });
+    // Check the response
+    expect(res2.statusCode).toBe(401);
+    expect(res2.body).not.toBeNull();
+    expect(res2.body.message).toBe('Unauthorized');
+  });
+});
+// These are the tests for the societies/update route
+describe('Update society', () => {
+  test('Update society with valid data', async () => {
+    const res = await request(app)
+        .post('/societies/updateSociety')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          societyId: 1,
+          email: 'test@test.com',
+          name: 'Society 1 updated',
+          description: 'Society 1 description updated',
+        })
+    // Check the response
+    expect(res.statusCode).toBe(200);
+    expect(res.body.message).toBe("Society Updated");
+    console.log(updatedEvent).toHaveProperty(); 
+  });
+  test('Update society with user not being part of committee', async () => {
+    // Login as a user with no permission
+    const res = await request(app)
+        .post('/user/login')
+        .send({
+          email: 'student@kcl.ac.uk',
+          password: 'student',
+        })
+        .expect(200);
+    // Make the request to the API
+    const res2 = await request(app)
+        .post('/societies/updateSociety')
+        .set('Authorization', `Bearer ${res.body.token}`)
+        .send({
+          societyId: 1,
+          email: 'test@test.com',
+          name: 'Society 1 updated',
+          description: 'Society 1 description updated',
+        })
+        .expect(401);
+    // Check the response
+    expect(res2.body).not.toBeNull();
+    expect(res2.body.message).toBe('Unauthorized');
+  });
+  test('Update society with invalid data', async () => {
+    // Make the request to the API
+    const res = await request(app)
+        .post('/societies/updateSociety')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          societyId: -1,
+          email: 'test@test.com',
+          name: 'Society 1 updated',
+          description: 'Society 1 description updated',
+        })
+    // Check the response
+    console.log(res.body);
+    expect(res.statusCode).toBe(400)
     expect(res.body).not.toBeNull();
     expect(res.body.message).toBe('Invalid data');
   });
@@ -162,26 +675,22 @@ describe('Update society', () => {
   test('Update society with invalid token', async () => {
     // Make the request to the API
     const res = await request(app)
-        .post('/societies/update')
-        .set('Authorization', `Bearer ${token}1`)
-        .send({
-          id: 1,
-          name: 'Society 1 updated',
-          description: 'Society 1 description updated',
-        })
-        .expect(401);
+        .post('/societies/updateSociety')
+        .set('Authorization', `Bearer` + 'invalid token')
+    expect(res.statusCode).toBe(500);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Invalid token');
+    expect(res.body.message).toBe('Internal Server Error');
   });
 
-  test('Update society with invalid id', async () => {
+  test('Update society with invalid society id', async () => {
     // Make the request to the API
     const res = await request(app)
-        .post('/societies/update')
+        .post('/societies/updateSociety')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          id: -1,
+          societyId: -1,
+          email: 'test@test.com',
           name: 'Society 1 updated',
           description: 'Society 1 description updated',
         })
@@ -194,7 +703,7 @@ describe('Update society', () => {
   test('Update society with invalid id and invalid data', async () => {
     // Make the request to the API
     const res = await request(app)
-        .post('/societies/update')
+        .post('/societies/updateSociety')
         .set('Authorization', `Bearer ${token}`)
         .send({
           id: -1,
@@ -210,7 +719,7 @@ describe('Update society', () => {
   test('Update society with invalid id and invalid token', async () => {
     // Make the request to the API
     const res = await request(app)
-        .post('/societies/update')
+        .post('/societies/updateSociety')
         .set('Authorization', `Bearer ${token}1`)
         .send({
           id: -1,
@@ -227,7 +736,7 @@ describe('Update society', () => {
       async () => {
       // Make the request to the API
         const res = await request(app)
-            .post('/societies/update')
+            .post('/societies/updateSociety')
             .set('Authorization', `Bearer ${token}1`)
             .send({
               id: -1,
@@ -251,7 +760,7 @@ describe('Update society', () => {
         .expect(200);
     // Make the request to the API
     const res2 = await request(app)
-        .post('/societies/update')
+        .post('/societies/updateSociety')
         .set('Authorization', `Bearer ${res.body.token}`)
         .send({
           id: 1,
@@ -266,87 +775,42 @@ describe('Update society', () => {
     );
   });
 });
-
-// The societies are not actually deleted from the database, they are just
-// marked as archived
-describe('Delete society', () => {
-  test('Delete society with valid id', async () => {
-    // Make the request to the API
+describe('add committee member', () => {
+  test('add committee member with invalid token', async () => {
     const res = await request(app)
-        .post('/societies/delete')
-        .set('Authorization', `Bearer ${token}`)
-        .send({
-          id: 1,
-        })
-        .expect(200);
+        .post('/societies/addCommitteeMember')
+        .set('Authorization', `Bearer` + 'invalid token')
+    expect(res.statusCode).toBe(500);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Society deleted');
+    expect(res.body.message).toBe('Internal Server Error');
   });
-
-  test('Delete society with invalid id', async () => {
-    // Make the request to the API
-    const res = await request(app)
-        .post('/societies/delete')
-        .set('Authorization', `Bearer ${token}`)
-        .send({
-          id: -1,
-        })
-        .expect(404);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Society not found');
-  });
-
-  test('Delete society with invalid token', async () => {
-    // Make the request to the API
-    const res = await request(app)
-        .post('/societies/delete')
-        .set('Authorization', `Bearer ${token}1`)
-        .send({
-          id: 1,
-        })
-        .expect(401);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Invalid token');
-  });
-
-  test('Delete society with invalid id and invalid token', async () => {
-    // Make the request to the API
-    const res = await request(app)
-        .post('/societies/delete')
-        .set('Authorization', `Bearer ${token}1`)
-        .send({
-          id: -1,
-        })
-        .expect(401);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('Invalid token');
-  });
-
-  test('Delete society as a user with no permission', async () => {
-    // Login as a user with no permission
-    const res = await request(app)
-        .post('/users/login')
-        .send({
-          email: 'student@kcl.ac.uk',
-          password: 'student',
-        })
-        .expect(200);
-    // Make the request to the API
+  test('add committee member but user not a committee member', async () => {
+    const res= await request(app).post('/user/login').send({
+      email: 'student@kcl.ac.uk',
+      password: 'student',
+    });
+    token = res.body.token;
     const res2 = await request(app)
-        .post('/societies/delete')
-        .set('Authorization', `Bearer ${res.body.token}`)
-        .send({
-          id: 1,
-        })
-        .expect(403);
+      .post('/societies/addCommitteeMember')
+      .set('Authorization', `Bearer` + token)
+      .send({
+        societyId: 1,
+      });
+    expect(res2.statusCode).toBe(401);
     // Check the response
-    expect(res2.body).not.toBeNull();
-    expect(res2.body.message).toBe(
-        'You do not have permission to perform this action',
-    );
+    expect(res2.body.message).toBe('User not part of committee');
+  });
+  test('add committee member but user not president', async () => {
+    const res = await request(app)
+      .post('/user/login')
+      .send({
+        email: '',
+        password: 'admin123',
+      });
+     token = res.body.token;
+    expect(res.statusCode).toBe(200);
+    // Check the response
+    expect(res.body).not.toBeNull();
   });
 });

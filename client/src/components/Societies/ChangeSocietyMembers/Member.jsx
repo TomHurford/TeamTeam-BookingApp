@@ -13,7 +13,7 @@ const Member = (props) => {
         <button
           className="button button--red"
           onClick={() => props.removeMember(props.userId)}
-          style={{ marginBottom: "8px" }}
+          style={{ marginBottom: "8px", marginRight: "8px" }}
         >
           Remove
         </button>

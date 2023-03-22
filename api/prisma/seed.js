@@ -1,5 +1,6 @@
 const prisma = require('./prisma.js');
 const {faker} = require('@faker-js/faker');
+const {randomString} = require('../src/utils/random.js');
 const bcrypt = require('../src/utils/bcrypt.js');
 
 /**
@@ -97,6 +98,19 @@ async function seedUsers() {
       },
     },
   });
+
+  await prisma.user.create({
+    data: {
+      name: 'Professor',
+      email: 'professor@kcl.ac.uk',
+      password: bcrypt.hashPassword('professor'),
+      type: {
+        connect: {
+          id: 2,
+        },
+      },
+    },
+  });
   // Use faker to generate 50 random users
   for (let i = 0; i < 50; i++) {
     await prisma.user.create({
@@ -138,7 +152,7 @@ async function seedSocieties() {
       },
     },
   });
-  // use faker to generate 10 random societies
+  // use faker to generate 20 random societies
   for (let i = 0; i < 20; i++) {
     await prisma.society.create({
       data: {
@@ -184,7 +198,7 @@ async function seedCommittee() {
     },
   });
   const societies = await prisma.society.findMany();
-  for (let i = 0; i < societies.length; i++) {
+  for (let i = 1; i < societies.length; i++) {
     const society = societies[i];
     const userId = faker.datatype.number({min: 1, max: 50});
     // Make sure the user is not already in the committee
@@ -237,7 +251,7 @@ async function seedMembers() {
   });
 
   const societies = await prisma.society.findMany();
-  for (let i = 0; i < societies.length; i++) {
+  for (let i = 1; i < societies.length; i++) {
     const society = societies[i];
     for (let j = 0; j < Math.floor(Math.random() * 30) + 5; j++) {
       // We need to make sure that the user is not already a member of the
@@ -295,6 +309,21 @@ async function seedEvents() {
       description: 'Event 1 description',
       location: 'Event 1 location',
       date: new Date('2023-12-2'),
+      isArchived: false,
+    },
+  });
+
+  await prisma.event.create({
+    data: {
+      society: {
+        connect: {
+          id: 1,
+        },
+      },
+      name: 'Past Event',
+      description: 'This event has already happened',
+      location: 'Event 1 location',
+      date: new Date('2022-12-2'),
       isArchived: false,
     },
   });
@@ -378,9 +407,21 @@ async function seedPurchasesandTickets() {
     },
   });
 
+  const ticketEncode = {
+    ticketTypeName: 'FREE',
+    ticketTypeID: 1,
+    userID: 1,
+    eventID: 1,
+    purchaseID: setPurchase.id,
+    ticketSecret: randomString(),
+  };
+
+  const ticketText = Buffer.from(
+      JSON.stringify(ticketEncode)).toString('base64');
+
   await prisma.ticket.create({
     data: {
-      ticketData: 'sdgsgbsfgbsumfin',
+      ticketData: ticketText,
       purchase: {
         connect: {
           id: setPurchase.id,
@@ -394,6 +435,116 @@ async function seedPurchasesandTickets() {
       event: {
         connect: {
           id: 1,
+        },
+      },
+      user: {
+        connect: {
+          id: 1,
+        },
+      },
+    },
+  });
+
+  const setPurchasePast = await prisma.purchase.create({
+    data: {
+      total: 0,
+      paymentMethod: 'paypal',
+      user: {
+        connect: {
+          id: 1,
+        },
+      },
+      event: {
+        connect: {
+          id: 2,
+        },
+      },
+    },
+  });
+
+  const ticketEncodePast = {
+    ticketTypeName: 'FREE',
+    ticketTypeID: 1,
+    userID: 1,
+    eventID: 2,
+    purchaseID: setPurchasePast.id,
+    ticketSecret: randomString(),
+  };
+
+  const ticketTextPast = Buffer.from(
+      JSON.stringify(ticketEncodePast)).toString('base64');
+
+  await prisma.ticket.create({
+    data: {
+      ticketData: ticketTextPast,
+      purchase: {
+        connect: {
+          id: setPurchasePast.id,
+        },
+      },
+      ticketType: {
+        connect: {
+          id: 3,
+        },
+      },
+      event: {
+        connect: {
+          id: 2,
+        },
+      },
+      user: {
+        connect: {
+          id: 1,
+        },
+      },
+    },
+  });
+
+  const setPurchasePastSecond = await prisma.purchase.create({
+    data: {
+      total: 0,
+      paymentMethod: 'paypal',
+      user: {
+        connect: {
+          id: 1,
+        },
+      },
+      event: {
+        connect: {
+          id: 2,
+        },
+      },
+    },
+  });
+
+  const ticketEncodePastSecond = {
+    ticketTypeName: 'FREE',
+    ticketTypeID: 1,
+    userID: 1,
+    eventID: 2,
+    purchaseID: setPurchasePastSecond.id,
+    ticketSecret: randomString(),
+  };
+
+  const ticketTextPastSecond = Buffer.from(
+      JSON.stringify(ticketEncodePastSecond)).toString('base64');
+
+  await prisma.ticket.create({
+    data: {
+      ticketData: ticketTextPastSecond,
+      purchase: {
+        connect: {
+          id: setPurchasePastSecond.id,
+        },
+      },
+      ticketType: {
+        connect: {
+          id: 3,
+        },
+      },
+      event: {
+        connect: {
+          id: 2,
         },
       },
       user: {
@@ -430,9 +581,22 @@ async function seedPurchasesandTickets() {
         },
       });
       for (let k = 0; k < qoftickets; k++) {
+        const ticketEncode = {
+          ticketTypeName: ticketType.ticketType,
+          ticketTypeID: ticketType.id,
+          userID: j + 1,
+          eventID: i + 1,
+          purchaseID: purchase.id,
+          ticketSecret: randomString(),
+        };
+
+        const ticketText = Buffer.from(
+            JSON.stringify(ticketEncode)).toString('base64');
+
         await prisma.ticket.create({
           data: {
-            ticketData: '' + (i + 4 * 3) * (j * 2 + 6) * (k * 7 * 8 + 5 * 6),
+            // ticketData: '' + (i + 4 * 3) * (j * 2 + 6) * (k * 7 * 8 + 5 * 6),
+            ticketData: ticketText,
             purchase: {
               connect: {
                 id: purchase.id,

@@ -27,7 +27,7 @@ code {
 
 .page-container {
   width: 100vw;
-  min-height: calc( 100vh - 120px);
+  min-height: calc(100vh - 120px);
   height: fit-content;
   min-width: 400px;
   position: relative;
@@ -49,7 +49,6 @@ code {
 }
 
 .underlay {
-
   width: 100vw;
   min-width: 400px;
   height: 100vh;
@@ -63,7 +62,6 @@ code {
   background-size: cover;
   background-position: center;
   opacity: 0.5;
-
 }
 
 .spacer {
@@ -99,13 +97,11 @@ code {
   display: none;
 }
 
-
 .page-wrapper {
   position: relative;
   padding: 0;
   padding-bottom: 100px;
 }
-
 
 .footer {
   position: absolute;
@@ -120,7 +116,7 @@ code {
   overflow: hidden;
 }
 .footer > ul {
-  list-style:none;
+  list-style: none;
   text-align: right;
   margin: 0;
   padding: 0;
@@ -136,6 +132,11 @@ code {
   color: white;
 }
 
+.footer > ul > li > p > a:hover {
+  transform: scale(1.03);
+  transition: 0.3s;
+  opacity: 0.8;
+}
 
 /* Button styles */
 .button {
@@ -160,6 +161,11 @@ code {
   color: #ffffff;
 }
 
+.button--green {
+  background-color: #00db00;
+  color: #ffffff;
+}
+
 .button:hover,
 .button:focus {
   opacity: 0.9;
@@ -169,12 +175,3 @@ code {
   opacity: 0.5;
   cursor: not-allowed;
 }
-
-
-
-.footer > ul > li > p > a:hover {
-  transform: scale(1.03);
-  transition: 0.3s;
-  opacity: 0.8;
-}
-

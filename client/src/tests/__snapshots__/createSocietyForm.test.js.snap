@@ -19,7 +19,6 @@ exports[`CreateSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="societyName"
       >
         Society Name
@@ -66,7 +65,6 @@ exports[`CreateSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="email"
       >
         Society Email
@@ -87,7 +85,6 @@ exports[`CreateSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="website"
       >
         Website
@@ -105,7 +102,6 @@ exports[`CreateSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="instagram"
       >
         Instagram
@@ -123,7 +119,6 @@ exports[`CreateSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="twitter"
       >
         Twitter
@@ -141,7 +136,6 @@ exports[`CreateSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="facebook"
       >
         Facebook
@@ -168,7 +162,6 @@ exports[`CreateSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="logo"
       >
         Society Logo
@@ -186,7 +179,6 @@ exports[`CreateSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="banner"
       >
         Society Banner
@@ -204,7 +196,6 @@ exports[`CreateSocietyForm snapshot test 1`] = `
       className="form-group"
     >
       <label
-        className="form-label "
         htmlFor="description"
       >
         Society Description
@@ -227,7 +218,7 @@ exports[`CreateSocietyForm snapshot test 1`] = `
       />
     </div>
     <button
-      className="btn btn-primary"
+      className="button"
     >
       Create Society
     </button>

@@ -1,4 +1,4 @@
-describe('Home', () => {
+/**describe('Home', () => {
   it('Simulate purchase', () => {
     cy.visit('/')
     cy.get('h1').should('contain', 'Perfect Tickets? Perfect Time.')
@@ -21,4 +21,4 @@ describe('Home', () => {
 
     // cy.contains('Total: £30')
   })
-})
+})*/

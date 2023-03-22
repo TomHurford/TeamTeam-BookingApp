@@ -23,8 +23,9 @@ import EditEvents from "./Events/EditEvents";
 
 const sessionStorage = require("sessionstorage");
 import Footer from "./Footer";
+import { LoggedInRoutes, PrivateRoutes } from "../utils/PrivateRoutes";
 
-//Routes to connect to the homepage, the contact page and other pages which can be added here
+//Routes to connect the different pages of the application
 
 //TODO: Some variables using var instead of let
 
@@ -77,14 +78,15 @@ function App() {
 
   const addTicket = (callData, ticketType) => {
     var event = callData.event;
-    console.log(callData);
+    console.log(callData.event)
 
     if (!basketEvent.event) {
       setBasketEvent(callData);
       setAvailableTicketTypes(callData.event.ticketTypes);
-    } else if (basketEvent.event.id != event.id) {
+    } else if (basketEvent.event.id !== event.id) {
       // WARN USER TO CLEAR BASKET, ON YES WE PUSH NEW TICKET
 
+      emptyBasket();
       setBasketEvent(callData);
       setAvailableTicketTypes(callData.event.ticketTypes);
       setTickets({});
@@ -98,7 +100,7 @@ function App() {
 
     setTickets(temptickets);
 
-    updateTicketSessionStorage();
+    updateTicketSessionStorage(true);
   };
 
   const removeTicket = (callData, ticketType) => {
@@ -110,29 +112,34 @@ function App() {
 
     setTickets(temptickets);
 
-    updateTicketSessionStorage();
+    updateTicketSessionStorage(true);
   };
 
-  const updateTicketSessionStorage = () => {
+  const updateTicketSessionStorage = (value) => {
+    if(value === true){
     sessionStorage.setItem("basketEvent", JSON.stringify(basketEvent));
     sessionStorage.setItem(
       "availableTicketTypes",
       JSON.stringify(availableTicketTypes)
     );
     sessionStorage.setItem("tickets", JSON.stringify(tickets));
-
-    console.log(basketEvent);
-    console.log(availableTicketTypes);
-    console.log(tickets);
-    console.log(totalPrice());
+    }else{
+      sessionStorage.removeItem("basketEvent", JSON.stringify(basketEvent));
+      sessionStorage.setItem(
+        "availableTicketTypes",
+        JSON.stringify([])
+      );
+      sessionStorage.setItem("tickets", JSON.stringify({}));
+    }
   };
 
   const emptyBasket = () => {
+    console.log("emptying basket");
     setBasketEvent({ a: "b" });
     setAvailableTicketTypes([]);
     setTickets({});
 
-    updateTicketSessionStorage();
+    updateTicketSessionStorage(false);
   };
 
   /* NORMAL ROUTE FUNCTIONALITY VIA ROUTER DOM */
@@ -141,56 +148,60 @@ function App() {
     <div className="root-container">
       <Navbar isLoggedIn={isLoggedIn} />
       <div className="page-wrapper">
-      <Routes>
-        <Route path="/" element={<Home />}></Route>
-        <Route
-          path="/login"
-          element={<Login isLoggedIn={isLoggedIn} />}
-        ></Route>
-        <Route
-          path="/logout"
-          element={<Logout isLoggedIn={isLoggedIn} />}
-        ></Route>
-        <Route path="/contact" element={<Contact />}></Route>
-        <Route path="/about" element={<About />}></Route>
-        <Route path="/terms" element={<Terms />}></Route>
-        <Route path="/privacy" element={<Privacy />}></Route>
-        <Route path="/tickets" element={<Purchase />}></Route>
-
-        <Route
-          path="/event-details"
-          element={
-            <EventDetails
-              addTicket={addTicket}
-              tickets={tickets}
-              removeTicket={removeTicket}
-            />
-          }
-        ></Route>
-        <Route
-          path="/basket"
-          element={
-            <Basket
-              basketEvent={basketEvent}
-              availableTicketTypes={availableTicketTypes}
-              tickets={tickets}
-              removeTicket={removeTicket}
-              totalPrice={totalPrice}
-              addTicket={addTicket}
-              isLoggedIn={isLoggedIn}
-              emptyBasket={emptyBasket}
-            />
-          }
-        ></Route>
-        <Route path="/society/:id" element={<ViewSociety />} />
-        <Route path="/societies" element={<SearchSocieties />} />
-        <Route path="/create-society" element={<CreateSocietyForm />} />
-        <Route path="/edit-society/:id" element={<EditSocietyForm />} />
-        <Route path="/search-events" element={<SearchEvents />} />
-        <Route path="/create-event" element={<CreateEvents />} />
-        <Route path="/edit-event/:id" element={<EditEvents />} />
-      </Routes>
-      <Footer />
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route element={<LoggedInRoutes />}>
+            <Route
+              path="/login"
+              element={<Login isLoggedIn={isLoggedIn} />}
+            ></Route>
+          </Route>
+          <Route
+            path="/logout"
+            element={<Logout isLoggedIn={isLoggedIn} />}
+          ></Route>
+          <Route path="/contact" element={<Contact />}></Route>
+          <Route path="/about" element={<About />}></Route>
+          <Route path="/terms" element={<Terms />}></Route>
+          <Route path="/privacy" element={<Privacy />}></Route>
+          <Route path="/tickets" element={<Purchase />}></Route>
+          <Route
+            path="/event-details"
+            element={
+              <EventDetails
+                addTicket={addTicket}
+                tickets={tickets}
+                removeTicket={removeTicket}
+              />
+            }
+          ></Route>
+          <Route
+            path="/basket"
+            element={
+              <Basket
+                basketEvent={basketEvent}
+                availableTicketTypes={availableTicketTypes}
+                tickets={tickets}
+                removeTicket={removeTicket}
+                totalPrice={totalPrice}
+                addTicket={addTicket}
+                isLoggedIn={isLoggedIn}
+                emptyBasket={emptyBasket}
+              />
+            }
+          ></Route>
+          <Route path="/society/:id" element={<ViewSociety />} />
+          <Route path="/societies" element={<SearchSocieties />} />
+          <Route path="/search-events" element={<SearchEvents />} />
+          <Route path="*" element={<Home />} />
+          <Route element={<PrivateRoutes />}>
+            <Route path="/create-society" element={<CreateSocietyForm />} />
+            <Route path="/edit-society/:id" element={<EditSocietyForm />} />
+            <Route path="/create-event" element={<CreateEvents />} />
+            <Route path="/edit-event/:id" element={<EditEvents />} />
+          </Route>
+        </Routes>
+        <Footer />
       </div>
     </div>
   );

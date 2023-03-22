@@ -63,15 +63,15 @@ export const checkIsLoggedIn = async () => {
 // }
 
 // Send a request to the server to refresh the token, 
-export const refreshAuthToken = () => {
-    axios.post('https://localhost:5001/user/checkUserLoggedIn', { token: getToken() })
-        .then(response => {
-            setToken(response.data.token);
-        })
-        .catch(error => {
-            // Redirect to login page if the token is invalid
-            removeToken();
-            window.location.href = '/login';
-            console.log(error.message);
-        });
-}
+// export const refreshAuthToken = () => {
+//     axios.post('https://localhost:5001/user/checkUserLoggedIn', { token: getToken() })
+//         .then(response => {
+//             setToken(response.data.token);
+//         })
+//         .catch(error => {
+//             // Redirect to login page if the token is invalid
+//             removeToken();
+//             window.location.href = '/login';
+//             console.log(error.message);
+//         });
+// }

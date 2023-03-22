@@ -331,7 +331,6 @@ async function deleteSociety(req, res) {
       res.status(400).send({error: 'Invalid id of society'});
       return;
     } 
-    console.log(decoded);
     if (!commitee.isPresident && !isAdmin) {
       res.status(401).send({message: 'Unauthorized'});
       return;

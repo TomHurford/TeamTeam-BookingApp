@@ -59,7 +59,6 @@ async function createTickets(req, res) {
   } catch (err) {
     return res.status(401).send({message: 'Unauthorised'});
   }
-
   if (
     req.body === undefined ||
     req.body.ticketTypeId === undefined ||

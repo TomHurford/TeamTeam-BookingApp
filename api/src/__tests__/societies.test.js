@@ -621,7 +621,7 @@ describe('Update society', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({
           societyId: 1,
-          email: 'test123@test123.com',
+          email: 'test@test.com',
           name: 'Society 1 updated',
           description: 'Society 1 description updated',
         })
@@ -660,12 +660,14 @@ describe('Update society', () => {
         .post('/societies/updateSociety')
         .set('Authorization', `Bearer ${token}`)
         .send({
+          societyId: -1,
           email: 'test@test.com',
           name: 'Society 1 updated',
           description: 'Society 1 description updated',
         })
-        .expect(400);
     // Check the response
+    console.log(res.body);
+    expect(res.statusCode).toBe(400)
     expect(res.body).not.toBeNull();
     expect(res.body.message).toBe('Invalid data');
   });
@@ -681,7 +683,7 @@ describe('Update society', () => {
     expect(res.body.message).toBe('Internal Server Error');
   });
 
-  test('Update society with invalid id', async () => {
+  test('Update society with invalid society id', async () => {
     // Make the request to the API
     const res = await request(app)
         .post('/societies/updateSociety')

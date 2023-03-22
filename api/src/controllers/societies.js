@@ -309,6 +309,18 @@ async function updateSociety(req, res) {
     // Authenticate the user
     const userId = (await auth.authenticate(req)).id;
     // Check if user is a committee member of the society
+    
+    // Get the society
+    const society = await prisma.society.findUnique({
+      where: {
+        email: req.body.email,
+      },
+    });
+
+    if (society.length === 0) {
+      res.status(404).send({message: 'Society Not Found'});
+      return;
+    }
     console.log(req.body);
     const committee = await prisma.committee.findMany({
       where: {
@@ -320,18 +332,6 @@ async function updateSociety(req, res) {
 
     if (committee.length === 0) {
       res.status(401).send({message: 'Unauthorized'});
-      return;
-    }
-
-    // Get the society
-    const society = await prisma.society.findUnique({
-      where: {
-        email: req.body.email,
-      },
-    });
-
-    if (society.length === 0) {
-      res.status(404).send({message: 'Society Not Found'});
       return;
     }
 

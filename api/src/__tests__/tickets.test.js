@@ -83,7 +83,7 @@ describe("Create Tickets",() =>{
         ticketTypeId: 1,
         purchaseId: 1,
         isArchived: false
-      })
+      });
     console.log("response from /tickets/create\n" + response.body);
     expect(response.statusCode).toBe(200);
   });

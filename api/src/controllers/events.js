@@ -1,4 +1,5 @@
 // EVENTS CONTROLLER
+const { empty } = require('@prisma/client/runtime/index.js');
 const prisma = require('../../prisma/prisma.js');
 const auth = require('../utils/jwt_auth.js');
 
@@ -40,6 +41,7 @@ async function getEventById(req, res) {
       decoded = await auth.authenticate(req);
     } catch (err) {
       res.status(401).send({token: null, error: 'Unauthorized'});
+      return;
     }
   }
 
@@ -119,24 +121,28 @@ async function createEvent(req, res) {
       res.status(400).send({error: 'Missing Event Details'});
       return;
     }
-
-    if (req.body.ticketType.length === 0) {
-      res.status(400).send({error: 'Missing Ticket Type'});
+    if (Object.keys(req.body.ticketType).length === 0){
+      res.status(400).send({error: 'Missing Ticket Type Body'});
       return;
     }
 
-    if (req.body.ticketType.length > 0) {
-      console.log(!req.body.ticketType[0].price);
-      for (let i = 0; i < req.body.ticketType.length; i++) {
-        if (
-          !req.body.ticketType[i].name ||
-          !req.body.ticketType[i].price ||
-          !req.body.ticketType[i].quantity) {
-          if (req.body.ticketType[i].price !== 0) {
-            res.status(400).send({error: 'Missing Ticket Type Details'});
-            return;
+    
+    //Check if ticketype has right field and if the price or quantity is 0 or negative
+    for (let i = 0; i < req.body.ticketType.length; i++) {
+      if (
+        !req.body.ticketType[i].name ||
+        !req.body.ticketType[i].price ||
+        !req.body.ticketType[i].quantity) {
+          if(req.body.ticketType[i].price <= 0){
+            res.status(422).send({error: 'Invalid Price'});
+          return;
           }
-        }
+          if(req.body.ticketType[i].quantity <= 0){
+            res.status(422).send({error: 'Invalid Quantity'});
+          return;
+          }
+        res.status(400).send({error: 'Missing Ticket Type Details'});
+        return;
       }
     }
 
@@ -245,6 +251,11 @@ async function updateEvent(req, res) {
       id: req.body.eventId,
     },
   });
+  // If the society does not exist, return an error
+  if (!event) {
+    res.status(400).send({error: 'Invalid eventId'});
+    return;
+  }
 
   // Check that the society exists
   const society = await prisma.society.findUnique({

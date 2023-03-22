@@ -1,5 +1,5 @@
 import { getToken, setToken, removeToken, refreshAuthToken } from "../utils/jwt";
-
+// Unit test for jwt.js
 test('Returns null if no token is set', () => {
     expect(getToken()).toBeNull();
 });

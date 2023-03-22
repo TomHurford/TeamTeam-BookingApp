@@ -1,28 +1,62 @@
-import React from "react";
+import React, { useRef } from "react";
+import emailjs from "@emailjs/browser";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "../../styles/index.css";
 
 function ContactSocietyForm(props) {
+  const form = useRef();
+
   const formik = useFormik({
     initialValues: {
       customerName: "",
       customerEmail: "",
       messageSubject: "",
       message: "",
+      societyName: props.societyName,
+      societyEmail: props.societyEmail,
     },
 
     validationSchema: Yup.object({
-      customerName: Yup.string().required("You must enter your name"),
+      customerName: Yup.string()
+        .trim()
+        .min(3, "Name must be at least 3 characters long")
+        .required("You must enter your name"),
       customerEmail: Yup.string().email().required("You must enter your email"),
-      messageSubject: Yup.string().required("A subject is required"),
+      messageSubject: Yup.string()
+        .trim()
+        .min(3, "Subject must be at least 3 characters long")
+        .required("A subject is required"),
       message: Yup.string()
+        .trim()
         .min(50, "Message must be at least 50 characters long")
         .required("A message is required"),
     }),
 
     onSubmit: async (values) => {
-      console.log(values);
+      const emailContent = {
+        messageSubject: values.messageSubject,
+        message: values.message,
+        customerName: values.customerName,
+        customerEmail: values.customerEmail,
+        societyName: props.societyName,
+        societyEmail: props.societyEmail,
+      };
+      emailjs
+        .send(
+          "service_t9bv478",
+          "template_917cnof",
+          emailContent,
+          "sVET7bHYSxTjvXd30"
+        )
+        .then(
+          (result) => {
+            alert("Message sent, we will get back to you shortly");
+          },
+          (error) => {
+            console.log(error.text);
+          }
+        );
     },
   });
 
@@ -40,12 +74,27 @@ function ContactSocietyForm(props) {
       </h3>
 
       <form
+        ref={form}
         onSubmit={formik.handleSubmit}
         style={{
           width: "95%",
           marginLeft: 38,
         }}
       >
+        <div className="field">
+          <label
+            htmlFor="societyName"
+            name="societyName"
+            value={props.societyName}
+          ></label>
+        </div>
+        <div className="field">
+          <label
+            htmlFor="societyEmail"
+            name="societyEmail"
+            value="nidhuravee@gmail.com"
+          ></label>
+        </div>
         <div className="form-group">
           <label htmlFor="customerName">Your Name</label>
           <input
@@ -131,7 +180,9 @@ function ContactSocietyForm(props) {
         </div>
 
         <button
+          value="send"
           className="button"
+          type="submit"
           style={{
             marginBottom: "8px",
           }}

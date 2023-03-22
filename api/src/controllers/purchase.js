@@ -18,14 +18,17 @@ const getPastPurchases = async (req, res) => {
     // Get the user id from the decoded token
     // TODO
     const userId = decoded.id; // decoded.id
-
     console.log('userId: ', userId);
     // use the user id to get the user's past purchases for events that have
     // already happened
     const purchases = await prisma.purchase.findMany({
       where: {
         userId: userId,
-
+        event: {
+          date: {
+            lte: new Date(),
+          },
+        },
         isArchived: false,
       },
     });
@@ -71,9 +74,9 @@ const getPastPurchases = async (req, res) => {
 const getFutureTickets = async (req, res) => {
   try {
     // Authenticate the user
-    // const decoded = await auth.authenticate(req)
+    const decoded = await auth.authenticate(req);
 
-    const userId = req.body.userId;
+    const userId = decoded.id;
 
     console.log('userId: ', userId);
 

@@ -6,6 +6,7 @@ import { getEventById } from "../../utils/EventsLogic";
 import TicketHolderTicket from "./TicketHolder";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import "../../styles/index.css";
 
 class EventDetails extends Component {
   constructor(props) {
@@ -21,12 +22,11 @@ class EventDetails extends Component {
     this.setState({ data: event });
   }
 
-  
-  handleClick= () => {
+  handleClick = () => {
     const searchParams = new URLSearchParams(window.location.search);
     const eventId = parseInt(searchParams.get("eventId"));
-    window.location.href = '/edit-event/' + eventId;
-  }
+    window.location.href = "/edit-event/" + eventId;
+  };
 
   render() {
     const event = this.state.data;
@@ -49,6 +49,8 @@ class EventDetails extends Component {
           <div className="description">
             <h2>Description</h2>
             <div className="text">{event.event.description}</div>
+            <div className="eventDate">Date: {new Date(event.event.date).toLocaleDateString()}</div>
+            <div className="eventTime">Time: {new Date(event.event.date).toLocaleTimeString()}</div>
             {/* { event.isCommittee ? <button
               className="addToCart"
               onClick={() => {
@@ -61,7 +63,12 @@ class EventDetails extends Component {
           <div className="societyInfo">
             <div className="icon">
               {console.log(event)}
-              <div className="logo" style={{ backgroundImage: `url(${event.event.society.links[0].logo})` }}></div>
+              <div
+                className="logo"
+                style={{
+                  backgroundImage: `url(${event.event.society.links[0].logo})`,
+                }}
+              ></div>
             </div>
             <div className="name">{event.event.society.name}</div>
             <div className="description">{event.event.society.description}</div>
@@ -104,9 +111,11 @@ class EventDetails extends Component {
               </a>
             </div>
           </div>
-
-          <div className="tickerHolder">
+          
+          {new Date() <= new Date(event.event.date) && 
+            (<div className="tickerHolder">
             <h2>Tickets</h2>
+            {console.log(new Date() <= event.event.date)}
             {event.event.ticketTypes.map((ticketType) => {
               return (
                 <TicketHolderTicket
@@ -135,10 +144,13 @@ class EventDetails extends Component {
               to={`/edit-event/${this.getEventId})
               )}`}
             > */}
-              <button className="btn btn-primary" onClick={this.handleClick}>Edit Event</button>
+            { event.isCommittee === true && (
+            <button className="button" onClick={this.handleClick}>
+              Edit Event
+            </button>)
+            }
             {/* </Link> */}
-
-          </div>
+          </div>)}
 
           <div className="spacer"></div>
         </div>

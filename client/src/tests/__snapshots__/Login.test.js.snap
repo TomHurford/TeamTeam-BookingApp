@@ -279,6 +279,7 @@ exports[`Login snapshot test 1`] = `
       />
     </div>
     <button
+      data-testid="reset"
       onClick={[Function]}
       type="submit"
     >

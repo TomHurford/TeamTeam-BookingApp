@@ -217,7 +217,7 @@ async function signup(req, res) {
 
   // Mail the verification code
 
-  url = 'https://localhost:3000/';
+  url = 'http://localhost:3000/';
 
   mail(to=user.email, subject='Signup Confirmation', body=`
   <h2>Sign Up Confirmation</h2><br />
@@ -278,7 +278,7 @@ async function forgotPassword(req, res) {
 
     // Mail the verification code
 
-    url = 'https://localhost:3000/';
+    url = 'http://localhost:3000/';
 
     mail(to=user.email, subject='Forgot Password', body=`
   <h4> Hi ` + user.name + `</h4><br />

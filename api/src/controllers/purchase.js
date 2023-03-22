@@ -254,10 +254,10 @@ const createPurchase = async (req, res) => {
   <br />
   <h4> Confirmation Of Order Details:</h4><br />
   <p><br />
-  Event Name: <a href="https://localhost:3000/event-details?eventId=` + event.id + `">` + event.name + `</a><br />
+  Event Name: <a href="http://localhost:3000/event-details?eventId=` + event.id + `">` + event.name + `</a><br />
   Event Date: ` + eventDate.toDateString() + `<br />
   Event Date: ` + eventDate.toTimeString() + `<br />
-  Event URL: <a>https://localhost:3000/event-details?eventId=` + event.id + `</a><br />
+  Event URL: <a>http://localhost:3000/event-details?eventId=` + event.id + `</a><br />
   <br />
   <br />
   Quantity Of Tickets: ` + quantity + `<br />

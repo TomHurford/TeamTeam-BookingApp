@@ -66,7 +66,7 @@ function EditEvents() {
                 : value.date + "T" + value.time + ":00.000Z",
             location: value.location,
           };
-          fetch("https://localhost:5001/events/update", {
+          fetch("http://localhost:5001/events/update", {
           // Send the event object to the backend to update the event.
             method: "POST",
             headers: {

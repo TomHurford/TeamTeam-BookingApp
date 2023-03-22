@@ -78,7 +78,7 @@ function EditSocietyForm() {
         console.log(jwtController.getToken());
         console.log(values);
         console.log(data);
-        fetch("https://localhost:5001/societies/updateSociety", {
+        fetch("http://localhost:5001/societies/updateSociety", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -43,7 +43,7 @@ function CreateSocietyForm() {
     onSubmit: async (values) => {
       console.log(values);
 
-      await fetch("https://localhost:5001/societies/signup", {
+      await fetch("http://localhost:5001/societies/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

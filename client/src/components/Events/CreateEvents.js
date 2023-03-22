@@ -77,7 +77,7 @@ function CreateEvents() {
           // The token is sent with the request to the backend to verify the user is logged in
           console.log(jwtController.getToken());
           console.log(JSON.stringify(event));
-          fetch("https://localhost:5001/events/create", {
+          fetch("http://localhost:5001/events/create", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

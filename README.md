@@ -13,9 +13,9 @@
 - `docker-compose down` to stop the app
 
 Once running you can access the apps at:
-- react: https://localhost:3000
-- express: https://localhost:5001
-- postgres: https://localhost:5432
+- react: http://localhost:3000
+- express: http://localhost:5001
+- postgres: http://localhost:5432
 
 ### Developing outside of Docker
 

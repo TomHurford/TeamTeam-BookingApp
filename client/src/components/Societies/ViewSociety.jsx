@@ -28,7 +28,7 @@ function ViewSociety() {
   useEffect(() => {
     if(jwtController.getToken() === undefined || jwtController.getToken() === null){
     axios
-      .post("https://localhost:5001/societies/getSociety", {
+      .post("http://localhost:5001/societies/getSociety", {
         societyId: societyId,
       })
       .then((response) => {
@@ -237,9 +237,11 @@ function ViewSociety() {
       </div>
 
       <div className="body">
-        <Link to={`/edit-society/${society.id}`}>
-          <button className="button">Edit Society</button>
-        </Link>
+        {showEditButton && (
+          <Link to={`/edit-society/${society.id}`}>
+            <button className="button">Edit Society</button>
+          </Link>
+        )}
         <div className="description">
           <p>{society.description}</p>
           <p>

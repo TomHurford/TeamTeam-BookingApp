@@ -1,5 +1,5 @@
-const prisma = require("../../prisma/prisma.js");
-const auth = require("../utils/jwt_auth.js");
+const prisma = require('../../prisma/prisma.js');
+const auth = require('../utils/jwt_auth.js');
 
 /**
  * Add a committee member to a society
@@ -14,12 +14,12 @@ async function addCommitteeMember(req, res) {
 
     decoded = await auth.authenticate(req);
   } catch (err) {
-    return res.status(400).send({ message: "Unauthorized" });
+    return res.status(400).send({message: 'Unauthorized'});
   }
 
   // Check that the request body contains an email and societyId
   if (!req.body.email || !req.body.societyId) {
-    return res.status(400).send({ message: "Invalid Request" });
+    return res.status(400).send({message: 'Invalid Request'});
   }
 
   // Check if user is a committee member of the society
@@ -30,7 +30,7 @@ async function addCommitteeMember(req, res) {
     },
   });
   if (committee.length === 0) {
-    return res.status(400).send({ message: "Unauthorized" });
+    return res.status(400).send({message: 'Unauthorized'});
   }
 
   // Find the user
@@ -41,7 +41,7 @@ async function addCommitteeMember(req, res) {
   });
 
   if (user === null) {
-    return res.status(400).send({ message: "User does not exist" });
+    return res.status(400).send({message: 'User does not exist'});
   }
 
   // Check if user is already a committee member
@@ -54,8 +54,8 @@ async function addCommitteeMember(req, res) {
 
   if (committeeMember.length > 0) {
     return res
-      .status(400)
-      .send({ message: "User is already a committee member" });
+        .status(400)
+        .send({message: 'User is already a committee member'});
   }
 
   // Add the user to the committee
@@ -64,7 +64,7 @@ async function addCommitteeMember(req, res) {
       userId: user.id,
       societyId: req.body.societyId,
       isPresident: false,
-      role: "committee member",
+      role: 'committee member',
     },
   });
 
@@ -110,6 +110,7 @@ async function removeCommitteeMember(req, res) {
     where: {
       userId: req.body.userId,
       societyId: req.body.societyId,
+      isPresident: false,
     },
   });
 
@@ -143,7 +144,7 @@ async function removeCommitteeMember(req, res) {
  */
 async function getCommitteeMembers(req, res) {
   if (!req.body.societyId) {
-    return res.status(400).send({ message: "Missing societyId" });
+    return res.status(400).send({message: 'Missing societyId'});
   }
   const committee = await prisma.committee.findMany({
     where: {
@@ -160,8 +161,8 @@ async function getCommitteeMembers(req, res) {
   }
 
   return res
-    .status(200)
-    .send({ message: "Committee members found", committee: committee });
+      .status(200)
+      .send({message: 'Committee members found', committee: committee});
 }
 
 /**

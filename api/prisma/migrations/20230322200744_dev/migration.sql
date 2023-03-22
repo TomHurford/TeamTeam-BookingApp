@@ -1,3 +1,12 @@
+-- CreateEnum
+CREATE TYPE "TICKET_STATUS" AS ENUM ('UNUSED', 'USED');
+
+-- CreateEnum
+CREATE TYPE "PURCHASE_STATUS" AS ENUM ('PENDING', 'PAID', 'REFUNDED');
+
+-- CreateEnum
+CREATE TYPE "SocietyCategories" AS ENUM ('Sports', 'Academic', 'Social', 'Other');
+
 -- CreateTable
 CREATE TABLE "UserType" (
     "id" SERIAL NOT NULL,
@@ -23,6 +32,8 @@ CREATE TABLE "Society" (
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "category" "SocietyCategories" NOT NULL DEFAULT 'Other',
+    "isArchived" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Society_pkey" PRIMARY KEY ("id")
 );
@@ -46,6 +57,7 @@ CREATE TABLE "Committee" (
     "role" TEXT NOT NULL,
     "userId" INTEGER NOT NULL,
     "societyId" INTEGER NOT NULL,
+    "isPresident" BOOLEAN NOT NULL DEFAULT false,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,
 
     CONSTRAINT "Committee_pkey" PRIMARY KEY ("userId","societyId")
@@ -67,6 +79,7 @@ CREATE TABLE "Event" (
     "description" TEXT NOT NULL,
     "date" TIMESTAMP(3) NOT NULL,
     "location" TEXT NOT NULL,
+    "banner" TEXT NOT NULL DEFAULT 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
     "societyId" INTEGER NOT NULL,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,
 
@@ -89,7 +102,7 @@ CREATE TABLE "TicketType" (
 CREATE TABLE "Ticket" (
     "id" SERIAL NOT NULL,
     "ticketData" TEXT NOT NULL,
-    "status" TEXT NOT NULL DEFAULT 'PENDING',
+    "status" "TICKET_STATUS" NOT NULL DEFAULT 'UNUSED',
     "userId" INTEGER NOT NULL,
     "eventId" INTEGER NOT NULL,
     "ticketTypeId" INTEGER NOT NULL,
@@ -105,7 +118,7 @@ CREATE TABLE "Purchase" (
     "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "total" INTEGER NOT NULL,
     "paymentMethod" TEXT NOT NULL,
-    "status" TEXT NOT NULL DEFAULT 'PENDING',
+    "status" "PURCHASE_STATUS" NOT NULL DEFAULT 'PENDING',
     "userId" INTEGER NOT NULL,
     "eventId" INTEGER NOT NULL,
     "isArchived" BOOLEAN NOT NULL DEFAULT false,

@@ -8,67 +8,67 @@ const auth = require('../utils/jwt_auth.js');
  * @param {Response} res The response object
  */
 async function followSociety(req, res) {
+  let userId = null;
   try {
     // Authenticate the user
     const userId = (await auth.authenticate(req)).id;
-
-    if (!req.body.societyId) {
-      res.status(400).send({message: 'Missing societyId'});
-      return;
-    }
-
-    // CHeck that the society exists
-    const society = await prisma.society.findUnique({
-      where: {
-        id: req.body.societyId,
-      },
-    });
-
-    if (!society) {
-      res.status(404).send({message: 'Society not found'});
-      return;
-    }
-
-    const member = await prisma.members.findMany({
-      where: {
-        userId: userId,
-        societyId: req.body.societyId,
-      },
-    });
-
-    if (member.length > 0) {
-      // res.status(400).send({message: 'User is already a member'});
-      if (member[0].isArchived === true) {
-        await prisma.members.update({
-          where: {
-            userId_societyId: {
-              userId: userId,
-              societyId: req.body.societyId,
-            },
-          },
-          data: {
-            isArchived: false,
-          },
-        });
-        res.status(200).send({message: 'User is now a member'});
-        return;
-      } else {
-        res.status(400).send({message: 'User is already a member'});
-        return;
-      }
-    }
-
-    await prisma.members.create({
-      data: {
-        userId: userId,
-        societyId: req.body.societyId,
-      },
-    });
-
-    res.status(200).send({message: 'User is now a member'});
   } catch (err) {
-    res.status(500).send({message: 'Internal Server Error'});
+    return res.status(500).send({message: 'Internal Server Error'});
   }
+
+  if (!req.body.societyId) {
+    return res.status(400).send({message: 'Missing societyId'});
+  }
+
+  // CHeck that the society exists
+  const society = await prisma.society.findUnique({
+    where: {
+      id: req.body.societyId,
+    },
+  });
+
+  if (!society) {
+    res.status(404).send({message: 'Society not found'});
+    return;
+  }
+
+  const member = await prisma.members.findMany({
+    where: {
+      userId: userId,
+      societyId: req.body.societyId,
+    },
+  });
+
+  if (member.length > 0) {
+    // res.status(400).send({message: 'User is already a member'});
+    if (member[0].isArchived === true) {
+      await prisma.members.update({
+        where: {
+          userId_societyId: {
+            userId: userId,
+            societyId: req.body.societyId,
+          },
+        },
+        data: {
+          isArchived: false,
+        },
+      });
+      res.status(200).send({message: 'User is now a member'});
+      return;
+    } else {
+      res.status(400).send({message: 'User is already a member'});
+      return;
+    }
+  }
+
+  await prisma.members.create({
+    data: {
+      userId: userId,
+      societyId: req.body.societyId,
+    },
+  });
+
+  res.status(200).send({message: 'User is now a member'});
 }
 
 /**

@@ -47,7 +47,30 @@ describe('Use Tickets', () =>{
         .post('/tickets/use')
         .set('Authorization', 'Bearer ' + token)
         .send({
-          ticketTypeId: 1,
+          ticketId: 1,
+          quantity: 10,
+        });
+    console.log('response from /tickets/use\n' + response.body);
+    expect(response.statusCode).toBe(200);
+  });
+  test('Use Ticket with no ticketId', async () =>{
+    const response = await request(app)
+        .post('/tickets/use')
+        .set('Authorization', 'Bearer ' + token)
+        .send({
+          ticketId: undefined,
+          quantity: 10,
+        });
+    console.log('response from /tickets/use\n' + response.body);
+    expect(response.statusCode).toBe(400);
+    expect(response.message).toBe('Invalid Ticket Type');
+  });
+  test('Use Ticket with invalid ticketId', async () =>{
+    const response = await request(app)
+        .post('/tickets/use')
+        .set('Authorization', 'Bearer ' + token)
+        .send({
+          ticketId: undefined,
           quantity: 10,
         });
     console.log('response from /tickets/use\n' + response.body);

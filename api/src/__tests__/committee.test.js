@@ -1,8 +1,6 @@
 const request = require('supertest');
 const app = require('../server.js');
 const prisma = require('../../prisma/prisma.js');
-// Disable eslint for this file because we want to use console.log
-/* eslint-disable */
 let token = null;
 
 beforeAll(async () => {
@@ -25,6 +23,14 @@ beforeEach(async () => {
 
 describe('addCommitteeMember', () => {
   test('add committee member with valid token', async () => {
+    await prisma.committee.delete({
+      where: {
+        userId_societyId: {
+          societyId: 1,
+          userId: 2,
+        },
+      },
+    });
     const res = await request(app)
         .post('/societies/addCommitteeMember')
         .set('Authorization', `Bearer ` + token)
@@ -35,7 +41,6 @@ describe('addCommitteeMember', () => {
     expect(res.statusCode).toBe(200);
     expect(res.body).not.toBeNull();
     expect(res.body.message).toBe('User added to committee');
-    console.log(res.body);
     await prisma.committee.delete({
       where: {
         userId_societyId: {
@@ -76,12 +81,12 @@ describe('addCommitteeMember', () => {
 
   test('add committee member but user does not exist', async () => {
     const res = await request(app)
-      .post('/societies/addCommitteeMember')
-      .set('Authorization', `Bearer ` + token)
-      .send({
-        societyId: 1,
-        email: 'invalid email',
-      });
+        .post('/societies/addCommitteeMember')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: 1,
+          email: 'invalid email',
+        });
     expect(res.statusCode).toBe(400);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -114,34 +119,35 @@ describe('addCommitteeMember', () => {
     expect(res.body.message).toBe('Invalid Request');
   });
 
-  test('add committee member but user is already a committee member', async () => {
-    await prisma.committee.create({
-      data: {
-        societyId: 1,
-        userId: 2,
-        role: 'Committee Member'
-      },
-    });
-    const res = await request(app)
-      .post('/societies/addCommitteeMember')
-      .set('Authorization', `Bearer ` + token)
-      .send({
-        societyId: 1,
-        email: 'student@kcl.ac.uk',
+  test('add committee member but user is already a committee member',
+      async () => {
+        await prisma.committee.create({
+          data: {
+            societyId: 1,
+            userId: 2,
+            role: 'Committee Member',
+          },
+        });
+        const res = await request(app)
+            .post('/societies/addCommitteeMember')
+            .set('Authorization', `Bearer ` + token)
+            .send({
+              societyId: 1,
+              email: 'student@kcl.ac.uk',
+            });
+        expect(res.statusCode).toBe(400);
+        // Check the response
+        expect(res.body).not.toBeNull();
+        expect(res.body.message).toBe('User is already a committee member');
+        await prisma.committee.delete({
+          where: {
+            userId_societyId: {
+              societyId: 1,
+              userId: 2,
+            },
+          },
+        });
       });
-    expect(res.statusCode).toBe(400);
-    // Check the response
-    expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('User is already a committee member');
-    await prisma.committee.delete({
-      where: {
-        userId_societyId: {
-          societyId: 1,
-          userId: 2,
-        },
-      },
-    });
-  });
 });
 
 describe('removeCommitteeMember', () => {
@@ -155,12 +161,12 @@ describe('removeCommitteeMember', () => {
       },
     });
     const res = await request(app)
-      .post('/societies/removeCommitteeMember')
-      .set('Authorization', `Bearer ` + token)
-      .send({
-        societyId: 1,
-        email: 'student@kcl.ac.uk',
-      });
+        .post('/societies/removeCommitteeMember')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: 1,
+          email: 'student@kcl.ac.uk',
+        });
     console.log(res.body);
     expect(res.statusCode).toBe(200);
     expect(res.body).not.toBeNull();
@@ -176,8 +182,6 @@ describe('removeCommitteeMember', () => {
     expect(res.body).not.toBeNull();
     expect(res.body.message).toBe('Internal Server Error');
   });
-
-
 });
 
 describe('getCommitteeMember', () => {

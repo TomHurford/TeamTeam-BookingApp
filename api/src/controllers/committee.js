@@ -10,7 +10,6 @@ const auth = require('../utils/jwt_auth.js');
  * 
  */
 
-const auth = require('../utils/jwt_auth.js');
 
 async function addCommitteeMember(req, res) {
   let decoded = null;

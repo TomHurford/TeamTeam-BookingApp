@@ -49,7 +49,7 @@ const EditSocietyCommittee = (props) => {
               prevMembers.filter((m) => m.userId !== userId)
             );
           } else {
-            console.log("Committee must have at least one member");
+            alert("Committee must have at least one member");
           }
         } else {
           alert(data.message);
@@ -114,7 +114,6 @@ const EditSocietyCommittee = (props) => {
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
-      .then((data) => {})
       .catch((error) => {
         console.log(error);
       });

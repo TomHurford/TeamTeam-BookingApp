@@ -38,7 +38,6 @@ function ViewSociety() {
           setSociety(response.data.society);
           setSocietyLinks(response.data.society.links[0]);
           setEvents(response.data.society.events);
-          // console.log(response.data.society.events);
         })
         .catch((error) => {
           console.log(error);
@@ -58,7 +57,6 @@ function ViewSociety() {
           setSociety(data.society);
           setSocietyLinks(data.society.links[0]);
           setEvents(data.society.events);
-          // console.log(data.society.events);
         })
         .catch((error) => {
           console.log(error);
@@ -215,7 +213,7 @@ function ViewSociety() {
             ></div>
           </div>
           <div className="name">{society.name}</div>
-          <div className="socials">
+          <div className="socials" style={{ marginRight: "10px" }}>
             <a href={societyLinks.facebook} className="socialCircle">
               <img
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png"
@@ -234,12 +232,6 @@ function ViewSociety() {
                 alt="instagram"
               />
             </a>
-            <a href={societyLinks.website} className="socialCircle">
-              <img
-                src="https://w7.pngwing.com/pngs/549/715/png-transparent-web-development-logo-website-web-design-symmetry-internet.png"
-                alt="website"
-              />
-            </a>
           </div>
         </div>
       </div>
@@ -253,6 +245,7 @@ function ViewSociety() {
           <p>
             <strong>Followers:</strong> {society.members}
           </p>
+          <a href={societyLinks.website}>{societyLinks.website}</a>
           <div>
             {jwtController.getToken() !== undefined &&
               jwtController.getToken() !== null &&

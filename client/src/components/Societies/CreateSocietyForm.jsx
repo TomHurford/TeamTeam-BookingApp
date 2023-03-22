@@ -41,8 +41,6 @@ function CreateSocietyForm() {
     }),
 
     onSubmit: async (values) => {
-      console.log(values);
-
       await fetch("http://localhost:5001/societies/signup", {
         method: "POST",
         headers: {
@@ -52,9 +50,7 @@ function CreateSocietyForm() {
         body: JSON.stringify(values),
       })
         .then((res) => {
-          console.log(res);
           res.json().then((data) => {
-            console.log(data);
             const societyId = data.society.id;
             window.location.href = `/society/${societyId}`;
           });

@@ -54,7 +54,7 @@ function ContactSocietyForm(props) {
             alert("Message sent, we will get back to you shortly");
           },
           (error) => {
-            console.log(error.text);
+            alert(error.text);
           }
         );
     },

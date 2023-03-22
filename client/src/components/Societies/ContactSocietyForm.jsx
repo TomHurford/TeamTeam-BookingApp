@@ -40,7 +40,7 @@ function ContactSocietyForm(props) {
         customerName: values.customerName,
         customerEmail: values.customerEmail,
         societyName: props.societyName,
-        societyEmail: "nidhuravee@gmail.com",
+        societyEmail: props.societyEmail,
       };
       emailjs
         .send(

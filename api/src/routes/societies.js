@@ -44,12 +44,10 @@ router.post('/getCommitteeMembers', (req, res) => {
 });
 
 router.post('/followSociety', (req, res) => {
-  console.log(req.body);
   memberController.followSociety(req, res);
 });
 
 router.post('/unfollowSociety', (req, res) => {
-  console.log(req.body);
   memberController.unfollowSociety(req, res);
 });
 

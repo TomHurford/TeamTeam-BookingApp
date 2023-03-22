@@ -1,3 +1,5 @@
+const prisma = require('../../prisma/prisma.js');
+const auth = require('../utils/jwt_auth.js');
 
 /**
  * Add a committee member to a society
@@ -6,75 +8,70 @@
  * @return {Response} The response object
  */
 async function addCommitteeMember(req, res) {
+  let decoded = null;
   try {
     // Authenticate the user
-    const userId = (await auth.authenticate(req)).id;
-
-
-    // Check if user is a committee member of the society
-    const committee = await prisma.committee.findMany({
-      where: {
-        userId: userId,
-        societyId: req.body.societyId,
-      },
-      select: {
-        isPresident: true,
-      },
-    });
-
-    if (committee.length === 0) {
-      res.status(401).send({message: 'User not part of committee'});
-      return;
-    }
-
-    if (committee[0].isPresident === false) {
-      res.status(400).send({message:
-        'Only the president is able to update the committee'});
-
-      return;
-    }
-
-    // Get the user from the email
-    const user = await prisma.user.findUnique({
-      where: {
-        email: req.body.email,
-      },
-    });
-
-    if (!user) {
-      res.status(404).send({message: 'User Not Found'});
-      return;
-    }
-
-    // Check if the user is already a committee member
-    const isCommitteeMember = await prisma.committee.findMany({
-      where: {
-        userId: user.id,
-        societyId: req.body.societyId,
-      },
-    });
-
-    if (isCommitteeMember.length > 0) {
-      res.status(400).send({message: 'User is already a committee member'});
-      return;
-    }
-
-    // Add the user to the committee
-    await prisma.committee.create({
-      data: {
-        userId: user.id,
-        societyId: req.body.societyId,
-        isPresident: false,
-        role: req.body.role,
-      },
-    });
-
-    res
-        .status(200)
-        .send({message: 'User added to committee', userId: user.id});
+    decoded = await auth.authenticate(req);
   } catch (err) {
-    res.status(500).send({message: 'Internal Server Error'});
+    return res.status(400).send({message: 'Unauthorized'});
   }
+
+  if (decoded === null) {
+    return res.status(400).send({message: 'Unauthorized'});
+  }
+
+  // Check that the request body contains an email and societyId
+  if (!req.body.email || !req.body.societyId) {
+    return res.status(400).send({message: 'Invalid Request'});
+  }
+
+  // Check if user is a committee member of the society
+  const committee = await prisma.committee.findMany({
+    where: {
+      userId: decoded.id,
+      societyId: req.body.societyId,
+    },
+  });
+  if (committee.length === 0) {
+    return res.status(400).send({message: 'Unauthorized'});
+  }
+
+  // Find the user
+  const user = await prisma.user.findUnique({
+    where: {
+      email: req.body.email,
+    },
+  });
+
+  if (user === null) {
+    return res.status(400).send({message: 'User does not exist'});
+  }
+
+  // Check if user is already a committee member
+  const committeeMember = await prisma.committee.findMany({
+    where: {
+      userId: user.id,
+      societyId: req.body.societyId,
+    },
+  });
+
+  if (committeeMember.length > 0) {
+    return res.status(400)
+        .send({message: 'User is already a committee member'});
+  }
+
+  // Add the user to the committee
+  await prisma.committee.create({
+    data: {
+      userId: user.id,
+      societyId: req.body.societyId,
+      isPresident: false,
+      role: 'committee member',
+    },
+  });
+
+  res.status(200)
+      .send({message: 'User added to committee', userId: decoded.id});
 }
 
 /**
@@ -234,45 +231,26 @@ async function updateCommitteeMember(req, res) {
  * @param {Response} res The response object
  */
 async function getCommitteeMembers(req, res) {
-  try {
-    if (!req.body.societyId) {
-      res.status(400).send({message: 'Missing societyId'});
-      return;
-    }
-
-    const committee = await prisma.committee.findMany({
-      where: {
-        societyId: req.body.societyId,
-      },
-      select: {
-        userId: true,
-        role: true,
-      },
-    });
-
-    if (committee.length === 0) {
-      res.status(404).send({message: 'No committee members found'});
-      return;
-    }
-
-    for (let i = 0; i < committee.length; i++) {
-      const user = await prisma.user.findUnique({
-        where: {
-          id: committee[i].userId,
-        },
-        select: {
-          email: true,
-        },
-      });
-      committee[i].email = user.email;
-    }
-
-    res
-        .status(200)
-        .send({message: 'Committee members found', committee: committee});
-  } catch (err) {
-    res.status(500).send({message: 'Internal Server Error'});
+  if (!req.body.societyId) {
+    return res.status(400).send({message: 'Missing societyId'});
   }
+  const committee = await prisma.committee.findMany({
+    where: {
+      societyId: req.body.societyId,
+    },
+    select: {
+      user: true,
+      role: true,
+    },
+  });
+
+  for (let i = 0; i < committee.length; i++) {
+    committee[i].email = committee[i].user.email;
+  }
+
+  return res
+      .status(200)
+      .send({message: 'Committee members found', committee: committee});
 }
 
 

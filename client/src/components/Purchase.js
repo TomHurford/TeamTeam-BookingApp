@@ -12,7 +12,7 @@ const FutureTickets = () => {
 
   // Get the future tickets from the backend.
   useEffect(() => {
-    fetch("http://localhost:5001/purchase/future", {
+    fetch(process.env.REACT_APP_API_URL + "/purchase/future", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -31,7 +31,7 @@ const FutureTickets = () => {
 
     // Get the past tickets from the backend.
 
-    fetch("http://localhost:5001/purchase", {
+    fetch(process.env.REACT_APP_API_URL + "/purchase", {
       method: "POST",
       mode: "cors",
       headers: {

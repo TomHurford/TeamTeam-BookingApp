@@ -36,9 +36,9 @@ function App() {
 
   useEffect(() => {
     jwtController.checkIsLoggedIn().then((res) => {
-      //res ? console.log('Logged In!') : console.log('Not Logged In!');
       setIsLoggedIn(res);
     });
+
   }, []);
 
   /* BASKET FUNCTIONALITY */
@@ -62,6 +62,8 @@ function App() {
   };
 
   useEffect(() => {
+    document.title = "Ticketopia | Perfect Tickets, Perfect Time";
+
     const storedBasketEvent = sessionStorage.getItem("basketEvent");
     const storedAvailableTicketTypes = sessionStorage.getItem(
       "availableTicketTypes"
@@ -132,7 +134,6 @@ function App() {
   };
 
   const emptyBasket = () => {
-    console.log("emptying basket");
     setBasketEvent({ a: "b" });
     setAvailableTicketTypes([]);
     setTickets({});

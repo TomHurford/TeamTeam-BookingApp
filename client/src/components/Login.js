@@ -49,7 +49,7 @@ class Login extends Component {
         } 
         event.preventDefault();
         
-        axios.post('http://localhost:5001/user/login', { email: this.state.loginEmail, password: this.state.loginPassword })
+        axios.post(process.env.REACT_APP_API_URL + '/user/login', { email: this.state.loginEmail, password: this.state.loginPassword })
             .then(response => {
                 if (response.data.token) {
                     jwtController.setToken(response.data.token);
@@ -76,7 +76,7 @@ class Login extends Component {
 
         event.preventDefault();
         
-        axios.post('http://localhost:5001/user/signup', { name: this.state.signupName, email: this.state.signupEmail, password: this.state.signupPassword })
+        axios.post(process.env.REACT_APP_API_URL + '/user/signup', { name: this.state.signupName, email: this.state.signupEmail, password: this.state.signupPassword })
             .then(response => {
                 this.showMessage('Signed Up. Check Email for Verification.');
             })
@@ -92,7 +92,7 @@ class Login extends Component {
     handleSubmitForgot = (event) => {
         event.preventDefault();
         
-        axios.post('http://localhost:5001/user/forgotPassword', { email: this.state.forgotEmail })
+        axios.post(process.env.REACT_APP_API_URL + '/user/forgotPassword', { email: this.state.forgotEmail })
             .then(response => {
                 this.showMessage('Forgot Password Email Sent If Email Account Exists.');
             })
@@ -116,7 +116,7 @@ class Login extends Component {
 
         const params = this.getPARAMS();
         
-        axios.post('http://localhost:5001/user/reset', { verificationCode: params.get('forgot'), verificationType: 'forgotPassword', userId: parseInt(params.get('userId')), new_password: this.state.resetPassword })
+        axios.post(process.env.REACT_APP_API_URL + '/user/reset', { verificationCode: params.get('forgot'), verificationType: 'forgotPassword', userId: parseInt(params.get('userId')), new_password: this.state.resetPassword })
             .then(response => {
                 this.showMessage('Password Reset');
             })
@@ -172,7 +172,7 @@ class Login extends Component {
     }
 
     loginNewUser = (param) => {
-        axios.post('http://localhost:5001/user/verify', {verificationCode: param.get('verify'), verificationType: param.get('type'), userId: parseInt(param.get('userId'))})
+        axios.post(process.env.REACT_APP_API_URL + '/user/verify', {verificationCode: param.get('verify'), verificationType: param.get('type'), userId: parseInt(param.get('userId'))})
         .then(res => {
             this.showMessage('Verified! Use Your Credentials To Log In!');
         })

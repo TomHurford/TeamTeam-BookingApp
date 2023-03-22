@@ -77,7 +77,7 @@ function CreateEvents() {
           // The token is sent with the request to the backend to verify the user is logged in
           console.log(jwtController.getToken());
           console.log(JSON.stringify(event));
-          fetch("http://localhost:5001/events/create", {
+          fetch(process.env.REACT_APP_API_URL + "/events/create", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

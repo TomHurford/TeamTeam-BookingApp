@@ -1,0 +1,10 @@
+.page-container > .title {
+    margin-top: 60px;
+    text-align:center;
+}
+
+.data{
+    text-align:center;
+    align-self: right;
+
+}

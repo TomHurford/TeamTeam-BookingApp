@@ -11,88 +11,153 @@ datasource db {
 }
 
 //------------------//
-
 model UserType {
-  id   Int    @id @default(autoincrement())
-  type String
-  User User[]
+  id    Int    @id @unique @default(autoincrement())
+  type  String
+  users User[]
 }
 
 model User {
-  id        Int         @id @default(autoincrement())
-  name      String
-  email     String      @unique
-  password  String
-  type      UserType    @relation(references: [id], fields: [userType])
-  userType  Int
-  Committee Committee[]
-  Members   Members[]
-  Ticket    Ticket[]
-  Purchase  Purchase[]
+  id            Int             @id @default(autoincrement())
+  name          String
+  email         String          @unique
+  password      String
+  userType      Int
+  type          UserType        @relation(references: [id], fields: [userType])
+  committee     Committee[]
+  members       Members[]
+  ticket        Ticket[]
+  Purchase      Purchase[]
+  verifications Verifications[]
 }
 
 model Society {
-  id          Int         @id @default(autoincrement())
-  name        String
+  id          Int               @id @default(autoincrement())
+  name        String            @unique
+  email       String            @unique
   description String
-  links       String
-  Committee   Committee[]
-  Members     Members[]
-  Events      Event[]
+  category    SocietyCategories @default(Other)
+  isArchived  Boolean           @default(false)
+  links       SocietyLinks[]
+  // A society can have many committee members and a committee member can be in many societies
+  committee   Committee[]
+  members     Members[]
+  events      Event[]
+}
+
+model SocietyLinks {
+  id        Int     @id @default(autoincrement())
+  instagram String?
+  facebook  String?
+  twitter   String?
+  website   String?
+  logo      String?
+  banner    String?
+  societyId Int     @unique
+  society   Society @relation(references: [id], fields: [societyId])
 }
 
 model Committee {
-  id        Int     @id @default(autoincrement())
-  user      User    @relation(references: [id], fields: [userId])
-  userId    Int
-  society   Society @relation(references: [id], fields: [societyId])
-  societyId Int
+  role        String
+  userId      Int
+  societyId   Int
+  isPresident Boolean @default(false)
+  user        User    @relation(references: [id], fields: [userId])
+  society     Society @relation(references: [id], fields: [societyId])
+  isArchived  Boolean @default(false)
+
+  @@id([userId, societyId])
 }
 
 model Members {
-  id        Int     @id @default(autoincrement())
-  user      User    @relation(references: [id], fields: [userId])
-  userId    Int
-  society   Society @relation(references: [id], fields: [societyId])
-  societyId Int
+  userId     Int
+  societyId  Int
+  user       User    @relation(references: [id], fields: [userId])
+  society    Society @relation(references: [id], fields: [societyId])
+  isArchived Boolean @default(false)
+
+  @@id([userId, societyId])
 }
 
 model Event {
-  id          Int      @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   name        String
   description String
   date        DateTime
   location    String
-  society     Society  @relation(references: [id], fields: [societyId])
+  banner      String       @default("https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80")
   societyId   Int
-  Ticket      Ticket[]
+  isArchived  Boolean      @default(false)
+  society     Society      @relation(references: [id], fields: [societyId])
+  ticket      Ticket[]
+  ticketTypes TicketType[]
+  purchase    Purchase[]
 }
 
 model TicketType {
-  id     Int      @id @default(autoincrement())
-  type   String
-  price  Int
-  Ticket Ticket[]
+  id         Int      @id @unique @default(autoincrement())
+  ticketType String
+  price      Int
+  quantity   Int
+  eventId    Int
+  event      Event    @relation(references: [id], fields: [eventId])
+  tickets    Ticket[]
+  isArchived Boolean  @default(false)
 }
 
 model Ticket {
-  id           Int        @id @default(autoincrement())
-  user         User       @relation(references: [id], fields: [userId])
+  id           Int           @id @unique @default(autoincrement())
+  ticketData   String
+  status       TICKET_STATUS @default(UNUSED)
   userId       Int
-  event        Event      @relation(references: [id], fields: [eventId])
   eventId      Int
-  ticketType   TicketType @relation(references: [id], fields: [ticketTypeId])
   ticketTypeId Int
-  status       String
-  Purchase     Purchase[]
+  purchaseId   Int
+  purchase     Purchase      @relation(references: [id], fields: [purchaseId])
+  user         User          @relation(references: [id], fields: [userId])
+  event        Event         @relation(references: [id], fields: [eventId])
+  ticketType   TicketType    @relation(references: [id], fields: [ticketTypeId])
+  isArchived   Boolean       @default(false)
 }
 
 model Purchase {
-  id            Int      @id @default(autoincrement())
-  user          User     @relation(references: [id], fields: [userId])
-  userId        Int
-  ticket        Ticket   @relation(references: [id], fields: [ticketId])
-  ticketId      Int
-  date          DateTime
+  id            Int             @id @unique @default(autoincrement())
+  date          DateTime        @default(now())
+  total         Int
   paymentMethod String
+  status        PURCHASE_STATUS @default(PENDING)
+  userId        Int
+  eventId       Int
+  user          User            @relation(references: [id], fields: [userId])
+  event         Event           @relation(references: [id], fields: [eventId])
+  tickets       Ticket[]
+  isArchived    Boolean         @default(false)
 }
+
+model Verifications {
+  id               Int    @id @default(autoincrement())
+  verificationType String
+  verificationCode String
+  userId           Int
+  user             User   @relation(references: [id], fields: [userId])
+}
+
+enum TICKET_STATUS {
+  UNUSED
+  USED
+}
+
+enum PURCHASE_STATUS {
+  PENDING
+  PAID
+  REFUNDED
+}
+
+enum SocietyCategories {
+  Sports
+  Academic
+  Social
+  Other
+}
+
+// I know bad style, will sort this later with the enum

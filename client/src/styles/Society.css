@@ -1,0 +1,253 @@
+/* search society page */
+
+.searchSocietiesPage-container {
+  margin: 15px;
+}
+.searchSocietiesPage-container > h1 {
+}
+.searchSocietiesPage-container ul.list-group {
+  width: 100%;
+  list-style: none;
+  float: left;
+  padding: 0;
+}
+.searchSocietiesPage-container ul.list-group > li {
+  width: fit-content;
+  height: 1.5em;
+  font-size: 1.1em;
+  line-height: 1.5em;
+  padding: 2px 10px;
+  float: left;
+  background-color: white;
+  border: 2px solid #999;
+  border-radius: 100px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+.searchSocietiesPage-container ul.list-group > li:hover {
+  opacity: 0.8;
+  transform: scale(1.05);
+  transition: 0.3s;
+  cursor: pointer;
+}
+.searchSocietiesPage-container li.list-group-item:active,
+ul.list-group > li.active {
+  background-color: #007aff;
+}
+.societyListTable {
+  width: 100%;
+  padding: 0;
+}
+.societyListTable > tbody {
+  width: 100%;
+  height: fit-content;
+  padding: 0;
+  margin: 0;
+}
+.societyListTable > tbody > a {
+  text-decoration: none;
+  color: black;
+}
+.societyListTable > tbody > a > tr {
+  width: 90%;
+  height: 100px;
+  padding: 0;
+  margin: 15px 0;
+  background-color: rgba(255, 255, 255, 0.863);
+  display: block;
+  border-radius: 5px;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid #999;
+}
+.societyListTable > tbody > a > tr:hover {
+  cursor: pointer;
+  transform: scale(1.02);
+  transition: 0.3s;
+}
+.societyListTable > tbody > a > tr > .icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 100%;
+  overflow: hidden;
+  box-shadow: 1px 1px 1px #000;
+  position: relative;
+  margin: 5px 15px;
+  float: left;
+}
+.societyListTable > tbody > a > tr > .icon > .logo {
+  width: 90px;
+  height: 90px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #eee;
+}
+.societyListTable > tbody > a > tr > .name {
+  height: 30px;
+  overflow: hidden;
+  position: relative;
+  line-height: 25px;
+  font-size: 20px;
+  padding-top: 5px;
+  font-weight: bold;
+}
+.societyListTable > tbody > a > tr > .category {
+  height: 20px;
+  overflow: hidden;
+  position: relative;
+  line-height: 20px;
+  font-size: 15px;
+  font-style: italic;
+}
+.societyListTable > tbody > a > tr > .description {
+  height: 22px;
+  overflow: hidden;
+  position: relative;
+  line-height: 22px;
+  font-size: 18px;
+  padding-top: 5px;
+}
+ul.pagination {
+  width: fit-content;
+  max-width: 400px;
+  overflow: hidden;
+  list-style: none;
+  padding: 0;
+}
+ul.pagination > a {
+  text-decoration: none;
+  color: black;
+  float: left;
+}
+ul.pagination > a:hover {
+}
+ul.pagination > a > li.page-item {
+  width: 30px;
+  height: 30px;
+  float: left;
+  margin-right: 10px;
+  background-color: white;
+  border: 2px solid #999;
+  text-align: center;
+  font-size: 20px;
+  line-height: 30px;
+  border-radius: 100%;
+}
+ul.pagination > a > li:hover {
+  background-color: #eee;
+}
+ul.pagination > a > li.active {
+  background-color: #007aff;
+}
+
+/* View Society Page */
+
+#societyPage .identity {
+  padding: 10px;
+}
+#societyPage .header > .image > .bannerOverlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #00000055;
+}
+#societyPage .identity > .icon {
+  width: 90px;
+  height: 90px;
+  position: relative;
+  border-radius: 100%;
+  justify-content: center;
+  align-content: center;
+  margin: auto;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  overflow: hidden;
+  box-shadow: 1px 1px 1px #000;
+}
+#societyPage .identity > .icon > .logo {
+  width: 90px;
+  height: 90px;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+#societyPage .identity > .name {
+  position: relative;
+  text-align: center;
+  width: 100%;
+  color: white;
+  font-size: 3em;
+  text-shadow: 0 0 3px #000;
+  margin-bottom: 20px;
+}
+#societyPage .identity > .socials {
+  width: 220px;
+  height: 90px;
+  justify-content: center;
+  align-content: center;
+  margin: auto;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+#societyPage .identity > .socials > .socialCircle {
+  margin: 0 10px;
+  border-radius: 100%;
+}
+#societyPage .identity > .socials > .socialCircle > img:hover {
+  transform: scale(1.05);
+  transition: 0.5s;
+  cursor: pointer;
+}
+#societyPage .identity > .socials > .socialCircle > img {
+  width: 2em;
+  height: 2em;
+}
+@media (min-width: 666px) {
+
+    #societyPage .identity {
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+    }
+    #societyPage .identity > .icon {
+        float: left;
+        position: relative;
+        margin: 0;
+        margin-right: 15px;
+    }
+    #societyPage .identity > .name {
+        float: left;
+        position: relative;
+        margin: 0;
+        width: fit-content;
+        height: 90px;
+        line-height: 90px;
+        overflow: hidden;
+        
+    }
+    #societyPage .identity > .socials {
+        position: absolute;
+        width: fit-content;
+        bottom: 6px;
+        right: 20px;
+        height: fit-content;
+    }
+}
+#societyPage .body {
+    width: 100%;
+}
+#societyPage .body .description {
+    width: 100%;
+}
+#societyPage .body .events {
+    width: 100%;
+    min-height: fit-content;
+}
+

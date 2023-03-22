@@ -1,0 +1,227 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CreateSocietyForm snapshot test 1`] = `
+<div
+  style={
+    Object {
+      "marginLeft": "8px",
+      "marginTop": "60px",
+    }
+  }
+>
+  <h1>
+    Create Society
+  </h1>
+  <form
+    onSubmit={[Function]}
+  >
+    <div
+      className="form-group"
+    >
+      <label
+        htmlFor="societyName"
+      >
+        Society Name
+      </label>
+      <input
+        className="form-control"
+        name="societyName"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label>
+        Select a category
+      </label>
+      <select
+        className="form-select"
+        id="category"
+        name="category"
+        onChange={[Function]}
+        value="Other"
+      >
+        <option
+          defaultValue={true}
+        >
+          Other
+        </option>
+        <option>
+          Academic
+        </option>
+        <option>
+          Social
+        </option>
+        <option>
+          Sports
+        </option>
+      </select>
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        htmlFor="email"
+      >
+        Society Email
+      </label>
+      <input
+        className="form-control"
+        name="email"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <h5>
+      Socials
+    </h5>
+    <div
+      className="form-group"
+    >
+      <label
+        htmlFor="website"
+      >
+        Website
+      </label>
+      <input
+        className="form-control"
+        name="website"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        htmlFor="instagram"
+      >
+        Instagram
+      </label>
+      <input
+        className="form-control"
+        name="instagram"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        htmlFor="twitter"
+      >
+        Twitter
+      </label>
+      <input
+        className="form-control"
+        name="twitter"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        htmlFor="facebook"
+      >
+        Facebook
+      </label>
+      <input
+        className="form-control"
+        name="facebook"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <h5>
+      Images
+    </h5>
+    <small
+      className="form-text text-muted"
+      id="imageHelp"
+    >
+      You must enter a link to the images
+    </small>
+    <div
+      className="form-group"
+    >
+      <label
+        htmlFor="logo"
+      >
+        Society Logo
+      </label>
+      <input
+        className="form-control"
+        name="logo"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        htmlFor="banner"
+      >
+        Society Banner
+      </label>
+      <input
+        className="form-control"
+        name="banner"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </div>
+    <div
+      className="form-group"
+    >
+      <label
+        htmlFor="description"
+      >
+        Society Description
+      </label>
+      <textarea
+        className="form-control"
+        cols="173"
+        id="description"
+        name="description"
+        onBlur={[Function]}
+        onChange={[Function]}
+        rows="8"
+        style={
+          Object {
+            "marginBottom": "8px",
+          }
+        }
+        type="text"
+        value=""
+      />
+    </div>
+    <button
+      className="button"
+    >
+      Create Society
+    </button>
+  </form>
+</div>
+`;

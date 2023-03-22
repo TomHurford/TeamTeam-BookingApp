@@ -1,13 +1,177 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-y: auto;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.root-container {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  min-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.page-container {
+  width: 100vw;
+  min-height: calc(100vh - 120px);
+  height: fit-content;
+  min-width: 400px;
+  position: relative;
+  top: 60px;
+  left: 0;
+  z-index: 5;
+  overflow: hidden;
+  margin-bottom: 100px;
+}
+
+.nav-container {
+  width: 100vw;
+  height: 60px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  min-width: 400px;
+}
+
+.underlay {
+  width: 100vw;
+  min-width: 400px;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -10000;
+  /* Unsplash Royalty free License */
+  background: url("https://images.unsplash.com/photo-1567201864585-6baec9110dac?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+}
+
+.spacer {
+  width: 100%;
+  height: 100px;
+  float: left;
+}
+
+.barcodeCanvas {
+  width: 200px;
+  height: 100px;
+  overflow: hidden;
+}
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  padding-top: 80px;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  /* Unsplash Royalty free License */
+  background: url("https://images.unsplash.com/photo-1567201864585-6baec9110dac?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80");
+  background-repeat: repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.overlay[disabled] {
+  height: 0;
+  width: 0;
+  overflow: hidden;
+  display: none;
+}
+
+.page-wrapper {
+  position: relative;
+  padding: 0;
+  padding-bottom: 100px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  height: 80px;
+  background-color: black;
+  text-align: right;
+  z-index: 100;
+  overflow: hidden;
+}
+.footer > ul {
+  list-style: none;
+  text-align: right;
+  margin: 0;
+  padding: 0;
+}
+.footer > ul > li {
+  float: left;
+  text-align: right;
+  margin-left: 20px;
+}
+
+.footer > ul > li > p > a {
+  text-decoration: none;
+  color: white;
+}
+
+.footer > ul > li > p > a:hover {
+  transform: scale(1.03);
+  transition: 0.3s;
+  opacity: 0.8;
+}
+
+/* Button styles */
+.button {
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: 4px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #007aff;
+  color: #ffffff;
+}
+
+.button--red {
+  background-color: #ff3b30;
+  color: #ffffff;
+}
+
+.button--green {
+  background-color: #00db00;
+  color: #ffffff;
+}
+
+.button:hover,
+.button:focus {
+  opacity: 0.9;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

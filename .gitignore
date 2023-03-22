@@ -1,6 +1,25 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,react,reactnative
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,react,reactnative
 
+.docker.env
+
+*/cypress/videos
+*/cypress/screenshots
+
+### Code Coverage Reports ###
+cypress-coverage
+jest-coverage
+combined-coverage
+
+### database ###
+database/*
+.docker.env
+client/combined-coverage/
+client/cypress-coverage/
+client/jest-coverage/
+
+
+
 ### react ###
 .DS_*
 *.log
@@ -176,6 +195,7 @@ web_modules/
 .env.test.local
 .env.production.local
 .env.local
+.env.docker
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -286,6 +306,10 @@ google-services.json
 .history
 .ionide
 
+## Dont include the database folder
+database/
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,react,reactnative
 
-migrations/
+api/uploads/*
+./vscode/

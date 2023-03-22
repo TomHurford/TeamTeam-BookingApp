@@ -1,0 +1,54 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Purchase snapshot test 1`] = `
+<div
+  className="page-container"
+  data-testid="Purchase"
+>
+  <div
+    className="underlay"
+  />
+  <h1>
+    Past Event Purchases
+  </h1>
+  <table
+    className="purchase"
+  >
+    <thead>
+      <tr>
+        <th>
+          Event Name
+        </th>
+        <th>
+          Event Date
+        </th>
+        <th>
+          Tickets
+        </th>
+      </tr>
+    </thead>
+    <tbody />
+  </table>
+  <h1>
+    Upcoming Event Purchases
+  </h1>
+  <table
+    className="purchase"
+  >
+    <thead>
+      <tr>
+        <th>
+          Event Name
+        </th>
+        <th>
+          Event Date
+        </th>
+        <th>
+          Tickets
+        </th>
+      </tr>
+    </thead>
+    <tbody />
+  </table>
+</div>
+`;

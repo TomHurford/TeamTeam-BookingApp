@@ -1,0 +1,92 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchSocieties snapshot test 1`] = `
+<div
+  className="page-container"
+>
+  <div
+    className="underlay"
+  />
+  <div
+    className="searchSocietiesPage-container"
+  >
+    <h1>
+      Societies
+    </h1>
+    <div
+      data-testid="searchbar"
+    >
+      <input
+        className="searchBar"
+        minLength="1"
+        name="query"
+        onChange={[Function]}
+        placeholder="Search for society..."
+        type="text"
+        value=""
+      />
+    </div>
+    <ul
+      className="list-group"
+    >
+      <li
+        className="list-group-item"
+        onClick={[Function]}
+      >
+        All
+      </li>
+      <li
+        className="list-group-item"
+        onClick={[Function]}
+      >
+        Sports
+      </li>
+      <li
+        className="list-group-item"
+        onClick={[Function]}
+      >
+        Academic
+      </li>
+      <li
+        className="list-group-item"
+        onClick={[Function]}
+      >
+        Social
+      </li>
+      <li
+        className="list-group-item"
+        onClick={[Function]}
+      >
+        Other
+      </li>
+    </ul>
+    <table
+      className="societyListTable"
+    >
+      <tbody />
+    </table>
+    <div
+      data-testid="pagination"
+    >
+      <ul
+        className="pagination"
+      />
+    </div>
+    <a
+      href="/create-society"
+      onClick={[Function]}
+    >
+      <button
+        className="button"
+        style={
+          Object {
+            "marginRight": "15px",
+          }
+        }
+      >
+        Create Society
+      </button>
+    </a>
+  </div>
+</div>
+`;

@@ -91,6 +91,7 @@ exports[`Contact snapshot test 1`] = `
             "marginBottom": "8px",
           }
         }
+        value="send"
       >
         Submit query
       </button>

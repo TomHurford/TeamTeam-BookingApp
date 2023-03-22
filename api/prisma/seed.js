@@ -98,6 +98,19 @@ async function seedUsers() {
       },
     },
   });
+
+  await prisma.user.create({
+    data: {
+      name: 'Professor',
+      email: 'professor@kcl.ac.uk',
+      password: bcrypt.hashPassword('professor'),
+      type: {
+        connect: {
+          id: 2,
+        },
+      },
+    },
+  });
   // Use faker to generate 50 random users
   for (let i = 0; i < 50; i++) {
     await prisma.user.create({
@@ -185,7 +198,7 @@ async function seedCommittee() {
     },
   });
   const societies = await prisma.society.findMany();
-  for (let i = 0; i < societies.length; i++) {
+  for (let i = 1; i < societies.length; i++) {
     const society = societies[i];
     const userId = faker.datatype.number({min: 1, max: 50});
     // Make sure the user is not already in the committee
@@ -238,7 +251,7 @@ async function seedMembers() {
   });
 
   const societies = await prisma.society.findMany();
-  for (let i = 0; i < societies.length; i++) {
+  for (let i = 1; i < societies.length; i++) {
     const society = societies[i];
     for (let j = 0; j < Math.floor(Math.random() * 30) + 5; j++) {
       // We need to make sure that the user is not already a member of the

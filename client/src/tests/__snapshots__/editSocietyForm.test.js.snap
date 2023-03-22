@@ -234,7 +234,7 @@ exports[`EditSocietyForm snapshot test 1`] = `
         "borderWidth": 2,
         "marginBottom": "20px",
         "marginTop": "20px",
-        "width": "28%",
+        "width": "50%",
       }
     }
   >

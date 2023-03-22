@@ -64,25 +64,50 @@ function ViewSociety() {
   }, [societyId]);
 
   useEffect(() => {
-    fetch("http://localhost:5001/societies/getFollowedSocieties", {
+    if(jwtController.getToken() !== undefined && jwtController.getToken() !== null){
+    fetch("http://localhost:5001/societies//checkUserIsMember", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + jwtController.getToken(),
+        "Authorization": "Bearer " + jwtController.getToken()
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify({"societyId": parseInt(societyId)})
     }).then((res) => {
       res.json().then((data) => {
-        for (let i = 0; i < data.societies.length; i++) {
-          if (data.societies[i].societyId === parseInt(societyId)) {
-            setShowFollowButton(false);
-          }
+        if (data.isMember === true) {
+          setShowFollowButton(false);
+          setShowUnfollowButton(true)
+        }
+        else{
+          setShowFollowButton(true);
+          setShowUnfollowButton(false)
         }
       });
     });
+    }
   }, [societyId]);
 
+  // useEffect(() => {
+  //   fetch("http://localhost:5001/societies/getFollowedSocieties", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //       Authorization: "Bearer " + jwtController.getToken(),
+  //     },
+  //     body: JSON.stringify(data),
+  //   }).then((res) => {
+  //     res.json().then((data) => {
+  //       for (let i = 0; i < data.societies.length; i++) {
+  //         if (data.societies[i].societyId === parseInt(societyId)) {
+  //           setShowFollowButton(false);
+  //         }
+  //       }
+  //     });
+  //   });
+  // }, [societyId]);
+
   useEffect(() => {
+    if(jwtController.getToken() !== undefined && jwtController.getToken() !== null){
     fetch("http://localhost:5001/societies/checkPresident", {
       method: "POST",
       headers: {
@@ -97,6 +122,7 @@ function ViewSociety() {
         }
       });
     });
+  }
   }, [societyId]);
 
   function societyEventClick(eventId) {
@@ -223,7 +249,12 @@ function ViewSociety() {
             {jwtController.getToken() !== undefined &&
               jwtController.getToken() !== null &&
               showFollowButton && (
-              <button type="button" className="button" onClick={followSociety}>
+              <button 
+                data-testid="followButton" 
+                type="button" 
+                className="button" 
+                onClick={followSociety}
+              >
                 Follow
               </button>
             )}
@@ -233,6 +264,7 @@ function ViewSociety() {
               showUnfollowButton && (
               <button
                 type="button"
+                data-testid="unfollowButton"
                 className="button button--red"
                 onClick={unfollowSociety}
               >

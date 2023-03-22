@@ -91,14 +91,41 @@ describe('Test Edit Society Form', () => {
       cy.contains('Committee Members').parent().find('input').type('test');
       cy.contains('Committee Members').parent().contains('Add Member').parent().find('button').click();
 
-      cy.contains('Committee Members').parent().find('input').type('test@email.com');
+      cy.contains('admin@admin.com').parent().contains('Remove').click();
+
+      cy.contains('Committee Members').parent().find('input').clear();
+
+      cy.contains('Committee Members').parent().find('input').type('student@kcl.ac.uk');
       cy.contains('Committee Members').parent().contains('Add Member').parent().find('button').click();
 
-      cy.contains('Committee Members').parent().contains('Remove').parent().find('button').click();
+      cy.contains('Committee Members').parent().find('input').type('professor@kcl.ac.uk');
+      cy.contains('Committee Members').parent().contains('Add Member').parent().find('button').click();
 
-      cy.contains('Committee Members').parent().contains('Remove').parent().find('button').click();
-      cy.contains('Committee Members').parent().contains('Remove').parent().find('button').click();
-      cy.contains('Committee Members').parent().contains('Remove').parent().find('button').click();
+      cy.contains('student@kcl.ac.uk').parent().contains('Remove').click();
+
+      cy.contains('professor@kcl.ac.uk').parent().contains('Make President').click();
+      cy.wait(500);
+
+      // Uncomment once functionality is implemented
+      /*
+      cy.visit('/logout');
+      cy.wait(500);
+
+      cy.visit('/login');
+      cy.get('input[name="loginEmail"]').type('professor@kcl.ac.uk');
+      cy.get('input[name="loginPassword"]').type('professor');
+      cy.get('button[name="loginbutton"]').click();
+      cy.wait(500);
+      cy.visit('/societies');
+      cy.get('div[data-testid="searchbar"]').children().get('input').type('Society 1', {force:true});
+
+      cy.contains('Society 1').click();
+      cy.contains('Edit Society').parent().click();
+
+      cy.contains('admin@admin.com').parent().contains('Make President').click();
+      cy.wait(500);
+      */
+
     })
     it('Fill valid details', () => {
       cy.contains('Society 1').click();

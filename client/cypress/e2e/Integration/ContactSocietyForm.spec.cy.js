@@ -11,6 +11,11 @@ describe('Contact Society Form', () => {
     cy.contains('Subject of your query').parent().find('input').type('Test Subject', { force: true });
     cy.contains('Your query').parent().find('textarea').type('Test Message description here .....................', { force: true });
     cy.contains('Submit query').click();
+    cy.wait(1000);
+    cy.on('window:alert', (str) => {
+      expect(str).to.contains('Message sent, we will get back to you shortly')
+    })
+    cy.wait(1000);
   });
 
   describe('Invalid inputs', () => {

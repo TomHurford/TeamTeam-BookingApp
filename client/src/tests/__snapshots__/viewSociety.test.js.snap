@@ -98,6 +98,7 @@ exports[`ViewSociety snapshot test 1`] = `
         </strong>
          
       </p>
+      <div />
     </div>
     <div
       className="events"
@@ -135,6 +136,23 @@ exports[`ViewSociety snapshot test 1`] = `
         }
       }
     >
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="societyName"
+          name="societyName"
+        />
+      </div>
+      <div
+        className="field"
+      >
+        <label
+          htmlFor="societyEmail"
+          name="societyEmail"
+          value="nidhuravee@gmail.com"
+        />
+      </div>
       <div
         className="form-group"
       >
@@ -218,10 +236,16 @@ exports[`ViewSociety snapshot test 1`] = `
             "marginBottom": "8px",
           }
         }
+        type="submit"
+        value="send"
       >
         Submit query
       </button>
     </form>
   </div>
+  <a
+    href="/edit-society/undefined"
+    onClick={[Function]}
+  />
 </div>
 `;

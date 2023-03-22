@@ -182,6 +182,7 @@ function ContactSocietyForm(props) {
         <button
           value="send"
           className="button"
+          type="submit"
           style={{
             marginBottom: "8px",
           }}

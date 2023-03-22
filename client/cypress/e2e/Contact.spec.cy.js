@@ -106,5 +106,10 @@ describe('Contact', () => {
       cy.get('input[name="messageSubject"]').type('Test')
       cy.get('textarea[name="message"]').type('Test  message  description  here ................. ')
       cy.get('button').click()
+      cy.wait(2000);
+      cy.on('window:alert', (str) => {
+        expect(str).to.contains('Message sent, we will get back to you shortly')
+      })
+      cy.wait(1000);
     })
 });

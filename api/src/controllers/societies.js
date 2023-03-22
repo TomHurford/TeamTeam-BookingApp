@@ -1,6 +1,6 @@
 // SOCIETY CONTROLLER
-const prisma = require('../../prisma/prisma.js');
-const auth = require('../utils/jwt_auth.js');
+const prisma = require("../../prisma/prisma.js");
+const auth = require("../utils/jwt_auth.js");
 
 /**
  * Sign up a new society
@@ -12,15 +12,10 @@ async function signup(req, res) {
   try {
     const decoded = await auth.authenticate(req);
 
-
     // Check that the request body is not empty and contains the correct
     // properties
-    if (
-      !req.body.name ||
-      !req.body.description ||
-      !req.body.email
-    ) {
-      res.status(400).send({error: 'Missing Society Details'});
+    if (!req.body.name || !req.body.description || !req.body.email) {
+      res.status(400).send({ error: "Missing Society Details" });
       return;
     }
     // Check if the user exists
@@ -30,9 +25,8 @@ async function signup(req, res) {
       },
     });
 
-
     if (!user) {
-      return res.status(409).send({token: null, message: 'User Not Found'});
+      return res.status(409).send({ token: null, message: "User Not Found" });
     }
 
     // Check if the society name already exists
@@ -48,42 +42,35 @@ async function signup(req, res) {
       },
     });
     if (societyName) {
-      return res
-          .status(409)
-          .send({
-            token: null,
-            message: 'Society already exists with that name',
-          });
+      return res.status(409).send({
+        token: null,
+        message: "Society already exists with that name",
+      });
     }
     if (societyEmail) {
-      return res
-          .status(409)
-          .send({
-            token: null,
-            message: 'Society already exists with that email',
-          });
+      return res.status(409).send({
+        token: null,
+        message: "Society already exists with that email",
+      });
     }
     const validRegex =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     // Check that the email has a valid regex
     if (!req.body.email.match(validRegex)) {
-      return res
-          .status(409)
-          .send({
-            token: null,
-            message: 'Email inputed doesnt have a valid regex',
-          });
+      return res.status(409).send({
+        token: null,
+        message: "Email inputed doesnt have a valid regex",
+      });
     }
     society = await prisma.society.create({
       data: {
         name: req.body.name,
         description: req.body.description,
         email: req.body.email,
-        category: req.body.category ? req.body.category : 'Other',
+        category: req.body.category ? req.body.category : "Other",
       },
     });
     listSocietyLinks = await prisma.societyLinks.create({
-
       data: {
         societyId: society.id,
         banner: req.body.banner ? req.body.banner : null,
@@ -99,15 +86,14 @@ async function signup(req, res) {
       data: {
         userId: user.id,
         societyId: society.id,
-        role: 'President',
+        role: "President",
         isPresident: true,
       },
     });
 
-
-    res.status(200).send({society, committee, listSocietyLinks});
+    res.status(200).send({ society, committee, listSocietyLinks });
   } catch (err) {
-    res.status(401).send({token: null, error: 'Unauthorized'});
+    res.status(401).send({ token: null, error: "Unauthorized" });
   }
 }
 
@@ -143,7 +129,7 @@ async function getSocieties(req, res) {
   societies.forEach((society) => {
     society.members = society.members.length;
     if (society.description.length > 50) {
-      society.description = society.description.substring(0, 50) + '...';
+      society.description = society.description.substring(0, 50) + "...";
     }
   });
 
@@ -169,7 +155,7 @@ async function getSocietyById(req, res) {
       try {
         decoded = await auth.authenticate(req);
       } catch (err) {
-        res.status(401).send({token: null, error: 'Unauthorized'});
+        res.status(401).send({ token: null, error: "Unauthorized" });
         return;
       }
       const userId = decoded.id;
@@ -252,7 +238,7 @@ async function getSocietyById(req, res) {
       society: society,
     });
   } catch (err) {
-    res.status(500).send({message: 'Internal Server Error'});
+    res.status(500).send({ message: "Internal Server Error" });
   }
 }
 
@@ -267,7 +253,7 @@ async function deleteSociety(req, res) {
     try {
       decoded = await auth.authenticate(req);
     } catch (err) {
-      res.status(401).send({token: null, error: 'Unauthorized'});
+      res.status(401).send({ token: null, error: "Unauthorized" });
       return;
     }
     const userId = decoded.id;
@@ -285,20 +271,20 @@ async function deleteSociety(req, res) {
       },
     });
     if (!society) {
-      res.status(400).send({error: 'Invalid id of society'});
+      res.status(400).send({ error: "Invalid id of society" });
       return;
     }
     if (!commitee.isPresident && !isAdmin) {
-      res.status(401).send({message: 'Unauthorized'});
+      res.status(401).send({ message: "Unauthorized" });
       return;
     }
     await prisma.society.update({
-      where: {id: req.body.societyId},
-      data: {isArchived: true},
+      where: { id: req.body.societyId },
+      data: { isArchived: true },
     });
-    res.status(200).send({message: 'Society Updated'});
+    res.status(200).send({ message: "Society Updated" });
   } catch (err) {
-    res.status(500).send({message: 'Internal Server Error'});
+    res.status(500).send({ message: "Internal Server Error" });
   }
 }
 
@@ -322,7 +308,7 @@ async function updateSociety(req, res) {
     });
 
     if (society.length === 0) {
-      res.status(404).send({message: 'Society Not Found'});
+      res.status(404).send({ message: "Society Not Found" });
       return;
     }
     const committee = await prisma.committee.findMany({
@@ -333,7 +319,7 @@ async function updateSociety(req, res) {
     });
 
     if (committee.length === 0) {
-      res.status(401).send({message: 'Unauthorized'});
+      res.status(401).send({ message: "Unauthorized" });
       return;
     }
 
@@ -347,9 +333,9 @@ async function updateSociety(req, res) {
         name: req.body.name ? req.body.name : society.name,
         category: req.body.category ? req.body.category : society.category,
         email: req.body.email ? req.body.email : society.email,
-        description: req.body.description ?
-        req.body.description :
-        society.description,
+        description: req.body.description
+          ? req.body.description
+          : society.description,
       },
     });
 
@@ -367,29 +353,29 @@ async function updateSociety(req, res) {
           societyId: req.body.societyId,
         },
         data: {
-          website: req.body.links.website ?
-            req.body.links.website :
-            societyLinks.website,
-          instagram: req.body.links.instagram ?
-            req.body.links.instagram :
-            societyLinks.instagram,
-          twitter: req.body.links.twitter ?
-            req.body.links.twitter :
-            societyLinks.twitter,
-          facebook: req.body.links.facebook?
-            req.body.links.facebook:
-            societyLinks.facebook,
+          website: req.body.links.website
+            ? req.body.links.website
+            : societyLinks.website,
+          instagram: req.body.links.instagram
+            ? req.body.links.instagram
+            : societyLinks.instagram,
+          twitter: req.body.links.twitter
+            ? req.body.links.twitter
+            : societyLinks.twitter,
+          facebook: req.body.links.facebook
+            ? req.body.links.facebook
+            : societyLinks.facebook,
           logo: req.body.links.logo ? req.body.links.logo : societyLinks.logo,
-          banner: req.body.links.banner?
-            req.body.links.banner:
-            societyLinks.banner,
+          banner: req.body.links.banner
+            ? req.body.links.banner
+            : societyLinks.banner,
         },
       });
     }
 
-    res.status(200).send({message: 'Society Updated'});
+    res.status(200).send({ message: "Society Updated" });
   } catch (err) {
-    res.status(500).send({message: 'Internal Server Error'});
+    res.status(500).send({ message: "Internal Server Error" });
   }
 }
 

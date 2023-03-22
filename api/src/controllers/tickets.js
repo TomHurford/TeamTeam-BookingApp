@@ -76,7 +76,7 @@ async function useTicket(req, res) {
     },
   });
 
-  if(!ticket) return res.status(400).send({message: 'Invalid Ticket ID'});
+  if (!ticket) return res.status(400).send({message: 'Invalid Ticket ID'});
 
   const committee = ticket.event.society.committee;
 

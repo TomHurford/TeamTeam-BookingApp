@@ -265,7 +265,7 @@ async function checkIfUserIsPresident(req, res) {
 
   // Check that the societyId is a positive integer and is of type number
   if (typeof req.body.societyId !== 'number' || req.body.societyId < 0) {
-    res.status(400).send({ message: 'Invalid Request' });
+    res.status(400).send({message: 'Invalid Request'});
     return;
   }
 
@@ -277,7 +277,7 @@ async function checkIfUserIsPresident(req, res) {
   });
 
   if (society === null) {
-    res.status(400).send({ message: 'Society does not exist' });
+    res.status(400).send({message: 'Society does not exist'});
     return;
   }
 

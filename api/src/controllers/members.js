@@ -80,58 +80,58 @@ async function unfollowSociety(req, res) {
   let userId = null;
   try {
     // Authenticate the user
-    userId = (await auth.authenticate(req)).id;
+    userId = (await auth.authenticate(req));
   } catch (err) {
     return res.status(500).send({message: 'Internal Server Error'});
   }
 
-    if (!req.body.societyId) {
-      res.status(400).send({message: 'Missing societyId'});
-      return;
-    }
+  if (!req.body.societyId) {
+    res.status(400).send({message: 'Missing societyId'});
+    return;
+  }
 
-    // CHeck that the society exists
-    const society = await prisma.society.findUnique({
-      where: {
-        id: req.body.societyId,
-      },
-    });
+  // CHeck that the society exists
+  const society = await prisma.society.findUnique({
+    where: {
+      id: req.body.societyId,
+    },
+  });
 
-    if (!society) {
-      res.status(404).send({message: 'Society not found'});
-      return;
-    }
+  if (!society) {
+    res.status(404).send({message: 'Society not found'});
+    return;
+  }
 
-    const member = await prisma.members.findMany({
-      where: {
-        userId: userId,
+  const member = await prisma.members.findMany({
+    where: {
+      userId: userId.id,
+      societyId: req.body.societyId,
+    },
+  });
+
+  if (member.length === 0) {
+    res.status(400).send({message: 'User is not a member'});
+    return;
+  }
+
+  if (member[0].isArchived === true) {
+    res.status(400).send({message: 'User is not a member'});
+    return;
+  }
+
+  await prisma.members.update({
+    where: {
+      userId_societyId: {
+        userId: userId.id,
         societyId: req.body.societyId,
       },
-    });
+    },
+    data: {
+      isArchived: true,
+    },
+  });
 
-    if (member.length === 0) {
-      res.status(400).send({message: 'User is not a member'});
-      return;
-    }
-
-    if (member[0].isArchived === true) {
-      res.status(400).send({message: 'User is already not a member'});
-      return;
-    }
-
-    await prisma.members.update({
-      where: {
-        userId_societyId: {
-          userId: userId,
-          societyId: req.body.societyId,
-        },
-      },
-      data: {
-        isArchived: true,
-      },
-    });
-
-    return res.status(200).send({message: 'User is no longer a member'});
+  return res.status(200).send({message: 'User is no longer a member'});
 }
 
 /**
@@ -178,7 +178,7 @@ async function getMembers(req, res) {
   let userId = null;
   try {
     // Authenticate the user
-    userId = (await auth.authenticate(req)).id;  
+    userId = (await auth.authenticate(req)).id;
   } catch (err) {
     return res.status(500).send({message: 'Internal Server Error'});
   }
@@ -263,7 +263,6 @@ async function getListOfFollowedSocieties(req, res) {
   }
 
   res.status(200).send({message: 'Societies found', societies: societies});
-
 }
 
 module.exports = {

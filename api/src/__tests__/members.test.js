@@ -51,7 +51,7 @@ describe('follow society', () => {
         .set('Authorization', `Bearer ` + token)
         .send({
           societyId: 500,
-        })
+        });
     expect(res.statusCode).toBe(404);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -64,7 +64,7 @@ describe('follow society', () => {
         .set('Authorization', `Bearer ` + token)
         .send({
           societyId: 20,
-        })
+        });
     expect(res.statusCode).toBe(200);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -77,7 +77,7 @@ describe('follow society', () => {
         .set('Authorization', `Bearer ` + token)
         .send({
           societyId: 20,
-        })
+        });
     expect(res.statusCode).toBe(400);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -112,7 +112,7 @@ describe('unfollow society', () => {
         .set('Authorization', `Bearer ` + token)
         .send({
           societyId: 500,
-        })
+        });
     expect(res.statusCode).toBe(404);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -125,7 +125,7 @@ describe('unfollow society', () => {
         .set('Authorization', `Bearer ` + token)
         .send({
           societyId: 20,
-        })
+        });
     expect(res.statusCode).toBe(200);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -138,11 +138,11 @@ describe('unfollow society', () => {
         .set('Authorization', `Bearer ` + token)
         .send({
           societyId: 20,
-        })
+        });
     expect(res.statusCode).toBe(400);
     // Check the response
     expect(res.body).not.toBeNull();
-    expect(res.body.message).toBe('User is already not a member');
+    expect(res.body.message).toBe('User is not a member');
   });
 
   test('unfollow society when not followed', async () => {
@@ -151,7 +151,7 @@ describe('unfollow society', () => {
         .set('Authorization', `Bearer ` + token)
         .send({
           societyId: 21,
-        })
+        });
     expect(res.statusCode).toBe(400);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -186,7 +186,7 @@ describe('check User Is Member', () => {
         .set('Authorization', `Bearer ` + token)
         .send({
           societyId: 20,
-        })
+        });
     expect(res.statusCode).toBe(200);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -194,7 +194,6 @@ describe('check User Is Member', () => {
   });
 
   test('check user is member when member', async () => {
-
     await prisma.members.create({
       data: {
         userId: 1,
@@ -207,7 +206,7 @@ describe('check User Is Member', () => {
         .set('Authorization', `Bearer ` + token)
         .send({
           societyId: 6,
-        })
+        });
     expect(res.statusCode).toBe(200);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -215,10 +214,10 @@ describe('check User Is Member', () => {
 
     await prisma.members.delete({
       where: {
-        userId_societyId:{
+        userId_societyId: {
           userId: 1,
           societyId: 6,
-        }
+        },
       },
     });
   });
@@ -251,7 +250,7 @@ describe('get Members', () => {
         .set('Authorization', `Bearer ` + token)
         .send({
           societyId: 2,
-        })
+        });
     expect(res.statusCode).toBe(400);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -259,13 +258,12 @@ describe('get Members', () => {
   });
 
   test('get members when no members', async () => {
-
     await prisma.members.delete({
       where: {
-        userId_societyId:{
+        userId_societyId: {
           userId: 1,
           societyId: 1,
-        }
+        },
       },
     });
 
@@ -274,8 +272,7 @@ describe('get Members', () => {
         .set('Authorization', `Bearer ` + token)
         .send({
           societyId: 1,
-        })
-        console.log(res.body)
+        });
     expect(res.statusCode).toBe(404);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -290,7 +287,6 @@ describe('get Members', () => {
   });
 
   test('get members', async () => {
-
     await prisma.members.create({
       data: {
         userId: 2,
@@ -303,7 +299,7 @@ describe('get Members', () => {
         .set('Authorization', `Bearer ` + token)
         .send({
           societyId: 1,
-        })
+        });
     expect(res.statusCode).toBe(200);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -311,10 +307,10 @@ describe('get Members', () => {
 
     await prisma.members.delete({
       where: {
-        userId_societyId:{
+        userId_societyId: {
           userId: 2,
           societyId: 1,
-        }
+        },
       },
     });
   });
@@ -333,7 +329,7 @@ describe('get list of followed societies', () => {
   test('get list of followed societies with follows', async () => {
     const res = await request(app)
         .post('/societies/getFollowedSocieties')
-        .set('Authorization', `Bearer ` + token)
+        .set('Authorization', `Bearer ` + token);
     expect(res.statusCode).toBe(200);
     // Check the response
     expect(res.body).not.toBeNull();

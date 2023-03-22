@@ -43,7 +43,7 @@ describe('Use Tickets', () =>{
   test('Use Ticket', async () =>{
     const ticket = await prisma.ticket.create({
       data: {
-        ticketData: "ticket text purchases",
+        ticketData: 'ticket text purchases',
         purchase: {
           connect: {
             id: 1,
@@ -70,68 +70,41 @@ describe('Use Tickets', () =>{
         .post('/tickets/use')
         .set('Authorization', 'Bearer ' + token)
         .send({
-          ticketTypeId: ticket.id, 
+          ticketTypeId: ticket.id,
         });
     expect(res.statusCode).toBe(200);
-    console.log('ticket.id: ' + ticket.id);
     await prisma.ticket.delete({
       where: {
-          id: ticket.id,
-        }
-      });
+        id: ticket.id,
+      },
+    });
   });
   test('Use Ticket with no ticketId', async () =>{
     const response = await request(app)
         .post('/tickets/use')
         .set('Authorization', 'Bearer ' + token)
         .send({
-<<<<<<< Updated upstream
-          ticketId: 1,
-          quantity: 10,
-        });
-    console.log('response from /tickets/use\n' + response.body);
-    expect(response.statusCode).toBe(200);
-  });
-  test('Use Ticket with no ticketId', async () =>{
-    const response = await request(app)
-        .post('/tickets/use')
-        .set('Authorization', 'Bearer ' + token)
-        .send({
-          ticketId: undefined,
-          quantity: 10,
-        });
-    console.log('response from /tickets/use\n' + response.body);
-    expect(response.statusCode).toBe(400);
-    expect(response.message).toBe('Invalid Ticket Type');
-=======
           ticketTypeId: undefined,
         });
-    console.log('response from /tickets/use\n' + response);
     expect(response.statusCode).toBe(400);
     expect(response.body.message).toBe('Missing Body');
->>>>>>> Stashed changes
   });
   test('Use Ticket with invalid ticketId', async () =>{
     const response = await request(app)
         .post('/tickets/use')
         .set('Authorization', 'Bearer ' + token)
         .send({
-<<<<<<< Updated upstream
-          ticketId: undefined,
-=======
           ticketTypeId: -1,
->>>>>>> Stashed changes
           quantity: 10,
         });
-    console.log('response from /tickets/use\n' + response);
     expect(response.statusCode).toBe(400);
     expect(response.body.message).toBe('Invalid Ticket ID');
   });
   test('Use Ticket withused ticket', async () =>{
     const ticket = await prisma.ticket.create({
       data: {
-        ticketData: "ticket text purchases",
-        status: "USED",
+        ticketData: 'ticket text purchases',
+        status: 'USED',
         purchase: {
           connect: {
             id: 1,
@@ -158,14 +131,14 @@ describe('Use Tickets', () =>{
         .post('/tickets/use')
         .set('Authorization', 'Bearer ' + token)
         .send({
-          ticketTypeId: ticket.id, 
+          ticketTypeId: ticket.id,
         });
     expect(res.statusCode).toBe(400);
     expect(res.body.message).toBe('Ticket already used');
     await prisma.ticket.delete({
       where: {
-          id: ticket.id,
-        }
-      });
+        id: ticket.id,
+      },
+    });
   });
 });

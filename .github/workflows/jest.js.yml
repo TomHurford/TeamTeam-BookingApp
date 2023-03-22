@@ -26,7 +26,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Run postgres
-      run: docker-compose -d up postgres
+      run: docker-compose up postgres -d
       working-directory: .
     - name: Install dependencies and run tests
       run: |

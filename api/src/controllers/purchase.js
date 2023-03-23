@@ -148,7 +148,7 @@ const createPurchase = async (req, res) => {
     // Check that the total is a number
     typeof req.body.total !== 'number' ||
     // Check that the total is greater than 0
-    req.body.total <= 0 ||
+    req.body.total < 0 ||
     // Check that the eventId is a number
     typeof req.body.eventId !== 'number' ||
     // Check that the eventId is greater than 0
@@ -156,6 +156,7 @@ const createPurchase = async (req, res) => {
   ) {
     return res.status(400).send({error: 'Invalid Body'});
   }
+  console.log(req.body.ticket_quantities);
 
   // Split the if statement above into multiple individual if statements
   if (typeof req.body.ticket_quantities !== 'object') {
@@ -186,13 +187,9 @@ const createPurchase = async (req, res) => {
       // Check that ticket_quantities.types is an array of objects with id and
       // quantity properties
       !type.hasOwnProperty('id') ||
-      !type.hasOwnProperty('quantity') ||
       // Check that the ID is a number and greater than 0
       typeof type.id !== 'number' ||
-      type.id <= 0 ||
-      // Check that the quantity is a number and greater than 0
-      typeof type.quantity !== 'number' ||
-      type.quantity <= 0
+      type.id <= 0
     ) {
       return res.status(400).send({error: 'Invalid ticket_quantities'});
     }

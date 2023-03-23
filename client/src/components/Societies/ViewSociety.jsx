@@ -241,6 +241,13 @@ function ViewSociety() {
       </div>
 
       <div className="body">
+        {society.isCommitteePresident === true && showEditButton && (
+          <Link to={`/edit-society/${society.id}`}>
+            <button type="button" className="button">
+              Edit Society
+            </button>
+          </Link>
+        )}
         <div className="description">
           <p>{society.description}</p>
           <p>
@@ -291,14 +298,6 @@ function ViewSociety() {
         societyName={society.name}
         societyEmail={society.email}
       />
-
-      <Link to={`/edit-society/${society.id}`}>
-        {society.isCommitteePresident === true && showEditButton && (
-          <button type="button" className="button">
-            Edit Society
-          </button>
-        )}
-      </Link>
     </div>
   );
 }

@@ -52,7 +52,11 @@ const FutureTickets = () => {
   // Display the future tickets and past tickets in a table.
 
   return (
-    <div data-testid="Purchase" className="page-container">
+    <div
+      data-testid="Purchase"
+      className="page-container"
+      style={{ padding: "5px" }}
+    >
       <div className="underlay"></div>
       <h1>Past Event Purchases</h1>
       <table className="purchase">

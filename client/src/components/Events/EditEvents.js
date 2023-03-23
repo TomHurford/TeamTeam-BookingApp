@@ -1,5 +1,5 @@
 import React from "react";
-import { Formik } from "formik";
+import { Formik, FieldArray, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 const jwtController = require("../../utils/jwt.js");
@@ -8,7 +8,7 @@ import "../../styles/index.css";
 // A component for the edit event page which allows the user to edit the details of an event they have created previously.
 function EditEvents() {
   return (
-    <div className="container" style={{ marginTop: "80px" }}>
+    <div style={{ marginTop: "60px", marginLeft: "8px" }}>
       <h1>Edit Event</h1>
       <Formik
         initialValues={{
@@ -93,13 +93,14 @@ function EditEvents() {
       >
         {(formikProps) => (
           <form onSubmit={formikProps.handleSubmit}>
-            <div className="field">
+            <div className="form-group">
               <label>Name:</label>
               <input
                 name="eventName"
                 value={formikProps.values.eventName}
                 onChange={formikProps.handleChange}
                 type="text"
+                className="form-control"
                 onBlur={formikProps.handleBlur}
               />
               {formikProps.touched.eventName && formikProps.errors.eventName ? (
@@ -111,13 +112,14 @@ function EditEvents() {
                 ""
               )}
             </div>
-            <div className="field">
+            <div className="form-group">
               <label>Description:</label>
               <textarea
                 name="description"
                 value={formikProps.values.description}
                 onChange={formikProps.handleChange}
                 type="text"
+                className="form-control"
                 onBlur={formikProps.handleBlur}
               ></textarea>
               {formikProps.touched.description &&
@@ -130,13 +132,14 @@ function EditEvents() {
                 ""
               )}
             </div>
-            <div className="field">
+            <div className="form-group">
               <label>Location:</label>
               <input
                 name="location"
                 value={formikProps.values.location}
                 onChange={formikProps.handleChange}
                 type="text"
+                className="form-control"
                 onBlur={formikProps.handleBlur}
               />
               {formikProps.touched.location && formikProps.errors.location ? (
@@ -148,13 +151,14 @@ function EditEvents() {
                 ""
               )}
             </div>
-            <div className="field">
+            <div className="form-group">
               <label>Date:</label>
               <input
                 name="date"
                 value={formikProps.values.date}
                 onChange={formikProps.handleChange}
                 type="date"
+                className="form-control"
                 onBlur={formikProps.handleBlur}
               />
               {formikProps.touched.date && formikProps.errors.date ? (
@@ -166,13 +170,14 @@ function EditEvents() {
                 ""
               )}
             </div>
-            <div className="field">
+            <div className="form-group">
               <label>Time:</label>
               <input
                 name="time"
                 value={formikProps.values.time}
                 onChange={formikProps.handleChange}
                 type="time"
+                className="form-control"
                 onBlur={formikProps.handleBlur}
               />
             </div>

@@ -8,7 +8,7 @@ import "../../styles/index.css";
 // A component for the create events page that allows users to create events for their societies
 function CreateEvents() {
   return (
-    <div className="container" style={{ marginTop: "80px" }}>
+    <div style={{ marginTop: "60px", marginLeft: "8px" }}>
       <h1>Create Events</h1>
       <Formik
         initialValues={{
@@ -96,13 +96,14 @@ function CreateEvents() {
       >
         {(formikProps) => (
           <form onSubmit={formikProps.handleSubmit}>
-            <div className="field">
+            <div className="form-group">
               <label htmlFor="eventName">Event Name</label>
               <input
                 name="eventName"
                 value={formikProps.values.eventName}
                 onChange={formikProps.handleChange}
                 type="text"
+                className="form-control"
                 onBlur={formikProps.handleBlur}
               />
               {formikProps.touched.eventName && formikProps.errors.eventName ? (
@@ -115,13 +116,14 @@ function CreateEvents() {
               )}
             </div>
 
-            <div className="field">
+            <div className="form-group">
               <label htmlFor="description">Event Description</label>
               <textarea
                 name="description"
                 value={formikProps.values.description}
                 onChange={formikProps.handleChange}
                 type="text"
+                className="form-control"
                 onBlur={formikProps.handleBlur}
               ></textarea>
               {formikProps.touched.description &&
@@ -135,13 +137,14 @@ function CreateEvents() {
               )}
             </div>
 
-            <div className="field">
+            <div className="form-group">
               <label htmlFor="date">Event Date</label>
               <input
                 name="date"
                 value={formikProps.values.date}
                 onChange={formikProps.handleChange}
                 type="date"
+                className="form-control"
                 onBlur={formikProps.handleBlur}
               />
               {formikProps.touched.date && formikProps.errors.date ? (
@@ -153,13 +156,14 @@ function CreateEvents() {
                 ""
               )}
             </div>
-            <div className="field">
+            <div className="form-group">
               <label htmlFor="time">Event Time</label>
               <input
                 name="time"
                 value={formikProps.values.time}
                 onChange={formikProps.handleChange}
                 type="time"
+                className="form-control"
                 onBlur={formikProps.handleBlur}
               />
               {formikProps.touched.time && formikProps.errors.time ? (
@@ -171,13 +175,14 @@ function CreateEvents() {
                 ""
               )}
             </div>
-            <div className="field">
+            <div className="form-group">
               <label htmlFor="location">Event Location</label>
               <input
                 name="location"
                 value={formikProps.values.location}
                 onChange={formikProps.handleChange}
                 type="text"
+                className="form-control"
                 onBlur={formikProps.handleBlur}
               />
               {formikProps.touched.location && formikProps.errors.location ? (
@@ -189,13 +194,14 @@ function CreateEvents() {
                 ""
               )}
             </div>
-            <div className="field">
+            <div className="form-group">
               <label htmlFor="societyId">Society ID</label>
               <input
                 name="societyId"
                 value={formikProps.values.societyId}
                 onChange={formikProps.handleChange}
                 type="text"
+                className="form-control"
                 onBlur={formikProps.handleBlur}
               />
               {formikProps.touched.societyId && formikProps.errors.societyId ? (
@@ -235,59 +241,60 @@ function CreateEvents() {
                     >
                       <Field name={`ticketInfo.${index}.name`}>
                         {(fieldProps) => (
-                          <div className="field">
+                          <div className="form-group">
                             <label>Ticket Type Name</label>
                             <input
                               name="name"
                               onChange={formikProps.handleChange}
                               type="text"
+                              className="form-control"
                               onBlur={formikProps.handleBlur}
                               {...fieldProps.field}
                             ></input>
-                            <ErrorMessage name={`ticketInfo.${index}.name`}>
-                              {(errorMsg) => (
-                                <div className="error-text">{errorMsg}</div>
-                              )}
-                            </ErrorMessage>
                           </div>
                         )}
                       </Field>
-
+                      <ErrorMessage name={`ticketInfo.${index}.name`}>
+                        {(errorMsg) => (
+                          <div className="text-danger">{errorMsg}</div>
+                        )}
+                      </ErrorMessage>
                       <Field name={`ticketInfo.${index}.price`}>
                         {(fieldProps) => (
-                          <div className="field">
+                          <div className="form-group">
                             <label>Ticket Price</label>
                             <input
                               name="price"
                               onChange={formikProps.handleChange}
                               type="number"
+                              className="form-control"
                               onBlur={formikProps.handleBlur}
                               {...fieldProps.field}
                             ></input>
-                            <ErrorMessage name={`ticketInfo.${index}.price`}>
-                              {(errorMsg) => (
-                                <div className="error-text">{errorMsg}</div>
-                              )}
-                            </ErrorMessage>
                           </div>
                         )}
                       </Field>
-
+                      <ErrorMessage name={`ticketInfo.${index}.price`}>
+                        {(errorMsg) => (
+                          <div className="text-danger">{errorMsg}</div>
+                        )}
+                      </ErrorMessage>
                       <Field name={`ticketInfo.${index}.quantity`}>
                         {(fieldProps) => (
-                          <div className="field">
+                          <div className="form-group">
                             <label>Ticket Quantity Available</label>
                             <input
                               name="quantity"
                               onChange={formikProps.handleChange}
                               type="number"
+                              className="form-control"
                               onBlur={formikProps.handleBlur}
                               {...fieldProps.field}
                             ></input>
 
                             <ErrorMessage name={`ticketInfo.${index}.quantity`}>
                               {(errorMsg) => (
-                                <div className="error-text">{errorMsg}</div>
+                                <div className="text-danger">{errorMsg}</div>
                               )}
                             </ErrorMessage>
 

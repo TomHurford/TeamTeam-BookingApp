@@ -45,6 +45,7 @@ function App() {
   
   const getBasketInUse = () => {
     try {
+      if (JSON.parse(sessionStorage.getItem("basketInUse")) === null) return false;
       return JSON.parse(sessionStorage.getItem("basketInUse"));
     } catch (err) {
       return false;
@@ -56,6 +57,7 @@ function App() {
 
   const getBasketEvent = () => {
     try {
+      if (JSON.parse(sessionStorage.getItem("basketEvent")) === null) return {};
       return JSON.parse(sessionStorage.getItem("basketEvent"));
     } catch (err) {
       return {};
@@ -74,6 +76,12 @@ function App() {
 
   const getTickets = () => {
     try {
+      if (sessionStorage.getItem("tickets")) {
+        
+      } else {
+        return {};
+      }
+      
       return JSON.parse(sessionStorage.getItem("tickets"));
     } catch (err) {
       return {};
@@ -85,12 +93,10 @@ function App() {
 
   const totalPrice = () => {
     var total = 0;
-    console.log("check 1");
 
     if (!getBasketInUse()) {
       return total;
     }
-    console.log("check 2");
 
     var tickets = getTickets();
 
@@ -116,7 +122,7 @@ function App() {
     var event = callData.event;
     console.log(callData);
 
-    if (!getBasketInUse()) {
+    if (!getBasketInUse() || getTickets() === {}) {
 
       setBasketInUse();
       setBasketEvent(event);
@@ -129,8 +135,8 @@ function App() {
     } else {
 
       let tickets = getTickets();
-      if (!tickets[ticketType.id]) tickets[ticketType.id] = 1;
-      else tickets[ticketType.id] += 1;
+      if (!tickets[ticketType.id]) {tickets[ticketType.id] = 1;}
+      else {tickets[ticketType.id] += 1;}
       setTickets(tickets);
 
     }

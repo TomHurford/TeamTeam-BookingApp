@@ -21,6 +21,7 @@ exports[`Navbar snapshot test 1`] = `
             alt="Logo"
             src="logo.png"
           />
+           Ticketopia
         </li>
       </a>
       <a

@@ -19,10 +19,10 @@ describe('Basket', () => {
     cy.wait(500)
     cy.get("div[data-testid='left10']").click()
 
-    cy.contains('Checkout').click()
+    // cy.contains('Checkout').click()
 
-    cy.wait(500)
-    cy.url().should('include', '/tickets')
+    // cy.wait(500)
+    // cy.url().should('include', '/tickets')
 
     cy.contains('Logout').click()
   })

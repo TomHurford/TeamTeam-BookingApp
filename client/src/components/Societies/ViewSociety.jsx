@@ -241,11 +241,6 @@ function ViewSociety() {
       </div>
 
       <div className="body">
-        {showEditButton && (
-          <Link to={`/edit-society/${society.id}`}>
-            <button className="button">Edit Society</button>
-          </Link>
-        )}
         <div className="description">
           <p>{society.description}</p>
           <p>

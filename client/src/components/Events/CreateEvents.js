@@ -74,9 +74,7 @@ function CreateEvents() {
           };
           // The token is sent with the request to the backend to verify the user is logged in
 
-
           fetch(process.env.REACT_APP_API_URL + "/events/create", {
-
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -268,7 +266,7 @@ function CreateEvents() {
                             <input
                               name="price"
                               onChange={formikProps.handleChange}
-                              type="text"
+                              type="number"
                               className="form-control"
                               onBlur={formikProps.handleBlur}
                               {...fieldProps.field}
@@ -288,7 +286,7 @@ function CreateEvents() {
                             <input
                               name="quantity"
                               onChange={formikProps.handleChange}
-                              type="text"
+                              type="number"
                               className="form-control"
                               onBlur={formikProps.handleBlur}
                               {...fieldProps.field}

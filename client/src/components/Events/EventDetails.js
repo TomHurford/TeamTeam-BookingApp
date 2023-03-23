@@ -132,8 +132,10 @@ class EventDetails extends Component {
                   />
                 );
               })}
+
               <button
-                className="addToCart"
+                className="button"
+                style={{ marginTop: "25px" }}
                 onClick={() => {
                   window.location = "/basket";
                 }}

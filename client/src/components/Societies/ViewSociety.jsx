@@ -39,6 +39,7 @@ function ViewSociety() {
           setSociety(response.data.society);
           setSocietyLinks(response.data.society.links[0]);
           setEvents(response.data.society.events);
+          setFollowersCount(response.data.society.members);
         })
         .catch((error) => {
           console.log(error);

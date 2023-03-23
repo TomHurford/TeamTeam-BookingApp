@@ -207,10 +207,6 @@ function ViewSociety() {
           <div className="name">{society.name}</div>
           <div className="socials" style={{ marginRight: "10px" }}>
             <a href={societyLinks.facebook} className="socialCircle">
-              {/* <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png"
-                alt="facebook"
-              /> */}
               <FontAwesomeIcon
                 icon={faFacebook}
                 style={{ color: "#1877f2" }}

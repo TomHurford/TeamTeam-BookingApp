@@ -51,10 +51,10 @@ TeamTeamPlayers, TeamTeam-BookingApp
 6. Setup the database
 
     ```bash
-    # This pushes the schema to the database
+    $ # This pushes the schema to the database
     $ npx prisma db push
-    # This seeds the database with some test data
-    # If this fails on a unique constraint, run it again as Faker sometimes generates duplicate data
+    $ # This seeds the database with some test data
+    $ # If this fails on a unique constraint, run it again as Faker sometimes generates duplicate data
     $ npx prisma db seed
     ```
 
@@ -84,20 +84,34 @@ $ docker compose down
     ```bash
     $ cd api
     $ npx jest test --runInBand
-    # These may take some time to run.
+    $ # These may take some time to run.
     ```
 
 3. Run the tests (frontend)
 
     ```bash
-    # Start the api
+    $ # Start the api
     $ cd api
     $ nodemon
-    # Start the client
+    $ # Start the client
     $ cd ../client
-    $ npm run test:all
-    # These may take some time to run.
+    $ # To run the cypress tests the application must be running
+    $ npm start
+    $ # In a new terminal
+    $ cd ../client
+    $ npx cypress run
+    $ # These may take some time to run.
     ```
+
+If you want to run the tests mutliple times, you can run the following command to clear the database:
+
+```bash
+$ # With the database running
+$ cd api
+$ npx prisma migrate reset
+$ # This will delete all data in the database and re-seed it
+$ # Select y when prompted
+```
 
 ## Running the application
 ---
@@ -113,10 +127,10 @@ $ docker compose up -d postgres
 1. Run the application in development mode
 
     ```bash
-    # Start the api
+    $ # Start the api
     $ cd api
     $ nodemon
-    # Start the client
+    $ # Start the client
     $ cd ../client
     $ npm start
     ```
@@ -124,9 +138,9 @@ $ docker compose up -d postgres
 2. Run the application in production mode
 
     ```bash
-    # Be in the root directory
+    $ # Be in the root directory
     $ docker compose build
-    # This builds the images for the api and client and may take some time
+    $ # This builds the images for the api and client and may take some time
     $ docker compose up -d
     ```
 
@@ -136,10 +150,10 @@ $ docker compose up -d postgres
 1. Stop the application in development mode
 
     ```bash
-    # Stop the api
+    $ # Stop the api
     $ cd api
     $ ctrl + c
-    # Stop the client
+    $ # Stop the client
     $ cd ../client
     $ ctrl + c
     ```
@@ -173,10 +187,10 @@ or
 - If you are having issues with the database, you can try deleting the `migrations` folder in the `api/prisma` directory and then running the following command:
 
     ```bash
-    # With the database running
+    $ # With the database running
     $ cd api
     $ npx prisma migrate dev
-    # This will recreate the migrations folder and push the schema to the database
-    # Select y when prompted
-    # Name the migration anything you like
+    $ # This will recreate the migrations folder and push the schema to the database
+    $ # Select y when prompted
+    $ # Name the migration anything you like
     ```

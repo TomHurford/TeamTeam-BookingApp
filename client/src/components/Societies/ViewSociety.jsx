@@ -259,6 +259,7 @@ function ViewSociety() {
                   type="button"
                   className="button"
                   onClick={followSociety}
+                  style={{ marginTop: "10px" }}
                 >
                   Follow
                 </button>
@@ -272,6 +273,7 @@ function ViewSociety() {
                   data-testid="unfollowButton"
                   className="button button--red"
                   onClick={unfollowSociety}
+                  style={{ marginTop: "10px" }}
                 >
                   Unfollow
                 </button>

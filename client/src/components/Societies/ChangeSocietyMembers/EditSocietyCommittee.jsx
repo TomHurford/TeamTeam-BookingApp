@@ -12,7 +12,7 @@ const EditSocietyCommittee = (props) => {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          process.env.REACT_APP_API_URL + "/societies/getCommitteeMembers",
+          "http://localhost:5001/societies/getCommitteeMembers",
           {
             societyId: props.societyId,
           }
@@ -31,7 +31,7 @@ const EditSocietyCommittee = (props) => {
 
   const handleRemoveMember = async (userId) => {
     const data = { userId: userId, societyId: props.societyId };
-    await fetch(process.env.REACT_APP_API_URL + "/societies/removeCommitteeMember", {
+    await fetch("http://localhost:5001/societies/removeCommitteeMember", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -49,7 +49,7 @@ const EditSocietyCommittee = (props) => {
               prevMembers.filter((m) => m.userId !== userId)
             );
           } else {
-            alert("Committee must have at least one member");
+            console.log("Committee must have at least one member");
           }
         } else {
           alert(data.message);
@@ -66,7 +66,7 @@ const EditSocietyCommittee = (props) => {
 
     var resUserId = 0;
 
-    await fetch(process.env.REACT_APP_API_URL + "/societies/addCommitteeMember", {
+    await fetch("http://localhost:5001/societies/addCommitteeMember", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -104,7 +104,7 @@ const EditSocietyCommittee = (props) => {
       userId: parseInt(userId),
     };
 
-    await fetch(process.env.REACT_APP_API_URL + "/societies/changePresident", {
+    await fetch("http://localhost:5001/societies/changePresident", {
       method: "POST",
       mode: "cors",
       headers: {
@@ -114,6 +114,7 @@ const EditSocietyCommittee = (props) => {
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
+      .then((data) => {})
       .catch((error) => {
         console.log(error);
       });
@@ -139,9 +140,9 @@ const EditSocietyCommittee = (props) => {
       </h1>
       {members.map((member) => (
         <Member
-          email={member.user.email}
-          userId={member.user.id}
-          key={member.user.id.toString()}
+          email={member.email}
+          userId={member.userId}
+          key={member.userId.toString()}
           removeMember={handleRemoveMember}
           makePresident={handleMakePresident}
         />

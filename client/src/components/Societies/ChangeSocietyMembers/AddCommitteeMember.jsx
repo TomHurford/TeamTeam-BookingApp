@@ -16,7 +16,7 @@ const AddCommitteeMember = (props) => {
       onSubmit={(event) => handleSubmit(event)}
       style={{
         marginLeft: "8px",
-        marginTop: "20px"
+        //  marginTop: "20px"
       }}
     >
       <input
@@ -29,7 +29,7 @@ const AddCommitteeMember = (props) => {
       />
       <button
         className="button"
-        style={{ marginBottom: "8px" }}
+        style={{ marginLeft: "8px", marginBottom: "8px" }}
       >
         Add Member
       </button>

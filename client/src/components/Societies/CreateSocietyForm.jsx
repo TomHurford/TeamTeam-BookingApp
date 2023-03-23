@@ -41,10 +41,7 @@ function CreateSocietyForm() {
     }),
 
     onSubmit: async (values) => {
-
-
       await fetch(process.env.REACT_APP_API_URL + "/societies/signup", {
-
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -76,7 +73,6 @@ function CreateSocietyForm() {
   });
 
   return (
-    
     <div className="page-container">
       <div className="underlay"></div>
       <div className="container">
@@ -119,30 +115,30 @@ function CreateSocietyForm() {
             </select>
           </div>
 
-        {/*Email below*/}
-        <div className="field">
-          <label htmlFor="email">Society Email</label>
-          <input
-            name="email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            type="text"
-            className="form-control"
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.email && formik.errors.email ? (
-            <label className="errortext" htmlFor="email">
-              {formik.errors.email}
-              <br />
-            </label>
-          ) : (
-            ""
-          )}
-        </div>
-        {/*Email Above */}
+          {/*Email below*/}
+          <div className="field">
+            <label htmlFor="email">Society Email</label>
+            <input
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              type="text"
+              className="form-control"
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.email && formik.errors.email ? (
+              <label className="errortext" htmlFor="email">
+                {formik.errors.email}
+                <br />
+              </label>
+            ) : (
+              ""
+            )}
+          </div>
+          {/*Email Above */}
 
           {/* Socials below*/}
-          <h5>Socials</h5>
+          <h2>Socials</h2>
 
           <div className="field">
             <label htmlFor="website">Website</label>
@@ -225,7 +221,7 @@ function CreateSocietyForm() {
           </div>
 
           {/* Image links below*/}
-          <h5>Images</h5>
+          <h2>Images</h2>
           <small id="imageHelp" className="form-text text-muted">
             You must enter a link to the images
           </small>

@@ -161,7 +161,7 @@ function EditSocietyForm() {
           {/*Email Above */}
 
           {/* Socials below*/}
-          <h5>Socials</h5>
+          <h2>Socials</h2>
 
           <div className="field">
             <label htmlFor="website">Website</label>
@@ -244,7 +244,7 @@ function EditSocietyForm() {
           </div>
 
           {/* Image links below*/}
-          <h5>Images</h5>
+          <h2>Images</h2>
           <small id="imageHelp" className="form-text text-muted">
             You must enter a link to the images
           </small>

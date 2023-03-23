@@ -129,14 +129,16 @@ const EditSocietyCommittee = (props) => {
 
   return (
     <div
+      className="center"
       style={{
         marginTop: "20px",
-        marginBottom: "20px",
+        padding: "10px",
         borderColor: "gray",
-        width: "50%",
         borderWidth: 2,
         borderRadius: 20,
-        backgroundColor: "#abc4ff",
+        borderStyle: "solid",
+        backgroundColor: "#efedee",
+        textAlign: "center",
       }}
     >
       <h1

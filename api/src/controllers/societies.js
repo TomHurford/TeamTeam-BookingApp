@@ -1,6 +1,6 @@
 // SOCIETY CONTROLLER
-const prisma = require("../../prisma/prisma.js");
-const auth = require("../utils/jwt_auth.js");
+const prisma = require('../../prisma/prisma.js');
+const auth = require('../utils/jwt_auth.js');
 
 /**
  * Sign up a new society
@@ -15,7 +15,7 @@ async function signup(req, res) {
     // Check that the request body is not empty and contains the correct
     // properties
     if (!req.body.name || !req.body.description || !req.body.email) {
-      res.status(400).send({ error: "Missing Society Details" });
+      res.status(400).send({error: 'Missing Society Details'});
       return;
     }
     // Check if the user exists
@@ -26,7 +26,7 @@ async function signup(req, res) {
     });
 
     if (!user) {
-      return res.status(409).send({ token: null, message: "User Not Found" });
+      return res.status(409).send({token: null, message: 'User Not Found'});
     }
 
     // Check if the society name already exists
@@ -44,13 +44,13 @@ async function signup(req, res) {
     if (societyName) {
       return res.status(409).send({
         token: null,
-        message: "Society already exists with that name",
+        message: 'Society already exists with that name',
       });
     }
     if (societyEmail) {
       return res.status(409).send({
         token: null,
-        message: "Society already exists with that email",
+        message: 'Society already exists with that email',
       });
     }
     const validRegex =
@@ -59,7 +59,7 @@ async function signup(req, res) {
     if (!req.body.email.match(validRegex)) {
       return res.status(409).send({
         token: null,
-        message: "Email inputed doesnt have a valid regex",
+        message: 'Email inputed doesnt have a valid regex',
       });
     }
     society = await prisma.society.create({
@@ -67,7 +67,7 @@ async function signup(req, res) {
         name: req.body.name,
         description: req.body.description,
         email: req.body.email,
-        category: req.body.category ? req.body.category : "Other",
+        category: req.body.category ? req.body.category : 'Other',
       },
     });
     listSocietyLinks = await prisma.societyLinks.create({
@@ -86,14 +86,14 @@ async function signup(req, res) {
       data: {
         userId: user.id,
         societyId: society.id,
-        role: "President",
+        role: 'President',
         isPresident: true,
       },
     });
 
-    res.status(200).send({ society, committee, listSocietyLinks });
+    res.status(200).send({society, committee, listSocietyLinks});
   } catch (err) {
-    res.status(401).send({ token: null, error: "Unauthorized" });
+    res.status(401).send({token: null, error: 'Unauthorized'});
   }
 }
 
@@ -118,7 +118,7 @@ async function getSocieties(req, res) {
           isArchived: true,
           userId: true,
         },
-        where: { isArchived: false },
+        where: {isArchived: false},
       },
       links: true,
     },
@@ -131,7 +131,7 @@ async function getSocieties(req, res) {
   societies.forEach((society) => {
     society.members = society.members.length;
     if (society.description.length > 50) {
-      society.description = society.description.substring(0, 50) + "...";
+      society.description = society.description.substring(0, 50) + '...';
     }
   });
 
@@ -157,7 +157,7 @@ async function getSocietyById(req, res) {
       try {
         decoded = await auth.authenticate(req);
       } catch (err) {
-        res.status(401).send({ token: null, error: "Unauthorized" });
+        res.status(401).send({token: null, error: 'Unauthorized'});
         return;
       }
       const userId = decoded.id;
@@ -208,7 +208,7 @@ async function getSocietyById(req, res) {
 
     // Only send the number of members
     const members = await prisma.members.findMany({
-      where: { societyId: society.id, isArchived: false },
+      where: {societyId: society.id, isArchived: false},
     });
 
     society.members = members.length;
@@ -244,7 +244,7 @@ async function getSocietyById(req, res) {
       society: society,
     });
   } catch (err) {
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({message: 'Internal Server Error'});
   }
 }
 
@@ -260,7 +260,7 @@ async function deleteSociety(req, res) {
     try {
       decoded = await auth.authenticate(req);
     } catch (err) {
-      res.status(401).send({ token: null, error: "Unauthorized" });
+      res.status(401).send({token: null, error: 'Unauthorized'});
       return;
     }
     const userId = decoded.id;
@@ -278,20 +278,20 @@ async function deleteSociety(req, res) {
       },
     });
     if (!society) {
-      res.status(400).send({ error: "Invalid id of society" });
+      res.status(400).send({error: 'Invalid id of society'});
       return;
     }
     if (!commitee.isPresident && !isAdmin) {
-      res.status(401).send({ message: "Unauthorized" });
+      res.status(401).send({message: 'Unauthorized'});
       return;
     }
     await prisma.society.update({
-      where: { id: req.body.societyId },
-      data: { isArchived: true },
+      where: {id: req.body.societyId},
+      data: {isArchived: true},
     });
-    res.status(200).send({ message: "Society Updated" });
+    res.status(200).send({message: 'Society Updated'});
   } catch (err) {
-    res.status(500).send({ message: "Internal Server Error" });
+    res.status(500).send({message: 'Internal Server Error'});
   }
 }
 
@@ -306,18 +306,18 @@ async function updateSociety(req, res) {
   try {
     decoded = await auth.authenticate(req);
   } catch (err) {
-    return res.status(401).send({ message: "Unauthorized" });
+    return res.status(401).send({message: 'Unauthorized'});
   }
 
   // Check that the request body has a societyId
   if (!req.body.societyId) {
-    res.status(400).send({ message: "Missing societyId" });
+    res.status(400).send({message: 'Missing societyId'});
     return;
   }
 
   // Check that the society id is of type number and is > 0
-  if (typeof req.body.societyId !== "number" || req.body.societyId <= 0) {
-    res.status(400).send({ message: "Invalid societyId" });
+  if (typeof req.body.societyId !== 'number' || req.body.societyId <= 0) {
+    res.status(400).send({message: 'Invalid societyId'});
     return;
   }
 
@@ -328,7 +328,7 @@ async function updateSociety(req, res) {
     },
   });
   if (!society) {
-    res.status(400).send({ message: "Society does not exist" });
+    res.status(400).send({message: 'Society does not exist'});
     return;
   }
 
@@ -342,7 +342,7 @@ async function updateSociety(req, res) {
 
   // If the user is not a committee member of the society, return an error
   if (committee.length === 0) {
-    res.status(401).send({ message: "Unauthorized" });
+    res.status(401).send({message: 'Unauthorized'});
     return;
   }
 
@@ -354,7 +354,7 @@ async function updateSociety(req, res) {
       },
     });
     if (emailInUse) {
-      res.status(400).send({ message: "Email already in use" });
+      res.status(400).send({message: 'Email already in use'});
       return;
     }
   }
@@ -378,8 +378,6 @@ async function updateSociety(req, res) {
     },
   });
 
-  console.log(societyLinks);
-
   // If society links are included in the request body, update the links
   if (req.body.links) {
     // Update the links
@@ -388,27 +386,27 @@ async function updateSociety(req, res) {
         societyId: society.id,
       },
       data: {
-        website: req.body.links.website
-          ? req.body.links.website
-          : societyLinks.website,
-        instagram: req.body.links.instagram
-          ? req.body.links.instagram
-          : societyLinks.instagram,
-        twitter: req.body.links.twitter
-          ? req.body.links.twitter
-          : societyLinks.twitter,
-        facebook: req.body.links.facebook
-          ? req.body.links.facebook
-          : societyLinks.facebook,
+        website: req.body.links.website ?
+          req.body.links.website :
+          societyLinks.website,
+        instagram: req.body.links.instagram ?
+          req.body.links.instagram :
+          societyLinks.instagram,
+        twitter: req.body.links.twitter ?
+          req.body.links.twitter :
+          societyLinks.twitter,
+        facebook: req.body.links.facebook ?
+          req.body.links.facebook :
+          societyLinks.facebook,
         logo: req.body.links.logo ? req.body.links.logo : societyLinks.logo,
-        banner: req.body.links.banner
-          ? req.body.links.banner
-          : societyLinks.banner,
+        banner: req.body.links.banner ?
+          req.body.links.banner :
+          societyLinks.banner,
       },
     });
   }
 
-  res.status(200).send({ message: "Society Updated" });
+  res.status(200).send({message: 'Society Updated'});
 }
 
 module.exports = {

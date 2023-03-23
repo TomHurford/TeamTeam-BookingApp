@@ -2,6 +2,8 @@
 const request = require('supertest');
 const app = require('../server.js');
 const prisma = require('../../prisma/prisma.js');
+const {faker} = require('@faker-js/faker');
+
 
 let token = null;
 
@@ -584,10 +586,11 @@ describe('Update society', () => {
         .set('Authorization', `Bearer ${token}`)
         .send({
           societyId: 1,
-          email: 'test@test.com',
+          email: faker.internet.email(),
           name: 'Society 1 updated',
           description: 'Society 1 description updated',
         });
+    console.log(res.body);
     expect(res.statusCode).toBe(200);
     expect(res.body.message).toBe('Society Updated');
   });

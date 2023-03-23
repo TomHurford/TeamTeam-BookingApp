@@ -45,6 +45,7 @@ function App() {
   
   const getBasketInUse = () => {
     try {
+      if (JSON.parse(sessionStorage.getItem("basketInUse")) === null) return false;
       return JSON.parse(sessionStorage.getItem("basketInUse"));
     } catch (err) {
       return false;
@@ -56,6 +57,7 @@ function App() {
 
   const getBasketEvent = () => {
     try {
+      if (JSON.parse(sessionStorage.getItem("basketEvent")) === null) return {};
       return JSON.parse(sessionStorage.getItem("basketEvent"));
     } catch (err) {
       return {};
@@ -74,6 +76,7 @@ function App() {
 
   const getTickets = () => {
     try {
+      if (JSON.parse(sessionStorage.getItem("tickets")) === null) return {};
       return JSON.parse(sessionStorage.getItem("tickets"));
     } catch (err) {
       return {};

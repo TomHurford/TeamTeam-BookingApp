@@ -186,6 +186,10 @@ const createPurchase = async (req, res) => {
       // Check that ticket_quantities.types is an array of objects with id and
       // quantity properties
       !type.hasOwnProperty('id') ||
+      !type.hasOwnProperty('quantity') ||
+      // Check that the quantity is a number and greater than 0
+      typeof type.quantity !== 'number' ||
+      type.quantity <= 0 ||
       // Check that the ID is a number and greater than 0
       typeof type.id !== 'number' ||
       type.id <= 0

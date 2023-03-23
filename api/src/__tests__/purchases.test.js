@@ -86,7 +86,6 @@ describe('Create Purchase', () => {
           },
           eventId: 1,
         });
-    console.log(res.body.tickets);
     expect(res.statusCode).toEqual(200);
     expect(res.body.message).toBeDefined();
   });

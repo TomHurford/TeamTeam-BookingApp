@@ -91,8 +91,6 @@ async function useTicket(req, res) {
     }
   }
 
-  console.log(isMember);
-
   if (!isMember) return res.status(401).send({message: 'Unauthorised'});
 
   if (ticket.status === 'USED') {

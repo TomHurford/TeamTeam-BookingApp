@@ -35,6 +35,7 @@ jobs:
         export TOKEN_SECRET="mysecret"
         npm install
         npx prisma generate
+        npx prisma db push
         node prisma/seed.js
         npm run test
       working-directory: .

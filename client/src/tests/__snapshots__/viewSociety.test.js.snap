@@ -43,6 +43,11 @@ exports[`ViewSociety snapshot test 1`] = `
       />
       <div
         className="socials"
+        style={
+          Object {
+            "marginRight": "10px",
+          }
+        }
       >
         <a
           className="socialCircle"
@@ -68,14 +73,6 @@ exports[`ViewSociety snapshot test 1`] = `
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png"
           />
         </a>
-        <a
-          className="socialCircle"
-        >
-          <img
-            alt="website"
-            src="https://w7.pngwing.com/pngs/549/715/png-transparent-web-development-logo-website-web-design-symmetry-internet.png"
-          />
-        </a>
       </div>
     </div>
   </div>
@@ -97,7 +94,9 @@ exports[`ViewSociety snapshot test 1`] = `
           Followers:
         </strong>
          
+        0
       </p>
+      <a />
       <div />
     </div>
     <div
@@ -113,48 +112,16 @@ exports[`ViewSociety snapshot test 1`] = `
     </div>
   </div>
   <div
-    style={
-      Object {
-        "backgroundColor": "#abc4ff",
-        "borderColor": "gray",
-        "borderRadius": 20,
-        "borderWidth": 2,
-      }
-    }
+    className="container"
   >
-    <h3>
-      <center>
-        Contact: 
-      </center>
-    </h3>
+    <h1>
+      Contact
+    </h1>
     <form
       onSubmit={[Function]}
-      style={
-        Object {
-          "marginLeft": 38,
-          "width": "95%",
-        }
-      }
     >
       <div
         className="field"
-      >
-        <label
-          htmlFor="societyName"
-          name="societyName"
-        />
-      </div>
-      <div
-        className="field"
-      >
-        <label
-          htmlFor="societyEmail"
-          name="societyEmail"
-          value="nidhuravee@gmail.com"
-        />
-      </div>
-      <div
-        className="form-group"
       >
         <label
           htmlFor="customerName"
@@ -162,7 +129,6 @@ exports[`ViewSociety snapshot test 1`] = `
           Your Name
         </label>
         <input
-          className="form-control"
           name="customerName"
           onBlur={[Function]}
           onChange={[Function]}
@@ -171,7 +137,7 @@ exports[`ViewSociety snapshot test 1`] = `
         />
       </div>
       <div
-        className="form-group"
+        className="field"
       >
         <label
           htmlFor="customerEmail"
@@ -188,7 +154,7 @@ exports[`ViewSociety snapshot test 1`] = `
         />
       </div>
       <div
-        className="form-group"
+        className="field"
       >
         <label
           htmlFor="messageSubject"
@@ -205,7 +171,7 @@ exports[`ViewSociety snapshot test 1`] = `
         />
       </div>
       <div
-        className="form-group"
+        className="field"
       >
         <label
           htmlFor="message"

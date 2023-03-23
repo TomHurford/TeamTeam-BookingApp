@@ -68,9 +68,11 @@ async function addCommitteeMember(req, res) {
     },
   });
 
+
   return res
     .status(200)
     .send({ message: "User added to committee", userId: user.id });
+
 }
 
 /**

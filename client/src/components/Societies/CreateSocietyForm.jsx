@@ -50,7 +50,18 @@ function CreateSocietyForm() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${jwtController.getToken()}`,
         },
-        body: JSON.stringify(values),
+        body: JSON.stringify({
+          name: values.societyName,
+          category: values.category,
+          description: values.description,
+          website: values.website,
+          instagram: values.instagram,
+          twitter: values.twitter,
+          facebook: values.facebook,
+          logo: values.logo,
+          banner: values.banner,
+          email: values.email,
+        }),
       })
         .then((res) => {
           res.json().then((data) => {

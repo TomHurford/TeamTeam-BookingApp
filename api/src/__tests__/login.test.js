@@ -203,7 +203,7 @@ describe('Reset', () => {
     await prisma.verifications.delete({
       where: {
         id: verification.id,
-      }
+      },
     });
   });
 });
@@ -263,8 +263,8 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(409);
     expect(response.body).toHaveProperty('message');
     expect(response.body.token).toBe(null);
-    expect(response.body.message).toBe('Name, email and password cannot be empty');
-
+    expect(response.body.message)
+        .toBe('Name, email and password cannot be empty');
   });
   test('Signup with invalid credentials (empty name)', async () => {
     const response = await request(app).post('/user/signup').send({
@@ -275,7 +275,8 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(409);
     expect(response.body).toHaveProperty('message');
     expect(response.body.token).toBe(null);
-    expect(response.body.message).toBe('Name, email and password cannot be empty');
+    expect(response.body.message)
+        .toBe('Name, email and password cannot be empty');
   });
 
   test('Signup with invalid credentials (empty password)', async () => {
@@ -287,7 +288,8 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(409);
     expect(response.body).toHaveProperty('message');
     expect(response.body.token).toBe(null);
-    expect(response.body.message).toBe('Name, email and password cannot be empty');
+    expect(response.body.message)
+        .toBe('Name, email and password cannot be empty');
   });
 
   test('Sign up with an email that already exists', async () => {

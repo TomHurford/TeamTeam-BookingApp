@@ -114,18 +114,18 @@ describe('Get Events', () => {
     }
     // Log in as user with id 2
     const response = await request(app)
-      .post('/user/login')
-      .send({
-        email: 'student@kcl.ac.uk',
-        password: 'student',
-      });
+        .post('/user/login')
+        .send({
+          email: 'student@kcl.ac.uk',
+          password: 'student',
+        });
     const userToken = response.body.token;
     const response2 = await request(app)
-      .post('/events')
-      .set('Authorization', 'Bearer ' + userToken)
-      .send({
-        eventId: 1,
-      });
+        .post('/events')
+        .set('Authorization', 'Bearer ' + userToken)
+        .send({
+          eventId: 1,
+        });
     expect(response2.statusCode).toBe(200);
     expect(response2.body).toHaveProperty('event');
     expect(response2.body).toHaveProperty('isCommittee');

@@ -618,10 +618,10 @@ describe('Update society', () => {
         .post('/societies/updateSociety')
         .set('Authorization', `Bearer ${token}`)
         .send({
-          societyId: 1,
-          email: faker.internet.email(),
-          name: 'Society 1 updated',
-          description: 'Society 1 description updated',
+          'societyId': 1,
+          'email': faker.internet.email(),
+          'name': 'Society 1 updated',
+          'description': 'Society 1 description updated',
           'links': {
             website: 'https://www.google.com/',
             instagram: 'https://www.instagram.com/update/',
@@ -630,7 +630,7 @@ describe('Update society', () => {
             banner: 'https://www.google.com/',
             logo: 'https://www.google.com/',
           },
-          category: 'Social',
+          'category': 'Social',
         });
     expect(res.statusCode).toBe(200);
     expect(res.body.message).toBe('Society Updated');
@@ -639,43 +639,43 @@ describe('Update society', () => {
   test('Update society with no data', async () => {
     const res = await request(app)
         .post('/societies/updateSociety')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        societyId: 1,
-      })
-      .expect(200);
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          societyId: 1,
+        })
+        .expect(200);
     expect(res.body.message).toBe('Society Updated');
   });
 
   test('Update society with no data and no links', async () => {
     const res = await request(app)
-      .post('/societies/updateSociety')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        societyId: 1,
-        links: {},
-      })
-      .expect(200);
+        .post('/societies/updateSociety')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          societyId: 1,
+          links: {},
+        })
+        .expect(200);
     expect(res.body.message).toBe('Society Updated');
   });
 
   test('Update society with invalid token', async () => {
     const res = await request(app)
-      .post('/societies/updateSociety')
-      .set('Authorization', `Bearer invalidtoken`)
-      .send({
-        societyId: 1,
-        email: 'test@test.com',
-        name: 'Society 1 updated',
-        description: 'Society 1 description updated',
-      })
-      .expect(401);
+        .post('/societies/updateSociety')
+        .set('Authorization', `Bearer invalidtoken`)
+        .send({
+          societyId: 1,
+          email: 'test@test.com',
+          name: 'Society 1 updated',
+          description: 'Society 1 description updated',
+        })
+        .expect(401);
     expect(res.body).not.toBeNull();
     expect(res.body.message).toBe('Unauthorized');
   });
 
   test('Update society with user not being part of committee', async () => {
-        // Check if the user is a committee member from the database
+    // Check if the user is a committee member from the database
     const isCommittee = await prisma.committee.findFirst({
       where: {
         userId: 2,
@@ -731,15 +731,15 @@ describe('Update society', () => {
 
   test('Update society with society that does not exist ', async () => {
     const res = await request(app)
-      .post('/societies/updateSociety')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        societyId: 100000,
-        email: faker.internet.email(),
-        name: 'Society 1 updated',
-        description: 'Society 1 description updated',
-      })
-      .expect(400);
+        .post('/societies/updateSociety')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          societyId: 100000,
+          email: faker.internet.email(),
+          name: 'Society 1 updated',
+          description: 'Society 1 description updated',
+        })
+        .expect(400);
     expect(res.body).not.toBeNull();
     expect(res.body.message).toBe('Society does not exist');
   });
@@ -754,13 +754,13 @@ describe('Update society', () => {
       },
     });
     const res = await request(app)
-      .post('/societies/updateSociety')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        societyId: 1,
-        email: email.email,
-        name: 'Society 1 updated',
-      });
+        .post('/societies/updateSociety')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          societyId: 1,
+          email: email.email,
+          name: 'Society 1 updated',
+        });
     expect(res.statusCode).toBe(400);
     expect(res.body.message).toBe('Email already in use');
   });
@@ -768,16 +768,15 @@ describe('Update society', () => {
 
   test('Update society with missing society id', async () => {
     const res = await request(app)
-      .post('/societies/updateSociety')
-      .set('Authorization', `Bearer ${token}`)
-      .send({
-        email: 'test@test.com',
-        name: 'Society 1 updated',
-        description: 'Society 1 description updated',
-      })
-      .expect(400);
+        .post('/societies/updateSociety')
+        .set('Authorization', `Bearer ${token}`)
+        .send({
+          email: 'test@test.com',
+          name: 'Society 1 updated',
+          description: 'Society 1 description updated',
+        })
+        .expect(400);
     expect(res.body).not.toBeNull();
     expect(res.body.message).toBe('Missing societyId');
   });
-
 });

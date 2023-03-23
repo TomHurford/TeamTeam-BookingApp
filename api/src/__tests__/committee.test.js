@@ -725,11 +725,11 @@ describe('changePresident', () => {
 
   test('Send missing society ID', async () => {
     const res = await request(app)
-      .post('/societies/changePresident')
-      .set('Authorization', `Bearer ` + token)
-      .send({
-        userId: 2,
-      });
+        .post('/societies/changePresident')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          userId: 2,
+        });
     expect(res.statusCode).toBe(400);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -738,11 +738,11 @@ describe('changePresident', () => {
 
   test('Send missing user ID', async () => {
     const res = await request(app)
-      .post('/societies/changePresident')
-      .set('Authorization', `Bearer ` + token)
-      .send({
-        societyId: 1,
-      });
+        .post('/societies/changePresident')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: 1,
+        });
     expect(res.statusCode).toBe(400);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -751,12 +751,12 @@ describe('changePresident', () => {
 
   test('Send invalid societyId (large number)', async () => {
     const res = await request(app)
-      .post('/societies/changePresident')
-      .set('Authorization', `Bearer ` + token)
-      .send({
-        societyId: 1000000,
-        userId: 2,
-      });
+        .post('/societies/changePresident')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: 1000000,
+          userId: 2,
+        });
     expect(res.statusCode).toBe(404);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -765,12 +765,12 @@ describe('changePresident', () => {
 
   test('Send invalid societyId (neg number)', async () => {
     const res = await request(app)
-      .post('/societies/changePresident')
-      .set('Authorization', `Bearer ` + token)
-      .send({
-        societyId: -1,
-        userId: 2,
-      });
+        .post('/societies/changePresident')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: -1,
+          userId: 2,
+        });
     expect(res.statusCode).toBe(400);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -779,12 +779,12 @@ describe('changePresident', () => {
 
   test('Send invalid societyId (string)', async () => {
     const res = await request(app)
-      .post('/societies/changePresident')
-      .set('Authorization', `Bearer ` + token)
-      .send({
-        societyId: 'abc',
-        userId: 2,
-      });
+        .post('/societies/changePresident')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: 'abc',
+          userId: 2,
+        });
     expect(res.statusCode).toBe(400);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -793,12 +793,12 @@ describe('changePresident', () => {
 
   test('Send invalid userId (large number)', async () => {
     const res = await request(app)
-      .post('/societies/changePresident')
-      .set('Authorization', `Bearer ` + token)
-      .send({
-        societyId: 1,
-        userId: 1000000,
-      });
+        .post('/societies/changePresident')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: 1,
+          userId: 1000000,
+        });
     expect(res.statusCode).toBe(404);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -807,12 +807,12 @@ describe('changePresident', () => {
 
   test('Send invalid userId (neg number)', async () => {
     const res = await request(app)
-      .post('/societies/changePresident')
-      .set('Authorization', `Bearer ` + token)
-      .send({
-        societyId: 1,
-        userId: -1,
-      });
+        .post('/societies/changePresident')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: 1,
+          userId: -1,
+        });
     expect(res.statusCode).toBe(400);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -821,12 +821,12 @@ describe('changePresident', () => {
 
   test('Send invalid userId (string)', async () => {
     const res = await request(app)
-      .post('/societies/changePresident')
-      .set('Authorization', `Bearer ` + token)
-      .send({
-        societyId: 1,
-        userId: 'abc',
-      });
+        .post('/societies/changePresident')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: 1,
+          userId: 'abc',
+        });
     expect(res.statusCode).toBe(400);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -855,12 +855,12 @@ describe('changePresident', () => {
       });
     }
     const res = await request(app)
-      .post('/societies/changePresident')
-      .set('Authorization', `Bearer ` + token)
-      .send({
-        societyId: 1,
-        userId: 3,
-      });
+        .post('/societies/changePresident')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: 1,
+          userId: 3,
+        });
     expect(res.statusCode).toBe(400);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -891,19 +891,19 @@ describe('changePresident', () => {
     }
     // Login as user with id 2
     const res2 = await request(app)
-      .post('/user/login')
-      .send({
-        email: 'student@kcl.ac.uk',
-        password: 'student',
-      });
+        .post('/user/login')
+        .send({
+          email: 'student@kcl.ac.uk',
+          password: 'student',
+        });
     const token2 = res2.body.token;
     const res = await request(app)
-      .post('/societies/changePresident')
-      .set('Authorization', `Bearer ` + token2)
-      .send({
-        societyId: 1,
-        userId: 2,
-      });
+        .post('/societies/changePresident')
+        .set('Authorization', `Bearer ` + token2)
+        .send({
+          societyId: 1,
+          userId: 2,
+        });
     expect(res.statusCode).toBe(400);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -921,16 +921,15 @@ describe('changePresident', () => {
 
   test('Change president but user is already president', async () => {
     const res = await request(app)
-      .post('/societies/changePresident')
-      .set('Authorization', `Bearer ` + token)
-      .send({
-        societyId: 1,
-        userId: 1,
-      });
+        .post('/societies/changePresident')
+        .set('Authorization', `Bearer ` + token)
+        .send({
+          societyId: 1,
+          userId: 1,
+        });
     expect(res.statusCode).toBe(400);
     // Check the response
     expect(res.body).not.toBeNull();
     expect(res.body.message).toBe('User is already president');
   });
-
 });

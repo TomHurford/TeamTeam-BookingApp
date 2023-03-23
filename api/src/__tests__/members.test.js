@@ -1,7 +1,6 @@
 const request = require('supertest');
 const app = require('../server.js');
 const prisma = require('../../prisma/prisma.js');
-const { members } = require('../../prisma/prisma.js');
 
 let token = null;
 
@@ -61,17 +60,15 @@ describe('follow society', () => {
 
   test('follow society', async () => {
     // Check if user is already a member
-    const user = await prisma.member.findUnique({
+    const user = await prisma.members.findFirst({
       where: {
-        userId_societyId: {
-          userId: 1,
-          societyId: 1,
-        },
+        userId: 1,
+        societyId: 1,
       },
     });
     // If user is already a member, delete them
     if (user) {
-      await prisma.member.delete({
+      await prisma.members.delete({
         where: {
           userId_societyId: {
             userId: 1,
@@ -93,11 +90,27 @@ describe('follow society', () => {
   });
 
   test('follow society when already member', async () => {
+    // Check if user is already a member
+    const user = await prisma.members.findFirst({
+      where: {
+        userId: 1,
+        societyId: 1,
+      },
+    });
+    // If user is not a member, add them
+    if (!user) {
+      await prisma.members.create({
+        data: {
+          userId: 1,
+          societyId: 1,
+        },
+      });
+    }
     const res = await request(app)
         .post('/societies/followSociety')
         .set('Authorization', `Bearer ` + token)
         .send({
-          societyId: 20,
+          societyId: 1,
         });
     expect(res.statusCode).toBe(400);
     // Check the response
@@ -141,11 +154,27 @@ describe('unfollow society', () => {
   });
 
   test('unfollow society', async () => {
+    // Check if user is already a member
+    const user = await prisma.members.findFirst({
+      where: {
+        userId: 1,
+        societyId: 1,
+      },
+    });
+    // If user is not a member, add them
+    if (!user) {
+      await prisma.members.create({
+        data: {
+          userId: 1,
+          societyId: 1,
+        },
+      });
+    }
     const res = await request(app)
         .post('/societies/unfollowSociety')
         .set('Authorization', `Bearer ` + token)
         .send({
-          societyId: 20,
+          societyId: 1,
         });
     expect(res.statusCode).toBe(200);
     // Check the response
@@ -228,7 +257,6 @@ describe('check User Is Member', () => {
         .send({
           societyId: 6,
         });
-    console.log(res.body);
     expect(res.statusCode).toBe(200);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -382,5 +410,5 @@ describe('get list of followed societies', () => {
         id: res.body.id,
       },
     });
-  });  
+  });
 });

@@ -13,85 +13,84 @@ async function signup(req, res) {
   try {
     decoded = await auth.authenticate(req);
   } catch (err) {
-    return res.status(401).send({ token: null, error: 'Unauthorized' });
+    return res.status(401).send({token: null, error: 'Unauthorized'});
   }
-    // Check that the request body is not empty and contains the correct
-    // properties
-    if (!req.body.name || !req.body.description || !req.body.email) {
-      res.status(400).send({error: 'Missing Society Details'});
-      return;
-    }
-    // Check if the user exists
-    const user = await prisma.user.findUnique({
-      where: {
-        id: decoded.id,
-      },
-    });
+  // Check that the request body is not empty and contains the correct
+  // properties
+  if (!req.body.name || !req.body.description || !req.body.email) {
+    res.status(400).send({error: 'Missing Society Details'});
+    return;
+  }
+  // Check if the user exists
+  const user = await prisma.user.findUnique({
+    where: {
+      id: decoded.id,
+    },
+  });
 
-    // Check if the society name already exists
-    const societyName = await prisma.society.findUnique({
-      where: {
-        name: req.body.name,
-      },
+  // Check if the society name already exists
+  const societyName = await prisma.society.findUnique({
+    where: {
+      name: req.body.name,
+    },
+  });
+  // Check if the society email already exists
+  const societyEmail = await prisma.society.findUnique({
+    where: {
+      email: req.body.email,
+    },
+  });
+  if (societyName) {
+    return res.status(409).send({
+      token: null,
+      message: 'Society already exists with that name',
     });
-    // Check if the society email already exists
-    const societyEmail = await prisma.society.findUnique({
-      where: {
-        email: req.body.email,
-      },
+  }
+  if (societyEmail) {
+    return res.status(409).send({
+      token: null,
+      message: 'Society already exists with that email',
     });
-    if (societyName) {
-      return res.status(409).send({
-        token: null,
-        message: 'Society already exists with that name',
-      });
-    }
-    if (societyEmail) {
-      return res.status(409).send({
-        token: null,
-        message: 'Society already exists with that email',
-      });
-    }
-    const validRegex =
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    // Check that the email has a valid regex
-    if (!req.body.email.match(validRegex)) {
-      return res.status(409).send({
-        token: null,
-        message: 'Email inputed doesnt have a valid regex',
-      });
-    }
-    society = await prisma.society.create({
-      data: {
-        name: req.body.name,
-        description: req.body.description,
-        email: req.body.email,
-        category: req.body.category,
-      },
+  }
+  const validRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  // Check that the email has a valid regex
+  if (!req.body.email.match(validRegex)) {
+    return res.status(409).send({
+      token: null,
+      message: 'Email inputed doesnt have a valid regex',
     });
-    listSocietyLinks = await prisma.societyLinks.create({
-      data: {
-        societyId: society.id,
-        banner: req.body.links.banner ? req.body.links.banner : null,
-        logo: req.body.links.logo ? req.body.links.logo : null,
-        website: req.body.links.website ? req.body.links.website : null,
-        facebook: req.body.links.facebook ? req.body.links.facebook : null,
-        instagram: req.body.links.instagram ? req.body.links.instagram : null,
-        twitter: req.body.links.twitter ? req.body.links.twitter : null,
-      },
-    });
+  }
+  society = await prisma.society.create({
+    data: {
+      name: req.body.name,
+      description: req.body.description,
+      email: req.body.email,
+      category: req.body.category,
+    },
+  });
+  listSocietyLinks = await prisma.societyLinks.create({
+    data: {
+      societyId: society.id,
+      banner: req.body.links.banner ? req.body.links.banner : null,
+      logo: req.body.links.logo ? req.body.links.logo : null,
+      website: req.body.links.website ? req.body.links.website : null,
+      facebook: req.body.links.facebook ? req.body.links.facebook : null,
+      instagram: req.body.links.instagram ? req.body.links.instagram : null,
+      twitter: req.body.links.twitter ? req.body.links.twitter : null,
+    },
+  });
 
-    committee = await prisma.committee.create({
-      data: {
-        userId: user.id,
-        societyId: society.id,
-        role: 'President',
-        isPresident: true,
-      },
-    });
+  committee = await prisma.committee.create({
+    data: {
+      userId: user.id,
+      societyId: society.id,
+      role: 'President',
+      isPresident: true,
+    },
+  });
 
-    res.status(200).send({society, committee, listSocietyLinks});
-
+  res.status(200).send({society, committee, listSocietyLinks});
 }
 
 /**
@@ -144,84 +143,26 @@ async function getSocieties(req, res) {
 async function getSocietyById(req, res) {
   // we should check if the user that made the request is a committee member of
   // the society
-    let committee = null;
-    let isCommitteePresident = false;
+  let committee = null;
+  let isCommitteePresident = false;
 
-    // If the request header authorization is not empty, the user is logged in
-    if (req.headers.authorization) {
-      // Get the decoded token
-      try {
-        decoded = await auth.authenticate(req);
-      } catch (err) {
-        res.status(401).send({token: null, error: 'Unauthorized'});
-        return;
-      }
-      const userId = decoded.id;
-      // Check if user is a committee member of the society
-      committee = await prisma.committee.findMany({
-        where: {
-          userId: userId,
-          societyId: req.body.societyId,
-        },
-        select: {
-          user: {
-            select: {
-              name: true,
-              email: true,
-            },
-          },
-        },
-      });
-      // Check if the user is the president of the society
-      checkMember = await prisma.committee.findMany({
-        where: {
-          userId: userId,
-          societyId: req.body.societyId,
-          isPresident: true,
-        },
-      });
-
-      if (checkMember.length > 0) {
-        isCommitteePresident = true;
-      }
-    }
-    // Get the society
-    const society = await prisma.society.findUnique({
-      where: {
-        id: parseInt(req.body.societyId),
-      },
-      include: {
-        members: true,
-        links: true,
-        events: {
-          include: {
-            society: true,
-          },
-        },
-      },
-    });
-
-    // Only send the number of members
-    const members = await prisma.members.findMany({
-      where: {societyId: society.id, isArchived: false},
-    });
-
-    society.members = members.length;
-
-    society.isCommitteePresident = isCommitteePresident;
-    if (Object.keys(committee).length == 0){
-      res.status(200).send({
-        society: society,
-      });
+  // If the request header authorization is not empty, the user is logged in
+  if (req.headers.authorization) {
+    // Get the decoded token
+    try {
+      decoded = await auth.authenticate(req);
+    } catch (err) {
+      res.status(401).send({token: null, error: 'Unauthorized'});
       return;
     }
-    // Add the committee members to the society object
-    const committeeMembers = await prisma.committee.findMany({
+    const userId = decoded.id;
+    // Check if user is a committee member of the society
+    committee = await prisma.committee.findMany({
       where: {
+        userId: userId,
         societyId: req.body.societyId,
       },
       select: {
-        userId: true,
         user: {
           select: {
             name: true,
@@ -230,13 +171,71 @@ async function getSocietyById(req, res) {
         },
       },
     });
+    // Check if the user is the president of the society
+    checkMember = await prisma.committee.findMany({
+      where: {
+        userId: userId,
+        societyId: req.body.societyId,
+        isPresident: true,
+      },
+    });
 
-    // Add the committee members to the society object
-    society.committee = committeeMembers;
+    if (checkMember.length > 0) {
+      isCommitteePresident = true;
+    }
+  }
+  // Get the society
+  const society = await prisma.society.findUnique({
+    where: {
+      id: parseInt(req.body.societyId),
+    },
+    include: {
+      members: true,
+      links: true,
+      events: {
+        include: {
+          society: true,
+        },
+      },
+    },
+  });
 
+  // Only send the number of members
+  const members = await prisma.members.findMany({
+    where: {societyId: society.id, isArchived: false},
+  });
+
+  society.members = members.length;
+
+  society.isCommitteePresident = isCommitteePresident;
+  if (Object.keys(committee).length == 0) {
     res.status(200).send({
       society: society,
     });
+    return;
+  }
+  // Add the committee members to the society object
+  const committeeMembers = await prisma.committee.findMany({
+    where: {
+      societyId: req.body.societyId,
+    },
+    select: {
+      userId: true,
+      user: {
+        select: {
+          name: true,
+          email: true,
+        },
+      },
+    },
+  });
+
+  // Add the committee members to the society object
+  society.committee = committeeMembers;
+
+  res.status(200).send({
+    society: society,
+  });
 }
 
 /**
@@ -333,7 +332,6 @@ async function updateSociety(req, res) {
     return;
   }
 
-  console.log(req.body.email);
   if (req.body.email) {
     // Check that email is not already in use
     const emailInUse = await prisma.society.findUnique({
@@ -341,7 +339,6 @@ async function updateSociety(req, res) {
         email: req.body.email,
       },
     });
-    console.log(emailInUse);
     if (emailInUse) {
       res.status(400).send({message: 'Email already in use'});
       return;
@@ -387,8 +384,8 @@ async function updateSociety(req, res) {
         facebook: req.body.links.facebook ?
           req.body.links.facebook :
           societyLinks.facebook,
-        logo: req.body.links.logo ? 
-          req.body.links.logo : 
+        logo: req.body.links.logo ?
+          req.body.links.logo :
           societyLinks.logo,
         banner: req.body.links.banner ?
           req.body.links.banner :

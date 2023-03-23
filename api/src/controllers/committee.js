@@ -324,13 +324,13 @@ async function changePresident(req, res) {
 
   // Check that the societyId is a positive integer and is of type number
   if (typeof req.body.societyId !== 'number' || req.body.societyId < 0) {
-    res.status(400).send({ message: 'Invalid societyId' });
+    res.status(400).send({message: 'Invalid societyId'});
     return;
   }
 
   // Check that the userId is a positive integer and is of type number
   if (typeof req.body.userId !== 'number' || req.body.userId < 0) {
-    res.status(400).send({ message: 'Invalid userId' });
+    res.status(400).send({message: 'Invalid userId'});
     return;
   }
 

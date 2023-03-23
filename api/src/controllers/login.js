@@ -70,7 +70,6 @@ async function reset(req, res) {
     req.body.userId === undefined ||
     req.body.new_password === undefined
   ) {
-    console.log(req.body);
     return res
         .status(409)
         .send({token: null, message: 'Request body cannot be empty'});
@@ -344,7 +343,6 @@ async function verify(req, res) {
  * @param {Respon} res The response object
  */
 async function checkUserLoggedIn(req, res) {
-  console.log(req.headers.authorization);
   if (!req.headers.authorization) {
     return res.status(401).send();
   }

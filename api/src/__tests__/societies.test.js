@@ -590,7 +590,6 @@ describe('Update society', () => {
           name: 'Society 1 updated',
           description: 'Society 1 description updated',
         });
-    console.log(res.body);
     expect(res.statusCode).toBe(200);
     expect(res.body.message).toBe('Society Updated');
   });

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import TicketHolderTicket from "./Events/TicketHolder";
 import PropTypes from "prop-types";
-import { generateTickets } from "../utils/ticketGenerator";
+const generateTickets = require("../utils/ticketGenerator.js");
 import "../styles/Basket.css";
 import "../styles/index.css";
 import { Link } from "react-router-dom";
@@ -32,7 +32,7 @@ function Basket(props) {
       window.location = "/login";
     }
 
-    const res = await generateTickets(
+    const res = await generateTickets.generateTickets(
       props.basketEvent,
       props.availableTicketTypes,
       props.tickets,

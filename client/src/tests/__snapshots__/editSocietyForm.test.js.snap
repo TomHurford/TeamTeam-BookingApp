@@ -80,9 +80,9 @@ exports[`EditSocietyForm snapshot test 1`] = `
           value=""
         />
       </div>
-      <h5>
+      <h2>
         Socials
-      </h5>
+      </h2>
       <div
         className="field"
       >
@@ -151,9 +151,9 @@ exports[`EditSocietyForm snapshot test 1`] = `
           value=""
         />
       </div>
-      <h5>
+      <h2>
         Images
-      </h5>
+      </h2>
       <small
         className="form-text text-muted"
         id="imageHelp"
@@ -230,15 +230,17 @@ exports[`EditSocietyForm snapshot test 1`] = `
   </div>
   <div>
     <div
+      className="center"
       style={
         Object {
-          "backgroundColor": "#abc4ff",
+          "backgroundColor": "#efedee",
           "borderColor": "gray",
           "borderRadius": 20,
+          "borderStyle": "solid",
           "borderWidth": 2,
-          "marginBottom": "20px",
           "marginTop": "20px",
-          "width": "50%",
+          "padding": "10px",
+          "textAlign": "center",
         }
       }
     >

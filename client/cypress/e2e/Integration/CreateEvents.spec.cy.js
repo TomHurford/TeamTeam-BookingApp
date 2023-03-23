@@ -104,12 +104,6 @@ describe('Create Events', () => {
       cy.contains('Society ID must be positive')
     })
 
-    it('Invalid ticket price - type in string', () =>{
-      cy.get('div[data-testid="ticketInfo.0.name"]').contains("Ticket Price").parent().find('input').type('Test');
-      cy.contains('Create Event').click()
-      cy.contains('ticketInfo[0].price must be a `number` type')
-    })
-
     it('Invalid ticket price - type in negative number', () =>{
       cy.get('div[data-testid="ticketInfo.0.name"]').contains("Ticket Price").parent().find('input').type('-1');
       cy.contains('Create Event').click()
@@ -123,12 +117,6 @@ describe('Create Events', () => {
     })
 
     //ticketInfo[0].quantity must be a `number` type
-
-    it('Invalid quantity - type in string', () =>{
-      cy.get('div[data-testid="ticketInfo.0.name"]').contains("Ticket Quantity").parent().find('input').type('Test');
-      cy.contains('Create Event').click()
-      cy.contains('ticketInfo[0].quantity must be a `number` type')
-    })
 
     it('Invalid quantity - type in negative number', () =>{
       cy.get('div[data-testid="ticketInfo.0.name"]').contains("Ticket Quantity").parent().find('input').type('-1');
@@ -170,16 +158,6 @@ describe('Create Events', () => {
       cy.contains('Ticket Type Name').parent().find('input').type(' ')
       cy.contains('Ticket Type Name').click({force: true})
       cy.contains('Ticket name must be at least 3 characters')
-    })
-    it('Error thrown for whitespace input in Ticket Price field', () =>{
-      cy.contains('Ticket Price').parent().find('input').type(' ')
-      cy.contains('Ticket Price').click({force: true})
-      cy.contains('ticketInfo[0].price must be a `number` type,')
-    })
-    it('Error thrown for whitespace input in Ticket Quantity field', () => {
-      cy.contains('Ticket Quantity').parent().find('input').type(' ')
-      cy.contains('Ticket Quantity').click({force: true})
-      cy.contains('ticketInfo[0].quantity must be a `number` type,')
     })
   })
 

@@ -79,9 +79,9 @@ exports[`CreateSocietyForm snapshot test 1`] = `
           value=""
         />
       </div>
-      <h5>
+      <h2>
         Socials
-      </h5>
+      </h2>
       <div
         className="field"
       >
@@ -150,9 +150,9 @@ exports[`CreateSocietyForm snapshot test 1`] = `
           value=""
         />
       </div>
-      <h5>
+      <h2>
         Images
-      </h5>
+      </h2>
       <small
         className="form-text text-muted"
         id="imageHelp"

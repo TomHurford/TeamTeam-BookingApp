@@ -1,4 +1,3 @@
-/* eslint-disable */
 const request = require('supertest');
 const app = require('../server.js');
 const prisma = require('../../prisma/prisma.js');
@@ -42,7 +41,7 @@ describe('Create Societies', () => {
           'name': 'Soc Signup Test',
           'email': 'testSoc@testSoc.com',
           'description': 'test',
-          'category': 'Other',
+          'category': 'Social',
           'links': {
             instagram: 'https://www.instagram.com/',
             facebook: 'https://www.facebook.com/',
@@ -75,7 +74,41 @@ describe('Create Societies', () => {
       },
     });
   });
-
+  test('Signup societies with normal values and no links', async () => {
+    const response = await request(app)
+        .post('/societies/signup')
+        .set('Authorization', 'Bearer ' + token)
+        .send({
+          'name': 'Soc Signup Test',
+          'email': 'testSoc@testSoc.com',
+          'description': 'test',
+          'category': 'Social',
+          'links': {
+          },
+        });
+    expect(response.statusCode).toBe(200);
+    expect(response.body).not.toBeNull();
+    expect(response.body.society.name).toBe('Soc Signup Test');
+    // Delete the society we just created
+    await prisma.committee.delete({
+      where: {
+        userId_societyId: {
+          userId: 1,
+          societyId: response.body.society.id,
+        },
+      },
+    });
+    await prisma.societyLinks.delete({
+      where: {
+        societyId: response.body.society.id,
+      },
+    });
+    await prisma.society.delete({
+      where: {
+        id: response.body.society.id,
+      },
+    });
+  });
   test('Signup societies with no values (email)', async () => {
     const response = await request(app)
         .post('/societies/signup')
@@ -589,8 +622,40 @@ describe('Update society', () => {
           email: faker.internet.email(),
           name: 'Society 1 updated',
           description: 'Society 1 description updated',
+          'links': {
+            website: 'https://www.google.com/',
+            instagram: 'https://www.instagram.com/update/',
+            facebook: 'https://www.facebook.com/update/',
+            twitter: 'https://twitter.com/update/',
+            banner: 'https://www.google.com/',
+            logo: 'https://www.google.com/',
+          },
+          category: 'Social',
         });
     expect(res.statusCode).toBe(200);
+    expect(res.body.message).toBe('Society Updated');
+  });
+
+  test('Update society with no data', async () => {
+    const res = await request(app)
+        .post('/societies/updateSociety')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        societyId: 1,
+      })
+      .expect(200);
+    expect(res.body.message).toBe('Society Updated');
+  });
+
+  test('Update society with no data and no links', async () => {
+    const res = await request(app)
+      .post('/societies/updateSociety')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        societyId: 1,
+        links: {},
+      })
+      .expect(200);
     expect(res.body.message).toBe('Society Updated');
   });
 
@@ -663,6 +728,43 @@ describe('Update society', () => {
     expect(res.body).not.toBeNull();
     expect(res.body.message).toBe('Invalid societyId');
   });
+
+  test('Update society with society that does not exist ', async () => {
+    const res = await request(app)
+      .post('/societies/updateSociety')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        societyId: 100000,
+        email: faker.internet.email(),
+        name: 'Society 1 updated',
+        description: 'Society 1 description updated',
+      })
+      .expect(400);
+    expect(res.body).not.toBeNull();
+    expect(res.body.message).toBe('Society does not exist');
+  });
+
+  test('Update society with email already in use', async () => {
+    const email = await prisma.society.findFirst({
+      where: {
+        id: 5,
+      },
+      select: {
+        email: true,
+      },
+    });
+    const res = await request(app)
+      .post('/societies/updateSociety')
+      .set('Authorization', `Bearer ${token}`)
+      .send({
+        societyId: 1,
+        email: email.email,
+        name: 'Society 1 updated',
+      });
+    expect(res.statusCode).toBe(400);
+    expect(res.body.message).toBe('Email already in use');
+  });
+
 
   test('Update society with missing society id', async () => {
     const res = await request(app)

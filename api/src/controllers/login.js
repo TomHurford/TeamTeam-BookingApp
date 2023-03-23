@@ -52,8 +52,6 @@ async function logout(req, res) {
     if (authResponse) {
       // release token
       res.status(200).send({message: 'Logout successful'});
-    } else {
-      res.status(401).send({message: 'Unauthorized'});
     }
   } catch (err) {
     res.status(401).send({message: 'Unauthorized'});
@@ -346,6 +344,7 @@ async function verify(req, res) {
  * @param {Respon} res The response object
  */
 async function checkUserLoggedIn(req, res) {
+  console.log(req.headers.authorization);
   if (!req.headers.authorization) {
     return res.status(401).send();
   }

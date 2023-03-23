@@ -9,9 +9,12 @@ const auth = require('../utils/jwt_auth.js');
  * @return {Response} The response object
  */
 async function signup(req, res) {
+  let decoded = null;
   try {
-    const decoded = await auth.authenticate(req);
-
+    decoded = await auth.authenticate(req);
+  } catch (err) {
+    return res.status(401).send({ token: null, error: 'Unauthorized' });
+  }
     // Check that the request body is not empty and contains the correct
     // properties
     if (!req.body.name || !req.body.description || !req.body.email) {
@@ -24,10 +27,6 @@ async function signup(req, res) {
         id: decoded.id,
       },
     });
-
-    if (!user) {
-      return res.status(409).send({token: null, message: 'User Not Found'});
-    }
 
     // Check if the society name already exists
     const societyName = await prisma.society.findUnique({
@@ -67,18 +66,18 @@ async function signup(req, res) {
         name: req.body.name,
         description: req.body.description,
         email: req.body.email,
-        category: req.body.category ? req.body.category : 'Other',
+        category: req.body.category,
       },
     });
     listSocietyLinks = await prisma.societyLinks.create({
       data: {
         societyId: society.id,
-        banner: req.body.banner ? req.body.banner : null,
-        logo: req.body.logo ? req.body.logo : null,
-        website: req.body.website ? req.body.website : null,
-        facebook: req.body.facebook ? req.body.facebook : null,
-        instagram: req.body.instagram ? req.body.instagram : null,
-        twitter: req.body.twitter ? req.body.twitter : null,
+        banner: req.body.links.banner ? req.body.links.banner : null,
+        logo: req.body.links.logo ? req.body.links.logo : null,
+        website: req.body.links.website ? req.body.links.website : null,
+        facebook: req.body.links.facebook ? req.body.links.facebook : null,
+        instagram: req.body.links.instagram ? req.body.links.instagram : null,
+        twitter: req.body.links.twitter ? req.body.links.twitter : null,
       },
     });
 
@@ -92,9 +91,7 @@ async function signup(req, res) {
     });
 
     res.status(200).send({society, committee, listSocietyLinks});
-  } catch (err) {
-    res.status(401).send({token: null, error: 'Unauthorized'});
-  }
+
 }
 
 /**
@@ -147,7 +144,6 @@ async function getSocieties(req, res) {
 async function getSocietyById(req, res) {
   // we should check if the user that made the request is a committee member of
   // the society
-  try {
     let committee = null;
     let isCommitteePresident = false;
 
@@ -176,7 +172,6 @@ async function getSocietyById(req, res) {
           },
         },
       });
-
       // Check if the user is the president of the society
       checkMember = await prisma.committee.findMany({
         where: {
@@ -214,8 +209,7 @@ async function getSocietyById(req, res) {
     society.members = members.length;
 
     society.isCommitteePresident = isCommitteePresident;
-
-    if (!committee) {
+    if (Object.keys(committee).length == 0){
       res.status(200).send({
         society: society,
       });
@@ -243,9 +237,6 @@ async function getSocietyById(req, res) {
     res.status(200).send({
       society: society,
     });
-  } catch (err) {
-    res.status(500).send({message: 'Internal Server Error'});
-  }
 }
 
 /**
@@ -255,44 +246,40 @@ async function getSocietyById(req, res) {
  * @return {Response} The response object
  */
 async function deleteSociety(req, res) {
+  let decoded = null;
   try {
-    let decoded = null;
-    try {
-      decoded = await auth.authenticate(req);
-    } catch (err) {
-      res.status(401).send({token: null, error: 'Unauthorized'});
-      return;
-    }
-    const userId = decoded.id;
-    const isAdmin = decoded.admin;
-    const commitee = await prisma.committee.findMany({
-      where: {
-        userId: userId,
-        societyId: req.body.societyId,
-      },
-    });
-    // not part of committee?
-    const society = await prisma.society.findUnique({
-      where: {
-        id: req.body.societyId,
-      },
-    });
-    if (!society) {
-      res.status(400).send({error: 'Invalid id of society'});
-      return;
-    }
-    if (!commitee.isPresident && !isAdmin) {
-      res.status(401).send({message: 'Unauthorized'});
-      return;
-    }
-    await prisma.society.update({
-      where: {id: req.body.societyId},
-      data: {isArchived: true},
-    });
-    res.status(200).send({message: 'Society Updated'});
+    decoded = await auth.authenticate(req);
   } catch (err) {
-    res.status(500).send({message: 'Internal Server Error'});
+    res.status(401).send({token: null, error: 'Unauthorized'});
+    return;
   }
+  const userId = decoded.id;
+  const isAdmin = decoded.admin;
+  const commitee = await prisma.committee.findMany({
+    where: {
+      userId: userId,
+      societyId: req.body.societyId,
+    },
+  });
+  // not part of committee?
+  const society = await prisma.society.findUnique({
+    where: {
+      id: req.body.societyId,
+    },
+  });
+  if (!society) {
+    res.status(400).send({error: 'Invalid id of society'});
+    return;
+  }
+  if (!commitee.isPresident && !isAdmin) {
+    res.status(401).send({message: 'Unauthorized'});
+    return;
+  }
+  await prisma.society.update({
+    where: {id: req.body.societyId},
+    data: {isArchived: true},
+  });
+  res.status(200).send({message: 'Society Updated'});
 }
 
 /**
@@ -346,6 +333,7 @@ async function updateSociety(req, res) {
     return;
   }
 
+  console.log(req.body.email);
   if (req.body.email) {
     // Check that email is not already in use
     const emailInUse = await prisma.society.findUnique({
@@ -353,6 +341,7 @@ async function updateSociety(req, res) {
         email: req.body.email,
       },
     });
+    console.log(emailInUse);
     if (emailInUse) {
       res.status(400).send({message: 'Email already in use'});
       return;
@@ -398,7 +387,9 @@ async function updateSociety(req, res) {
         facebook: req.body.links.facebook ?
           req.body.links.facebook :
           societyLinks.facebook,
-        logo: req.body.links.logo ? req.body.links.logo : societyLinks.logo,
+        logo: req.body.links.logo ? 
+          req.body.links.logo : 
+          societyLinks.logo,
         banner: req.body.links.banner ?
           req.body.links.banner :
           societyLinks.banner,

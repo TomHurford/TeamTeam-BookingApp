@@ -93,6 +93,44 @@ describe('Get Events', () => {
     expect(response.statusCode).toBe(400);
     expect(response.body.error).toBe('Invalid eventId');
   });
+  test('Get event as user not in society', async () => {
+    // Check if user with id 2 is in society with id 1
+    const user = await prisma.committee.findFirst({
+      where: {
+        userId: 2,
+        societyId: 1,
+      },
+    });
+    // If user is in society, remove them
+    if (user) {
+      await prisma.committee.delete({
+        where: {
+          userId_societyId: {
+            userId: 2,
+            societyId: 1,
+          },
+        },
+      });
+    }
+    // Log in as user with id 2
+    const response = await request(app)
+      .post('/user/login')
+      .send({
+        email: 'student@kcl.ac.uk',
+        password: 'student',
+      });
+    const userToken = response.body.token;
+    const response2 = await request(app)
+      .post('/events')
+      .set('Authorization', 'Bearer ' + userToken)
+      .send({
+        eventId: 1,
+      });
+    expect(response2.statusCode).toBe(200);
+    expect(response2.body).toHaveProperty('event');
+    expect(response2.body).toHaveProperty('isCommittee');
+    expect(response2.body.isCommittee).toBe(false);
+  });
 });
 
 describe('Create Event', () => {

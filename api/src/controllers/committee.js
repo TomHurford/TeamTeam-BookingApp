@@ -322,6 +322,18 @@ async function changePresident(req, res) {
     return;
   }
 
+  // Check that the societyId is a positive integer and is of type number
+  if (typeof req.body.societyId !== 'number' || req.body.societyId < 0) {
+    res.status(400).send({ message: 'Invalid societyId' });
+    return;
+  }
+
+  // Check that the userId is a positive integer and is of type number
+  if (typeof req.body.userId !== 'number' || req.body.userId < 0) {
+    res.status(400).send({ message: 'Invalid userId' });
+    return;
+  }
+
   // Check that the society exists
   const society = await prisma.society.findUnique({
     where: {
@@ -347,14 +359,14 @@ async function changePresident(req, res) {
   }
 
   // Check that the user is a committee member
-  const isCommittee = await prisma.committee.findMany({
+  const isCommittee = await prisma.committee.findFirst({
     where: {
       userId: req.body.userId,
       societyId: req.body.societyId,
     },
   });
 
-  if (isCommittee.length === 0) {
+  if (!isCommittee) {
     res.status(400).send({message: 'User is not a committee member'});
     return;
   }

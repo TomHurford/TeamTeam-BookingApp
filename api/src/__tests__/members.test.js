@@ -1,6 +1,7 @@
 const request = require('supertest');
 const app = require('../server.js');
 const prisma = require('../../prisma/prisma.js');
+const { members } = require('../../prisma/prisma.js');
 
 let token = null;
 
@@ -59,11 +60,31 @@ describe('follow society', () => {
   });
 
   test('follow society', async () => {
+    // Check if user is already a member
+    const user = await prisma.member.findUnique({
+      where: {
+        userId_societyId: {
+          userId: 1,
+          societyId: 1,
+        },
+      },
+    });
+    // If user is already a member, delete them
+    if (user) {
+      await prisma.member.delete({
+        where: {
+          userId_societyId: {
+            userId: 1,
+            societyId: 1,
+          },
+        },
+      });
+    }
     const res = await request(app)
         .post('/societies/followSociety')
         .set('Authorization', `Bearer ` + token)
         .send({
-          societyId: 20,
+          societyId: 1,
         });
     expect(res.statusCode).toBe(200);
     // Check the response
@@ -193,7 +214,7 @@ describe('check User Is Member', () => {
     expect(res.body.message).toBe('User is not a member');
   });
 
-  test('check user is member when member', async () => {
+  test('check user is member when user is member', async () => {
     await prisma.members.create({
       data: {
         userId: 1,
@@ -207,6 +228,7 @@ describe('check User Is Member', () => {
         .send({
           societyId: 6,
         });
+    console.log(res.body);
     expect(res.statusCode).toBe(200);
     // Check the response
     expect(res.body).not.toBeNull();
@@ -335,4 +357,30 @@ describe('get list of followed societies', () => {
     expect(res.body).not.toBeNull();
     expect(res.body.message).toBe('Societies found');
   });
+  test('get list of followed societies with no societies found', async () => {
+    const res = await request(app)
+        .post('/user/signup')
+        .send({
+          email: 'test@test.com',
+          password: 'test123',
+          name: 'test',
+        });
+    const res2 = await request(app)
+        .post('/user/login')
+        .send({
+          email: 'test@test.com',
+          password: 'test123',
+        });
+    const token = res2.body.token;
+    const res3 = await request(app)
+        .post('/societies/getFollowedSocieties')
+        .set('Authorization', `Bearer ` + token);
+    expect(res3.statusCode).toBe(404);
+    expect(res3.body.message).toBe('No societies found');
+    prisma.user.delete({
+      where: {
+        id: res.body.id,
+      },
+    });
+  });  
 });

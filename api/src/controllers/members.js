@@ -256,7 +256,6 @@ async function getListOfFollowedSocieties(req, res) {
       societyId: true,
     },
   });
-
   if (societies.length === 0) {
     res.status(404).send({message: 'No societies found'});
     return;

@@ -30,7 +30,15 @@ describe('Login', () => {
     expect(response.statusCode).toBe(200);
     expect(response.body).toHaveProperty('token');
   });
-
+  test('Login with no email and password', async () => {
+    const response = await request(app).post('/user/login').send({
+      email: undefined,
+      password: undefined,
+    });
+    expect(response.statusCode).toBe(409);
+    expect(response.body).toHaveProperty('message');
+    expect(response.body.message).toBe('Request body cannot be empty');
+  });
   test('Login with invalid credentials', async () => {
     const response = await request(app).post('/user/login').send({
       email: 'admin@admin.com',
@@ -103,7 +111,12 @@ describe('Reset', () => {
       },
     });
   });
-
+  test('reset with no data', async () => {
+    const response = await request(app).post('/user/reset').send({
+    });
+    expect(response.statusCode).toBe(409);
+    expect(response.body.message).toBe('Request body cannot be empty');
+  });
   test('Reset with invalid Code', async () => {
     await prisma.verifications.create({
       data: {
@@ -166,6 +179,33 @@ describe('Reset', () => {
     expect(resetResponse.body.token).toBe(null);
     expect(resetResponse.body.message).toBe('New password cannot be empty');
   });
+  test('Reset with invalid password (less than 8 characters)', async () => {
+    const verification = await prisma.verifications.create({
+      data: {
+        verificationType: 'forgotPassword',
+        verificationCode: 'verificationCode',
+        userId: 1,
+      },
+    });
+
+    const resetResponse = await request(app).post('/user/reset').send({
+      verificationType: 'forgotPassword',
+      verificationCode: 'verificationCode',
+      userId: 1,
+      new_password: 'admin',
+    });
+    expect(resetResponse.statusCode).toBe(409);
+    expect(resetResponse.body).toHaveProperty('message');
+    expect(resetResponse.body.token).toBe(null);
+    expect(resetResponse.body.message).toBe(
+        'New password must be at least 8 characters',
+    );
+    await prisma.verifications.delete({
+      where: {
+        id: verification.id,
+      }
+    });
+  });
 });
 
 // Here I am testing the signup function from the login controller
@@ -204,24 +244,50 @@ describe('Signup', () => {
     expect(response.statusCode).toBe(200);
   });
 
-  test('Signup with invalid credentials (empty email)', async () => {
+  test('Signup with existing users', async () => {
+    const response = await request(app).post('/user/signup').send({
+      email: 'admin@admin.com',
+      password: 'admin123',
+      name: 'admin',
+    });
+    expect(response.statusCode).toBe(409);
+    expect(response.body).toHaveProperty('message');
+    expect(response.body.message).toBe('User already exists');
+  });
+  test('Signup with whitespace credentials (empty email)', async () => {
     const response = await request(app).post('/user/signup').send({
       email: '',
       password: 'admin1',
+      name: 'admin',
     });
     expect(response.statusCode).toBe(409);
     expect(response.body).toHaveProperty('message');
     expect(response.body.token).toBe(null);
+    expect(response.body.message).toBe('Name, email and password cannot be empty');
+
+  });
+  test('Signup with invalid credentials (empty name)', async () => {
+    const response = await request(app).post('/user/signup').send({
+      email: 'admin2@admin.com',
+      password: 'admin1',
+      name: '',
+    });
+    expect(response.statusCode).toBe(409);
+    expect(response.body).toHaveProperty('message');
+    expect(response.body.token).toBe(null);
+    expect(response.body.message).toBe('Name, email and password cannot be empty');
   });
 
   test('Signup with invalid credentials (empty password)', async () => {
     const response = await request(app).post('/user/signup').send({
       email: 'admin2@admin.com',
       password: '',
+      name: 'admin',
     });
     expect(response.statusCode).toBe(409);
     expect(response.body).toHaveProperty('message');
     expect(response.body.token).toBe(null);
+    expect(response.body.message).toBe('Name, email and password cannot be empty');
   });
 
   test('Sign up with an email that already exists', async () => {
@@ -253,7 +319,12 @@ describe('Verify', () => {
     });
     expect(response.statusCode).toBe(200);
   });
-
+  test('Verify with no verify', async () => {
+    const response = await request(app).post('/user/verify').send({
+    });
+    expect(response.statusCode).toBe(409);
+    expect(response.body.message).toBe('Request body cannot be empty');
+  });
   test('Verify A User Account with bad code', async () => {
     await prisma.verifications.create({
       data: {
@@ -270,6 +341,7 @@ describe('Verify', () => {
     });
     expect(response.statusCode).toBe(404);
   });
+
 
   test('Verify A User Account with no valid code', async () => {
     const response = await request(app).post('/user/verify').send({

@@ -33,7 +33,7 @@
 .searchSocietiesPage-container li.list-group-item:active,
 ul.list-group > li.active {
   background-color: #007aff;
-  
+
   color: white;
 }
 .societyListTable {
@@ -213,36 +213,34 @@ ul.pagination > a > li.active {
   height: 2em;
 }
 @media (min-width: 666px) {
-
-    #societyPage .identity {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-    }
-    #societyPage .identity > .icon {
-        float: left;
-        position: relative;
-        margin: 0;
-        margin-right: 15px;
-    }
-    #societyPage .identity > .name {
-        float: left;
-        position: relative;
-        margin: 0;
-        width: fit-content;
-        height: 90px;
-        line-height: 90px;
-        overflow: hidden;
-        
-    }
-    #societyPage .identity > .socials {
-        position: absolute;
-        width: fit-content;
-        bottom: 6px;
-        right: 20px;
-        height: fit-content;
-    }
+  #societyPage .identity {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+  #societyPage .identity > .icon {
+    float: left;
+    position: relative;
+    margin: 0;
+    margin-right: 15px;
+  }
+  #societyPage .identity > .name {
+    float: left;
+    position: relative;
+    margin: 0;
+    width: fit-content;
+    height: 90px;
+    line-height: 90px;
+    overflow: hidden;
+  }
+  #societyPage .identity > .socials {
+    position: absolute;
+    width: fit-content;
+    bottom: 6px;
+    right: 20px;
+    height: fit-content;
+  }
 }
 #societyPage .body {
   display: flex;
@@ -254,33 +252,9 @@ ul.pagination > a > li.active {
   overflow-y: auto;
 }
 #societyPage .body .description {
-    width: 100%;
+  width: 100%;
 }
 #societyPage .body .events {
-    width: 100%;
-    min-height: fit-content;
-}
-
-
-
-
-
-/* Society Add Member */
-
-.addmemberinput {
-  padding-left: 15px;
-  padding-right: 15px;
-  width: calc( 100% - 30px );
-  aspect-ratio: 10;
-  box-shadow: 1px 1px 3px rgba(135, 135, 135, 0.452);
-  border-radius: 10px;
-  border: 1px;
-  outline: 5px;
-  font-size: 1.1em;
-}
-.addmemberinput .errortext {
-  color: red;
-  font-size: 0.7em;
-  line-height: 0.9em;
-  padding-top: 0;
+  width: 100%;
+  min-height: fit-content;
 }

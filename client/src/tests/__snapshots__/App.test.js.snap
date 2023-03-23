@@ -104,7 +104,7 @@ exports[`App snapshot test 1`] = `
           <li>
             <img
               alt="Basket"
-              src="basket.png"
+              src="burger.png"
             />
           </li>
         </a>

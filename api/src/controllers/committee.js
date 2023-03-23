@@ -68,7 +68,8 @@ async function addCommitteeMember(req, res) {
     },
   });
 
-  return res.status(200)
+  return res
+      .status(200)
       .send({message: 'User added to committee', userId: user.id});
 }
 
@@ -82,9 +83,9 @@ async function removeCommitteeMember(req, res) {
   let decoded = null;
   try {
     // Authenticate the user
-    decoded = (await auth.authenticate(req));
+    decoded = await auth.authenticate(req);
   } catch (err) {
-    return res.status(500).send({message: 'Internal Server Error'});
+    return res.status(500).send({ message: "Internal Server Error" });
   }
   // Check that the request body contains a userId and societyId
   if (!req.body.userId || !req.body.societyId) {
@@ -167,7 +168,7 @@ async function removeCommitteeMember(req, res) {
     },
   });
 
-  res.status(200).send({message: 'User removed from committee'});
+  res.status(200).send({ message: "User removed from committee" });
 }
 
 /**
@@ -184,6 +185,7 @@ async function getCommitteeMembers(req, res) {
       societyId: req.body.societyId,
     },
     select: {
+      userId: true,
       user: true,
       role: true,
     },
@@ -310,13 +312,13 @@ async function changePresident(req, res) {
     // Authenticate the user
     decoded = await auth.authenticate(req);
   } catch (err) {
-    res.status(401).send({message: 'Unauthorized'});
+    res.status(401).send({ message: "Unauthorized" });
     return;
   }
 
   // Check that the req body has a societyId and userId
   if (!req.body.societyId || !req.body.userId) {
-    res.status(400).send({message: 'Missing societyId or userId'});
+    res.status(400).send({ message: "Missing societyId or userId" });
     return;
   }
 
@@ -328,7 +330,7 @@ async function changePresident(req, res) {
   });
 
   if (!society) {
-    res.status(404).send({message: 'Society not found'});
+    res.status(404).send({ message: "Society not found" });
     return;
   }
 
@@ -340,7 +342,7 @@ async function changePresident(req, res) {
   });
 
   if (!user) {
-    res.status(404).send({message: 'User not found'});
+    res.status(404).send({ message: "User not found" });
     return;
   }
 
@@ -353,7 +355,7 @@ async function changePresident(req, res) {
   });
 
   if (isCommittee.length === 0) {
-    res.status(400).send({message: 'User is not a committee member'});
+    res.status(400).send({ message: "User is not a committee member" });
     return;
   }
 
@@ -367,7 +369,7 @@ async function changePresident(req, res) {
   });
 
   if (findPresident.length === 0) {
-    res.status(400).send({message: 'User is not a president'});
+    res.status(400).send({ message: "User is not a president" });
     return;
   }
 
@@ -381,7 +383,7 @@ async function changePresident(req, res) {
   });
 
   if (isAlreadyPresident.length > 0) {
-    res.status(400).send({message: 'User is already president'});
+    res.status(400).send({ message: "User is already president" });
     return;
   }
 
@@ -393,7 +395,7 @@ async function changePresident(req, res) {
     },
     data: {
       isPresident: false,
-      role: 'Committee Member',
+      role: "Committee Member",
     },
   });
 
@@ -406,11 +408,11 @@ async function changePresident(req, res) {
     },
     data: {
       isPresident: true,
-      role: 'President',
+      role: "President",
     },
   });
 
-  res.status(200).send({message: 'President changed'});
+  res.status(200).send({ message: "President changed" });
 }
 
 module.exports = {

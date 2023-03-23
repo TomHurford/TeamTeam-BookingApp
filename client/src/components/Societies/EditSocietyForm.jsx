@@ -73,9 +73,7 @@ function EditSocietyForm() {
           },
         };
 
-
-        fetch(process.env.REACT_APP_API_URL + "/societies/updateSociety", {
-
+        fetch("http://localhost:5001/societies/updateSociety", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -87,6 +85,8 @@ function EditSocietyForm() {
           .then((status) => {
             if (status === 200) {
               alert("Society updated successfully!");
+            } else if (status === 400) {
+              alert("Email already in use");
             } else {
               alert("Error updating society");
             }
@@ -121,44 +121,44 @@ function EditSocietyForm() {
               ""
             )}
           </div>
-        <div className="field">
-          <label>Select a category</label>
-          <select
-            id="category"
-            name="category"
-            value={formik.values.category}
-            onChange={formik.handleChange}
-            className="form-select"
-          >
-            <option defaultValue></option>
-            <option>Academic</option>
-            <option>Social</option>
-            <option>Sports</option>
-            <option>Other</option>
-          </select>
-        </div>
+          <div className="field">
+            <label>Select a category</label>
+            <select
+              id="category"
+              name="category"
+              value={formik.values.category}
+              onChange={formik.handleChange}
+              className="form-select"
+            >
+              <option defaultValue></option>
+              <option>Academic</option>
+              <option>Social</option>
+              <option>Sports</option>
+              <option>Other</option>
+            </select>
+          </div>
 
-        {/*Email below*/}
-        <div className="field">
-          <label htmlFor="societyEmail">Society Email</label>
-          <input
-            name="societyEmail"
-            value={formik.values.societyEmail}
-            onChange={formik.handleChange}
-            type="text"
-            className="form-control"
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.societyEmail && formik.errors.societyEmail ? (
-            <label className="errortext" htmlFor="societyEmail">
-              {formik.errors.societyEmail}
-              <br />
-            </label>
-          ) : (
-            ""
-          )}
-        </div>
-        {/*Email Above */}
+          {/*Email below*/}
+          <div className="field">
+            <label htmlFor="societyEmail">Society Email</label>
+            <input
+              name="societyEmail"
+              value={formik.values.societyEmail}
+              onChange={formik.handleChange}
+              type="text"
+              className="form-control"
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.societyEmail && formik.errors.societyEmail ? (
+              <label className="errortext" htmlFor="societyEmail">
+                {formik.errors.societyEmail}
+                <br />
+              </label>
+            ) : (
+              ""
+            )}
+          </div>
+          {/*Email Above */}
 
           {/* Socials below*/}
           <h5>Socials</h5>
@@ -312,12 +312,13 @@ function EditSocietyForm() {
             )}
           </div>
 
-        <button className="button" type="submit">
-          Edit Society
-        </button>
-      </form>
+          <button className="button" type="submit">
+            Edit Society
+          </button>
+        </form>
         <hr></hr>
-
+      </div>
+      <div>
         <EditSocietyCommittee societyId={formik.values.societyId} />
       </div>
     </div>

@@ -47,6 +47,13 @@ class EventDetails extends Component {
         <div className="body">
           <div className="description">
             <h2>Description</h2>
+            <div>
+              {event.isCommittee === true && (
+                <button className="button" onClick={this.handleClick}>
+                  Edit Event
+                </button>
+              )}
+            </div>
             <div className="text">{event.event.description}</div>
             <div className="text">
               {
@@ -147,11 +154,7 @@ class EventDetails extends Component {
               to={`/edit-event/${this.getEventId})
               )}`}
             > */}
-              {event.isCommittee === true && (
-                <button className="button" onClick={this.handleClick}>
-                  Edit Event
-                </button>
-              )}
+
               {/* </Link> */}
             </div>
           )}

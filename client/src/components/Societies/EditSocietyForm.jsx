@@ -73,7 +73,7 @@ function EditSocietyForm() {
           },
         };
 
-        fetch(process.env.REACT_APP_API_URL + "/societies/updateSociety", {
+        fetch("http://localhost:5001/societies/updateSociety", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -85,6 +85,8 @@ function EditSocietyForm() {
           .then((status) => {
             if (status === 200) {
               alert("Society updated successfully!");
+            } else if (status === 400) {
+              alert("Email already in use");
             } else {
               alert("Error updating society");
             }

@@ -13,7 +13,7 @@ function Basket(props) {
 
   useEffect(() => {
     setTotalPrice(props.totalPrice());
-  }, [props.basketEvent, props.availableTicketTypes, props.tickets]);
+  }, []);
 
   useEffect(() => {
     setTotalPrice(props.totalPrice());
@@ -48,6 +48,7 @@ function Basket(props) {
   }
 
   const updateBasketTotal = () => {
+    console.log(props.totalPrice())
     setTotalPrice(props.totalPrice())
   }
 

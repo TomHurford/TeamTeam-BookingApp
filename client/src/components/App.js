@@ -85,15 +85,23 @@ function App() {
 
   const totalPrice = () => {
     var total = 0;
+    console.log("check 1");
 
     if (!getBasketInUse()) {
       return total;
     }
+    console.log("check 2");
 
     var tickets = getTickets();
 
     getTicketTypes().map(
-      type => total += tickets[type.id] * type.price
+      type => {
+        if(tickets[type.id] === undefined || tickets[type.id] === 0)
+        {}
+        else{
+          total += tickets[type.id] * type.price
+        }
+      }
       );
 
 

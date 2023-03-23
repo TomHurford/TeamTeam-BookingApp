@@ -608,6 +608,23 @@ describe('Update society', () => {
   });
 
   test('Update society with user not being part of committee', async () => {
+        // Check if the user is a committee member from the database
+    const isCommittee = await prisma.committee.findFirst({
+      where: {
+        userId: 2,
+        societyId: 1,
+      },
+    });
+    if (isCommittee) {
+      await prisma.committee.delete({
+        where: {
+          userId_societyId: {
+            userId: 2,
+            societyId: 1,
+          },
+        },
+      });
+    }
     const res = await request(app)
         .post('/user/login')
         .send({

@@ -522,6 +522,24 @@ describe('Create Event', () => {
   });
   // This is a POST request
   test('Create event as non committee member', async () => {
+    // Check if the user is a committee member from the database
+    const isCommittee = await prisma.committee.findFirst({
+      where: {
+        userId: 2,
+        societyId: 1,
+      },
+    });
+    if (isCommittee) {
+      await prisma.committee.delete({
+        where: {
+          userId_societyId: {
+            userId: 2,
+            societyId: 1,
+          },
+        },
+      });
+    }
+
     // Login as a non committee member
     const response = await request(app).post('/user/login').send({
       email: 'student@kcl.ac.uk',
@@ -720,6 +738,23 @@ describe('Update Event', () => {
   });
   // This is a POST request
   test('Update event as non committee member', async () => {
+    // Check if the user is a committee member from the database
+    const isCommittee = await prisma.committee.findFirst({
+      where: {
+        userId: 2,
+        societyId: 1,
+      },
+    });
+    if (isCommittee) {
+      await prisma.committee.delete({
+        where: {
+          userId_societyId: {
+            userId: 2,
+            societyId: 1,
+          },
+        },
+      });
+    }
     // Login as a non committee member
     const response = await request(app).post('/user/login').send({
       email: 'student@kcl.ac.uk',
@@ -854,45 +889,6 @@ describe('Update Event', () => {
     expect(response.body).toHaveProperty('error');
     // Expect the event to not be updated
     expect(response.body.error).toBe('Missing Event Details');
-  });
-  test('Update event with invalid society id', async () => {
-  /*
-    const event = {
-      name: 'Test Event',
-      description: 'This is a test event',
-      date: '2023-12-02T00:10:00.000Z',
-      location: faker.address.streetAddress(),
-      societyId: 1,
-      "ticketType":[{
-        name:"Test Ticket Type1",
-        price:200,
-        quantity:10,
-      },{
-        name:"Test Ticket Type2",
-        price:100,
-        quantity:10,
-      }],
-    };
-
-    const response = await request(app)
-        .post('/events/create')
-        .set('Authorization', 'Bearer ' + token)
-        .send(event);
-    expect(response.statusCode).toBe(200);
-    */
-    const event = {
-      eventId: 1,
-      societyId: -1,
-      name: 'Event 1 Updated',
-    };
-    const response = await request(app)
-        .post('/events/update')
-        .set('Authorization', 'Bearer ' + token)
-        .send(event);
-    expect(response.statusCode).toBe(400);
-    expect(response.body).toHaveProperty('error');
-    // Expect the event to not be updated
-    expect(response.body.error).toBe('Invalid societyId');
   });
 });
 

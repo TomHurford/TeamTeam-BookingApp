@@ -5,7 +5,7 @@ const mailer = require('../utils/emails');
 describe('Mail', () => {
   test('Running basic email to my own email', async () => {
     mailer.mail(
-        (to = 'amohabbat02@gmail.com'),
+        (to = 'junkbox@ticketopia.armtech.dev'),
         (subject = 'test'),
         (body = 'test'),
     );

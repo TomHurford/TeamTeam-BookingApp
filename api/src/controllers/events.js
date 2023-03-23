@@ -250,20 +250,6 @@ async function updateEvent(req, res) {
     return;
   }
 
-  // Check that the society exists
-  const society = await prisma.society.findUnique({
-    where: {
-      // id: req.body.societyId,
-      id: event.societyId,
-    },
-  });
-
-  // If the society does not exist, return an error
-  if (!society) {
-    res.status(400).send({error: 'Invalid societyId'});
-    return;
-  }
-
   // Check that the user is a committee member of the society
   const isMember = await prisma.committee.findMany({
     where: {

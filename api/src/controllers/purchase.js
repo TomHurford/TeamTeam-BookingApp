@@ -156,7 +156,6 @@ const createPurchase = async (req, res) => {
   ) {
     return res.status(400).send({error: 'Invalid Body'});
   }
-  console.log(req.body.ticket_quantities);
 
   // Split the if statement above into multiple individual if statements
   if (typeof req.body.ticket_quantities !== 'object') {
@@ -187,6 +186,10 @@ const createPurchase = async (req, res) => {
       // Check that ticket_quantities.types is an array of objects with id and
       // quantity properties
       !type.hasOwnProperty('id') ||
+      !type.hasOwnProperty('quantity') ||
+      // Check that the quantity is a number and greater than 0
+      typeof type.quantity !== 'number' ||
+      type.quantity <= 0 ||
       // Check that the ID is a number and greater than 0
       typeof type.id !== 'number' ||
       type.id <= 0

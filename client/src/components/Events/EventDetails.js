@@ -163,7 +163,7 @@ class EventDetails extends Component {
 
 EventDetails.propTypes = {
   addTicket: PropTypes.func,
-  tickets: PropTypes.object,
+  tickets: PropTypes.func,
   removeTicket: PropTypes.func,
 };
 

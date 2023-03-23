@@ -32,7 +32,6 @@ function Basket(props) {
       window.location = "/login";
     }
 
-    props.emptyBasket();
     const res = await generateTickets(
       props.basketEvent,
       props.availableTicketTypes,
@@ -46,6 +45,10 @@ function Basket(props) {
     } else {
       // refund payment
     }
+  }
+
+  const updateBasketTotal = () => {
+    setTotalPrice(props.totalPrice())
   }
 
   return (
@@ -63,9 +66,9 @@ function Basket(props) {
               {props.availableTicketTypes.map((ticketType) => {
                 return (
                   <TicketHolderTicket
-                    extraChanges={() => {}}
+                    extraChanges={updateBasketTotal}
                     key={ticketType.id}
-                    event={props.basketEvent}
+                    event={{event: props.basketEvent}}
                     tickets={props.tickets}
                     ticketType={ticketType}
                     addTicket={props.addTicket}
@@ -121,7 +124,7 @@ function Basket(props) {
 Basket.propTypes = {
   basketEvent: PropTypes.object,
   availableTicketTypes: PropTypes.array,
-  tickets: PropTypes.object,
+  tickets: PropTypes.func,
   totalPrice: PropTypes.func,
   removeTicket: PropTypes.func,
   addTicket: PropTypes.func,

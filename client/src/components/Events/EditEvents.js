@@ -34,7 +34,6 @@ function EditEvents() {
           time: Yup.string(),
         })}
         onSubmit={(value) => {
-          console.log(value);
           if (
             value.eventName === "" &&
             value.description === "" &&
@@ -66,8 +65,8 @@ function EditEvents() {
                 : value.date + "T" + value.time + ":00.000Z",
             location: value.location,
           };
+          fetch(process.env.REACT_APP_API_URL + "/events/update", {
           // Send the event object to the backend to update the event.
-          fetch("http://localhost:5001/events/update", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -78,7 +77,6 @@ function EditEvents() {
             .then((response) => {
               if (response.status === 200) {
                 response.json().then((data) => {
-                  console.log(data);
                   alert("Event updated successfully!");
                   window.location.href =
                     "/event-details?eventId=" + data.event.id;

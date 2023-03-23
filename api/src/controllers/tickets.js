@@ -12,25 +12,12 @@ async function getTickets(req, res) {
   // (user token)
 
   let decoded = null;
-
   try {
     decoded = await auth.authenticate(req);
   } catch (err) {
     return res.status(401).send({message: 'Unauthorised'});
   }
-
   const userId = decoded.id;
-
-  // Check if user exists
-  const user = await prisma.user.findFirst({
-    where: {
-      id: userId,
-    },
-  });
-
-  if (!user) {
-    return res.status(404).send({message: 'User not found'});
-  }
 
   const tickets = await prisma.ticket.findMany({
     where: {
@@ -39,54 +26,6 @@ async function getTickets(req, res) {
   });
 
   res.status(200).send(tickets);
-}
-
-/**
- * Create tickets function for a user, the request should contain a JSON object
- *  with the following properties:
- * { "ticketTypeId": [ticket_type_id] }
- * { "quantity": [quantity] }
- *
- * And the user token in the header
- *
- * @param {Request} req
- * @param {Response} res
- * @return {Response} response
- */
-async function createTickets(req, res) {
-  // (user token, ticket type ID, quantity)
-  try {
-    await auth.authenticate(req);
-  } catch (err) {
-    return res.status(401).send({message: 'Unauthorised'});
-  }
-
-  if (
-    req.body === undefined ||
-    req.body.ticketTypeId === undefined ||
-    req.body.quantity === undefined
-  ) {
-    return res.status(400).send({message: 'Missing Body'});
-  }
-  if (req.body.quantity < 1) {
-    return res.status(400).send({message: 'Invalid Quantity'});
-  }
-
-  ticketType = await prisma.ticketType.findFirst({
-    where: {
-      id: req.body.ticketTypeID,
-    },
-  });
-
-  if (!ticketType) {
-    return res.status(400).send({message: 'Invalid Ticket Type'});
-  }
-
-  for (let i = 0; i < req.body.quantity; i++) {
-    prisma.create();
-  }
-
-  res.status(200).send();
 }
 
 /**
@@ -116,13 +55,13 @@ async function useTicket(req, res) {
 
   if (!user) return res.status(404).send({message: 'User not found'});
 
-  if (req.body === undefined || req.body.ticketId === undefined) {
+  if (req.body === undefined || req.body.ticketTypeId === undefined) {
     return res.status(400).send({message: 'Missing Body'});
   }
 
   const ticket = await prisma.ticket.findFirst({
     where: {
-      id: req.body.ticketId,
+      id: req.body.ticketTypeId,
     },
     include: {
       event: {
@@ -137,6 +76,8 @@ async function useTicket(req, res) {
     },
   });
 
+  if (!ticket) return res.status(400).send({message: 'Invalid Ticket ID'});
+
   const committee = ticket.event.society.committee;
 
   // For each member of the committee, check if the user is a member of the
@@ -150,11 +91,7 @@ async function useTicket(req, res) {
     }
   }
 
-  console.log(isMember);
-
   if (!isMember) return res.status(401).send({message: 'Unauthorised'});
-
-  if (!ticket) return res.status(400).send({message: 'Invalid Ticket ID'});
 
   if (ticket.status === 'USED') {
     return res.status(400).send({message: 'Ticket already used'});
@@ -162,7 +99,7 @@ async function useTicket(req, res) {
 
   const updatedTicket = await prisma.ticket.update({
     where: {
-      id: req.body.ticketId,
+      id: req.body.ticketTypeId,
     },
     data: {
       status: 'USED',
@@ -175,6 +112,5 @@ async function useTicket(req, res) {
 
 module.exports = {
   getTickets,
-  createTickets,
   useTicket,
 };

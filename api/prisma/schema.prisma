@@ -54,7 +54,7 @@ model SocietyLinks {
   logo      String?
   banner    String?
   societyId Int     @unique
-  society   Society @relation(references: [id], fields: [societyId])
+  society   Society @relation(references: [id], fields: [societyId], onDelete: Cascade)
 }
 
 model Committee {

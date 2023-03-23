@@ -114,7 +114,14 @@ const EditSocietyCommittee = (props) => {
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
-      .then((data) => {})
+      .then((data) => {
+        if (data.message === "President changed") {
+          alert("President changed successfully!");
+        } else {
+          alert(data.message);
+          return;
+        }
+      })
       .catch((error) => {
         console.log(error);
       });

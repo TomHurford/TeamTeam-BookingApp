@@ -27,6 +27,7 @@ const AddCommitteeMember = (props) => {
         style={{
           borderRadius: 3,
         }}
+        className="addmemberinput"
       />
       <button
         className="button"

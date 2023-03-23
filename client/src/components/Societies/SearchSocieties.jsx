@@ -21,7 +21,7 @@ class SearchSocieties extends Component {
 
   async componentDidMount() {
     const { data: societiesList } = await axios.get(
-      "http://localhost:5001/societies/getSocieties"
+      process.env.REACT_APP_API_URL + "/societies/getSocieties"
     );
     this.setState({ societiesList });
   }
@@ -91,7 +91,14 @@ class SearchSocieties extends Component {
               {societies.map((society) => (
                 <Link to={`/society/${society.id}`}>
                   <tr key={society.id}>
-                    <div className="icon"><div className="logo" style={{backgroundImage: `url(${society.links[0].logo})`}}></div></div>
+                    <div className="icon">
+                      <div
+                        className="logo"
+                        style={{
+                          backgroundImage: `url(${society.links[0].logo})`,
+                        }}
+                      ></div>
+                    </div>
                     <div className="name">{society.name}</div>
                     <div className="category">
                       {society.members} Followers - {society.category}

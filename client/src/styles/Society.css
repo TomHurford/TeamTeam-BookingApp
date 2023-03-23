@@ -33,6 +33,8 @@
 .searchSocietiesPage-container li.list-group-item:active,
 ul.list-group > li.active {
   background-color: #007aff;
+
+  color: white;
 }
 .societyListTable {
   width: 100%;
@@ -140,6 +142,7 @@ ul.pagination > a > li:hover {
 }
 ul.pagination > a > li.active {
   background-color: #007aff;
+  color: white;
 }
 
 /* View Society Page */
@@ -191,6 +194,7 @@ ul.pagination > a > li.active {
   justify-content: center;
   align-content: center;
   margin: auto;
+  margin-right: 20px;
   position: relative;
   text-align: center;
   width: 100%;
@@ -209,45 +213,48 @@ ul.pagination > a > li.active {
   height: 2em;
 }
 @media (min-width: 666px) {
-
-    #societyPage .identity {
-        position: absolute;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-    }
-    #societyPage .identity > .icon {
-        float: left;
-        position: relative;
-        margin: 0;
-        margin-right: 15px;
-    }
-    #societyPage .identity > .name {
-        float: left;
-        position: relative;
-        margin: 0;
-        width: fit-content;
-        height: 90px;
-        line-height: 90px;
-        overflow: hidden;
-        
-    }
-    #societyPage .identity > .socials {
-        position: absolute;
-        width: fit-content;
-        bottom: 6px;
-        right: 20px;
-        height: fit-content;
-    }
+  #societyPage .identity {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+  #societyPage .identity > .icon {
+    float: left;
+    position: relative;
+    margin: 0;
+    margin-right: 15px;
+  }
+  #societyPage .identity > .name {
+    float: left;
+    position: relative;
+    margin: 0;
+    width: fit-content;
+    height: 90px;
+    line-height: 90px;
+    overflow: hidden;
+  }
+  #societyPage .identity > .socials {
+    position: absolute;
+    width: fit-content;
+    bottom: 6px;
+    right: 20px;
+    height: fit-content;
+  }
 }
 #societyPage .body {
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 #societyPage .body .description {
-    width: 100%;
+  width: 100%;
 }
 #societyPage .body .events {
-    width: 100%;
-    min-height: fit-content;
+  width: 100%;
+  min-height: fit-content;
 }
-

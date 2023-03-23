@@ -7,16 +7,13 @@ const router = express.Router();
 const purchaseController = require('../controllers/purchase.js');
 
 router.post('/', (req, res) => {
-  console.log('Request recieved');
   purchaseController.getPastPurchases(req, res);
 });
 
 router.post('/future', (req, res) => {
-  console.log('Request recieved');
   purchaseController.getFutureTickets(req, res);
 });
 router.post('/create', (req, res) => {
-  console.log('Request recieved');
   purchaseController.createPurchase(req, res);
 });
 

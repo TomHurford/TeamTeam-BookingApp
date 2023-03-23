@@ -14,7 +14,7 @@ const generateTickets = async (event, ticketTypes, tickets, total) => {
 
     // Create tickets for each.
 
-    if (event.event.id != ticketTypes[0].eventId) {
+    if (event.id != ticketTypes[0].eventId) {
         return 0;
     }
 
@@ -26,23 +26,36 @@ const generateTickets = async (event, ticketTypes, tickets, total) => {
       }      
 
     var types = [];
+    let ticketsObj = tickets();
     ticketTypes.map((ticketType) => {
-        
-        types.push({
-            "id": ticketType.id,
-            "quantity": tickets[ticketType.id]
-        });
+        if(ticketsObj[ticketType.id] !== undefined) {
+            types.push({
+                "id": ticketType.id,
+                "quantity": ticketsObj[ticketType.id]
+            });
+        }
+
 
     });
 
-    const res = await axios.post('http://localhost:5001/purchase/create', {
+    console.log({
+        status: "paid",
+        method: "air",
+        total: total,
+        ticket_quantities: {
+            types: types
+        },
+        eventId: event.id
+    });
+
+    const res = await axios.post(process.env.REACT_APP_API_URL + '/purchase/create', {
             status: "paid",
             method: "air",
             total: total,
             ticket_quantities: {
                 types: types
             },
-            eventId: event.event.id
+            eventId: event.id
         },{
             headers: headers
         }).catch(err => {

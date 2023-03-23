@@ -40,6 +40,7 @@ async function getEventById(req, res) {
       decoded = await auth.authenticate(req);
     } catch (err) {
       res.status(401).send({token: null, error: 'Unauthorized'});
+      return;
     }
   }
 
@@ -88,8 +89,6 @@ async function getEventById(req, res) {
     }
   }
 
-  console.log(isMember);
-
   res.status(200).send({
     event: event,
     isCommittee: isMember,
@@ -119,24 +118,29 @@ async function createEvent(req, res) {
       res.status(400).send({error: 'Missing Event Details'});
       return;
     }
-
-    if (req.body.ticketType.length === 0) {
-      res.status(400).send({error: 'Missing Ticket Type'});
+    if (Object.keys(req.body.ticketType).length === 0) {
+      res.status(400).send({error: 'Missing Ticket Type Body'});
       return;
     }
 
-    if (req.body.ticketType.length > 0) {
-      console.log(!req.body.ticketType[0].price);
-      for (let i = 0; i < req.body.ticketType.length; i++) {
-        if (
-          !req.body.ticketType[i].name ||
-          !req.body.ticketType[i].price ||
-          !req.body.ticketType[i].quantity) {
-          if (req.body.ticketType[i].price !== 0) {
-            res.status(400).send({error: 'Missing Ticket Type Details'});
-            return;
-          }
+
+    // Check if ticketype has right field and if the price or quantity is 0 or
+    // negative
+    for (let i = 0; i < req.body.ticketType.length; i++) {
+      if (
+        !req.body.ticketType[i].name ||
+        !req.body.ticketType[i].price ||
+        !req.body.ticketType[i].quantity) {
+        if (req.body.ticketType[i].price <= 0) {
+          res.status(422).send({error: 'Invalid Price'});
+          return;
         }
+        if (req.body.ticketType[i].quantity <= 0) {
+          res.status(422).send({error: 'Invalid Quantity'});
+          return;
+        }
+        res.status(400).send({error: 'Missing Ticket Type Details'});
+        return;
       }
     }
 
@@ -199,13 +203,8 @@ async function createEvent(req, res) {
       }
     }
 
-    for (let i = 0; i < ticketTypes.length; i++) {
-      console.log(ticketTypes[i]);
-    }
-
     res.status(200).send({event: event, ticket_types: ticketTypes});
   } catch (err) {
-    console.log(err);
     res.status(401).send({token: null, error: 'Unauthorized'});
   }
 }
@@ -245,18 +244,9 @@ async function updateEvent(req, res) {
       id: req.body.eventId,
     },
   });
-
-  // Check that the society exists
-  const society = await prisma.society.findUnique({
-    where: {
-      // id: req.body.societyId,
-      id: event.societyId,
-    },
-  });
-
   // If the society does not exist, return an error
-  if (!society) {
-    res.status(400).send({error: 'Invalid societyId'});
+  if (!event) {
+    res.status(400).send({error: 'Invalid eventId'});
     return;
   }
 
@@ -347,7 +337,6 @@ async function deleteEvent(req, res) {
     }
 
     // Update the Event so that isArchived is true
-
     await prisma.event.update({
       where: {
         id: req.body.eventId,
@@ -359,7 +348,6 @@ async function deleteEvent(req, res) {
 
     res.status(200).send({message: 'Event Archived'});
   } catch (err) {
-    console.log(err);
     res.status(401).send({token: null, error: 'Unauthorized'});
   }
 }
@@ -384,7 +372,6 @@ async function searchEvents(req, res) {
     });
     res.status(200).send({event: event});
   } catch (err) {
-    console.log(err);
     res.status(401).send({token: null, error: 'Unauthorized'});
   }
 }
@@ -406,16 +393,13 @@ async function checkPrivileges(req, res) {
         userId: decoded.id,
       },
     });
-
     // If the user is not a member of the society committee, return an error
     if (isMember.length === 0) {
       res.status(401).send({error: 'Unauthorized'});
       return;
     }
-
     res.status(200).send({message: 'Authorized'});
   } catch (err) {
-    console.log(err);
     res.status(401).send({token: null, error: 'Unauthorized'});
   }
 }

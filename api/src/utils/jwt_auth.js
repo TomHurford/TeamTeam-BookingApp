@@ -16,7 +16,6 @@ async function authenticate(req) {
       reject(new Error('Unauthorized'));
     });
   }
-
   const token = req.headers.authorization.split(' ')[1];
 
   // try to decode the token if error return false
@@ -37,52 +36,19 @@ async function authenticate(req) {
 }
 
 /**
- * Authenticate an admin using a JWT token
- * @param {Request} req The request object
- * @return {Promise} Promise
- */
-async function authenticateAdmin(req) {
-  return new Promise((resolve, reject) => {
-    // The JWT token is sent in the Authorization header, it is prefixed with
-    // 'Bearer '
-    if (!req.headers.authorization) {
-      reject(new Error('Unauthorized'));
-    }
-    const token = req.headers.authorization.split(' ')[1];
-    jwt.verify(
-        token,
-        process.env.TOKEN_SECRET,
-        (err, decoded) => {
-          if (err) {
-            reject(err);
-          }
-          if (decoded.admin) {
-            resolve(decoded);
-          } else {
-            reject(new Error('Unauthorized'));
-          }
-        },
-        (err) => {
-          reject(err);
-        },
-    );
-  });
-}
-
-/**
  * Generate a JWT token
  * @param {User} user User object
  * @return {Promise} Promise
  */
 async function generateToken(user) {
   return new Promise((resolve, reject) => {
-    if (!user) {
-      reject(new Error('User not found'));
-    }
     // If user type is 1, the user is an admin and the admin flag is set to true
     const admin = user.userType === 1;
     const token = jwt.sign(
-        {id: user.id, admin: admin},
+        {
+          id: user.id,
+          admin: admin,
+        },
         process.env.TOKEN_SECRET,
         {
           expiresIn: 86400, // expires in 24 hours
@@ -90,21 +56,9 @@ async function generateToken(user) {
     );
     resolve(token);
   });
-  // if (!user) {
-  //     throw new Error('User not found')
-  // }
-  // // If user type is 1, the user is an admin and the admin flag is set to
-  // true
-  // const admin = user.type === 1
-  // const token = jwt.sign({ id: user.id, admin: admin }, process.env.
-  // TOKEN_SECRET, {
-  //     expiresIn: 86400 // expires in 24 hours
-  // })
-  // return token
 }
 
 module.exports = {
   authenticate,
-  authenticateAdmin,
   generateToken,
 };

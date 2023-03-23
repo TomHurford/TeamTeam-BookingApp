@@ -5,7 +5,6 @@ import "../../styles/TitleOfPage.css";
 import { getEventById } from "../../utils/EventsLogic";
 import TicketHolderTicket from "./TicketHolder";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 import "../../styles/index.css";
 
 class EventDetails extends Component {
@@ -49,8 +48,19 @@ class EventDetails extends Component {
           <div className="description">
             <h2>Description</h2>
             <div className="text">{event.event.description}</div>
-            <div className="eventDate">Date: {new Date(event.event.date).toLocaleDateString()}</div>
-            <div className="eventTime">Time: {new Date(event.event.date).toLocaleTimeString()}</div>
+            <div className="text">
+              {
+                <a href={event.event.society.links[0].website}>
+                  {event.event.society.links[0].website}
+                </a>
+              }
+            </div>
+            <div className="eventDate">
+              Date: {new Date(event.event.date).toLocaleDateString()}
+            </div>
+            <div className="eventTime">
+              Time: {new Date(event.event.date).toLocaleTimeString()}
+            </div>
             {/* { event.isCommittee ? <button
               className="addToCart"
               onClick={() => {
@@ -72,7 +82,7 @@ class EventDetails extends Component {
             </div>
             <div className="name">{event.event.society.name}</div>
             <div className="description">{event.event.society.description}</div>
-            <div className="socials">
+            <div className="socials" style={{ paddingLeft: "60px" }}>
               <a
                 href={event.event.society.links[0].facebook}
                 className="socialCircle"
@@ -100,57 +110,49 @@ class EventDetails extends Component {
                   alt="instagram"
                 />
               </a>
-              <a
-                href={event.event.society.links[0].website}
-                className="socialCircle"
-              >
-                <img
-                  src="https://w7.pngwing.com/pngs/549/715/png-transparent-web-development-logo-website-web-design-symmetry-internet.png"
-                  alt="website"
-                />
-              </a>
             </div>
           </div>
-          
-          {new Date() <= new Date(event.event.date) && 
-            (<div className="tickerHolder">
-            <h2>Tickets</h2>
-            {console.log(new Date() <= event.event.date)}
-            {event.event.ticketTypes.map((ticketType) => {
-              return (
-                <TicketHolderTicket
-                  extraChanges={(a) => {
-                    a;
-                  }}
-                  key={ticketType.id}
-                  event={event}
-                  tickets={this.props.tickets}
-                  ticketType={ticketType}
-                  addTicket={this.props.addTicket}
-                  removeTicket={this.props.removeTicket}
-                />
-              );
-            })}
-            <button
-              className="addToCart"
-              onClick={() => {
-                window.location = "/basket";
-              }}
-            >
-              Go To Basket
-            </button>
 
-            {/* <Link
+          {new Date() <= new Date(event.event.date) && (
+            <div className="tickerHolder">
+              <h2>Tickets</h2>
+              {console.log(new Date() <= event.event.date)}
+              {event.event.ticketTypes.map((ticketType) => {
+                return (
+                  <TicketHolderTicket
+                    extraChanges={(a) => {
+                      a;
+                    }}
+                    key={ticketType.id}
+                    event={event}
+                    tickets={this.props.tickets}
+                    ticketType={ticketType}
+                    addTicket={this.props.addTicket}
+                    removeTicket={this.props.removeTicket}
+                  />
+                );
+              })}
+              <button
+                className="addToCart"
+                onClick={() => {
+                  window.location = "/basket";
+                }}
+              >
+                Go To Basket
+              </button>
+
+              {/* <Link
               to={`/edit-event/${this.getEventId})
               )}`}
             > */}
-            { event.isCommittee === true && (
-            <button className="button" onClick={this.handleClick}>
-              Edit Event
-            </button>)
-            }
-            {/* </Link> */}
-          </div>)}
+              {event.isCommittee === true && (
+                <button className="button" onClick={this.handleClick}>
+                  Edit Event
+                </button>
+              )}
+              {/* </Link> */}
+            </div>
+          )}
 
           <div className="spacer"></div>
         </div>
@@ -161,7 +163,7 @@ class EventDetails extends Component {
 
 EventDetails.propTypes = {
   addTicket: PropTypes.func,
-  tickets: PropTypes.object,
+  tickets: PropTypes.func,
   removeTicket: PropTypes.func,
 };
 

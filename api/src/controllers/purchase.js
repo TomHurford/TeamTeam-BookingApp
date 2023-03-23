@@ -17,9 +17,7 @@ const getPastPurchases = async (req, res) => {
 
     // Get the user id from the decoded token
     // TODO
-    const userId = decoded.id;
-
-    console.log('userId: ', userId);
+    const userId = decoded.id; // decoded.id
     // use the user id to get the user's past purchases for events that have
     // already happened
     const purchases = await prisma.purchase.findMany({
@@ -34,9 +32,7 @@ const getPastPurchases = async (req, res) => {
       },
     });
 
-
     // Retreive tickets using purchase id and add the tickets to purchase json
-
     const pastTickets = await Promise.all(purchases.map(async (purchase) => {
       const tickets = await prisma.ticket.findMany({
         where: {
@@ -63,75 +59,65 @@ const getPastPurchases = async (req, res) => {
             event: event,
           };
         }));
-    console.log('pastTickets: ', pastTicketWithEvent);
     res.status(200).send({pastTickets: pastTicketWithEvent});
   } catch (err) {
-    console.log(err);
     res.status(401).send({token: null, error: 'Unauthorized'});
   }
 };
 
 
 const getFutureTickets = async (req, res) => {
+  let decoded = null;
   try {
     // Authenticate the user
-    const decoded = await auth.authenticate(req);
+    decoded = await auth.authenticate(req);
+  } catch (err) {
+    return res.status(401).send({token: null, error: 'Unauthorized'});
+  }
 
-    const userId = decoded.id;
-
-    console.log('userId: ', userId);
-
-    // Get all purchases for the user where the event date is in the future
-    const purchases = await prisma.purchase.findMany({
-      where: {
-        userId: userId,
-        event: {
-          date: {
-            gte: new Date(),
-          },
+  // Get all purchases for the user where the event date is in the future
+  const purchases = await prisma.purchase.findMany({
+    where: {
+      userId: decoded.id,
+      event: {
+        date: {
+          gte: new Date(),
         },
-        isArchived: false,
       },
-    });
+      isArchived: false,
+    },
+  });
 
-    // Retreive tickets using purchase id and add the tickets to purchase json
-
-    const futureTickets = await Promise.all(
-        purchases.map(async (purchase) => {
-          const tickets = await prisma.ticket.findMany({
-            where: {
-              purchaseId: purchase.id,
-            },
-          });
-          return {
-            ...purchase,
-            tickets: tickets,
-          };
-        }),
-    );
-
-    // Retreive event using event id and add the event to purchase json
-    const futureTicketWithEvent =
-      await Promise.all(futureTickets.map(async (ticket) => {
-        const event = await prisma.event.findUnique({
+  // Retreive tickets using purchase id and add the tickets to purchase json
+  const futureTickets = await Promise.all(
+      purchases.map(async (purchase) => {
+        const tickets = await prisma.ticket.findMany({
           where: {
-            id: ticket.eventId,
+            purchaseId: purchase.id,
           },
         });
         return {
-          ...ticket,
-          event: event,
+          ...purchase,
+          tickets: tickets,
         };
-      }));
-    console.log('purchases: ', purchases);
+      }),
+  );
 
+  // Retreive event using event id and add the event to purchase json
+  const futureTicketWithEvent =
+    await Promise.all(futureTickets.map(async (ticket) => {
+      const event = await prisma.event.findUnique({
+        where: {
+          id: ticket.eventId,
+        },
+      });
+      return {
+        ...ticket,
+        event: event,
+      };
+    }));
 
-    console.log('futureTickets: ', futureTickets);
-    res.status(200).send({futureTickets: futureTicketWithEvent});
-  } catch (err) {
-    console.log(err);
-    res.status(401).send({token: null, error: 'Unauthorized'});
-  }
+  res.status(200).send({futureTickets: futureTicketWithEvent});
 };
 
 const createPurchase = async (req, res) => {
@@ -140,7 +126,7 @@ const createPurchase = async (req, res) => {
   try {
     decoded = await auth.authenticate(req);
   } catch (err) {
-    return res.status(401).send({message: 'Unauthorised'});
+    return res.status(401).send({error: 'Unauthorised'});
   }
 
   if (
@@ -151,9 +137,77 @@ const createPurchase = async (req, res) => {
     req.body.ticket_quantities === undefined ||
     req.body.eventId === undefined
   ) {
-    return res.status(400).send({message: 'Missing Body'});
+    return res.status(400).send({error: 'Missing Body'});
   }
 
+  if (
+    // Check that the status is a string
+    typeof req.body.status !== 'string' ||
+    // Check that the method is a string
+    typeof req.body.method !== 'string' ||
+    // Check that the total is a number
+    typeof req.body.total !== 'number' ||
+    // Check that the total is greater than 0
+    req.body.total < 0 ||
+    // Check that the eventId is a number
+    typeof req.body.eventId !== 'number' ||
+    // Check that the eventId is greater than 0
+    req.body.eventId <= 0
+  ) {
+    return res.status(400).send({error: 'Invalid Body'});
+  }
+
+  // Split the if statement above into multiple individual if statements
+  if (typeof req.body.ticket_quantities !== 'object') {
+    return res.status(400).send({error: 'Ticket Quantities not an object'});
+  }
+
+  if (req.body.ticket_quantities === null) {
+    return res.status(400).send({error: 'Ticket Quantities is null'});
+  }
+
+  if (!req.body.ticket_quantities.hasOwnProperty('types')) {
+    return res.status(400).send({error: 'Ticket Quantities has no types'});
+  }
+
+  if (!Array.isArray(req.body.ticket_quantities.types)) {
+    return res.status(400)
+        .send({error: 'Ticket Quantities types is not an array'});
+  }
+
+  if (req.body.ticket_quantities.types.length === 0) {
+    return res.status(400).send({error: 'Ticket Quantities types is empty'});
+  }
+
+  for (const type of req.body.ticket_quantities.types) {
+    if (
+      // Check that ticket_quantities.types is an array of objects
+      typeof type !== 'object' ||
+      // Check that ticket_quantities.types is an array of objects with id and
+      // quantity properties
+      !type.hasOwnProperty('id') ||
+      !type.hasOwnProperty('quantity') ||
+      // Check that the quantity is a number and greater than 0
+      typeof type.quantity !== 'number' ||
+      type.quantity <= 0 ||
+      // Check that the ID is a number and greater than 0
+      typeof type.id !== 'number' ||
+      type.id <= 0
+    ) {
+      return res.status(400).send({error: 'Invalid ticket_quantities'});
+    }
+
+    // Check that the ID is a valid ticket type ID
+    const ticketTypeId = await prisma.ticketType.findUnique({
+      where: {
+        id: type.id,
+      },
+    });
+
+    if (!ticketTypeId) {
+      return res.status(400).send({error: 'Invalid ticket type ID'});
+    }
+  }
 
   const event = await prisma.event.findFirst({
     where: {
@@ -161,7 +215,7 @@ const createPurchase = async (req, res) => {
     },
   });
 
-  if (!event) return res.status(400).send({message: 'Invalid Event ID'});
+  if (!event) return res.status(400).send({error: 'Invalid Event ID'});
 
   const payment = await prisma.purchase.create({
     data: {
@@ -255,10 +309,10 @@ const createPurchase = async (req, res) => {
   <br />
   <h4> Confirmation Of Order Details:</h4><br />
   <p><br />
-  Event Name: <a href="https://localhost:3000/event-details?eventId=` + event.id + `">` + event.name + `</a><br />
+  Event Name: <a href="http://localhost:3000/event-details?eventId=` + event.id + `">` + event.name + `</a><br />
   Event Date: ` + eventDate.toDateString() + `<br />
   Event Date: ` + eventDate.toTimeString() + `<br />
-  Event URL: <a>https://localhost:3000/event-details?eventId=` + event.id + `</a><br />
+  Event URL: <a>http://localhost:3000/event-details?eventId=` + event.id + `</a><br />
   <br />
   <br />
   Quantity Of Tickets: ` + quantity + `<br />

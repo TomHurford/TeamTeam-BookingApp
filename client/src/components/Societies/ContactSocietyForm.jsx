@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import "../../styles/index.css";
 
+// This is a functional component that renders a form for contacting a society
 function ContactSocietyForm(props) {
   const form = useRef();
 
@@ -64,10 +65,7 @@ function ContactSocietyForm(props) {
     <div className="container">
       <h1>Contact</h1>
 
-      <form
-        ref={form}
-        onSubmit={formik.handleSubmit}
-      >
+      <form ref={form} onSubmit={formik.handleSubmit}>
         <div className="field">
           <label htmlFor="customerName">Your Name</label>
           <input

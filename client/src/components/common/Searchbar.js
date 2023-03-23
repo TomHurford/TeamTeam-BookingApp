@@ -1,6 +1,7 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
+// This is a functional component that renders a search bar
 const SearchBar = ({ value, onChange }) => {
   return (
     <input

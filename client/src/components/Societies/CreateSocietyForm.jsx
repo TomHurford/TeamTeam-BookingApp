@@ -1,10 +1,10 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
-const jwtController = require("../../utils/jwt.js");
 import "../../styles/index.css";
+const jwtController = require("../../utils/jwt.js");
 
+// A component for the create society page which allows the user to create a new society.
 function CreateSocietyForm() {
   const formik = useFormik({
     initialValues: {

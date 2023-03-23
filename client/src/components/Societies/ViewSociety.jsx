@@ -13,15 +13,19 @@ import { Link } from "react-router-dom";
 import "../../styles/index.css";
 const jwtController = require("../../utils/jwt.js");
 
+// A component for the view society page which allows the user to view the details of a society.
 function ViewSociety() {
   const [society, setSociety] = useState({});
   const [followersCount, setFollowersCount] = useState(0);
   const [societyLinks, setSocietyLinks] = useState({});
+  const [events, setEvents] = useState([]);
+  const { id: societyId } = useParams();
+
+  // State variables for the buttons on the page to be shown or hidden depending on the user's role.
   const [showFollowButton, setShowFollowButton] = useState(true);
   const [showUnfollowButton, setShowUnfollowButton] = useState(true);
   const [showEditButton, setShowEditButton] = useState(true);
-  const [events, setEvents] = useState([]);
-  const { id: societyId } = useParams();
+
   const data = {
     societyId: parseInt(societyId),
   };
@@ -67,6 +71,7 @@ function ViewSociety() {
     }
   }, [societyId]);
 
+  // Check if the user is a follower of the society
   useEffect(() => {
     if (
       jwtController.getToken() !== undefined &&
@@ -93,6 +98,7 @@ function ViewSociety() {
     }
   }, [societyId]);
 
+  // Check if the user is the president of the society
   useEffect(() => {
     if (
       jwtController.getToken() !== undefined &&

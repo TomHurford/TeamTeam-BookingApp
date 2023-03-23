@@ -7,6 +7,7 @@ import ListFilter from "../common/ListFilter";
 import axios from "axios";
 import "../../styles/index.css";
 
+// This is a class component that renders a list of societies
 class SearchSocieties extends Component {
   constructor(props) {
     super(props);

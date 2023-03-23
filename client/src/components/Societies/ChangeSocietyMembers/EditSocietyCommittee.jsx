@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-
 import Member from "./Member";
 import AddCommitteeMember from "./AddCommitteeMember";
-const jwtController = require("../../../utils/jwt.js");
 import axios from "axios";
+const jwtController = require("../../../utils/jwt.js");
 
+// A component for the edit society page which allows the president to edit the committee members of a society.
 const EditSocietyCommittee = (props) => {
   const [members, setMembers] = useState([]);
 
+  // fetches the committee members from the database
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,6 +30,7 @@ const EditSocietyCommittee = (props) => {
     setMembers(members);
   }, [members]);
 
+  // removes a committee member from the database
   const handleRemoveMember = async (userId) => {
     const data = { userId: userId, societyId: props.societyId };
     await fetch("http://localhost:5001/societies/removeCommitteeMember", {
@@ -57,6 +59,7 @@ const EditSocietyCommittee = (props) => {
       });
   };
 
+  // adds a committee member to the database
   const handleAddMember = async (email) => {
     const data = {
       email: email,
@@ -98,6 +101,7 @@ const EditSocietyCommittee = (props) => {
       });
   };
 
+  // changes the president of the society
   const handleMakePresident = async (userId) => {
     const data = {
       societyId: parseInt(props.societyId),

@@ -1,7 +1,8 @@
 import React from "react";
 import _ from "lodash";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
+// This is a functional component that renders a pagination component
 const Pagination = (props) => {
   const {
     itemsCount: elementCount,
@@ -16,7 +17,8 @@ const Pagination = (props) => {
   return (
     <ul className="pagination">
       {pages.map((page) => (
-        <a key={page}
+        <a
+          key={page}
           href="#/"
           className="page-link"
           onClick={() => onPageChange(page)}
@@ -33,9 +35,9 @@ const Pagination = (props) => {
 };
 
 Pagination.propTypes = {
-  'itemsCount' : PropTypes.number,
-  pageSize : PropTypes.number,
-  currentPage : PropTypes.number,
-  onPageChange : PropTypes.func
-}; 
+  itemsCount: PropTypes.number,
+  pageSize: PropTypes.number,
+  currentPage: PropTypes.number,
+  onPageChange: PropTypes.func,
+};
 export default Pagination;

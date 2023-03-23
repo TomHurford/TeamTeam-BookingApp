@@ -19,17 +19,6 @@ async function getTickets(req, res) {
   }
   const userId = decoded.id;
 
-  // Check if user exists
-  const user = await prisma.user.findFirst({
-    where: {
-      id: userId,
-    },
-  });
-
-  if (!user) {
-    return res.status(404).send({message: 'User not found'});
-  }
-
   const tickets = await prisma.ticket.findMany({
     where: {
       userId: userId,
@@ -66,13 +55,13 @@ async function useTicket(req, res) {
 
   if (!user) return res.status(404).send({message: 'User not found'});
 
-  if (req.body === undefined || req.body.ticketId === undefined) {
+  if (req.body === undefined || req.body.ticketTypeId === undefined) {
     return res.status(400).send({message: 'Missing Body'});
   }
 
   const ticket = await prisma.ticket.findFirst({
     where: {
-      id: req.body.ticketId,
+      id: req.body.ticketTypeId,
     },
     include: {
       event: {
@@ -86,6 +75,8 @@ async function useTicket(req, res) {
       },
     },
   });
+
+  if(!ticket) return res.status(400).send({message: 'Invalid Ticket ID'});
 
   const committee = ticket.event.society.committee;
 
@@ -104,15 +95,13 @@ async function useTicket(req, res) {
 
   if (!isMember) return res.status(401).send({message: 'Unauthorised'});
 
-  if (!ticket) return res.status(400).send({message: 'Invalid Ticket ID'});
-
   if (ticket.status === 'USED') {
     return res.status(400).send({message: 'Ticket already used'});
   }
 
   const updatedTicket = await prisma.ticket.update({
     where: {
-      id: req.body.ticketId,
+      id: req.body.ticketTypeId,
     },
     data: {
       status: 'USED',

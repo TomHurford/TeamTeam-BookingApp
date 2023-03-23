@@ -143,7 +143,7 @@ code {
 .addmemberinput {
   padding-left: 15px;
   padding-right: 15px;
-  width: calc(100% - 30px);
+  width: calc(50% - 30px);
   aspect-ratio: 10;
   box-shadow: 1px 1px 3px rgba(135, 135, 135, 0.452);
   border-radius: 10px;

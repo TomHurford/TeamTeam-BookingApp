@@ -138,6 +138,26 @@ code {
   opacity: 0.8;
 }
 
+/* Society Add Member */
+
+.addmemberinput {
+  padding-left: 15px;
+  padding-right: 15px;
+  width: calc(100% - 30px);
+  aspect-ratio: 10;
+  box-shadow: 1px 1px 3px rgba(135, 135, 135, 0.452);
+  border-radius: 10px;
+  border: 1px;
+  outline: 5px;
+  font-size: 1.1em;
+}
+.addmemberinput .errortext {
+  color: red;
+  font-size: 0.7em;
+  line-height: 0.9em;
+  padding-top: 0;
+}
+
 /* Button styles */
 .button {
   display: inline-block;

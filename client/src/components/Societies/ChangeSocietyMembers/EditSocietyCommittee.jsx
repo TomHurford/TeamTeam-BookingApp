@@ -114,7 +114,14 @@ const EditSocietyCommittee = (props) => {
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
-      .then((data) => {})
+      .then((data) => {
+        if (data.message === "President changed") {
+          alert("President changed successfully!");
+        } else {
+          alert(data.message);
+          return;
+        }
+      })
       .catch((error) => {
         console.log(error);
       });
@@ -126,9 +133,10 @@ const EditSocietyCommittee = (props) => {
         marginTop: "20px",
         marginBottom: "20px",
         borderColor: "gray",
-        width: "100%",
+        width: "50%",
         borderWidth: 2,
         borderRadius: 20,
+        backgroundColor: "#abc4ff",
       }}
     >
       <h1

@@ -38,7 +38,8 @@ describe('Edit Events', () => {
   describe('Test invalid inputs', () => {
     it('Error thrown for whitespace input in Name field', () =>{
       cy.contains('Name').parent().find('input').type(' ')
-      cy.contains('Name').click()
+      // cy.contains('Name').click()
+      cy.contains('Description').click()
       cy.contains('Event name must be at least 3 characters')
     })
     it('Shows error on invalid description', () => {

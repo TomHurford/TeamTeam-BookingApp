@@ -66,7 +66,7 @@ function EditEvents() {
             location: value.location,
           };
           fetch(process.env.REACT_APP_API_URL + "/events/update", {
-          // Send the event object to the backend to update the event.
+            // Send the event object to the backend to update the event.
             method: "POST",
             headers: {
               "Content-Type": "application/json",

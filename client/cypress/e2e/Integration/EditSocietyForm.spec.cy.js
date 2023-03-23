@@ -14,7 +14,7 @@ describe('Test Edit Society Form', () => {
 
   it('No forms filled', () => {
     cy.contains('Society 1').click();
-    cy.contains('Edit Society').click();
+    cy.contains('Edit Society').click({force:true});
     cy.contains('button','Edit Society').click();
     cy.on('window:alert', (str) => {
       expect(str).to.contains('Please fill in at least one field')
@@ -24,7 +24,7 @@ describe('Test Edit Society Form', () => {
   describe('Invalid inputs', () => {
     it('Fill invalid website', () => {
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').click();
+      cy.contains('Edit Society').click({force:true});
       cy.get('input[name="website"]').type('incorrectwebsite', { force: true});
       cy.contains('button','Edit Society').click();
       cy.contains('Must be a valid URL'); 
@@ -32,7 +32,7 @@ describe('Test Edit Society Form', () => {
     
     it('Fill invalid instagram', () => {
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').click();
+      cy.contains('Edit Society').click({force:true});
       cy.get('input[name="instagram"]').type('incorrectinstagram', { force: true });
       cy.contains('button','Edit Society').click();
       cy.contains('Must be a valid URL');
@@ -41,16 +41,16 @@ describe('Test Edit Society Form', () => {
 
     it('Fill invalid twitter', () => {
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').click();
+      cy.contains('Edit Society').click({force:true});
       cy.get('input[name="twitter"]').type('incorrecttwitter', { force: true });
-      cy.contains('Edit Society').click();
+      cy.contains('Edit Society').click({force:true});
       cy.contains('Must be a valid URL');
       
     })
 
     it('Fill invalid facebook', () => {
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').click();
+      cy.contains('Edit Society').click({force:true});
       cy.get('input[name="facebook"]').type('incorrectfacebook', { force: true });
       cy.contains('button','Edit Society').click();
       cy.contains('Must be a valid URL');
@@ -59,7 +59,7 @@ describe('Test Edit Society Form', () => {
 
     it('Fill invalid logo', () => {
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').parent().click();
+      cy.contains('Edit Society').parent().click({force:true});
       cy.get('input[name="logo"]').type('incorrectlogo', { force: true });
       cy.contains('button','Edit Society').click();
       cy.contains('Must be a valid URL');
@@ -68,7 +68,7 @@ describe('Test Edit Society Form', () => {
 
     it('Fill invalid banner', () => {
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').parent().click();
+      cy.contains('Edit Society').parent().click({force:true});
       cy.get('input[name="banner"]').type('incorrectbanner', { force: true });
       cy.contains('button','Edit Society').click();
       cy.contains('Must be a valid URL');
@@ -76,7 +76,7 @@ describe('Test Edit Society Form', () => {
 
     it('Fill invalid description', () => {
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').parent().click();
+      cy.contains('Edit Society').parent().click({force:true});
       cy.get('textarea[name="description"]').type('This is a test society', { force: true });
       cy.contains('button','Edit Society').click();
       cy.contains('Society description must be at least 50 characters');
@@ -86,7 +86,7 @@ describe('Test Edit Society Form', () => {
 
     it('Manipulate committee members', () => {
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').parent().click();
+      cy.contains('Edit Society').parent().click({force:true});
       
       cy.contains('Committee Members').parent().find('input').type('test');
       cy.contains('Committee Members').parent().contains('Add Member').parent().find('button').click();
@@ -107,7 +107,6 @@ describe('Test Edit Society Form', () => {
       cy.wait(500);
 
       // Uncomment once functionality is implemented
-      /*
       cy.visit('/logout');
       cy.wait(500);
 
@@ -120,16 +119,15 @@ describe('Test Edit Society Form', () => {
       cy.get('div[data-testid="searchbar"]').children().get('input').type('Society 1', {force:true});
 
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').parent().click();
+      cy.contains('Edit Society').parent().click({force:true});
 
       cy.contains('admin@admin.com').parent().contains('Make President').click();
       cy.wait(500);
-      */
 
     })
     it('Fill valid details', () => {
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').parent().click();
+      cy.contains('Edit Society').parent().click({force:true});
       cy.get('input[name="website"]').type('https://www.test.com', { force: true });
       cy.get('input[name="instagram"]').type('https://www.instagram.com', { force: true });
       cy.get('input[name="twitter"]').type('https://www.twitter.com', { force: true });
@@ -144,49 +142,49 @@ describe('Test Edit Society Form', () => {
   describe('Whitecase inputs', () =>{
     it('Whitespace input for website field', ()=>{
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').parent().click();
+      cy.contains('Edit Society').parent().click({force:true});
       cy.get('input[name="website"]').type(' ', { force: true });
       cy.contains('button','Edit Society').click();
       cy.contains('Must be a valid URL');
     })
     it('Whitespace input for instagram field', () =>{
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').parent().click();
+      cy.contains('Edit Society').parent().click({force:true});
       cy.get('input[name="instagram"]').type(' ', { force: true });
       cy.contains('button','Edit Society').click();
       cy.contains('Must be a valid URL');
     })
     it('Whitespace input for twitter field', () => {
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').parent().click();
+      cy.contains('Edit Society').parent().click({force:true});
       cy.get('input[name="twitter"]').type(' ', { force: true });
       cy.contains('button','Edit Society').click();
       cy.contains('Must be a valid URL');
     })
     it('Whitespace input for facebook field', () =>{
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').parent().click();
+      cy.contains('Edit Society').parent().click({force:true});
       cy.get('input[name="facebook"]').type(' ', { force: true });
       cy.contains('button','Edit Society').click();
       cy.contains('Must be a valid URL');
     })
     it('Whitespace input for logo field', () =>{
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').parent().click();
+      cy.contains('Edit Society').parent().click({force:true});
       cy.get('input[name="logo"]').type(' ', { force: true });
       cy.contains('button','Edit Society').click();
       cy.contains('Must be a valid URL');
     })
     it('Whitespace input for banner field', ()=>{
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').parent().click();
+      cy.contains('Edit Society').parent().click({force:true});
       cy.get('input[name="banner"]').type(' ', { force: true });
       cy.contains('button','Edit Society').click();
       cy.contains('Must be a valid URL');
     })
     it('Whitespace input for description field', ()=>{
       cy.contains('Society 1').click();
-      cy.contains('Edit Society').parent().click();
+      cy.contains('Edit Society').parent().click({force:true});
       cy.get('textarea[name="description"]').type('       ', { force: true });
       cy.contains('button','Edit Society').click();
       cy.contains('Society description must be at least 50 characters');

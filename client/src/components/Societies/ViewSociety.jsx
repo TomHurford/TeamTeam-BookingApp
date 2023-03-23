@@ -39,6 +39,7 @@ function ViewSociety() {
           setSociety(response.data.society);
           setSocietyLinks(response.data.society.links[0]);
           setEvents(response.data.society.events);
+          setFollowersCount(response.data.society.members);
         })
         .catch((error) => {
           console.log(error);
@@ -91,25 +92,6 @@ function ViewSociety() {
       });
     }
   }, [societyId]);
-
-  // useEffect(() => {
-  //   fetch(process.env.REACT_APP_API_URL + "/societies/getFollowedSocieties", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: "Bearer " + jwtController.getToken(),
-  //     },
-  //     body: JSON.stringify(data),
-  //   }).then((res) => {
-  //     res.json().then((data) => {
-  //       for (let i = 0; i < data.societies.length; i++) {
-  //         if (data.societies[i].societyId === parseInt(societyId)) {
-  //           setShowFollowButton(false);
-  //         }
-  //       }
-  //     });
-  //   });
-  // }, [societyId]);
 
   useEffect(() => {
     if (
@@ -257,6 +239,13 @@ function ViewSociety() {
             <strong>Followers:</strong> {followersCount}
           </p>
           <a href={societyLinks.website}>{societyLinks.website}</a>
+          {jwtController.getToken() !== undefined &&
+            jwtController.getToken() !== null &&
+            showEditButton && (
+              <p>
+                <strong>{`Society ID: ${society.id}`}</strong>
+              </p>
+            )}
           <div>
             {jwtController.getToken() !== undefined &&
               jwtController.getToken() !== null &&

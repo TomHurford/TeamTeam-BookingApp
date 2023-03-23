@@ -3,7 +3,8 @@ table.purchase {
   width: 100%;
 }
 
-table.purchase td, table.purchase th {
+table.purchase td,
+table.purchase th {
   border: 1px solid #ddd;
   padding: 8px;
 }
@@ -12,7 +13,7 @@ table.purchase th {
   padding-top: 12px;
   padding-bottom: 12px;
   text-align: left;
-  background-color: #4CAF50;
+  background-color: #007aff;
   color: white;
 }
 
@@ -25,7 +26,7 @@ table.purchase tr:hover {
 }
 
 button.purchase {
-  background-color: #4CAF50;
+  background-color: #007aff;
   color: white;
   padding: 8px 16px;
   border: none;
@@ -34,5 +35,5 @@ button.purchase {
 }
 
 button.purchase:hover {
-  background-color: #3e8e41;
+  background-color: #007aff;
 }

@@ -47,6 +47,13 @@ class EventDetails extends Component {
         <div className="body">
           <div className="description">
             <h2>Description</h2>
+            <div>
+              {event.isCommittee === true && (
+                <button className="button" onClick={this.handleClick}>
+                  Edit Event
+                </button>
+              )}
+            </div>
             <div className="text">{event.event.description}</div>
             <div className="text">
               {
@@ -61,14 +68,6 @@ class EventDetails extends Component {
             <div className="eventTime">
               Time: {new Date(event.event.date).toLocaleTimeString()}
             </div>
-            {/* { event.isCommittee ? <button
-              className="addToCart"
-              onClick={() => {
-                window.location = "/edit-event";
-              }}
-            >
-              Edit Event
-            </button> : <br />} */}
           </div>
           <div className="societyInfo">
             <div className="icon">
@@ -142,17 +141,6 @@ class EventDetails extends Component {
               >
                 Go To Basket
               </button>
-
-              {/* <Link
-              to={`/edit-event/${this.getEventId})
-              )}`}
-            > */}
-              {event.isCommittee === true && (
-                <button className="button" onClick={this.handleClick}>
-                  Edit Event
-                </button>
-              )}
-              {/* </Link> */}
             </div>
           )}
 

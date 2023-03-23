@@ -164,7 +164,7 @@ CREATE UNIQUE INDEX "Purchase_id_key" ON "Purchase"("id");
 ALTER TABLE "User" ADD CONSTRAINT "User_userType_fkey" FOREIGN KEY ("userType") REFERENCES "UserType"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "SocietyLinks" ADD CONSTRAINT "SocietyLinks_societyId_fkey" FOREIGN KEY ("societyId") REFERENCES "Society"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "SocietyLinks" ADD CONSTRAINT "SocietyLinks_societyId_fkey" FOREIGN KEY ("societyId") REFERENCES "Society"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Committee" ADD CONSTRAINT "Committee_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

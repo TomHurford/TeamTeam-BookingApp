@@ -9,14 +9,13 @@ class TicketHolderTicket extends Component{
     }
   
     componentDidMount() {
-      this.setState({ tickets: this.props.tickets() });
+      this.setState({ tickets: this.props.tickets });
     }
 
     changeLocalTicketCount() {
-      console.log(this.props.tickets());
-      this.setState({ tickets: this.props.tickets() });
-      this.props.extraChanges(0);
-    }
+        this.setState({ tickets: this.props.tickets });
+        this.props.extraChanges(0);
+      }
 
     render(){
         const ticketType = this.props.ticketType;
@@ -37,7 +36,7 @@ class TicketHolderTicket extends Component{
 
 TicketHolderTicket.propTypes = {
   addTicket: PropTypes.func,
-  tickets: PropTypes.func,
+  tickets: PropTypes.object,
   removeTicket: PropTypes.func,
   extraChanges: PropTypes.func,
   event: PropTypes.object

@@ -31,6 +31,8 @@ jobs:
     - name: Install dependencies and run tests
       run: |
         cd api
+        export DATABASE_URL="postgresql://postgres:postgres@localhost:5432/postgres?schema=public"
+        export TOKEN_SECRET="mysecret"
         npm install
         npx prisma generate
         node prisma/seed.js

@@ -1,6 +1,6 @@
 import React from "react";
 
-// This is a functional component that renders a list of categories
+// This is a functional component that renders a list of categories 
 const ListFilter = ({ categories, selectedCategory, onCategorySelect }) => {
   return (
     <ul className="list-group">

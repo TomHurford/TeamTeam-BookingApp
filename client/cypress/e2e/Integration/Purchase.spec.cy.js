@@ -7,9 +7,12 @@ describe('Ticket Purchase page', () => {
     cy.get('input[name="loginPassword"]').type('admin123')
     cy.get('button[name="loginbutton"]').click()
     cy.wait(500)
-    cy.contains('Tickets').click()
+    // cy.contains('Tickets').click()
+    cy.visit('/tickets')
+    cy.wait(1000)
   });
   afterEach(() => {
+    cy.wait(1000)
     cy.contains('Logout').click()
   });
 

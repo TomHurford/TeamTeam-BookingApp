@@ -5,7 +5,7 @@ const jwtController = require("../../utils/jwt.js");
 import "../../styles/CreateEvents.css";
 import "../../styles/index.css";
 
-// A component for the create events page that allows users to create events for their societies
+// A component for the create events page that allows users to create events for their societies 
 function CreateEvents() {
   return (
     <div className="container" style={{ marginTop: "80px" }}>

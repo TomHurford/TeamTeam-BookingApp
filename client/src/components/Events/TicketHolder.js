@@ -5,7 +5,7 @@ import '../../styles/Events.css';
 class TicketHolderTicket extends Component{
     constructor(props){
         super(props);
-        this.state = {tickets: this.props.tickets}
+        this.state = {tickets: this.props.tickets()}
     }
   
     componentDidMount() {

@@ -4,6 +4,11 @@ exports[`Purchase snapshot test 1`] = `
 <div
   className="page-container"
   data-testid="Purchase"
+  style={
+    Object {
+      "padding": "5px",
+    }
+  }
 >
   <div
     className="underlay"

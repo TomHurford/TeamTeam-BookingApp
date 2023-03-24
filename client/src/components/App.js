@@ -38,20 +38,77 @@ function App() {
     jwtController.checkIsLoggedIn().then((res) => {
       setIsLoggedIn(res);
     });
-
   }, []);
 
   /* BASKET FUNCTIONALITY */
 
-  const [basketEvent, setBasketEvent] = React.useState({ a: "b" });
-  const [availableTicketTypes, setAvailableTicketTypes] = React.useState([]);
-  const [tickets, setTickets] = React.useState({});
+  const getBasketInUse = () => {
+    try {
+      if (JSON.parse(sessionStorage.getItem("basketInUse")) === null)
+        return false;
+      return JSON.parse(sessionStorage.getItem("basketInUse"));
+    } catch (err) {
+      return false;
+    }
+  };
+  const setBasketInUse = () => {
+    sessionStorage.setItem("basketInUse", JSON.stringify(true));
+  };
+
+  const getBasketEvent = () => {
+    try {
+      if (sessionStorage.getItem("basketEvent")) {
+      } else {
+        console.log(0);
+        return {};
+      }
+      return JSON.parse(sessionStorage.getItem("basketEvent"));
+    } catch (err) {
+      return {};
+    }
+  };
+  const setBasketEvent = (basketEvent) => {
+    sessionStorage.setItem("basketEvent", JSON.stringify(basketEvent));
+  };
+  const getTicketTypes = () => {
+    try {
+      if (Object.keys(getBasketEvent()).length === 0) return [];
+      return getBasketEvent().ticketTypes;
+    } catch (err) {
+      return [];
+    }
+  };
+
+  const getTickets = () => {
+    try {
+      if (sessionStorage.getItem("tickets")) {
+      } else {
+        return {};
+      }
+
+      return JSON.parse(sessionStorage.getItem("tickets"));
+    } catch (err) {
+      return {};
+    }
+  };
+  const setTickets = (tickets) => {
+    sessionStorage.setItem("tickets", JSON.stringify(tickets));
+  };
 
   const totalPrice = () => {
     var total = 0;
 
-    availableTicketTypes.map((ticketType) => {
-      total += tickets[ticketType.id] * ticketType.price;
+    if (!getBasketInUse()) {
+      return total;
+    }
+
+    var tickets = getTickets();
+
+    getTicketTypes().map((type) => {
+      if (tickets[type.id] === undefined || tickets[type.id] === 0) {
+      } else {
+        total += tickets[type.id] * type.price;
+      }
     });
 
     if (Number.isNaN(total)) {
@@ -61,85 +118,153 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    document.title = "Ticketopia | Perfect Tickets, Perfect Time";
-
-    const storedBasketEvent = sessionStorage.getItem("basketEvent");
-    const storedAvailableTicketTypes = sessionStorage.getItem(
-      "availableTicketTypes"
-    );
-    const storedTickets = sessionStorage.getItem("tickets");
-
-    if (storedBasketEvent) setBasketEvent(JSON.parse(storedBasketEvent));
-    if (storedAvailableTicketTypes)
-      setAvailableTicketTypes(JSON.parse(storedAvailableTicketTypes));
-    if (storedTickets) setTickets(JSON.parse(storedTickets));
-  }, []);
-
   const addTicket = (callData, ticketType) => {
     var event = callData.event;
-    console.log(callData.event)
+    console.log(callData);
 
-    if (!basketEvent.event) {
-      setBasketEvent(callData);
-      setAvailableTicketTypes(callData.event.ticketTypes);
-    } else if (basketEvent.event.id !== event.id) {
-      // WARN USER TO CLEAR BASKET, ON YES WE PUSH NEW TICKET
-
-      emptyBasket();
-      setBasketEvent(callData);
-      setAvailableTicketTypes(callData.event.ticketTypes);
-      setTickets({});
-    } else if (!availableTicketTypes.find((tt) => tt.id === ticketType.id)) {
-      return;
+    if (!getBasketInUse() || getTickets() === {}) {
+      setBasketInUse();
+      setBasketEvent(event);
+      setTickets({ [ticketType.id]: 1 });
+    } else if (getBasketEvent().id != event.id) {
+      setBasketEvent(event);
+      setTickets({ [ticketType.id]: 1 });
+    } else {
+      let tickets = getTickets();
+      if (!tickets[ticketType.id]) {
+        tickets[ticketType.id] = 1;
+      } else {
+        tickets[ticketType.id] += 1;
+      }
+      setTickets(tickets);
     }
 
-    var temptickets = tickets;
-    if (!tickets[ticketType.id]) temptickets[ticketType.id] = 1;
-    else temptickets[ticketType.id] += 1;
+    return getTickets()[ticketType.id];
+  };
 
     setTickets(temptickets);
 
-    updateTicketSessionStorage(true);
-  };
-
-  const removeTicket = (callData, ticketType) => {
-    if (basketEvent === {}) return;
-
-    var temptickets = tickets;
-    if (!tickets[ticketType.id]) temptickets[ticketType.id] = 0;
-    else temptickets[ticketType.id] -= 1;
-
-    setTickets(temptickets);
-
-    updateTicketSessionStorage(true);
-  };
-
-  const updateTicketSessionStorage = (value) => {
-    if(value === true){
-    sessionStorage.setItem("basketEvent", JSON.stringify(basketEvent));
-    sessionStorage.setItem(
-      "availableTicketTypes",
-      JSON.stringify(availableTicketTypes)
-    );
-    sessionStorage.setItem("tickets", JSON.stringify(tickets));
-    }else{
-      sessionStorage.removeItem("basketEvent", JSON.stringify(basketEvent));
-      sessionStorage.setItem(
-        "availableTicketTypes",
-        JSON.stringify([])
-      );
-      sessionStorage.setItem("tickets", JSON.stringify({}));
+    if (!getBasketInUse()) {
+      setBasketInUse();
+      setBasketEvent(event);
+      setTickets({ [ticketType.id]: 0 });
+    } else if (getBasketEvent().id != event.id) {
+      setBasketEvent(event);
+      setTickets({ [ticketType.id]: 0 });
+    } else {
+      let tickets = getTickets();
+      if (!tickets[ticketType.id]) tickets[ticketType.id] = 0;
+      else tickets[ticketType.id] -= 1;
+      setTickets(tickets);
     }
+
+    return getTickets()[ticketType.id];
   };
 
   const emptyBasket = () => {
-    setBasketEvent({ a: "b" });
-    setAvailableTicketTypes([]);
-    setTickets({});
-
-    updateTicketSessionStorage(false);
+    sessionStorage.removeItem("basketInUse");
+    sessionStorage.setItem("basketEvent", {});
+    sessionStorage.setItem("availableTicketTypes", []);
+    sessionStorage.setItem("tickets", {});
   };
+
+  // useEffect(( ) => {emptyBasket();}, [])
+
+  // const [basketEvent, setBasketEvent] = React.useState({ a: "b" });
+  // const [availableTicketTypes, setAvailableTicketTypes] = React.useState([]);
+  // const [tickets, setTickets] = React.useState({});
+
+  // const totalPrice = () => {
+  //   var total = 0;
+
+  //   availableTicketTypes.map((ticketType) => {
+  //     total += tickets[ticketType.id] * ticketType.price;
+  //   });
+
+  //   if (Number.isNaN(total)) {
+  //     return 0;
+  //   } else {
+  //     return total;
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   document.title = "Ticketopia | Perfect Tickets, Perfect Time";
+
+  //   const storedBasketEvent = getBasketEvent();
+  //   const storedAvailableTicketTypes = getTicketTypes();
+  //   const storedTickets = getTickets();
+
+  //   if (storedBasketEvent) setBasketEvent(JSON.parse(storedBasketEvent));
+  //   if (storedAvailableTicketTypes)
+  //     setAvailableTicketTypes(JSON.parse(storedAvailableTicketTypes));
+  //   if (storedTickets) setTickets(JSON.parse(storedTickets));
+  // }, []);
+
+  // const addTicket = (callData, ticketType) => {
+  //   var event = callData.event;
+  //   console.log(callData.event)
+
+  //   if (!getBasketEvent().event) {
+  //     setBasketEvent(callData);
+  //     setAvailableTicketTypes(callData.event.ticketTypes);
+  //   } else if (basketEvent.event.id !== event.id) {
+  //     // WARN USER TO CLEAR BASKET, ON YES WE PUSH NEW TICKET
+
+  //     emptyBasket();
+  //     setBasketEvent(callData);
+  //     setAvailableTicketTypes(callData.event.ticketTypes);
+  //     setTickets({});
+  //   } else if (!availableTicketTypes.find((tt) => tt.id === ticketType.id)) {
+  //     return;
+  //   }
+
+  //   var temptickets = tickets;
+  //   if (!tickets[ticketType.id]) temptickets[ticketType.id] = 1;
+  //   else temptickets[ticketType.id] += 1;
+
+  //   setTickets(temptickets);
+
+  //   updateTicketSessionStorage(true);
+  // };
+
+  // const removeTicket = (callData, ticketType) => {
+  //   if (basketEvent === {}) return;
+
+  //   var temptickets = tickets;
+  //   if (!tickets[ticketType.id]) temptickets[ticketType.id] = 0;
+  //   else temptickets[ticketType.id] -= 1;
+
+  //   setTickets(temptickets);
+
+  //   updateTicketSessionStorage(true);
+  // };
+
+  // const updateTicketSessionStorage = async (value) => {
+  //   if(value === true){
+  //   sessionStorage.setItem("basketEvent", JSON.stringify(basketEvent));
+  //   sessionStorage.setItem(
+  //     "availableTicketTypes",
+  //     JSON.stringify(availableTicketTypes)
+  //   );
+  //   sessionStorage.setItem("tickets", JSON.stringify(tickets));
+  //   }else{
+  //     sessionStorage.removeItem("basketEvent", JSON.stringify(basketEvent));
+  //     sessionStorage.setItem(
+  //       "availableTicketTypes",
+  //       JSON.stringify([])
+  //     );
+  //     sessionStorage.setItem("tickets", JSON.stringify({}));
+  //   }
+  // };
+
+  // const emptyBasket = () => {
+  //   setBasketEvent({ a: "b" });
+  //   setAvailableTicketTypes([]);
+  //   setTickets({});
+
+  //   updateTicketSessionStorage(false);
+  // };
 
   /* NORMAL ROUTE FUNCTIONALITY VIA ROUTER DOM */
 

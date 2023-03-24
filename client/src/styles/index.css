@@ -165,6 +165,12 @@ code {
   padding-top: 0;
 }
 
+.error-text {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
 /* Button styles */
 .button {
   display: inline-block;

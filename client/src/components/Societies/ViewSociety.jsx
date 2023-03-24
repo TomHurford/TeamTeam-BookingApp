@@ -207,21 +207,24 @@ function ViewSociety() {
           <div className="name">{society.name}</div>
           <div className="socials" style={{ marginRight: "10px" }}>
             <a href={societyLinks.facebook} className="socialCircle">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1024px-Facebook_Logo_%282019%29.png"
-                alt="facebook"
+              <FontAwesomeIcon
+                icon={faFacebook}
+                style={{ color: "#1877f2" }}
+                size="3x"
               />
             </a>
             <a href={societyLinks.twitter} className="socialCircle">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Twitter-logo.svg/2491px-Twitter-logo.svg.png"
-                alt="twitter"
+              <FontAwesomeIcon
+                icon={faTwitter}
+                style={{ color: "#1da1f2" }}
+                size="3x"
               />
             </a>
             <a href={societyLinks.instagram} className="socialCircle">
-              <img
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png"
-                alt="instagram"
+              <FontAwesomeIcon
+                icon={faInstagram}
+                style={{ color: "#e1306c" }}
+                size="3x"
               />
             </a>
           </div>

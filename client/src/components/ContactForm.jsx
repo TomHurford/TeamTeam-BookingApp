@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import "../styles/index.css";
 
+// This is a functional component that renders a form for contacting a society
 function ContactForm(props) {
   const form = useRef();
   const formik = useFormik({

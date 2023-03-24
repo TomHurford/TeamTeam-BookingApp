@@ -1,6 +1,5 @@
 // SOCIETIES ROUTE
 const express = require('express');
-/* eslint-disable-next-line */
 const router = express.Router();
 const societyController = require('../controllers/societies.js');
 const committeeController = require('../controllers/committee.js');

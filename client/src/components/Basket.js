@@ -6,6 +6,7 @@ import "../styles/Basket.css";
 import "../styles/index.css";
 import { Link } from "react-router-dom";
 
+// This component is the basket page. It displays the tickets in the basket and allows the user to checkout.
 function Basket(props) {
   const [totalPrice, setTotalPrice] = useState(0);
   const [emActive, setEmActive] = useState("active");
@@ -43,7 +44,6 @@ function Basket(props) {
       props.emptyBasket();
       window.location = "/tickets";
     } else {
-      // refund payment
     }
   }
 
@@ -116,7 +116,6 @@ function Basket(props) {
             Check out <Link to="/">events</Link> and come back here to checkout!
           </p>
         </div>
-        {/* <div className='footer'></div> */}
       </div>
     </div>
   );

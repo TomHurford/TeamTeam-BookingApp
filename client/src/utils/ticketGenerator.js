@@ -1,6 +1,8 @@
 const axios = require('axios');
 const jwt = require("./jwt.js");
 
+// This function is used to generate tickets for a user.
+
 export const generateTickets = async (event, ticketTypes, tickets, total) => {
 
     // Check Logged In

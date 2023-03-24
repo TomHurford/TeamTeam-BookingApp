@@ -7,6 +7,7 @@ import TicketHolderTicket from "./TicketHolder";
 import PropTypes from "prop-types";
 import "../../styles/index.css";
 
+// This component is used to display the details of an event. It is used in the Events component.
 class EventDetails extends Component {
   constructor(props) {
     super(props);

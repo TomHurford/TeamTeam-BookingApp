@@ -3,7 +3,7 @@ const prisma = require('../../prisma/prisma.js');
 const auth = require('../utils/jwt_auth.js');
 
 /**
- * User can follow a society
+ * This function is for a user to follow a society.
  * @param {Request} req The request object
  * @param {Response} res The response object
  */
@@ -20,7 +20,7 @@ async function followSociety(req, res) {
     return res.status(400).send({message: 'Missing societyId'});
   }
 
-  // CHeck that the society exists
+  // Check that the society exists
   const society = await prisma.society.findUnique({
     where: {
       id: req.body.societyId,
@@ -40,7 +40,6 @@ async function followSociety(req, res) {
   });
 
   if (member.length > 0) {
-    // res.status(400).send({message: 'User is already a member'});
     if (member[0].isArchived === true) {
       await prisma.members.update({
         where: {
@@ -72,7 +71,7 @@ async function followSociety(req, res) {
 }
 
 /**
- * User can unfollow a society
+ * This function is for a user to unfollow a society.
  * @param {Request} req The request object
  * @param {Response} res The response object
  */
@@ -135,7 +134,7 @@ async function unfollowSociety(req, res) {
 }
 
 /**
- * Checks if user isa memebr a society
+ * This function checks if user is a memeber of a society.
  * @param {Request} req The request object
  *  @param {Response} res The response object
  */
@@ -169,7 +168,7 @@ async function checkUserIsMember(req, res) {
 }
 
 /**
- * Gets all members of a society
+ * This function gets all the members of a society.
  * Checks if user requesting this data is a committee member
  * @param {Request} req The request object
  * @param {Response} res The response object
@@ -234,7 +233,7 @@ async function getMembers(req, res) {
 }
 
 /**
- * User can see a list of societies they follow
+ * This function gets all the societies a user is following.
  * @param {Request} req The request object
  * @param {Response} res The response object
  */

@@ -3,10 +3,10 @@ import '../styles/Events.css';
 import Event from './Events/Event';
 import '../styles/Home.css';
 import {getEvents} from "../utils/EventsLogic"
-// import search from '../utils/search.png';
+
  
 
-//Fetching events from the database and displaying them on the home page
+// This is used for fetching events from the database and displaying them on the home page. This component is used in the App component.
 
 class Home extends Component {
     constructor(props) {
@@ -17,7 +17,6 @@ class Home extends Component {
 
     componentDidMount() {
         this.fetchData();
-        // this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange(event) {
@@ -26,7 +25,6 @@ class Home extends Component {
     
     async fetchData() {
         const events = await getEvents();
-        // console.log(events);
         this.setState({eventCardList: this.eventsCardList(events)})
     }
     // Message displayed on the home page
@@ -41,7 +39,6 @@ class Home extends Component {
     searchBar(){
         return(
             <div className="searchBarContainer">
-            {/* <img src = {search} className="searchIcon" alt="search icon" /> */}
             <input 
             className="searchBar"
             data-testid="search-bar"

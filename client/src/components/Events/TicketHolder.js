@@ -2,6 +2,7 @@ import React,{Component} from "react";
 import PropTypes from 'prop-types';
 import '../../styles/Events.css';
 
+// This component is used to display tickets for an event. It is used in the Events component.
 class TicketHolderTicket extends Component{
     constructor(props){
         super(props);

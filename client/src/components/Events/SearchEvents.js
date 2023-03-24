@@ -4,7 +4,7 @@ import Event from "./Event";
 import "../../styles/TitleOfPage.css"
 import "../../styles/Home.css"
 
-//A component to display the events based on the search query
+// This component is used to display the events based on the search query.
 
 class SearchEvents extends React.Component {
   constructor(props) {

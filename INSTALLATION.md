@@ -83,7 +83,7 @@ $ docker compose down
 
     ```bash
     $ cd api
-    $ npx jest test --runInBand
+    $ npx jest
     $ # These may take some time to run.
     ```
 
@@ -93,14 +93,15 @@ $ docker compose down
     $ # Start the api
     $ cd api
     $ nodemon
+    $ # In a different terminal
     $ # Start the client
     $ cd ../client
     $ # To run the cypress tests the application must be running
     $ npm start
     $ # In a new terminal
     $ cd ../client
-    $ npx cypress run
-    $ # These may take some time to run.
+    $ npm run test:all
+    $ # These may take some time to run. There are 2 parts to the tests so please wait for both to finish.
     ```
 
 If you want to run the tests mutliple times, you can run the following command to clear the database:

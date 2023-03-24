@@ -71,7 +71,7 @@ async function mail(
   });
   }
   catch(err){
-    console.log(err)
+    return;
   }
 }
 

@@ -59,11 +59,31 @@ describe('follow society', () => {
   });
 
   test('follow society', async () => {
+    // Check that the user is not a member
+    const user = await prisma.members.findUnique({
+      where: {
+        userId_societyId: {
+          userId: 1,
+          societyId: 1,
+        },
+      },
+    });
+    // If the user is a member, remove them
+    if (user) {
+      await prisma.members.delete({
+        where: {
+          userId_societyId: {
+            userId: 1,
+            societyId: 1,
+          },
+        },
+      });
+    }
     const res = await request(app)
         .post('/societies/followSociety')
         .set('Authorization', `Bearer ` + token)
         .send({
-          societyId: 20,
+          societyId: 1,
         });
     expect(res.statusCode).toBe(200);
     // Check the response
@@ -72,11 +92,29 @@ describe('follow society', () => {
   });
 
   test('follow society when already member', async () => {
+    // Check that the user is a member
+    const user = await prisma.members.findUnique({
+      where: {
+        userId_societyId: {
+          userId: 1,
+          societyId: 1,
+        },
+      },
+    });
+    // If the user is not a member, add them
+    if (!user) {
+      await prisma.members.create({
+        data: {
+          userId: 1,
+          societyId: 1,
+        },
+      });
+    }
     const res = await request(app)
         .post('/societies/followSociety')
         .set('Authorization', `Bearer ` + token)
         .send({
-          societyId: 20,
+          societyId: 1,
         });
     expect(res.statusCode).toBe(400);
     // Check the response
@@ -120,11 +158,29 @@ describe('unfollow society', () => {
   });
 
   test('unfollow society', async () => {
+    // Check that the user is a member
+    const user = await prisma.members.findUnique({
+      where: {
+        userId_societyId: {
+          userId: 1,
+          societyId: 1,
+        },
+      },
+    });
+    // If the user is not a member, add them
+    if (!user) {
+      await prisma.members.create({
+        data: {
+          userId: 1,
+          societyId: 1,
+        },
+      });
+    }
     const res = await request(app)
         .post('/societies/unfollowSociety')
         .set('Authorization', `Bearer ` + token)
         .send({
-          societyId: 20,
+          societyId: 1,
         });
     expect(res.statusCode).toBe(200);
     // Check the response

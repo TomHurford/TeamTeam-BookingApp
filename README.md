@@ -1,31 +1,16 @@
 # TeamTeam-BookingApp
 
-## Developing with Docker
+## Team Members
 
-### Prerequisites
+- MUZAMIL ALI **(k21093823)**
+- ANIRUDH GEORGE **(k21064508)**
+- THOMAS HURFORD **(K21002432)**
+- ABDUL KHAN **(k21007037)**
+- RYAN LIM YI MING **(K21001230)**
+- ABDURRAHMAAN MOHABBAT **(k21012668)**
+- NIDHUSHKAR RAVEELACKSHMAN **(k21085103)**
 
-- [Docker](https://docs.docker.com/install/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
+## Project Brief
 
-### Running the app
-
-- `docker-compose up` to start the app (This starts, react, express, and postgres in separate containers)
-- `docker-compose down` to stop the app
-
-Once running you can access the apps at:
-- react: http://localhost:3000
-- express: http://localhost:5001
-- postgres: http://localhost:5432
-
-### Developing outside of Docker
-
-I would recommend running the postgres container in docker and running the react and express apps outside of docker. This will allow you to use your IDE to debug the react and express apps.
-
-- `docker-compose up postgres` to start the postgres container
-- `cd api && npm run dev` to start the express app
-- `cd client && npm start` to start the react app
-
-(If you haven't already, you will need to create a `.env` file in the `api` directory. See the `api/README.md` for more details.)
-(Additionally, if you haven't installed the dependencies for the react and express apps, you will need to run `npm install` in the `api` and `client` directories.)
-
+At KCL and other universities, societies typically host events that require the purchase of tickets. This allows the society to make sure their event can facilitate a certain number of people, or they can limit the capacity. There are various external ticket-selling services, but these typically take a large cut of the ticket sale price (sometimes as high as 40%). The proposed software should be a free alternative that societies can use in order to easily sell tickets to students without having to lose a lot of money. The software should allow different societies to set up an account and create events for which they want to sell tickets. Students should be able to use the software to view events and buy tickets. Payments can be made via third-party payment gateways such as PayPal.
 

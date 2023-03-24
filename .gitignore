@@ -1,6 +1,9 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,react,reactnative
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,react,reactnative
 
+### migrations ###
+*/prisma/migrations/*
+
 .docker.env
 
 */cypress/videos

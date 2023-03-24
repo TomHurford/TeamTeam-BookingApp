@@ -83,8 +83,12 @@ $ docker compose down
 
     ```bash
     $ cd api
+    $ npx prisma migrate reset
     $ npx jest
     $ # These may take some time to run.
+    $ # On the first test, tests may fail due to database reasons. If this occurs run the commands below again:
+    $ npx prisma migrate reset
+    $ npx jest
     ```
 
 3. Run the tests (frontend)
@@ -100,6 +104,7 @@ $ docker compose down
     $ npm start
     $ # In a new terminal
     $ cd ../client
+    $ npx prisma migrate reset
     $ npm run test:all
     $ # These may take some time to run. There are 2 parts to the tests so please wait for both to finish.
     ```

@@ -1,5 +1,4 @@
 const express = require('express');
-/* eslint-disable-next-line */
 const router = express.Router();
 
 const ticketController = require('../controllers/tickets.js');
@@ -19,4 +18,4 @@ router.post('/use', (req, res) => {
 
 module.exports = router;
 
-// What routes do we need?
+

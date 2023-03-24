@@ -1,6 +1,6 @@
 import React from "react";
 import "../styles/About.css";
-//A component for describing the website and its features to the user
+// A component for describing the website and its features to the user
 
 function About() {
   return (

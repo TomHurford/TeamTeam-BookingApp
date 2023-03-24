@@ -3,7 +3,7 @@ const prisma = require('../../prisma/prisma.js');
 const auth = require('../utils/jwt_auth.js');
 
 /**
- * Get all events
+ * This function is used to get all events
  * @param {Request} req The request object
  * @param {Respon} res The response object
  */
@@ -22,12 +22,10 @@ async function getEvents(req, res) {
 
   res.status(200).send({events: events});
 
-  // const events = await prisma.event.findMany()
-  // res.status(200).send({events: events})
 }
 
 /**
- * Get an event by id
+ * This function will get an event by id.
  * @param {Request} req The request object
  * @param {Respon} res The response object
  */
@@ -96,7 +94,7 @@ async function getEventById(req, res) {
 }
 
 /**
- * Create an event
+ * This function will create an event.
  * @param {Request} req The request object
  * @param {Respon} res The response object
  */
@@ -210,7 +208,7 @@ async function createEvent(req, res) {
 }
 
 /**
- * Update an event
+ * This function will update an event.
  * @param {Request} req The request object
  * @param {Respon} res The response object
  */
@@ -227,7 +225,6 @@ async function updateEvent(req, res) {
   // other field
   if (
     !req.body.eventId ||
-    // !req.body.societyId ||
     (!req.body.name &&
       !req.body.description &&
       !req.body.date &&
@@ -294,7 +291,7 @@ async function updateEvent(req, res) {
 }
 
 /**
- * Delete an event
+ * This function will delete an event.
  * @param {Request} req The request object
  * @param {Respon} res The response object
  */
@@ -353,7 +350,7 @@ async function deleteEvent(req, res) {
 }
 
 /**
- * Search for events
+ * This function will search for events.
  * @param {Request} req The request object
  * @param {Response} res The response object
  */

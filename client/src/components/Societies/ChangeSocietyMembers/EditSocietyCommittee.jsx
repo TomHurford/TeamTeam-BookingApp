@@ -8,7 +8,7 @@ const jwtController = require("../../../utils/jwt.js");
 const EditSocietyCommittee = (props) => {
   const [members, setMembers] = useState([]);
 
-  // fetches the committee members from the database
+  // Fetches the committee members from the database
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,7 +30,7 @@ const EditSocietyCommittee = (props) => {
     setMembers(members);
   }, [members]);
 
-  // removes a committee member from the database
+  // Removes a committee member from the database
   const handleRemoveMember = async (userId) => {
     const data = { userId: userId, societyId: props.societyId };
     await fetch("http://localhost:5001/societies/removeCommitteeMember", {
@@ -59,7 +59,7 @@ const EditSocietyCommittee = (props) => {
       });
   };
 
-  // adds a committee member to the database
+  // Adds a committee member to the database
   const handleAddMember = async (email) => {
     const data = {
       email: email,
@@ -101,7 +101,7 @@ const EditSocietyCommittee = (props) => {
       });
   };
 
-  // changes the president of the society
+  // Changes the president of the society
   const handleMakePresident = async (userId) => {
     const data = {
       societyId: parseInt(props.societyId),

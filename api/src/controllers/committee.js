@@ -2,7 +2,7 @@ const prisma = require('../../prisma/prisma.js');
 const auth = require('../utils/jwt_auth.js');
 
 /**
- * Add a committee member to a society
+ * This function is used to add a committee member to a society.
  * @param {Request} req The request object
  * @param {Response} res The response object
  * @return {Response} The response object
@@ -74,7 +74,7 @@ async function addCommitteeMember(req, res) {
 }
 
 /**
- * Remove a committee member from a society
+ * This function is to remove a committee member from a society.
  * @param {Request} req The request object
  * @param {Response} res The response object
  * @return {Response} The response object
@@ -172,7 +172,7 @@ async function removeCommitteeMember(req, res) {
 }
 
 /**
- * Get all committee members of a society
+ * This function is to get all the committee members of a society.
  * @param {Request} req The request object
  * @param {Response} res The response object
  */
@@ -201,7 +201,7 @@ async function getCommitteeMembers(req, res) {
 }
 
 /**
- * Checks if user is a committee member
+ * This function is to check if a user is a committee member of a society.
  * @param {Request} req The request object
  * @param {Response} res The response object
  */
@@ -247,7 +247,7 @@ async function checkIfUserIsCommitteeMember(req, res) {
 }
 
 /**
- * Checks if user is president of a society
+ * This function is to check if a user is a president of a society.
  * @param {Request} req The request object
  * @param {Response} res The response object
  */
@@ -301,7 +301,7 @@ async function checkIfUserIsPresident(req, res) {
 }
 
 /**
- * Change the society president
+ * This function is to change the president of a society.
  * @param {Request} req The request object
  * @param {Response} res The response object
  * @return {Response} The response object

@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
+//A component for the footer. It contains links to the about, privacy and terms and conditions pages.
 function Footer() {
   return (
     <footer className="footer">

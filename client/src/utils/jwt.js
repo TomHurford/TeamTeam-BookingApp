@@ -3,9 +3,7 @@
 const axios = require('axios');
 const sessionStorage = require('sessionstorage');
 
-// export const decodeToken = (token) => {
-//     return jwt.decode(token);
-// }
+
 
 export const getToken = () => {
     return sessionStorage.getItem('token');
@@ -21,11 +19,7 @@ export const removeToken = () => {
 }
 
 
-// export const isTokenExpired = (token) => {
-//     const decoded = decodeToken(token);
-//     if (!decoded) return true;
-//     return decoded.exp < Date.now() / 1000;
-// }
+
 
 export const checkIsLoggedIn = async () => {
     const token = getToken();
@@ -52,26 +46,3 @@ export const checkIsLoggedIn = async () => {
     return false;
 
 }
-
-// export const requireAuth = (nextState, replace) => {
-//     if (!isLoggedIn()) {
-//         replace({
-//             pathname: '/login',
-//             state: { nextPathname: nextState.location.pathname }
-//         });
-//     }
-// }
-
-// Send a request to the server to refresh the token, 
-// export const refreshAuthToken = () => {
-//     axios.post(process.env.REACT_APP_API_URL + '/user/checkUserLoggedIn', { token: getToken() })
-//         .then(response => {
-//             setToken(response.data.token);
-//         })
-//         .catch(error => {
-//             // Redirect to login page if the token is invalid
-//             removeToken();
-//             window.location.href = '/login';
-//             console.log(error.message);
-//         });
-// }

@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/Contact.css";
 import ContactForm from "./ContactForm";
-//A component for the contact page
+//A component for the contact page. It contains the contact form.
 
 function Contact() {
   return (

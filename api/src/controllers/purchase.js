@@ -1,25 +1,21 @@
-// Past events page controllers
-//
-// Compare this snippet from api/src/controllers/past.js:
-// // controller to get past events for a user to display on the past events
-// page for a user on the front end
-// // Path: api/src/controllers/past.js
+// Past events page controller for the user. 
+
 const prisma = require('../../prisma/prisma.js');
 const {mail} = require('../utils/emails.js');
 const auth = require('../utils/jwt_auth.js');
 const {randomString} = require('../utils/random.js');
 
 
+// This function is used to get the past purchases of a user
 const getPastPurchases = async (req, res) => {
   try {
     // Authenticate the user
     const decoded = await auth.authenticate(req);
 
     // Get the user id from the decoded token
-    // TODO
-    const userId = decoded.id; // decoded.id
-    // use the user id to get the user's past purchases for events that have
-    // already happened
+    const userId = decoded.id; 
+
+    // use the user id to get the user's past purchases for events that have already happened
     const purchases = await prisma.purchase.findMany({
       where: {
         userId: userId,
@@ -45,8 +41,7 @@ const getPastPurchases = async (req, res) => {
       };
     }));
 
-    // Retreive event using event id and add the event to purchase json for a
-    // past ticket
+    // Retreive event using event id and add the event to purchase json for a past ticket
     const pastTicketWithEvent = await Promise.all(pastTickets.map(
         async (ticket) => {
           const event = await prisma.event.findUnique({
@@ -66,6 +61,7 @@ const getPastPurchases = async (req, res) => {
 };
 
 
+// This function is used to get the future purchases of a user.
 const getFutureTickets = async (req, res) => {
   let decoded = null;
   try {
@@ -120,6 +116,7 @@ const getFutureTickets = async (req, res) => {
   res.status(200).send({futureTickets: futureTicketWithEvent});
 };
 
+// This function is for the user to create a purchase.
 const createPurchase = async (req, res) => {
   // (user token, payment status, total, payment method, event id, tickets)
   let decoded = null;

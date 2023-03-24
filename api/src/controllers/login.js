@@ -6,7 +6,7 @@ const {mail} = require('../utils/emails.js');
 const bcrypt = require('../utils/bcrypt.js');
 
 /**
- * Login a user
+ * This function is used to login a user
  * @param {Request} req The request object
  * @param {Response} res The response object
  * @return {Response} The response object
@@ -37,14 +37,11 @@ async function login(req, res) {
 }
 
 /**
- * Logout a user
+ * This function is used to logout a user
  * @param {Request} req The request object
  * @param {Respon} res The response object
  */
 async function logout(req, res) {
-  // const auth_resopnse =
-  // Get the token from the request header
-  // const token = req.headers['authorization'].split(' ')[1]
 
   // Try to verify the token using the auth.authenticate function
   try {
@@ -61,7 +58,7 @@ async function logout(req, res) {
 }
 
 /**
- * Reset a user's password
+ * This function is used to reset a user's password
  * @param {Request} req The request object
  * @param {Respon} res The response object
  */
@@ -86,7 +83,7 @@ async function reset(req, res) {
     },
   });
 
-  // Verify the code
+  // Verify the verification code
   if (verification) {
     // If the users password is the same as the old password, return an error
     let user = await prisma.user.findUnique({
@@ -146,7 +143,7 @@ async function reset(req, res) {
 }
 
 /**
- * Signup a user
+ * This function is used to signup a user
  * @param {Request} req The request object
  * @param {Respon} res The response object
  */
@@ -240,7 +237,7 @@ async function signup(req, res) {
 }
 
 /**
- * Forgot password
+ *This function is used when a user forgets their password.
  * @param {Request} req The request object
  * @param {Respon} res The response object
  */
@@ -302,7 +299,7 @@ async function forgotPassword(req, res) {
 }
 
 /**
- * Verify a user
+ * This function is used to verify a user
  * @param {Request} req The request object
  * @param {Respon} res The response object
  */
@@ -341,7 +338,7 @@ async function verify(req, res) {
 }
 
 /**
- * Check if user is logged in
+ *  This function is used to check if a user is logged in
  * @param {Request} req The request object
  * @param {Respon} res The response object
  */

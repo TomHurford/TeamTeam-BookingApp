@@ -3,14 +3,12 @@ const prisma = require('../../prisma/prisma.js');
 const auth = require('../utils/jwt_auth.js');
 
 /**
- * Get all tickets for a user
+ * This function is used to get all the tickets for a user.
  * @param {Request} req The request object
  * @param {Response} res The response object
  * @return {Response} response
  */
 async function getTickets(req, res) {
-  // (user token)
-
   let decoded = null;
   try {
     decoded = await auth.authenticate(req);
@@ -29,7 +27,7 @@ async function getTickets(req, res) {
 }
 
 /**
- * Mark a ticket as used
+ * This function is used to mark a ticket as used.
  * @param {Request} req The request object
  * @param {Response} res The response object
  * @return {Response} response

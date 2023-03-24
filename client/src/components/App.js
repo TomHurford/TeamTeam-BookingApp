@@ -25,9 +25,7 @@ const sessionStorage = require("sessionstorage");
 import Footer from "./Footer";
 import { LoggedInRoutes, PrivateRoutes } from "../utils/PrivateRoutes";
 
-//Routes to connect the different pages of the application
-
-//TODO: Some variables using var instead of let
+//Routes to connect the different pages of the application . This is the main component of the application.
 
 function App() {
   /* LOG IN FUNCTIONALITY */
@@ -51,10 +49,13 @@ function App() {
       return false;
     }
   };
+
+  // Sets the basket to be in use
   const setBasketInUse = () => {
     sessionStorage.setItem("basketInUse", JSON.stringify(true));
   };
 
+  // Gets the event in the basket
   const getBasketEvent = () => {
     try {
       if (sessionStorage.getItem("basketEvent")) {
@@ -67,9 +68,11 @@ function App() {
       return {};
     }
   };
+  // Sets the event in the basket
   const setBasketEvent = (basketEvent) => {
     sessionStorage.setItem("basketEvent", JSON.stringify(basketEvent));
   };
+  // Gets the ticket types for the event in the basket
   const getTicketTypes = () => {
     try {
       if (Object.keys(getBasketEvent()).length === 0) return [];
@@ -91,6 +94,7 @@ function App() {
       return {};
     }
   };
+  // Sets the tickets in the basket
   const setTickets = (tickets) => {
     sessionStorage.setItem("tickets", JSON.stringify(tickets));
   };
@@ -118,6 +122,7 @@ function App() {
     }
   };
 
+  // Adds a ticket to the basket
   const addTicket = (callData, ticketType) => {
     var event = callData.event;
     console.log(callData);
@@ -142,6 +147,7 @@ function App() {
     return getTickets()[ticketType.id];
   };
 
+  // Removes a ticket from the basket
   const removeTicket = (callData, ticketType) => {
     var event = callData.event;
 
@@ -162,6 +168,7 @@ function App() {
     return getTickets()[ticketType.id];
   };
 
+  // Empties the basket
   const emptyBasket = () => {
     sessionStorage.removeItem("basketInUse");
     sessionStorage.setItem("basketEvent", {});
@@ -169,103 +176,6 @@ function App() {
     sessionStorage.setItem("tickets", {});
   };
 
-  // useEffect(( ) => {emptyBasket();}, [])
-
-  // const [basketEvent, setBasketEvent] = React.useState({ a: "b" });
-  // const [availableTicketTypes, setAvailableTicketTypes] = React.useState([]);
-  // const [tickets, setTickets] = React.useState({});
-
-  // const totalPrice = () => {
-  //   var total = 0;
-
-  //   availableTicketTypes.map((ticketType) => {
-  //     total += tickets[ticketType.id] * ticketType.price;
-  //   });
-
-  //   if (Number.isNaN(total)) {
-  //     return 0;
-  //   } else {
-  //     return total;
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   document.title = "Ticketopia | Perfect Tickets, Perfect Time";
-
-  //   const storedBasketEvent = getBasketEvent();
-  //   const storedAvailableTicketTypes = getTicketTypes();
-  //   const storedTickets = getTickets();
-
-  //   if (storedBasketEvent) setBasketEvent(JSON.parse(storedBasketEvent));
-  //   if (storedAvailableTicketTypes)
-  //     setAvailableTicketTypes(JSON.parse(storedAvailableTicketTypes));
-  //   if (storedTickets) setTickets(JSON.parse(storedTickets));
-  // }, []);
-
-  // const addTicket = (callData, ticketType) => {
-  //   var event = callData.event;
-  //   console.log(callData.event)
-
-  //   if (!getBasketEvent().event) {
-  //     setBasketEvent(callData);
-  //     setAvailableTicketTypes(callData.event.ticketTypes);
-  //   } else if (basketEvent.event.id !== event.id) {
-  //     // WARN USER TO CLEAR BASKET, ON YES WE PUSH NEW TICKET
-
-  //     emptyBasket();
-  //     setBasketEvent(callData);
-  //     setAvailableTicketTypes(callData.event.ticketTypes);
-  //     setTickets({});
-  //   } else if (!availableTicketTypes.find((tt) => tt.id === ticketType.id)) {
-  //     return;
-  //   }
-
-  //   var temptickets = tickets;
-  //   if (!tickets[ticketType.id]) temptickets[ticketType.id] = 1;
-  //   else temptickets[ticketType.id] += 1;
-
-  //   setTickets(temptickets);
-
-  //   updateTicketSessionStorage(true);
-  // };
-
-  // const removeTicket = (callData, ticketType) => {
-  //   if (basketEvent === {}) return;
-
-  //   var temptickets = tickets;
-  //   if (!tickets[ticketType.id]) temptickets[ticketType.id] = 0;
-  //   else temptickets[ticketType.id] -= 1;
-
-  //   setTickets(temptickets);
-
-  //   updateTicketSessionStorage(true);
-  // };
-
-  // const updateTicketSessionStorage = async (value) => {
-  //   if(value === true){
-  //   sessionStorage.setItem("basketEvent", JSON.stringify(basketEvent));
-  //   sessionStorage.setItem(
-  //     "availableTicketTypes",
-  //     JSON.stringify(availableTicketTypes)
-  //   );
-  //   sessionStorage.setItem("tickets", JSON.stringify(tickets));
-  //   }else{
-  //     sessionStorage.removeItem("basketEvent", JSON.stringify(basketEvent));
-  //     sessionStorage.setItem(
-  //       "availableTicketTypes",
-  //       JSON.stringify([])
-  //     );
-  //     sessionStorage.setItem("tickets", JSON.stringify({}));
-  //   }
-  // };
-
-  // const emptyBasket = () => {
-  //   setBasketEvent({ a: "b" });
-  //   setAvailableTicketTypes([]);
-  //   setTickets({});
-
-  //   updateTicketSessionStorage(false);
-  // };
 
   /* NORMAL ROUTE FUNCTIONALITY VIA ROUTER DOM */
 

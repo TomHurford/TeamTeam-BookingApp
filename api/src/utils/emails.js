@@ -49,6 +49,7 @@ async function mail(
     qrYes = false,
     qrcodes,
 ) {
+  try{
   const qrattachments = [];
   // If do this it passes
   if (qrYes) {
@@ -68,6 +69,10 @@ async function mail(
     html: header(subject) + body + footer,
     attachments: qrattachments,
   });
+  }
+  catch(err){
+    console.log(err)
+  }
 }
 
 module.exports = {

@@ -93,6 +93,7 @@ $ docker compose down
     ```bash
     $ # Start the api
     $ cd api
+    $ npx prisma migrate reset
     $ nodemon
     $ # In a different terminal
     $ # Start the client
@@ -101,7 +102,6 @@ $ docker compose down
     $ npm start
     $ # In a new terminal
     $ cd ../client
-    $ npx prisma migrate reset
     $ npm run test:all
     $ # These may take some time to run. There are 2 parts to the tests so please wait for both to finish.
     ```

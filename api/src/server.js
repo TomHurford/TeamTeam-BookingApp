@@ -25,7 +25,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
     cors({
-      origin: 'http://localhost:3000',
+      origin: ['http://localhost:3000',
+        'http://13.41.130.17:3000', 
+        'http://ticketopia.co.uk'
+      ],
       methods: ['GET', 'POST', 'PUT', 'DELETE'],
       allowedHeaders: ['Content-Type', 'Authorization'],
     }),

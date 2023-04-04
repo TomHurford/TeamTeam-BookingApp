@@ -72,7 +72,7 @@ function EditSocietyForm() {
           },
         };
 
-        fetch("http://localhost:5001/societies/updateSociety", {
+        fetch(process.env.REACT_APP_API_URL + "/societies/updateSociety", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
